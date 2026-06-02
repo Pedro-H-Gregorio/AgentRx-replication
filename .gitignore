@@ -1,7 +1,6 @@
-/manuscript/paper/build/*
+/manuscript/paper/
 !/manuscript/paper/build/*.pdf
 /manuscript/template/*
-/manuscript/paper/
 !/manuscript/paper/figures/*
 !/manuscript/paper/*.tex
 !/manuscript/paper/*.cls
