@@ -1,8 +1,9 @@
 /manuscript/paper/
 !/manuscript/paper/build/*.pdf
-/manuscript/template/*
-!/manuscript/paper/figures/*
+!/manuscript/paper/figures
 !/manuscript/paper/*.tex
 !/manuscript/paper/*.cls
 !/manuscript/paper/*.bib
 !/manuscript/paper/*.bst
+
+/manuscript/template/*
