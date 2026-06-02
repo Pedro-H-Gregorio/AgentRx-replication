@@ -1,0 +1,3 @@
+/manuscript/paper/build/*
+!/manuscript/paper/build/*.pdf
+/manuscript/template/*

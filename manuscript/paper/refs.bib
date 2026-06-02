@@ -1,0 +1,99 @@
+ @article{AlSayyad_Huang_Pal_2026,
+  title        = {AgentTrace: A Structured Logging Framework for Agent System Observability},
+  url          = {http://arxiv.org/abs/2602.10133},
+  doi          = {10.48550/arXiv.2602.10133},
+  abstractnote = {Despite the growing capabilities of autonomous agents powered by large language models (LLMs), their adoption in high-stakes domains remains limited. A key barrier is security: the inherently nondeterministic behavior of LLM agents defies static auditing approaches that have historically underpinned software assurance. Existing security methods, such as proxy-level input filtering and model glassboxing, fail to provide sufficient transparency or traceability into agent reasoning, state changes, or environmental interactions. In this work, we introduce AgentTrace, a dynamic observability and telemetry framework designed to fill this gap. AgentTrace instruments agents at runtime with minimal overhead, capturing a rich stream of structured logs across three surfaces: operational, cognitive, and contextual. Unlike traditional logging systems, AgentTrace emphasizes continuous, introspectable trace capture, designed not just for debugging or benchmarking, but as a foundational layer for agent security, accountability, and real-time monitoring. Our research highlights how AgentTrace can enable more reliable agent deployment, fine-grained risk analysis, and informed trust calibration, thereby addressing critical concerns that have so far limited the use of LLM agents in sensitive environments.},
+  note         = {arXiv:2602.10133 [cs.SE]},
+  number       = {arXiv:2602.10133},
+  publisher    = {arXiv},
+  author       = {AlSayyad, Adam and Huang, Kelvin Yuxiang and Pal, Richik},
+  year         = {2026},
+  month        = feb,
+  language     = {en}
+}
+
+ @article{Dong_Lu_Zhu_2024,
+  title        = {AgentOps: Enabling Observability of LLM Agents},
+  url          = {http://arxiv.org/abs/2411.05285},
+  doi          = {10.48550/arXiv.2411.05285},
+  abstractnote = {Large language model (LLM) agents have demonstrated remarkable capabilities across various domains, gaining extensive attention from academia and industry. However, these agents raise significant concerns on AI safety due to their autonomous and non-deterministic behavior, as well as continuous evolving nature . From a DevOps perspective, enabling observability in agents is necessary to ensuring AI safety, as stakeholders can gain insights into the agents’ inner workings, allowing them to proactively understand the agents, detect anomalies, and prevent potential failures. Therefore, in this paper, we present a comprehensive taxonomy of AgentOps, identifying the artifacts and associated data that should be traced throughout the entire lifecycle of agents to achieve effective observability. The taxonomy is developed based on a systematic mapping study of existing AgentOps tools. Our taxonomy serves as a reference template for developers to design and implement AgentOps infrastructure that supports monitoring, logging, and analytics. thereby ensuring AI safety.},
+  note         = {arXiv:2411.05285 [cs.AI]},
+  number       = {arXiv:2411.05285},
+  publisher    = {arXiv},
+  author       = {Dong, Liming and Lu, Qinghua and Zhu, Liming},
+  year         = {2024},
+  month        = nov,
+  language     = {en}
+}
+
+ @article{Jia_Deng_Chen_Wang_Zheng_2026,
+  title        = {MAS-FIRE: Fault Injection and Reliability Evaluation for LLM-Based Multi-Agent Systems},
+  url          = {http://arxiv.org/abs/2602.19843},
+  doi          = {10.48550/arXiv.2602.19843},
+  abstractnote = {As LLM-based Multi-Agent Systems (MAS) are increasingly deployed for complex tasks, ensuring their reliability has become a pressing challenge. Since MAS coordinate through unstructured natural language rather than rigid protocols, they are prone to semantic failures (e.g., hallucinations, misinterpreted instructions, and reasoning drift) that propagate silently without raising runtime exceptions. Prevailing evaluation approaches, which measure only end-to-end task success, offer limited insight into how these failures arise or how effectively agents recover from them. To bridge this gap, we propose MAS-FIRE, a systematic framework for fault injection and reliability evaluation of MAS. We define a taxonomy of 15 fault types covering intra-agent cognitive errors and interagent coordination failures, and inject them via three non-invasive mechanisms: prompt modification, response rewriting, and message routing manipulation. Applying MAS-FIRE to three representative MAS architectures, we uncover a rich set of fault-tolerant behaviors that we organize into four tiers: mechanism, rule, prompt, and reasoning. This tiered view enables fine-grained diagnosis of where and why systems succeed or fail. Our findings reveal that stronger foundation models do not uniformly improve robustness. We further show that architectural topology plays an equally decisive role, with iterative, closed-loop designs neutralizing over 40% of faults that cause catastrophic collapse in linear workflows. MAS-FIRE provides the process-level observability and actionable guidance needed to systematically improve multi-agent systems.},
+  note         = {arXiv:2602.19843 [cs.SE]},
+  number       = {arXiv:2602.19843},
+  publisher    = {arXiv},
+  author       = {Jia, Jin and Deng, Zhiling and Chen, Zhuangbin and Wang, Yingqi and Zheng, Zibin},
+  year         = {2026},
+  month        = feb,
+  language     = {en}
+}
+
+ @article{Cemri_Pan_Yang_Agrawal_Chopra_Tiwari_Keutzer_Parameswaran_Klein_Ramchandran_et_al,
+  title    = {Why Do Multi-Agent LLM Systems Fail?},
+  author   = {Cemri, Mert and Pan, Melissa Z and Yang, Shuyi and Agrawal, Lakshya A and Chopra, Bhavya and Tiwari, Rishabh and Keutzer, Kurt and Parameswaran, Aditya and Klein, Dan and Ramchandran, Kannan and Zaharia, Matei and Gonzalez, Joseph E and Stoica, Ion},
+  language = {en}
+}
+ @article{Kalech_Natan_2022,
+  title        = {Model-Based Diagnosis of Multi-Agent Systems: A Survey},
+  volume       = {36},
+  issn         = {2374-3468, 2159-5399},
+  doi          = {10.1609/aaai.v36i11.21498},
+  abstractnote = {As systems involving multiple agents are increasingly deployed, there is a growing need to diagnose failures in such systems. Model-Based Diagnosis (MBD) is a well known AI technique to diagnose faults in systems. In this approach, a model of the diagnosed system is given, and the real system is observed. A failure is announced when the real system’s output contradicts the model’s expected output. The model then is used to deduce the defective components that explain the unexpected observation. MBD has been increasingly being deployed in distributed and multi-agent systems. In this survey, we summarize twenty years of research in the ﬁeld of model-based diagnosis algorithms for MAS diagnosis. We depict three attributes that should be considered when examining MAS diagnosis: (1) The objective of the diagnosis. Either diagnosing faults in the MAS plans or diagnosing coordination faults. (2) Centralized vs. distributed. The diagnosis method could be applied either by a centralized agent or by the agents in a distributed manner. (3) Temporal vs. nontemporal. Temporal diagnosis is used to diagnose the MAS’s temporal behaviors, whereas non-temporal diagnosis is used to diagnose the conduct based on a single observation. We survey diverse studies in MBD of MAS based on these attributes, and provide novel research challenges in this ﬁeld for the AI community.},
+  number       = {11},
+  journal      = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  author       = {Kalech, Meir and Natan, Avraham},
+  year         = {2022},
+  month        = june,
+  pages        = {12334–12341},
+  language     = {en}
+}
+
+ @article{Barke_Goyal_Khare_Singh_Nath_Bansal_2026,
+  title        = {AgentRx: Diagnosing AI Agent Failures from Execution Trajectories},
+  url          = {http://arxiv.org/abs/2602.02475},
+  doi          = {10.48550/arXiv.2602.02475},
+  abstractnote = {AI agents often fail in ways that are difficult to localize because executions are probabilistic, longhorizon, multi-agent, and mediated by noisy tool outputs. We address this gap by manually annotating failed agent runs and release a novel benchmark of 115 failed trajectories spanning structured API workflows, incident management, and open-ended web/file tasks. Each trajectory is annotated with a critical failure step and a category from a grounded-theory derived, cross-domain failure taxonomy. To mitigate the human cost of failure attribution, we present AGENTRX, an automated domain-agnostic diagnostic framework that pinpoints the critical failure step in a failed agent trajectory. It synthesizes constraints, evaluates them step-by-step, and produces an auditable validation log of constraint violations with associated evidence; an LLM-based judge uses this log to localize the critical step and category. Our framework improves step localization and failure attribution over existing baselines across three domains.},
+  note         = {arXiv:2602.02475 [cs.AI]},
+  number       = {arXiv:2602.02475},
+  publisher    = {arXiv},
+  author       = {Barke, Shraddha and Goyal, Arnav and Khare, Alind and Singh, Avaljot and Nath, Suman and Bansal, Chetan},
+  year         = {2026},
+  month        = feb,
+  language     = {en}
+}
+
+@misc{IBM_A2A_2026,
+  author = {{IBM}},
+  title  = {What is the Agent2Agent Protocol?},
+  year   = {2026},
+  url    = {https://www.ibm.com/br-pt/think/topics/agent2agent-protocol},
+  note   = {Accessed: 2026-05-21}
+}
+
+@misc{OWASP_MCP08_2025,
+  author = {{OWASP}},
+  title  = {MCP08: Lack of Audit and Telemetry},
+  year   = {2025},
+  url    = {https://owasp.org/www-project-mcp-top-10/2025/MCP08-2025%E2%80%93Lack-of-Audit-and-Telemetry},
+  note   = {Accessed: 2026-05-21}
+}
+
+@misc{AG2_OpenTelemetry_2026,
+  author = {{AG2}},
+  title  = {AG2 OpenTelemetry Tracing},
+  year   = {2026},
+  url    = {https://docs.ag2.ai/latest/docs/blog/2026/02/08/AG2-OpenTelemetry-Tracing/},
+  note   = {Accessed: 2026-05-21}
+}

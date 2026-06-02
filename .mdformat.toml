@@ -1,0 +1,28 @@
+# mdformat configuration
+# https://mdformat.readthedocs.io/en/stable/users/configuration_file.html
+
+# Maximum line width (compatible with ruff's line-length)
+wrap = 120
+
+# Automatically number ordered lists
+number = true
+
+# Note: mdformat uses 2 spaces for indentation by default (CommonMark standard)
+# This cannot be configured as it follows the spec strictly
+
+# Files and directories to exclude from formatting
+exclude = [
+    ".venv",
+    ".pytest_cache",
+    "node_modules",
+    "build",
+    "dist",
+]
+
+# Specific configuration for mdformat-gfm plugin
+# Removes extra spaces from GFM tables for more compact alignment
+[plugin.tables]
+compact_tables = true
+
+# Enabled plugins:
+# - mdformat-gfm: GitHub Flavored Markdown support (tables, strikethrough, task lists)
