@@ -150,6 +150,7 @@ dos experimentos e armazenadas em formato JSON. Essa telemetria servirá tanto c
 para a geração de logs textuais simplificados, usados no cenário baseline.
 
 \subsection{Adaptação ao fluxo do AgentRx}
+\label{sec:Adaptacao-agentRx}
 
 Os traces gerados serão convertidos para o formato de representação intermediária em JSON esperado pelo AgentRx
 por meio de um adaptador. Essa camada transformará spans, eventos e atributos em uma trajetória compatível com
@@ -172,10 +173,10 @@ do experimento serão disponibilizados publicamente para fins de reprodução.
 Conforme ilustrado na Figura~\ref{fig:methodology-flow}, a metodologia é composta por cinco etapas principais.
 Primeiro, uma tarefa é atribuída ao MAS simulado. Em seguida, os agentes executam a tarefa em um ambiente controlado,
 enquanto a telemetria estruturada registra os eventos relevantes da execução. Depois, a trajetória gerada é convertida
-para a IR do AgentRx e, em paralelo, transformada em log textual simplificado (baseline para o estudo).
-O AgentRx processa ambas as representações para localizar a etapa crítica da falha e atribuir sua categoria.
-Por fim, os resultados são consolidados e analisados estatisticamente para comparar a capacidade diagnóstica dos
-dois cenários.
+seguindo o que foi descrito na seção \ref{sec:Adaptacao-agentRx} para a IR do AgentRx  e, em paralelo, transformada em
+log textual simplificado (baseline para o estudo). O AgentRx processa ambas as representações para localizar a etapa
+crítica da falha e atribuir sua categoria. Por fim, os resultados são consolidados e analisados estatisticamente
+para comparar a capacidade diagnóstica dos dois cenários.
 
 \section{Análise Experimental}
 
