@@ -33,115 +33,158 @@
 }
 
 \begin{abstract}
-	A depuração de Sistemas Multiagentes (MAS) baseados em Grandes Modelos de Linguagem (LLMs) é um desafio crítico devido à natureza probabilística, de longo horizonte e mediada por saídas ruidosas de ferramentas dessas execuções. O estudo original do AgentRx introduziu um framework automatizado promissor que localiza a etapa crítica de uma falha e categoriza sua causa raiz, mas depende de logs textuais heterogêneos e desestruturados, exigindo normalizações complexas e sujeitas a ruídos. A premissa deste estudo de replicação é verificar se a injeção de uma entrada mais estruturada, fundamentada nos padrões de observabilidade do OpenTelemetry, consegue melhorar a classificação e acurácia diagnóstica do framework. Diferente do estudo original, que amostrou logs de execuções passadas no mundo real, o processo metodológico adotado aqui baseia-se em uma experimentação laboratorial controlada. Utilizando um benchmark sintético em um ambiente MAS simulado, o experimento avalia dois cenários distintos de representação de trajetórias (logs textuais simplificados versus telemetria estruturada), visando não apenas elevar a precisão do diagnóstico, mas também viabilizar a estimativa inédita do custo operacional desperdiçado pelas falhas.
+	A depuração de Sistemas Multiagentes (MAS) baseados em Grandes Modelos de Linguagem (LLMs) é um problema relevante em \textit{AgentOps},
+	pois esses sistemas operam de forma autônoma, não determinística e com múltiplos artefatos de execução ao longo da trajetória.
+	O artigo AgentRx propõe um framework para diagnosticar falhas a partir dessas trajetórias, localizando a etapa crítica irrecuperável
+	e classificando sua causa raiz a partir de restrições, evidências e julgamento via LLM. Entretanto, o estudo original depende de logs
+	textuais heterogêneos, o que exige normalização complexa para uma representação intermediária. Neste trabalho, propomos uma replicação
+	do AgentRx baseada em um MAS simulado e instrumentado com telemetria baseada no OpenTelemetry, comparando logs textuais simplificados
+	e traces estruturados para avaliar a precisão do diagnóstico e da classificação de falhas.
 \end{abstract}
 
-\begin{CCSXML}
-	<ccs2012>
-	<concept>
-	<concept_id>00000000.0000000.0000000</concept_id>
-	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
-	<concept_significance>500</concept_significance>
-	</concept>
-	<concept>
-	<concept_id>00000000.00000000.00000000</concept_id>
-	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
-	<concept_significance>300</concept_significance>
-	</concept>
-	<concept>
-	<concept_id>00000000.00000000.00000000</concept_id>
-	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
-	<concept_significance>100</concept_significance>
-	</concept>
-	<concept>
-	<concept_id>00000000.00000000.00000000</concept_id>
-	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
-	<concept_significance>100</concept_significance>
-	</concept>
-	</ccs2012>
-\end{CCSXML}
+% \begin{CCSXML}
+% 	<ccs2012>
+% 	<concept>
+% 	<concept_id>00000000.0000000.0000000</concept_id>
+% 	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+% 	<concept_significance>500</concept_significance>
+% 	</concept>
+% 	<concept>
+% 	<concept_id>00000000.00000000.00000000</concept_id>
+% 	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+% 	<concept_significance>300</concept_significance>
+% 	</concept>
+% 	<concept>
+% 	<concept_id>00000000.00000000.00000000</concept_id>
+% 	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+% 	<concept_significance>100</concept_significance>
+% 	</concept>
+% 	<concept>
+% 	<concept_id>00000000.00000000.00000000</concept_id>
+% 	<concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+% 	<concept_significance>100</concept_significance>
+% 	</concept>
+% 	</ccs2012>
+% \end{CCSXML}
 
-\ccsdesc[500]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc[300]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc{Do Not Use This Code~Generate the Correct Terms for Your Paper}
-\ccsdesc[100]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+% \ccsdesc[500]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+% \ccsdesc[300]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+% \ccsdesc{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+% \ccsdesc[100]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
 
-\received{20 February 2007}
-\received[revised]{12 March 2009}
-\received[accepted]{5 June 2009}
+% \received{20 February 2007}
+% \received[revised]{12 March 2009}
+% \received[accepted]{5 June 2009}
+
+\keywords{Sistemas Multiagentes, AgentOps, OpenTelemetry, Telemetria Estruturada, Injeção de Falhas, Diagnóstico de Falhas}
 
 \maketitle
 
-\keywords{Sistemas Multiagentes, Telemetria, Injeção de Falhas, Agent2Agent, Model Context Protocol, Observabilidade de LLM}
 
 \section{Introdução}
-Os Sistemas Multiagentes (MAS) baseados em LLMs estão cada vez mais autônomos, executando tarefas complexas em ambientes do mundo real.
-No entanto, a mesma autonomia que viabiliza essa produtividade torna esses sistemas extremamente difíceis de depurar.
-Como as trajetórias são longas e a saída das ferramentas pode ser ruidosa, pequenas falhas em uma etapa inicial podem se propagar silenciosamente até que o sistema colapse de forma irrecuperável [2].
 
-Para solucionar o problema do diagnóstico manual — que é caro e de difícil escalabilidade [3] —, o estudo de Barke et al. propôs o \textit{AgentRx},
-um framework automatizado que identifica a etapa da primeira falha crítica (irrecuperável) e sua categoria raiz [4].
-O estudo original foi conduzido extraindo logs desestruturados em texto puro de três domínios heterogêneos (como o $\tau$-bench e o Magentic-One), necessitando de grande esforço processual para normalizar os rastros em uma Representação Intermediária (IR) a fim de que um LLM-como-Juiz avaliasse as violações [5].
+Sistemas Multiagentes (MAS) baseados em Grandes Modelos de Linguagem (LLMs) vêm sendo empregados em tarefas cada vez mais complexas, combinando planejamento, uso de ferramentas e coordenação entre agentes.
+Essa autonomia, embora benéfica do ponto de vista funcional, amplia a dificuldade de observação e depuração, pois as execuções são probabilísticas, os fluxos são longos e os artefatos gerados ao longo da
+trajetória são variados \cite{dong2024agentops}. Nesse contexto, AgentOps surge como um paradigma de observabilidade voltado a rastrear, correlacionar e analisar os artefatos produzidos por agentes ao longo
+de seu ciclo de vida, incluindo agente, plano, workflow, tarefa, ferramenta, avaliação e guardrails \cite{dong2024agentops}.
 
-Embora o AgentRx represente o estado da arte na atribuição de falhas, a sua dependência de logs textuais ambíguos o torna suscetível a falsos positivos [6]. Este estudo de replicação propõe introduzir no processo de formação de dados um modelo de telemetria nativamente estruturado, baseado nos preceitos do OpenTelemetry [7].
-O OpenTelemetry é um framework de observabilidade de código aberto que padroniza a coleta de dados de telemetria (rastreamentos, métricas e logs), desvinculando as aplicações da infraestrutura de rede e garantindo informações detalhadas de causa raiz sem ambiguidades [7, 8].
-Ao invés do AgentRx precisar interpretar longas mensagens de texto para deduzir um erro, o modelo de telemetria fornecerá eventos padronizados (como \textit{timeout\_detected} ou \textit{invalid\_schema}) [9], reduzindo o esforço cognitivo do LLM-Juiz e purificando a análise de causa e efeito.
+A literatura recente tem mostrado que a observabilidade de agentes não deve se limitar ao resultado final da tarefa, mas também ao processo de execução que leva a esse resultado.
+O estudo de Dong et al. \cite{dong2024agentops} destaca que agentes de IA produzem artefatos complexos em diferentes camadas, e que esses artefatos devem ser rastreados por meio de
+traces, spans, eventos e métricas para permitir diagnóstico e responsabilização. Nessa direção, o OpenTelemetry fornece um vocabulário padronizado para representar execuções observáveis,
+incluindo atributos de spans, relações hierárquicas entre operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}.
 
-Com base nesta premissa, as principais Questões de Pesquisa (RQs) que guiam este estudo são [10]:
+Dentro desse cenário, o AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em trajetórias de agentes e atribuir sua causa raiz.
+O método normaliza logs heterogêneos em uma Representação Intermediária (IR), sintetiza restrições globais e dinâmicas, produz um log de validação auditável e utiliza um juiz baseado em LLM
+para inferir a etapa crítica e a categoria da falha \cite{barke2026agentrx}. O benchmark do AgentRx contém 115 trajetórias falhas distribuídas em três domínios: \textit{t-bench}, \textit{Flash} e \textit{Magentic-One}.
+Anotadas com a etapa crítica e com categorias de falha derivadas por teoria fundamentada \cite{barke2026agentrx}.
+
+Apesar dos resultados promissores, a dependência de logs textuais heterogêneos ainda introduz custo de normalização e ambiguidade na evidência fornecida ao juiz.
+Logo, este estudo investiga se uma representação de telemetria estruturada, derivada de um MAS simulado e modelada segundo princípios de observabilidade do OpenTelemetry, pode tornar o diagnóstico mais preciso e reprodutível.
+Para isso, conduzimos uma replicação do AgentRx, comparando dois cenários de representação das trajetórias: logs textuais simplificados e telemetria estruturada.
+
+As questões de pesquisa que guiam este estudo são:
 \begin{itemize}
-	\item \textbf{RQ1:} A telemetria estruturada melhora a identificação do \textit{critical failure step} em comparação com logs textuais?
-	\item \textbf{RQ2:} A identificação exata da etapa crítica permite estimar com precisão o custo operacional desperdiçado (tokens, latência e tempo) após a propagação da falha?
+	\item \textbf{RQ1:} A telemetria estruturada melhora a identificação da etapa crítica da falha em comparação com logs textuais?
+	\item \textbf{RQ2:} A telemetria estruturada reduz ambiguidades na categorização da causa raiz das falhas?
 \end{itemize}
 
-O restante do artigo está estruturado da seguinte forma: A Seção 2 detalha a metodologia de funcionamento do AgentRx, a arquitetura da telemetria proposta e o formato de integração de dados. A Seção 3 apresenta o planejamento e o design do experimento controlado.
+Neste contexto, este trabalho está organizado da seguinte forma. A Seção 2 apresenta o AgentRx, o modelo de telemetria proposto e a integração entre ambos.
+A Seção 3 descreve o desenho experimental, a instrumentação, as métricas e a análise estatística planejada.
 
 \section{Metodologia}
 
-\subsection{O Framework AgentRx}
-O processo de diagnóstico do AgentRx opera recebendo como entrada o esquema das ferramentas, políticas de domínio e a trajetória falha. Como as execuções possuem formatos distintos, o AgentRx primeiramente as normaliza em uma Representação Intermediária (IR) comum. A partir disso, o sistema sintetiza "Restrições Globais" (baseadas nas políticas) e "Restrições Dinâmicas" (condicionadas ao histórico da trajetória) [11]. O framework avalia essas restrições passo a passo (utilizando validações em Python e verificações semânticas via LLM) [12]. Caso uma regra seja violada, o evento é adicionado a um log de validação auditável. Por fim, um LLM-como-Juiz analisa essas violações cruzando-as com um \textit{checklist} taxonômico de falhas para determinar o exato passo crítico e a categoria do erro [13, 14].
+\subsection{AgentRx como baseline diagnóstico}
 
-\subsection{Ambiente Simulado e Estruturação de Dados}
-Diferente da abordagem original que dependia de benchmarks de terceiros, a metodologia desta replicação baseia-se na construção de uma Prova de Conceito (PoC) implementada com o framework LangGraph. A unidade geradora de dados é um MAS contendo quatro agentes: Coordenador, Pesquisador, Executor e Avaliador [15].
+O AgentRx recebe como entrada a trajetória falha, o conjunto de ferramentas e, quando aplicável, políticas de domínio.
+A partir desses dados, o framework normaliza a execução em uma Representação Intermediária (IR), sintetiza restrições
+globais e dinâmicas e produz um log de validação com evidências passo a passo. Em seguida, um juiz baseado em LLM
+utiliza esse log, junto com um \textit{checklist} taxonômico, para localizar a etapa crítica da falha e atribuir sua
+categoria \cite{barke2026agentrx}. Esse fluxo apresentado é a base metodológica reutilizada neste trabalho.
 
-A grande alteração metodológica é a instrumentação nativa com os conceitos do \textit{OpenTelemetry}. Os logs gerados seguirão a seguinte padronização [9, 16, 17]:
+\subsection{Ambiente experimental controlado}
+
+A replicação será conduzida em um MAS simulado, implementado com LangGraph, contendo quatro agentes: Coordenador,
+Pesquisador, Executor e Avaliador. As tarefas serão simples, porém com espaço para falhas de coordenação,
+falhas de ferramenta e falhas de validação. As ferramentas serão mockadas e localmente controladas,de forma a garantir
+reprodutibilidade e a permitir a injeção explícita de falhas.
+
+\subsection{Modelo de telemetria estruturada}
+
+O ambiente será instrumentado com um modelo de telemetria inspirado em OpenTelemetry, usando como entidades principais:
 \begin{itemize}
-	\item \textbf{Trace:} Representa a trajetória completa da tarefa (ex: \textit{trace\_id}, \textit{start\_time}, \textit{status}).
-	\item \textbf{Spans:} Segmentos detalhados que formam o Trace, como \textit{Workflow Span} (fluxo principal), \textit{Agent Span} (execução de um agente isolado) e \textit{Tool Span} (chamada de ferramenta, evidenciando \textit{tool\_input} e \textit{tool\_output}). A relação entre Spans (\textit{parent\_span\_id}) preserva a hierarquia da execução.
-	\item \textbf{Events \& Attributes:} Disparam gatilhos específicos como \textit{timeout\_detected} e injetam atributos de falha reais (\textit{error.type}, \textit{error.message}).
-	\item \textbf{Metrics:} Indicadores quantitativos de custos (como \textit{tokens\_in}, \textit{tokens\_out}, \textit{latency\_ms} e \textit{retry\_count}).
+	\item \textbf{Resource}: execução completa do MAS;
+	\item \textbf{Trace}: trajetória ponta a ponta da tarefa;
+	\item \textbf{Span}: ação de um agente, chamada de ferramenta ou etapa de workflow;
+	\item \textbf{Event}: ocorrência pontual, como delegação, retry ou timeout;
+	\item \textbf{Metric}: tokens, latência, número de retries e custo estimado.
 \end{itemize}
 
-\subsection{Adaptação ao Fluxo do AgentRx}
-Para integrar nosso modelo à arquitetura metodológica do artigo base, desenvolvemos um adaptador (\textit{Adapter}) de telemetria. Este componente é encarregado de traduzir a árvore de Traces e Spans rigorosamente para a \textit{Trajectory IR} esperada pelo pipeline original do AgentRx. Graças à formatação estruturada na origem, o gerador de restrições dinâmicas do AgentRx será reconfigurado para ler gatilhos explícitos diretamente no JSON de telemetria em vez de precisar realizar interpretações textuais extensivas [18].
+Cada execução armazenará os dados observáveis em formato estruturado, preservando atributos como agente, operação, status,
+erro, duração, tokens e relações hierárquicas entre spans.
+Essa telemetria servirá tanto como fonte da execução quanto como base para a geração de logs textuais simplificados, usados
+no cenário baseline.
 
-\section{Análise de Experimento}
+\subsection{Adaptação ao fluxo do AgentRx}
 
-\subsection{Design de Experimentos}
-O objetivo central do experimento é avaliar estatisticamente as relações de causa e efeito das representações de log no desempenho diagnóstico do framework. Baseado nos princípios de experimentação quantitativa para analisar inferências estatísticas e mitigar vieses [19], definimos um desenho de experimento \textbf{fatorial completo $2 \times 5$} [20, 21].
+Os traces gerados serão convertidos para o formato de IR esperado pelo AgentRx por meio de um adaptador. Essa camada
+transformará spans, eventos e atributos em uma trajetória compatível com o pipeline original, preservando
+o relacionamento entre passo, agente, operação e falha. O objetivo é manter o núcleo do diagnóstico do AgentRx,
+mudando apenas a forma de representação da execução.
 
-\textbf{Variável Independente (Fator):}
-O experimento avalia dois níveis de representação da trajetória:
+\section{Análise Experimental}
+
+\subsection{Desenho experimental}
+
+O experimento seguirá um desenho fatorial completo $2 \times 5$, considerando dois fatores: (i) tipo de representação da trajetória, com os níveis \textit{logs textuais simplificados} e \textit{telemetria estruturada};
+e (ii) categoria da falha, com as classes \textit{System Failure}, \textit{Invalid Invocation}, \textit{Instruction/Plan Adherence Failure}, \textit{Tool Misuse} e \textit{Validation Failure}.
+Cada combinação entre os níveis dos fatores será tratada como uma condição experimental independente.
+
+Cada condição será executada cinco vezes, totalizando 50 trajetórias. A ordem das execuções será randomizada com \textit{seed} fixa, e cada trajetória com falha será julgada três vezes pelo
+AgentRx para reduzir a variabilidade estocástica do LLM.
+
+\subsection{Variáveis e métricas}
+
+A variável independente é o tipo de representação da trajetória fornecida ao AgentRx. As variáveis dependentes são:
 \begin{enumerate}
-	\item \textit{Logs textuais simplificados (Baseline):} Simula a representação original, extraindo a trajetória textualmente e ocultando indicadores estruturados das métricas do OpenTelemetry.
-	\item \textit{Telemetria Estruturada (Tratamento):} Dados complexos contendo os Spans, Eventos e atributos predefinidos pelo nosso modelo [10].
+	\item \textbf{Critical Step Accuracy:} Percentual de precisão na identificação do índice da etapa exata do erro \cite{barke2026agentrx}.
+	\item \textbf{Failure Category Accuracy:} Precisão na classificação da categoria raiz \cite{barke2026agentrx}.
+	\item \textbf{Average Step Distance:} Distância média, em passos, entre a predição do modelo e o erro real \cite{barke2026agentrx}.
 \end{enumerate}
 
-Para o controle experimental, utilizamos a técnica de injeção de falhas. Foram selecionados 5 níveis de categorias da taxonomia original do AgentRx [21]: \textit{System Failure}, \textit{Invalid Invocation}, \textit{Instruction/Plan Adherence Failure}, \textit{Tool Misuse} (uso incorreto de ferramentas) e \textit{Validation Failure}.
+\subsection{Análise estatística}
 
-\textbf{Variáveis Dependentes:}
-As métricas utilizadas para medir o efeito dos tratamentos serão [10]:
-\begin{enumerate}
-	\item \textbf{Critical Step Accuracy:} Percentual de precisão na identificação do índice da etapa exata do erro.
-	\item \textbf{Failure Category Accuracy:} Precisão na classificação da categoria raiz.
-	\item \textbf{Average Step Distance:} Distância média, em passos, entre a predição do modelo e o erro real.
-	\item \textbf{Custo Operacional Desperdiçado:} Calculado com base nas métricas de tokens e latência pós-falha a partir do marco crítico estabelecido pelo AgentRx.
-\end{enumerate}
+A normalidade das métricas será verificada com o teste de Shapiro-Wilk. Caso a hipótese de normalidade não seja atendida, serão utilizados testes não paramétricos, em especial o teste de Wilcoxon pareado,
+com $\alpha = 0.05$. Além disso, serão reportados média, desvio padrão, coeficiente de variação e intervalos de confiança de 95\% para as principais métricas.
 
-\subsection{Execução e Análise Estatística}
-Para garantir relevância e balanceamento [22], cada combinação do desenho fatorial gerará 5 trajetórias simuladas independentes, resultando em 50 execuções. Para mitigar o não-determinismo inerente às avaliações de LLM, a ferramenta do AgentRx julgará cada trajetória 3 vezes [23]. O \textit{ground truth} de avaliação será extraído diretamente pelo operador de injeção de falha que gerou o respectivo problema [18].
+\subsection{Ground truth}
 
-As análises estatísticas utilizarão o cálculo de Média e Desvio Padrão para os resultados globais. Para validar a hipótese nula ($H_0$) — de que não há diferença de precisão entre os formatos de log —, aplicaremos inicialmente o Teste de normalidade de \textit{Shapiro-Wilk}. Considerando amostras dependentes executadas sob a mesma base, o contraste de hipótese será aferido via teste de \textit{Wilcoxon} pareado, adotando um nível de significância de $\alpha = 0.05$ [18].
+O \textit{ground truth} será definido automaticamente pelo operador de injeção de falha, que registrará a etapa em que ocorreu o primeiro desvio irrecuperável, a categoria da falha, o agente responsável e o instante da ocorrência.
+Essa estratégia elimina ambiguidade na anotação e permite comparar diretamente a saída do AgentRx com a falha efetivamente induzida.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs}
 
 \end{document}
+
 \endinput
 
