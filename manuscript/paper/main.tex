@@ -129,9 +129,9 @@ categoria \cite{barke2026agentrx}. Esse fluxo apresentado é a base metodológic
 \subsection{Ambiente experimental controlado}
 
 A replicação será conduzida em um MAS simulado, implementado com LangGraph, contendo quatro agentes: Coordenador,
-Pesquisador, Executor e Avaliador. As tarefas serão simples, porém com espaço para falhas de coordenação,
-falhas de ferramenta e falhas de validação. As ferramentas serão mockadas e localmente controladas,de forma a garantir
-reprodutibilidade e a permitir a injeção explícita de falhas.
+Pesquisador, Executor e Avaliador. As tarefas a serem executadas por eles terão falhas injetadas criando um espaço para
+falhas de coordenação, falhas de ferramenta e falhas de validação. As ferramentas serão mockadas e localmente controladas,
+de forma a garantir reprodutibilidade e a permitir a injeção explícita de falhas.
 
 \subsection{Modelo de telemetria estruturada}
 
@@ -145,27 +145,51 @@ O ambiente será instrumentado com um modelo de telemetria inspirado em OpenTele
 \end{itemize}
 
 Cada execução armazenará os dados observáveis em formato estruturado, preservando atributos como agente, operação, status,
-erro, duração, tokens e relações hierárquicas entre spans.
-Essa telemetria servirá tanto como fonte da execução quanto como base para a geração de logs textuais simplificados, usados
-no cenário baseline.
+erro, duração, tokens e relações hierárquicas entre spans. As trajetórias serão coletadas automaticamente durante a execução
+dos experimentos e armazenadas em formato JSON. Essa telemetria servirá tanto como fonte para a execução quanto como base
+para a geração de logs textuais simplificados, usados no cenário baseline.
 
 \subsection{Adaptação ao fluxo do AgentRx}
 
-Os traces gerados serão convertidos para o formato de IR esperado pelo AgentRx por meio de um adaptador. Essa camada
-transformará spans, eventos e atributos em uma trajetória compatível com o pipeline original, preservando
-o relacionamento entre passo, agente, operação e falha. O objetivo é manter o núcleo do diagnóstico do AgentRx,
-mudando apenas a forma de representação da execução.
+Os traces gerados serão convertidos para o formato de representação intermediária em JSON esperado pelo AgentRx
+por meio de um adaptador. Essa camada transformará spans, eventos e atributos em uma trajetória compatível com
+o pipeline original, preservando o relacionamento entre passo, agente, operação e falha.
+O objetivo é manter o núcleo do diagnóstico do AgentRx, mudando apenas a forma de representação da execução.
+
+Os resultados produzidos pelo AgentRx e as métricas experimentais serão exportados em formato CSV para análise
+estatística. Como os dados são integralmente sintéticos, não existem restrições de acesso, e todos os artefatos
+do experimento serão disponibilizados publicamente para fins de reprodução.
+
+\subsection{Fluxo de execução}
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=0.95\textwidth]{figures/fluxo.png}
+	\caption{Visão geral da metodologia proposta.}
+	\label{fig:methodology-flow}
+\end{figure*}
+
+Conforme ilustrado na Figura~\ref{fig:methodology-flow}, a metodologia é composta por cinco etapas principais.
+Primeiro, uma tarefa é atribuída ao MAS simulado. Em seguida, os agentes executam a tarefa em um ambiente controlado,
+enquanto a telemetria estruturada registra os eventos relevantes da execução. Depois, a trajetória gerada é convertida
+para a IR do AgentRx e, em paralelo, transformada em log textual simplificado (baseline para o estudo).
+O AgentRx processa ambas as representações para localizar a etapa crítica da falha e atribuir sua categoria.
+Por fim, os resultados são consolidados e analisados estatisticamente para comparar a capacidade diagnóstica dos
+dois cenários.
 
 \section{Análise Experimental}
 
 \subsection{Desenho experimental}
 
-O experimento seguirá um desenho fatorial completo $2 \times 5$, considerando dois fatores: (i) tipo de representação da trajetória, com os níveis \textit{logs textuais simplificados} e \textit{telemetria estruturada};
-e (ii) categoria da falha, com as classes \textit{System Failure}, \textit{Invalid Invocation}, \textit{Instruction/Plan Adherence Failure}, \textit{Tool Misuse} e \textit{Validation Failure}.
+O experimento seguirá um desenho fatorial completo $2 \times 5$, considerando dois fatores: (i) tipo de representação da
+trajetória, com os níveis \textit{logs textuais simplificados} e \textit{telemetria estruturada};
+e (ii) categoria da falha, com as classes \textit{System Failure}, \textit{Invalid Invocation},
+\textit{Instruction/Plan Adherence Failure}, \textit{Tool Misuse} e \textit{Validation Failure}.
 Cada combinação entre os níveis dos fatores será tratada como uma condição experimental independente.
 
-Cada condição será executada cinco vezes, totalizando 50 trajetórias. A ordem das execuções será randomizada com \textit{seed} fixa, e cada trajetória com falha será julgada três vezes pelo
-AgentRx para reduzir a variabilidade estocástica do LLM.
+Cada condição será executada cinco vezes, totalizando 50 trajetórias. A ordem das execuções será randomizada com
+\textit{seed} fixa, e cada trajetória com falha será julgada três vezes pelo AgentRx para reduzir a variabilidade
+estocástica do LLM.
 
 \subsection{Variáveis e métricas}
 
