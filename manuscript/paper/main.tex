@@ -93,22 +93,27 @@ O estudo de Dong et al. \cite{dong2024agentops} destaca que agentes de IA produz
 traces, spans, eventos e métricas para permitir diagnóstico e responsabilização. Nessa direção, o OpenTelemetry fornece um vocabulário padronizado para representar execuções observáveis,
 incluindo atributos de spans, relações hierárquicas entre operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}.
 
-Dentro desse cenário, o AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em trajetórias de agentes e atribuir sua causa raiz.
-O método normaliza logs heterogêneos em uma Representação Intermediária (IR), sintetiza restrições globais e dinâmicas, produz um log de validação auditável e utiliza um juiz baseado em LLM
-para inferir a etapa crítica e a categoria da falha \cite{barke2026agentrx}. O benchmark do AgentRx contém 115 trajetórias falhas distribuídas em três domínios: \textit{t-bench}, \textit{Flash} e \textit{Magentic-One}.
-Anotadas com a etapa crítica e com categorias de falha derivadas por teoria fundamentada \cite{barke2026agentrx}.
+Dentro desse cenário, o AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em
+trajetórias de agentes e atribuir sua causa raiz. Em sua formulação original, o método foi avaliado sobre 115 trajetórias
+falhas coletadas em três domínios reais e heterogêneos (\textit{tau-bench}, \textit{Flash} e \textit{Magentic-One}),
+anotadas manualmente com a etapa crítica e a categoria da falha \cite{barke2026agentrx}. O fluxo do framework normaliza
+os rastros em uma Representação Intermediária (IR), sintetiza restrições globais e dinâmicas, produz um log de validação
+auditável e utiliza um juiz baseado em LLM para inferir a etapa crítica e a categoria da falha \cite{barke2026agentrx}.
 
-Apesar dos resultados promissores, a dependência de logs textuais heterogêneos ainda introduz custo de normalização e ambiguidade na evidência fornecida ao juiz.
-Logo, este estudo investiga se uma representação de telemetria estruturada, derivada de um MAS simulado e modelada segundo princípios de observabilidade do OpenTelemetry, pode tornar o diagnóstico mais preciso e reprodutível.
-Para isso, conduzimos uma replicação do AgentRx, comparando dois cenários de representação das trajetórias: logs textuais simplificados e telemetria estruturada.
+Partindo desse resultado, este estudo investiga se a mesma capacidade diagnóstica se mantém em um ambiente controlado
+e simulado de Sistemas Multiagentes, no qual as trajetórias são geradas experimentalmente e modeladas com telemetria
+estruturada inspirada em OpenTelemetry. Assim, a replicação compara dois cenários de representação das
+trajetórias: logs textuais simplificados e telemetria estruturada, buscando verificar tanto a replicabilidade
+do diagnóstico em um novo contexto quanto o efeito da estruturação dos registros sobre a qualidade da
+atribuição de falhas.
 
 As questões de pesquisa que guiam este estudo são:
 \begin{itemize}
-	\item \textbf{RQ1:} A telemetria estruturada melhora a identificação da etapa crítica da falha em comparação com logs textuais?
-	\item \textbf{RQ2:} A telemetria estruturada reduz ambiguidades na categorização da causa raiz das falhas?
+	\item \textbf{RQ1:} O AgentRx mantém sua capacidade de localizar a etapa crítica e categorizar falhas quando aplicado a um benchmark sintético gerado em um MAS simulado?
+	\item \textbf{RQ2:} A telemetria estruturada melhora a identificação da etapa crítica da falha em comparação com logs textuais?
 \end{itemize}
 
-Neste contexto, este trabalho está organizado da seguinte forma. A Seção 2 apresenta o AgentRx, o modelo de telemetria proposto e a integração entre ambos.
+Neste contexto, este trabalho está organizado seguindo a estrutura: A Seção 2 apresenta o AgentRx, o modelo de telemetria proposto e a integração entre ambos.
 A Seção 3 descreve o desenho experimental, a instrumentação, as métricas e a análise estatística planejada.
 
 \section{Metodologia}
