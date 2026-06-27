@@ -110,14 +110,21 @@ atribuição de falhas.
 
 As questões de pesquisa que guiam este estudo são:
 \begin{itemize}
-	\item \textbf{RQ1:} O AgentRx mantém sua capacidade de localizar a etapa crítica e categorizar falhas quando aplicado a um benchmark sintético gerado em um MAS simulado?
-	\item \textbf{RQ2:} A telemetria estruturada melhora a identificação da etapa crítica da falha em comparação com logs textuais?
+	\item \textbf{RQ1:} A telemetria estruturada melhora a identificação da etapa crítica da falha em comparação com logs textuais?
+	\item \textbf{RQ2:} A telemetria estruturada reduz ambiguidades na categorização da causa raiz das falhas?
 \end{itemize}
 
 Neste contexto, este trabalho está organizado seguindo a estrutura: A Seção 2 apresenta o AgentRx, o modelo de telemetria proposto e a integração entre ambos.
 A Seção 3 descreve o desenho experimental, a instrumentação, as métricas e a análise estatística planejada.
 
 \section{Metodologia}
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=0.95\textwidth]{figures/fluxo.png}
+	\caption{Visão geral da metodologia proposta.}
+	\label{fig:methodology-flow}
+\end{figure*}
 
 \subsection{AgentRx como baseline diagnóstico}
 
@@ -163,13 +170,6 @@ estatística. Como os dados são integralmente sintéticos, não existem restri�
 do experimento serão disponibilizados publicamente para fins de reprodução.
 
 \subsection{Fluxo de execução}
-
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=0.95\textwidth]{figures/fluxo.png}
-	\caption{Visão geral da metodologia proposta.}
-	\label{fig:methodology-flow}
-\end{figure*}
 
 Conforme ilustrado na Figura~\ref{fig:methodology-flow}, a metodologia é composta por cinco etapas principais.
 Primeiro, uma tarefa é atribuída ao MAS simulado. Em seguida, os agentes executam a tarefa em um ambiente controlado,

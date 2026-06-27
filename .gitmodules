@@ -1,0 +1,3 @@
+[submodule "AgentRx"]
+	path = AgentRx
+	url = https://github.com/microsoft/AgentRx.git

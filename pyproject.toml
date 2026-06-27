@@ -5,7 +5,27 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "pre-commit>=4.6.0",
-    "pytest>=9.0.3",
-    "ruff>=0.15.15",
+    	"pre-commit>=4.6.0",
+    	"pytest>=9.0.3",
+    	"ruff>=0.15.15",
+  	"langgraph>=0.2.60",
+  	"langchain-openai>=0.2.14",
+  	"opentelemetry-api>=1.29.0",
+  	"opentelemetry-sdk>=1.29.0",
+  	"python-dotenv>=1.0.1",
+  	"agentrx",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.workspace]
+members = [
+    "AgentRx",
+]
+
+[tool.uv.sources]
+agentrx = { workspace = true }
