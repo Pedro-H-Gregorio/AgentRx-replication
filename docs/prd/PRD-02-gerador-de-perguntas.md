@@ -2,12 +2,12 @@
 
 ## 1. Objetivo
 
-Especificar `scripts/generate_benchmark.py`: um gerador **determinístico, sem IA**
-que lê o catálogo do tau-bench e produz `data/benchmark/benchmark_30.json` com 30
-perguntas single-turn somente-leitura, com resposta computada do catálogo.
+Especificar `scripts/generate_benchmark.py`: um gerador **determinístico, sem IA** que lê o catálogo do tau-bench e
+produz `data/benchmark/benchmark_30.json` com 30 perguntas single-turn somente-leitura, com resposta computada do
+catálogo.
 
-Não é uma biblioteca externa; é código do projeto. O MAS **lê** o JSON pronto;
-nunca chama o gerador em tempo de execução.
+Não é uma biblioteca externa; é código do projeto. O MAS **lê** o JSON pronto; nunca chama o gerador em tempo de
+execução.
 
 ## 2. Entrada e saída
 
@@ -18,7 +18,7 @@ nunca chama o gerador em tempo de execução.
 ## 3. Templates (ancorados em padrões reais de instruções do τ-bench)
 
 | ID | Pergunta | Computação |
-|----|----------|-----------|
+| -- | -- | -- |
 | T1 | Qual o [tipo] disponível mais barato? | `min(price)` sobre variantes disponíveis |
 | T2 | Quantas opções de [tipo] estão disponíveis? | `count` de variantes disponíveis |
 | T3 | Quais [tipo] com [opção]=[valor] custam mais que X? | filtro sobre variantes |
@@ -47,7 +47,8 @@ nunca chama o gerador em tempo de execução.
 ```
 
 `expected_answer` é o ground truth de sucesso (computado). `target_fault_category`
-+ `injection_node` ligam a pergunta ao experimento.
+
+- `injection_node` ligam a pergunta ao experimento.
 
 ## 5. Balanceamento
 
@@ -61,10 +62,9 @@ nunca chama o gerador em tempo de execução.
 
 ## 6. Regras de robustez
 
-- Para T3/T4, escolher `opção=valor` que **existe** no catálogo e `price_min` =
-  mediana das variantes que casam (garante resultado não trivial).
-- Para Invention, garantir `expected_answer` **não-vazio** (senão fabricar e
-  "não achar nada" se confundem).
+- Para T3/T4, escolher `opção=valor` que **existe** no catálogo e `price_min` = mediana das variantes que casam (garante
+  resultado não trivial).
+- Para Invention, garantir `expected_answer` **não-vazio** (senão fabricar e "não achar nada" se confundem).
 - Falhar com erro claro se um tipo de produto referenciado não existir.
 
 ## 7. Critérios de aceite

@@ -2,8 +2,8 @@
 
 ## 1. Objetivo
 
-Definir o layout do repositório, a gestão de dados (bruto vs. derivado), a pasta
-`scripts/` e as práticas de open science que tornam o experimento reprodutível.
+Definir o layout do repositório, a gestão de dados (bruto vs. derivado), a pasta `scripts/` e as práticas de open
+science que tornam o experimento reprodutível.
 
 ## 2. Árvore de pastas (alvo)
 
@@ -34,10 +34,10 @@ repo/
 
 ## 3. Dados externos (proveniência)
 
-- Todo dado de terceiros vive em `data/external/<fonte>/` e tem entrada no
-  `NOTICE.md` com: fonte, caminho original, **commit fixado**, licença, uso.
-- O catálogo é o `products.json` do tau-bench, commit
-  `6f4b718037db619539b8b692060e6686f3f0dcc9` (MIT). Não modificar o arquivo.
+- Todo dado de terceiros vive em `data/external/<fonte>/` e tem entrada no `NOTICE.md` com: fonte, caminho original,
+  **commit fixado**, licença, uso.
+- O catálogo é o `products.json` do tau-bench, commit `6f4b718037db619539b8b692060e6686f3f0dcc9` (MIT). Não modificar o
+  arquivo.
 
 ## 4. Artefatos por run (`data/internal/`)
 
@@ -53,34 +53,33 @@ data/internal/
 └── logs/<run_id>.log
 ```
 
-Regra: **o OTel é o único artefato primário; tudo mais é derivado dele** por
-adapters determinísticos. Derivados podem ser regenerados e, em princípio, não
-precisariam ser versionados — mas serão versionados para auditabilidade.
+Regra: **o OTel é o único artefato primário; tudo mais é derivado dele** por adapters determinísticos. Derivados podem
+ser regenerados e, em princípio, não precisariam ser versionados — mas serão versionados para auditabilidade.
 
 ## 5. Pasta `scripts/`
 
 - `generate_benchmark.py` — entrada `products.json`, saída `benchmark_30.json`.
 - `run_matrix.py` — orquestra cenário × braço × julgamento.
 - `collect_agentrx.py` — lê `runs/<run_name>/` do AgentRx e monta os CSVs.
-- `analysis/` — um script por figura/tabela do paper; entrada = CSVs de
-  `data/outputs/`, saída = `manuscript/paper/figures/` ou tabelas.
+- `analysis/` — um script por figura/tabela do paper; entrada = CSVs de `data/outputs/`, saída =
+  `manuscript/paper/figures/` ou tabelas.
 
-Todo script é **idempotente** e aceita `--seed` quando houver qualquer escolha
-não trivial; sem IA no caminho de geração de dados de entrada.
+Todo script é **idempotente** e aceita `--seed` quando houver qualquer escolha não trivial; sem IA no caminho de geração
+de dados de entrada.
 
 ## 6. Open science e reprodutibilidade
 
 - **Licença e atribuição**: `LICENSE` do projeto + `NOTICE.md` para terceiros.
-- **Decisions log**: `PRD-08-decisions-log.md` registra cada decisão com data e
-  justificativa (rastreabilidade das escolhas de método).
-- **Ambiente**: `.python-version`, `pyproject.toml`/`requirements`, `.env.example`
-  (sem segredos). Modelos e endpoints declarados via env.
-- **Determinismo**: temperatura 0 no agente; `use_llm` desligado nos passos não
-  envolvidos na falha; seeds fixas onde aplicável.
-- **Makefile**: alvos `install`, `check`, `generate`, `smoke`, `run`, `collect`,
-  `analyze` — cada etapa reexecutável isoladamente.
-- **Versionado vs. ignorado**: versiona-se `benchmark_30.json`, `data/internal/**`
-  e `data/outputs/**`; ignora-se `.venv`, caches, `AgentRx/runs/**` (regeráveis).
+- **Decisions log**: `PRD-08-decisions-log.md` registra cada decisão com data e justificativa (rastreabilidade das
+  escolhas de método).
+- **Ambiente**: `.python-version`, `pyproject.toml`/`requirements`, `.env.example` (sem segredos). Modelos e endpoints
+  declarados via env.
+- **Determinismo**: temperatura 0 no agente; `use_llm` desligado nos passos não envolvidos na falha; seeds fixas onde
+  aplicável.
+- **Makefile**: alvos `install`, `check`, `generate`, `smoke`, `run`, `collect`, `analyze` — cada etapa reexecutável
+  isoladamente.
+- **Versionado vs. ignorado**: versiona-se `benchmark_30.json`, `data/internal/**` e `data/outputs/**`; ignora-se
+  `.venv`, caches, `AgentRx/runs/**` (regeráveis).
 
 ## 7. Critérios de aceite
 

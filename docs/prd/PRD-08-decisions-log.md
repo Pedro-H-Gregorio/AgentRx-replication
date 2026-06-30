@@ -1,11 +1,10 @@
 # PRD-08 — Decisions log
 
-Registro cronológico de decisões de método (open science). Cada entrada: data,
-decisão, justificativa, alternativas descartadas. Acrescentar ao final; não
-reescrever o histórico.
+Registro cronológico de decisões de método (open science). Cada entrada: data, decisão, justificativa, alternativas
+descartadas. Acrescentar ao final; não reescrever o histórico.
 
 | # | Decisão | Justificativa | Descartado |
-|---|---------|---------------|------------|
+| -- | -- | -- | -- |
 | D1 | Injeção de falha **scriptada/determinística** | Ground truth de passo/categoria cristalino; não depende da competência do agente | Injeção via prompt no LLM (mantida só como alternativa exploratória) |
 | D2 | Agente = **Llama3.1-8B local** | É o que roda na máquina; com injeção scriptada a competência importa pouco | Modelo forte como agente (custo/infra) |
 | D3 | Juiz = **gpt-5-mini via Copilot CLI** | É forte o bastante e há cliente pronto no submódulo | 8B como juiz (derrubaria o desempenho) |
@@ -21,6 +20,6 @@ reescrever o histórico.
 ## Decisões em aberto (resolver antes do M5)
 
 - Quantidade exata de cenários (30 vs 25) — assumido 30.
-- Tratamento de runs com erro emergente do 8B além do injetado: descartar ou
-  sinalizar? (relevante só se o agente usar LLM em passos não-críticos).
+- Tratamento de runs com erro emergente do 8B além do injetado: descartar ou sinalizar? (relevante só se o agente usar
+  LLM em passos não-críticos).
 - Métrica primária para reportar nas RQs (acurácia de passo vs distância de passo).
