@@ -1,0 +1,744 @@
+[
+  {
+    "task_id": "q01_t1_electric_kettle",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Electric Kettle?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Electric Kettle",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
+    "expected_answer": {
+      "item_id": "1240311797",
+      "price": 137.17
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q02_t2_mechanical_keyboard",
+    "domain": "product_catalog",
+    "user_request": "How many Mechanical Keyboard options are available?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Mechanical Keyboard",
+      "available_only": true,
+      "op": "count"
+    },
+    "expected_result": "There are 13 available Mechanical Keyboard options.",
+    "expected_answer": {
+      "count": 13
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T2_count"
+  },
+  {
+    "task_id": "q03_t3_vacuum_cleaner",
+    "domain": "product_catalog",
+    "user_request": "Which available Vacuum Cleaner with bagged/bagless=bagged cost more than $591.59?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Vacuum Cleaner",
+      "bagged/bagless": "bagged",
+      "price_min": 591.59,
+      "available_only": true
+    },
+    "expected_result": "2 available Vacuum Cleaner (bagged/bagless=bagged) priced above $591.59.",
+    "expected_answer": {
+      "item_ids": [
+        "1345513440",
+        "2872451762"
+      ],
+      "count": 2
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q04_t4_smartphone",
+    "domain": "product_catalog",
+    "user_request": "Does item 1507389580 of the Smartphone have RAM=8GB?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1801728040",
+      "item_id": "1507389580"
+    },
+    "expected_result": "Item 1507389580 has RAM=8GB.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T4_item_option"
+  },
+  {
+    "task_id": "q05_t5_jigsaw_puzzle",
+    "domain": "product_catalog",
+    "user_request": "What is the price of item 1096508426?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1808611083",
+      "item_id": "1096508426"
+    },
+    "expected_result": "Item 1096508426 is priced at $46.13.",
+    "expected_answer": {
+      "price": 46.13
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T5_item_price"
+  },
+  {
+    "task_id": "q06_t1_skateboard",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Skateboard?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Skateboard",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Skateboard is item 6843647669 at $180.10.",
+    "expected_answer": {
+      "item_id": "6843647669",
+      "price": 180.1
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "System Failure",
+    "injection_node": "Tool",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q07_t3_electric_kettle",
+    "domain": "product_catalog",
+    "user_request": "Which available Electric Kettle with capacity=1.5L cost more than $147.46?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Electric Kettle",
+      "capacity": "1.5L",
+      "price_min": 147.46,
+      "available_only": true
+    },
+    "expected_result": "2 available Electric Kettle (capacity=1.5L) priced above $147.46.",
+    "expected_answer": {
+      "item_ids": [
+        "2698416822",
+        "9624127908"
+      ],
+      "count": 2
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q08_t4_mechanical_keyboard",
+    "domain": "product_catalog",
+    "user_request": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1656367028",
+      "item_id": "1151293680"
+    },
+    "expected_result": "Item 1151293680 has backlight=RGB.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T4_item_option"
+  },
+  {
+    "task_id": "q09_t5_vacuum_cleaner",
+    "domain": "product_catalog",
+    "user_request": "What is the price of item 1345513440?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1762337868",
+      "item_id": "1345513440"
+    },
+    "expected_result": "Item 1345513440 is priced at $655.59.",
+    "expected_answer": {
+      "price": 655.59
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T5_item_price"
+  },
+  {
+    "task_id": "q10_t3_smartphone",
+    "domain": "product_catalog",
+    "user_request": "Which available Smartphone with color=black cost more than $1143.42?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Smartphone",
+      "color": "black",
+      "price_min": 1143.42,
+      "available_only": true
+    },
+    "expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
+    "expected_answer": {
+      "item_ids": [
+        "1507389580"
+      ],
+      "count": 1
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q11_t4_jigsaw_puzzle",
+    "domain": "product_catalog",
+    "user_request": "Does item 1096508426 of the Jigsaw Puzzle have difficulty level=beginner?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1808611083",
+      "item_id": "1096508426"
+    },
+    "expected_result": "Item 1096508426 has difficulty level=beginner.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T4_item_option"
+  },
+  {
+    "task_id": "q12_t5_skateboard",
+    "domain": "product_catalog",
+    "user_request": "What is the price of item 2177997696?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1968349452",
+      "item_id": "2177997696"
+    },
+    "expected_result": "Item 2177997696 is priced at $206.60.",
+    "expected_answer": {
+      "price": 206.6
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T5_item_price"
+  },
+  {
+    "task_id": "q13_t1_electric_kettle",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Electric Kettle?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Electric Kettle",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
+    "expected_answer": {
+      "item_id": "1240311797",
+      "price": 137.17
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q14_t3_mechanical_keyboard",
+    "domain": "product_catalog",
+    "user_request": "Which available Mechanical Keyboard with backlight=RGB cost more than $233.90?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Mechanical Keyboard",
+      "backlight": "RGB",
+      "price_min": 233.9,
+      "available_only": true
+    },
+    "expected_result": "2 available Mechanical Keyboard (backlight=RGB) priced above $233.90.",
+    "expected_answer": {
+      "item_ids": [
+        "1151293680",
+        "2299424241"
+      ],
+      "count": 2
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q15_t4_vacuum_cleaner",
+    "domain": "product_catalog",
+    "user_request": "Does item 1345513440 of the Vacuum Cleaner have bagged/bagless=bagged?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1762337868",
+      "item_id": "1345513440"
+    },
+    "expected_result": "Item 1345513440 has bagged/bagless=bagged.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T4_item_option"
+  },
+  {
+    "task_id": "q16_t1_smartphone",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Smartphone?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Smartphone",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Smartphone is item 5339029584 at $1128.99.",
+    "expected_answer": {
+      "item_id": "5339029584",
+      "price": 1128.99
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q17_t3_jigsaw_puzzle",
+    "domain": "product_catalog",
+    "user_request": "Which available Jigsaw Puzzle with difficulty level=beginner cost more than $45.76?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Jigsaw Puzzle",
+      "difficulty level": "beginner",
+      "price_min": 45.76,
+      "available_only": true
+    },
+    "expected_result": "1 available Jigsaw Puzzle (difficulty level=beginner) priced above $45.76.",
+    "expected_answer": {
+      "item_ids": [
+        "1096508426"
+      ],
+      "count": 1
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q18_t4_skateboard",
+    "domain": "product_catalog",
+    "user_request": "Does item 2177997696 of the Skateboard have deck material=plastic?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1968349452",
+      "item_id": "2177997696"
+    },
+    "expected_result": "Item 2177997696 has deck material=plastic.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Misinterpretation of Tool Output",
+    "injection_node": "Executor",
+    "template_id": "T4_item_option"
+  },
+  {
+    "task_id": "q19_t1_electric_kettle",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Electric Kettle?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Electric Kettle",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
+    "expected_answer": {
+      "item_id": "1240311797",
+      "price": 137.17
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q20_t2_mechanical_keyboard",
+    "domain": "product_catalog",
+    "user_request": "How many Mechanical Keyboard options are available?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Mechanical Keyboard",
+      "available_only": true,
+      "op": "count"
+    },
+    "expected_result": "There are 13 available Mechanical Keyboard options.",
+    "expected_answer": {
+      "count": 13
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T2_count"
+  },
+  {
+    "task_id": "q21_t3_vacuum_cleaner",
+    "domain": "product_catalog",
+    "user_request": "Which available Vacuum Cleaner with bagged/bagless=bagged cost more than $591.59?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Vacuum Cleaner",
+      "bagged/bagless": "bagged",
+      "price_min": 591.59,
+      "available_only": true
+    },
+    "expected_result": "2 available Vacuum Cleaner (bagged/bagless=bagged) priced above $591.59.",
+    "expected_answer": {
+      "item_ids": [
+        "1345513440",
+        "2872451762"
+      ],
+      "count": 2
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q22_t1_smartphone",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Smartphone?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Smartphone",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Smartphone is item 5339029584 at $1128.99.",
+    "expected_answer": {
+      "item_id": "5339029584",
+      "price": 1128.99
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q23_t2_jigsaw_puzzle",
+    "domain": "product_catalog",
+    "user_request": "How many Jigsaw Puzzle options are available?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Jigsaw Puzzle",
+      "available_only": true,
+      "op": "count"
+    },
+    "expected_result": "There are 9 available Jigsaw Puzzle options.",
+    "expected_answer": {
+      "count": 9
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T2_count"
+  },
+  {
+    "task_id": "q24_t3_skateboard",
+    "domain": "product_catalog",
+    "user_request": "Which available Skateboard with deck material=bamboo cost more than $194.56?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Skateboard",
+      "deck material": "bamboo",
+      "price_min": 194.56,
+      "available_only": true
+    },
+    "expected_result": "4 available Skateboard (deck material=bamboo) priced above $194.56.",
+    "expected_answer": {
+      "item_ids": [
+        "4293355847",
+        "5312063289",
+        "6956751343",
+        "8176740019"
+      ],
+      "count": 4
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invention of New Information",
+    "injection_node": "Executor",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q25_t1_electric_kettle",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Electric Kettle?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Electric Kettle",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
+    "expected_answer": {
+      "item_id": "1240311797",
+      "price": 137.17
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q26_t3_mechanical_keyboard",
+    "domain": "product_catalog",
+    "user_request": "Which available Mechanical Keyboard with backlight=RGB cost more than $233.90?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Mechanical Keyboard",
+      "backlight": "RGB",
+      "price_min": 233.9,
+      "available_only": true
+    },
+    "expected_result": "2 available Mechanical Keyboard (backlight=RGB) priced above $233.90.",
+    "expected_answer": {
+      "item_ids": [
+        "1151293680",
+        "2299424241"
+      ],
+      "count": 2
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q27_t1_vacuum_cleaner",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Vacuum Cleaner?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Vacuum Cleaner",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Vacuum Cleaner is item 3526747930 at $540.12.",
+    "expected_answer": {
+      "item_id": "3526747930",
+      "price": 540.12
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q28_t3_smartphone",
+    "domain": "product_catalog",
+    "user_request": "Which available Smartphone with color=black cost more than $1143.42?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Smartphone",
+      "color": "black",
+      "price_min": 1143.42,
+      "available_only": true
+    },
+    "expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
+    "expected_answer": {
+      "item_ids": [
+        "1507389580"
+      ],
+      "count": 1
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T3_spec_filter"
+  },
+  {
+    "task_id": "q29_t1_jigsaw_puzzle",
+    "domain": "product_catalog",
+    "user_request": "What is the cheapest available Jigsaw Puzzle?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Jigsaw Puzzle",
+      "available_only": true,
+      "sort": "price_asc"
+    },
+    "expected_result": "The cheapest available Jigsaw Puzzle is item 9665100170 at $45.39.",
+    "expected_answer": {
+      "item_id": "9665100170",
+      "price": 45.39
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T1_cheapest"
+  },
+  {
+    "task_id": "q30_t3_skateboard",
+    "domain": "product_catalog",
+    "user_request": "Which available Skateboard with deck material=bamboo cost more than $194.56?",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Skateboard",
+      "deck material": "bamboo",
+      "price_min": 194.56,
+      "available_only": true
+    },
+    "expected_result": "4 available Skateboard (deck material=bamboo) priced above $194.56.",
+    "expected_answer": {
+      "item_ids": [
+        "4293355847",
+        "5312063289",
+        "6956751343",
+        "8176740019"
+      ],
+      "count": 4
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Instruction/Plan Adherence Failure",
+    "injection_node": "Coordinator",
+    "template_id": "T3_spec_filter"
+  }
+]

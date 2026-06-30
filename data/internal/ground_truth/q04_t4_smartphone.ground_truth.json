@@ -1,0 +1,8 @@
+{
+  "run_task_id": "q04_t4_smartphone",
+  "critical_failure_step": 3,
+  "failure_category": "System Failure",
+  "failed_component": "ProductCatalogSearch",
+  "fault_mode": "system_failure",
+  "reason": "Fault injected at the Tool step (System Failure)."
+}

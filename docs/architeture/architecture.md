@@ -69,11 +69,9 @@ arquivos idênticos a partir do OTel + scripts.
   referenciado por proveniência (TRAIL).
 - **Decisions log** (`docs/prd/PRD-08`): histórico append-only das decisões de método — rastreabilidade das escolhas
   científicas.
-  - **Decisões arquiteturais**: `docs/adr/` (ADRs no formato Context/Decision/
-  Consequences/Alternatives). Memória estrutural durável entre sessões; o índice
-  `docs/adr/README.md` lista o estado de cada decisão. Complementa o PRD-08
-  (decisões de método). ADRs não são reescritos: mudança vira novo ADR que
-  supersede o anterior.
+  - **Decisões arquiteturais**: `docs/adr/` (ADRs no formato Context/Decision/ Consequences/Alternatives). Memória
+    estrutural durável entre sessões; o índice `docs/adr/README.md` lista o estado de cada decisão. Complementa o PRD-08
+    (decisões de método). ADRs não são reescritos: mudança vira novo ADR que supersede o anterior.
 
 ## 6. Qualidade e portões de CI
 

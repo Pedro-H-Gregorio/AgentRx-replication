@@ -1,0 +1,270 @@
+{
+  "schema": "otel-json-local-v0",
+  "run_id": "q10_t3_smartphone",
+  "task_id": "q10_t3_smartphone",
+  "task": "Which available Smartphone with color=black cost more than $1143.42?",
+  "task_metadata": {
+    "task_id": "q10_t3_smartphone",
+    "user_request": "Which available Smartphone with color=black cost more than $1143.42?",
+    "domain": "product_catalog",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.search",
+    "default_tool_args": {
+      "product_type": "Smartphone",
+      "color": "black",
+      "price_min": 1143.42,
+      "available_only": true
+    },
+    "expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
+    "expected_answer": {
+      "item_ids": [
+        "1507389580"
+      ],
+      "count": 1
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T3_spec_filter",
+    "failure_response": "The product catalog search could not be completed."
+  },
+  "created_at_unix_ms": 1782825010185,
+  "status": "FAILED",
+  "spans": [
+    {
+      "name": "agent.coordinator",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "12f2768ea58e1dc7",
+      "parent_span_id": "a3e85a689609806b",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825007524981722,
+      "end_time_unix_ns": 1782825008365917658,
+      "duration_ms": 840.935936,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 1,
+        "gen_ai.agent.name": "Coordinator",
+        "gen_ai.operation.name": "task_decomposition",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "orchestration",
+        "gen_ai.request.model": "Llama3.1-8B",
+        "task.id": "q10_t3_smartphone",
+        "task.input": "Which available Smartphone with color=black cost more than $1143.42?",
+        "task.expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
+        "gen_ai.usage.input_tokens": 117,
+        "gen_ai.usage.output_tokens": 43,
+        "gen_ai.usage.total_tokens": 160,
+        "agent.input_message": "Task: Which available Smartphone with color=black cost more than $1143.42?",
+        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available smartphones with a black color and a price greater than $1143.42."
+      },
+      "events": [
+        {
+          "name": "task_delegated",
+          "timestamp_unix_ns": 1782825008365879320,
+          "attributes": {
+            "target_agent": "Researcher"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.researcher",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "698a0588a8488b0d",
+      "parent_span_id": "a3e85a689609806b",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825008367164534,
+      "end_time_unix_ns": 1782825009166624640,
+      "duration_ms": 799.460106,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 2,
+        "gen_ai.agent.name": "Researcher",
+        "gen_ai.operation.name": "prepare_tool_call",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "information_retrieval",
+        "gen_ai.request.model": "Llama3.1-8B",
+        "tool.name": "ProductCatalogSearch",
+        "tool.args_json": "{\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}",
+        "gen_ai.usage.input_tokens": 100,
+        "gen_ai.usage.output_tokens": 41,
+        "gen_ai.usage.total_tokens": 141,
+        "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
+        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42} to satisfy the plan."
+      },
+      "events": [
+        {
+          "name": "fault.injected",
+          "timestamp_unix_ns": 1782825008367239016,
+          "attributes": {
+            "category": "Invalid Invocation",
+            "node": "Researcher"
+          }
+        },
+        {
+          "name": "tool_call_planned",
+          "timestamp_unix_ns": 1782825008367300167,
+          "attributes": {
+            "tool.name": "ProductCatalogSearch"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tool.product_catalog_search",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "c2f89fda2725f435",
+      "parent_span_id": "a3e85a689609806b",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825009167639427,
+      "end_time_unix_ns": 1782825009167797226,
+      "duration_ms": 0.157799,
+      "status": {
+        "status_code": "ERROR",
+        "description": "catalog.search requires a string product_type"
+      },
+      "attributes": {
+        "experiment.step_index": 3,
+        "gen_ai.agent.name": "ProductCatalogSearch",
+        "gen_ai.operation.name": "catalog.search",
+        "experiment.operation_type": "tool_call",
+        "agent.role": "dependency",
+        "gen_ai.request.model": "Llama3.1-8B",
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
+        "tool.name": "ProductCatalogSearch",
+        "peer.service": "catalog-service",
+        "server.address": "catalog-service.local",
+        "rpc.system": "http",
+        "http.request.method": "POST",
+        "tool.args_json": "{\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}",
+        "tool.result_json": "{\"error\": {\"message\": \"catalog.search requires a string product_type\", \"type\": \"SchemaError\"}, \"ok\": false}",
+        "error.type": "SchemaError",
+        "error.message": "catalog.search requires a string product_type",
+        "agent.input_message": "ProductCatalogSearch input: {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}",
+        "agent.output_message": "ProductCatalogSearch rejected the call."
+      },
+      "events": [
+        {
+          "name": "dependency_call_failed",
+          "timestamp_unix_ns": 1782825009167775384,
+          "attributes": {
+            "peer.service": "catalog-service",
+            "exception.type": "SchemaError"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.executor",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "e52766c6504a332c",
+      "parent_span_id": "a3e85a689609806b",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825009168487546,
+      "end_time_unix_ns": 1782825009447557010,
+      "duration_ms": 279.069464,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 4,
+        "gen_ai.agent.name": "Executor",
+        "gen_ai.operation.name": "build_answer",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "response_synthesis",
+        "gen_ai.request.model": "Llama3.1-8B",
+        "gen_ai.usage.input_tokens": 115,
+        "gen_ai.usage.output_tokens": 7,
+        "gen_ai.usage.total_tokens": 122,
+        "agent.reasoning_summary": "",
+        "agent.input_message": "Synthesize answer for: Which available Smartphone with color=black cost more than $1143.42?",
+        "agent.output_message": "Task could not be completed."
+      },
+      "events": [
+        {
+          "name": "artifact_created",
+          "timestamp_unix_ns": 1782825009447521351,
+          "attributes": {
+            "artifact.type": "answer_summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.evaluator",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "85af690e770e05ae",
+      "parent_span_id": "a3e85a689609806b",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825009448652916,
+      "end_time_unix_ns": 1782825010184504441,
+      "duration_ms": 735.851525,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 5,
+        "gen_ai.agent.name": "Evaluator",
+        "gen_ai.operation.name": "validate_answer",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "quality_assurance",
+        "gen_ai.request.model": "Llama3.1-8B",
+        "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
+        "gen_ai.usage.input_tokens": 97,
+        "gen_ai.usage.output_tokens": 37,
+        "gen_ai.usage.total_tokens": 134,
+        "validation.status": "REJECTED",
+        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input was invalid or incomplete.",
+        "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
+        "agent.input_message": "Evaluate answer: Task could not be completed.",
+        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input was invalid or incomplete."
+      },
+      "events": [
+        {
+          "name": "validation_failed",
+          "timestamp_unix_ns": 1782825009448746084,
+          "attributes": {
+            "reason": "Tool evidence is unavailable."
+          }
+        }
+      ]
+    },
+    {
+      "name": "run.experiment",
+      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
+      "span_id": "a3e85a689609806b",
+      "parent_span_id": null,
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1782825007524415755,
+      "end_time_unix_ns": 1782825010185339981,
+      "duration_ms": 2660.924226,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.operation_type": "workflow",
+        "experiment.run_id": "q10_t3_smartphone",
+        "task.id": "q10_t3_smartphone",
+        "task.domain": "product_catalog",
+        "task.input": "Which available Smartphone with color=black cost more than $1143.42?",
+        "gen_ai.agent.framework": "langgraph",
+        "run.status": "FAILED"
+      },
+      "events": []
+    }
+  ]
+}

@@ -8,12 +8,16 @@ class ExperimentState(TypedDict, total=False):
     plan: str
     query: dict[str, Any]
     expected_result: str
+    expected_answer: dict[str, Any]
     success_criteria: list[str]
     tool_name: str
     tool_args: dict[str, Any]
     tool_result: dict[str, Any]
     products: list[dict[str, Any]]
     summary: str
+    forced_answer: str
+    fabricated: bool
+    plan_violated: bool
     conversation: list[dict[str, Any]]
     constraint_violations: list[str]
     failure_observations: list[dict[str, Any]]

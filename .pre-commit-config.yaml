@@ -38,3 +38,10 @@ repos:
         entry: latexindent -w
         language: system
         files: \.tex$
+      - id: check-file-size
+        name: check file size (<= 200 lines)
+        entry: python scripts/check_file_size.py
+        language: system
+        pass_filenames: false
+        files: \.py$
+        stages: [pre-commit]

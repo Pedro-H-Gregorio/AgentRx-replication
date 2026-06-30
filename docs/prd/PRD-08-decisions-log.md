@@ -17,6 +17,9 @@ descartadas. Acrescentar ao final; não reescrever o histórico.
 | D10 | Baseline textual = **Braço B (prosa fiel)** | Mesma informação do braço A, difere só na forma | `.txt` de 9 linhas (espantalho) |
 | D11 | Perguntas **single-turn somente-leitura, construídas por template** | Tasks do τ-bench são transacionais/multi-turno (0 read-only) | Selecionar tasks do τ-bench; sintetizar dados também |
 | D12 | **Imparcialidade de log** + teste (forte: igualdade de passos não-afetados, default determinístico; fraco: ausência de marcadores se `USE_LLM` on) | Evita vazamento estilístico que faria juiz/telemetria acertar por viés, não por mérito; renderizador não vê o gabarito | Renderizador que recebe a categoria-alvo para "enfeitar" o log |
+| D13 | `user_request` e logs **em inglês**; tipos/opções/preços derivados do catálogo tau-bench (unidade do próprio catálogo) | Casa com o catálogo vendorizado e com o juiz; evita "Dell/BRL" inventado do esqueleto antigo | pt-BR/BRL do `run_001` antigo (descartado) |
+| D14 | Filtro de **higiene de erro emergente** do agente **adiado** (YAGNI); declarado como ameaça à validade | Só importa com `USE_LLM` on no agente; default é determinístico; investigar com o AgentRx em C6 | Implementar o filtro já agora (código morto no default) |
+| D15 | **Evaluator fraco**: valida só a presença de evidência da tool, não a corretude da resposta | Modela um avaliador realista que não pega erros semânticos; faltas de superfície (System/Invalid) → `FAILED`, mas Misinterpretation/Invention/Plan **propagam** com a resposta errada visível na trajetória (cabe ao **juiz** localizá-las, não ao MAS). Ameaça à validade declarada | Evaluator "onisciente" comparando contra `expected_answer` (marcaria quase tudo `FAILED`, irreal e enfraqueceria o sinal das RQs) |
 
 ## Decisões em aberto (resolver antes do M5)
 
@@ -25,6 +28,5 @@ descartadas. Acrescentar ao final; não reescrever o histórico.
   LLM em passos não-críticos).
 - Métrica primária para reportar nas RQs (acurácia de passo vs distância de passo).
 
-> Escopo: este log registra decisões de **método/parâmetro**. Decisões
-> **arquiteturais** (estruturais) vivem em `docs/adr/` como ADRs. Na dúvida:
-> "muda a estrutura do sistema?" → ADR; "ajusta um valor do experimento?" → aqui.
+> Escopo: este log registra decisões de **método/parâmetro**. Decisões **arquiteturais** (estruturais) vivem em
+> `docs/adr/` como ADRs. Na dúvida: "muda a estrutura do sistema?" → ADR; "ajusta um valor do experimento?" → aqui.

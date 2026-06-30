@@ -53,8 +53,9 @@ def configure_tracer(
     provider = TracerProvider(resource=resource)
     exporter = InMemoryJsonSpanExporter()
     provider.add_span_processor(SimpleSpanProcessor(exporter))
-    trace.set_tracer_provider(provider)
-    return trace.get_tracer("agentrx_otel_poc"), exporter, provider
+    # Use a provider-bound tracer (not the global one): the global TracerProvider
+    # can only be set once per process, but we run many scenarios in one process.
+    return provider.get_tracer("agentrx_otel_poc"), exporter, provider
 
 
 def set_success(span: trace.Span) -> None:

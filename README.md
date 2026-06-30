@@ -1,108 +1,67 @@
-# AgentRx OTel Minimal PoC
+# Replicação AgentRx + OpenTelemetry — MAS simulado
 
-Caso mínimo para o experimento:
+Replicação parcial do **AgentRx** (diagnóstico de falhas em sistemas multiagente) estendida com **telemetria
+OpenTelemetry**. Um MAS simulado em LangGraph (Coordinator → Researcher → Tool → Executor → Evaluator) roda perguntas de
+catálogo somente-leitura com **injeção scriptada de falha**, gerando um trace OTel bruto por execução. De cada trace
+derivam duas trajetórias — uma **com telemetria** (braço A) e outra **estilo-AgentRx** (braço B, prosa fiel) — para
+perguntar: a telemetria ajuda o juiz a localizar/classificar a falha?
 
-- LangGraph com fluxo multiagente: Coordinator, Researcher, ferramenta configurada por task, Executor, Evaluator.
-- Quando `USE_LLM=true`, Coordinator, Researcher, Executor e Evaluator fazem chamadas LLM reais. A ferramenta continua
-  sendo o ponto controlado de falha.
-- Telemetria baseada em OpenTelemetry Python: `Resource`, `Trace`, `Span`, `Event`, `Attributes`, `Status`.
-- A task vem de `TASK_ID` e fica descrita em `src/agentrx_otel_poc/tasks.py`.
-- Saídas:
-  - `data/otel/<run_id>.otel.json`: fonte de verdade em OTel JSON local.
-  - `data/agentrx/<run_id>.trajectory.json`: trajetória textual no estilo aceito pelo AgentRx, sem labels de ground
-    truth.
-  - `data/text_baseline/<run_id>.txt`: baseline textual derivado da mesma telemetria.
-  - `data/metrics/<run_id>.metrics.json`: métricas observacionais por etapa para análise com telemetria.
-  - `data/ground_truth/<run_id>.ground_truth.json`: labels separados para avaliação do experimento.
-  - `data/logs/<run_id>.log`: log padronizado da execução, espelhado também no terminal.
+Leia `AGENTS.md` primeiro, depois `docs/prd/PRD-INDEX.md` e `docs/adr/README.md`.
+
+## Invariantes (não-negociáveis)
+
+- O `.otel.json` bruto é a **única fonte de verdade**; todo o resto é derivado.
+- As trajetórias **nunca** vazam o ground truth (`fault.injected`, `experiment.fault*`, caminhos de `faults.py`).
+- Os dois braços carregam a **mesma semântica**; diferem só nos campos de telemetria.
+- A injeção é **scriptada/determinística**; o renderizador de log é **cego ao gabarito**.
 
 ## Instalação
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-cp .env.example .env
+make install        # ou: uv sync
+cp example.env .env
 ```
 
-## Rodar sem LLM
+Determinismo é o default: `USE_LLM=false`, temperatura 0, sem rede no caminho de geração de dados. O modelo do agente é
+parametrizável via `.env` (`AGENT_MODEL`).
+
+Com `USE_LLM=true`, os nós-agente (Coordinator, Researcher, Executor, Evaluator) chamam o modelo do agente em
+`AGENT_BASE_URL` (ex.: Ollama em `http://localhost:11434/v1`, com o modelo já baixado). A **injeção de falha continua
+scriptada** — o LLM só gera a prosa do passo e a telemetria de tokens. Se o endpoint não responder, o passo cai em
+fallback determinístico e registra `agent.llm.failed` no log (cheque o log se o LLM parecer não ter sido usado).
+
+## Tutorial — pipeline segregado
+
+Cada passo é idempotente e **valida a própria saída**; não há um alvo "run-all".
+
+| Passo | Comando | Produz | Validador |
+| -- | -- | -- | -- |
+| 1. Benchmark | `make generate` | `data/benchmark/benchmark_30.json` (6×5 categorias) | `validate-benchmark` |
+| 2. Simular MAS | `make simulate` | `data/internal/otel/<id>.otel.json` + `ground_truth/<id>...` | `validate-traces` |
+| 3. Derivar braços | `make derive` | `data/internal/trajectory_telemetry/` e `trajectory_agentrx/` | `validate-trajectories` |
+| 4. Smoke | `make smoke` | — (5 testes, 1 por falha) | — |
+| 5. Qualidade | `make check` | — (format/lint + limite de 200 linhas) | — |
 
 ```bash
-USE_LLM=false TASK_ID=catalog_dell_price_filter FAULT_TYPE=system_timeout RUN_ID=run_001 python scripts/run_minimal.py
+make generate   # → wrote 30 scenarios
+make simulate   # → 30 traces (6 spans cada) + ground truth
+make derive     # → 2 trajetórias por trace, sem vazamento, em paridade
+make smoke      # → 5 passed (System/Invalid/Misinterpretation/Invention/Plan)
+make check      # → ruff + check_file_size OK
 ```
 
-Para mais detalhes de execução, aumente o nível de log:
+Os validadores também rodam isolados: `make validate-benchmark`, `make validate-traces`, `make validate-trajectories`.
 
-```bash
-LOG_LEVEL=DEBUG USE_LLM=false TASK_ID=catalog_dell_price_filter FAULT_TYPE=system_timeout RUN_ID=run_001 python scripts/run_minimal.py
-```
+## Juiz do AgentRx (próxima etapa)
 
-## Rodar com LLM OpenAI ou OpenAI-compatible
+A invocação do juiz é trabalho de uma change seguinte. Pela regra de **não tocar no submódulo AgentRx**, a integração
+será em modo **judge-only** sobre a IR canônica que os adapters já emitem (ver `docs/adr/0009-...`). O pacote do MAS
+nunca importa o AgentRx; a integração é por arquivos.
 
-Configure `.env`:
+## Onde as coisas vivem
 
-```env
-USE_LLM=true
-OPENAI_API_KEY=...
-OPENAI_BASE_URL=https://api.openai.com/v1
-OPENAI_MODEL=gpt-4o-mini
-```
-
-Para endpoint compatível com OpenAI:
-
-```env
-OPENAI_BASE_URL=https://sua-url/v1
-OPENAI_API_KEY=...
-OPENAI_MODEL=nome-do-modelo
-```
-
-Com `USE_LLM=true`, as métricas `input_tokens` e `output_tokens` são preenchidas quando o provedor retorna uso de
-tokens. Com `USE_LLM=false`, os agentes usam fallback determinístico e esses campos ficam `0`.
-
-`FAULT_TYPE` controla apenas a simulação experimental. Esse valor não é escrito na trajetória AgentRx nem nas métricas
-observacionais; o label fica separado em `data/ground_truth`.
-
-## Rodar o AgentRx com a trajetória textual
-
-Depois de gerar `data/agentrx/run_001.trajectory.json`:
-
-```bash
-cd AgentRx
-python run.py ../data/agentrx/run_001.trajectory.json \
-  --domain flash \
-  --endpoint copilot \
-  --skip-static \
-  --skip-dynamic \
-  --run-name run_001_diagnosis
-```
-
-## Adicionar AgentRx como submodule
-
-```bash
-git init
-git submodule add https://github.com/microsoft/AgentRx.git external/AgentRx
-git commit -m "Add AgentRx submodule"
-```
-
-Para clonar depois com submodule:
-
-```bash
-git clone --recurse-submodules <seu-repo>
-```
-
-Se alguém já clonou sem submodules:
-
-```bash
-git submodule update --init --recursive
-```
-
-## Organização do experimento
-
-O experimento gera duas visões da mesma execução:
-
-- `data/agentrx/<run_id>.trajectory.json`: versão textual/não estruturada para o AgentRx seguir o caminho mais próximo
-  do artigo original.
-- `data/otel/<run_id>.otel.json` e `data/metrics/<run_id>.metrics.json`: versão enriquecida com trace, spans, duração,
-  status, erro, tokens, entradas/saídas, resposta da ferramenta e avaliação do agente.
-- `data/ground_truth/<run_id>.ground_truth.json`: rótulo usado depois para calcular acurácia, sem contaminar a entrada
-  do diagnosticador.
+- `src/agentrx_otel_poc/` — `benchmark/`, `faults/`, `graph/` (nós + runner), `adapters/` (parser + sanitize + 2
+  braços), `telemetry.py`, `tasks.py`.
+- `scripts/` — `generate_benchmark.py`, `simulate.py`, `derive_trajectories.py`, `check_file_size.py`.
+- `data/external/` (catálogo vendorizado), `data/benchmark/`, `data/internal/` (artefatos por run).
+- `docs/prd/` (specs) · `docs/adr/` (decisões arquiteturais) · `tests/` (+ `tests/smoke/`).

@@ -48,6 +48,5 @@ caminhos de execução separados:
 
 ## Registro de decisões
 
-- Decisões **arquiteturais** (estruturais, duradouras): `docs/adr/` (ADRs
-  numerados; índice em `docs/adr/README.md`).
+- Decisões **arquiteturais** (estruturais, duradouras): `docs/adr/` (ADRs numerados; índice em `docs/adr/README.md`).
 - Decisões de **método/parâmetro**: `docs/prd/PRD-08-decisions-log.md`.

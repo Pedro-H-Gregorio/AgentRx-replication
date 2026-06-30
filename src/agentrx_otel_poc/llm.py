@@ -6,81 +6,49 @@ from typing import Any
 
 from langchain_openai import ChatOpenAI
 
-from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.runtime_logging import RunLogger
+from agentrx_otel_poc.settings import Settings
+
+ZERO_USAGE: dict[str, int] = {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
 
 
-def build_llm(settings: Settings) -> ChatOpenAI:
-    """Cria cliente OpenAI ou OpenAI-compatible.
-
-    Para endpoint oficial:
-        OPENAI_BASE_URL=https://api.openai.com/v1
-
-    Para endpoint compatível:
-        OPENAI_BASE_URL=https://sua-url/v1
-        OPENAI_API_KEY=...
-
-    Observação: provedores compatíveis podem retornar metadados fora do padrão OpenAI.
-    """
-    if not settings.openai_api_key:
-        raise RuntimeError(
-            "OPENAI_API_KEY não definido. Use USE_LLM=false ou configure .env"
-        )
-
+def _client(
+    model: str, base_url: str | None, api_key: str, settings: Settings
+) -> ChatOpenAI:
+    """OpenAI or OpenAI-compatible client (e.g. a local model via an /v1 endpoint)."""
     return ChatOpenAI(
-        model=settings.openai_model,
-        api_key=settings.openai_api_key,
-        base_url=settings.openai_base_url,
+        model=model,
+        api_key=api_key or "not-needed",
+        base_url=base_url,
         temperature=settings.llm_temperature,
         timeout=settings.llm_timeout_seconds,
         max_retries=0,
     )
 
 
-def invoke_llm(
+def _invoke(
+    model: str,
+    base_url: str | None,
+    api_key: str,
     settings: Settings,
     prompt: str,
     *,
-    logger: RunLogger | None = None,
+    logger: RunLogger | None,
 ) -> tuple[str, dict[str, int]]:
-    """Retorna conteúdo e uso de tokens quando disponível."""
     if logger:
         logger.info(
             "llm.request.start",
             "Submitting prompt to LLM",
-            model=settings.openai_model,
+            model=model,
             prompt_chars=len(prompt),
-            temperature=settings.llm_temperature,
-            timeout_seconds=settings.llm_timeout_seconds,
-            base_url=settings.openai_base_url or "default",
+            base_url=base_url or "default",
         )
-
-    if not settings.openai_api_key:
-        error = RuntimeError(
-            "OPENAI_API_KEY não definido. Use USE_LLM=false ou configure .env"
-        )
-        if logger:
-            logger.error(
-                "llm.request.failed",
-                "LLM request aborted before client creation",
-                model=settings.openai_model,
-                reason="missing_api_key",
-            )
-        raise error
-
     try:
-        llm = build_llm(settings)
-        response = llm.invoke(prompt)
+        response = _client(model, base_url, api_key, settings).invoke(prompt)
     except Exception:
         if logger:
-            logger.exception(
-                "llm.request.failed",
-                "LLM request failed",
-                model=settings.openai_model,
-                prompt_chars=len(prompt),
-            )
+            logger.exception("llm.request.failed", "LLM request failed", model=model)
         raise
-
     usage = getattr(response, "usage_metadata", None) or {}
     tokens = {
         "input_tokens": int(usage.get("input_tokens", 0) or 0),
@@ -88,26 +56,60 @@ def invoke_llm(
         "total_tokens": int(usage.get("total_tokens", 0) or 0),
     }
     content = str(response.content)
-
     if logger:
         logger.info(
             "llm.request.success",
             "LLM response received",
-            model=settings.openai_model,
-            input_tokens=tokens["input_tokens"],
-            output_tokens=tokens["output_tokens"],
+            model=model,
             total_tokens=tokens["total_tokens"],
             response_chars=len(content),
         )
-
     return content, tokens
 
 
+def invoke_llm(
+    settings: Settings, prompt: str, *, logger: RunLogger | None = None
+) -> tuple[str, dict[str, int]]:
+    """Invoke the OpenAI-configured model (`OPENAI_*`)."""
+    if not settings.openai_api_key:
+        raise RuntimeError(
+            "OPENAI_API_KEY não definido. Use USE_LLM=false ou configure .env"
+        )
+    return _invoke(
+        settings.openai_model,
+        settings.openai_base_url,
+        settings.openai_api_key,
+        settings,
+        prompt,
+        logger=logger,
+    )
+
+
+def invoke_agent(
+    settings: Settings, prompt: str, *, logger: RunLogger | None = None
+) -> tuple[str, dict[str, int]]:
+    """Invoke the MAS agent model (`AGENT_MODEL`/`AGENT_BASE_URL`/`AGENT_API_KEY`)."""
+    return _invoke(
+        settings.agent_model,
+        settings.agent_base_url,
+        settings.agent_api_key,
+        settings,
+        prompt,
+        logger=logger,
+    )
+
+
+def build_llm(settings: Settings) -> ChatOpenAI:
+    return _client(
+        settings.openai_model,
+        settings.openai_base_url,
+        settings.openai_api_key,
+        settings,
+    )
+
+
 def summarize_with_llm(
-    settings: Settings,
-    prompt: str,
-    *,
-    logger: RunLogger | None = None,
+    settings: Settings, prompt: str, *, logger: RunLogger | None = None
 ) -> tuple[str, dict[str, int]]:
     return invoke_llm(settings, prompt, logger=logger)
 
@@ -123,8 +125,7 @@ def parse_json_object(content: str) -> dict[str, Any]:
     try:
         parsed = json.loads(text)
     except json.JSONDecodeError:
-        start = text.find("{")
-        end = text.rfind("}")
+        start, end = text.find("{"), text.rfind("}")
         if start < 0 or end < start:
             raise
         parsed = json.loads(text[start : end + 1])
