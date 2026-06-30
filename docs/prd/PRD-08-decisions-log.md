@@ -1,11 +1,10 @@
 # PRD-08 — Decisions log
 
-Registro cronológico de decisões de método (open science). Cada entrada: data,
-decisão, justificativa, alternativas descartadas. Acrescentar ao final; não
-reescrever o histórico.
+Registro cronológico de decisões de método (open science). Cada entrada: data, decisão, justificativa, alternativas
+descartadas. Acrescentar ao final; não reescrever o histórico.
 
 | # | Decisão | Justificativa | Descartado |
-|---|---------|---------------|------------|
+| -- | -- | -- | -- |
 | D1 | Injeção de falha **scriptada/determinística** | Ground truth de passo/categoria cristalino; não depende da competência do agente | Injeção via prompt no LLM (mantida só como alternativa exploratória) |
 | D2 | Modelo do agente **parametrizável** (`AGENT_MODEL`); default Llama3.1-8B local | É o que roda na máquina; com injeção scriptada a competência importa pouco; trocável por `.env` | Fixar um único modelo no código |
 | D3 | Modelo do juiz **parametrizável** (`JUDGE_MODEL`/`JUDGE_BACKEND`); default gpt-5-mini via Copilot CLI | Há cliente pronto; invariante é juiz capaz e ≠ agente, não um modelo específico | Hardcode do juiz; 8B como juiz |
@@ -22,6 +21,10 @@ reescrever o histórico.
 ## Decisões em aberto (resolver antes do M5)
 
 - Quantidade exata de cenários (30 vs 25) — assumido 30.
-- Tratamento de runs com erro emergente do 8B além do injetado: descartar ou
-  sinalizar? (relevante só se o agente usar LLM em passos não-críticos).
+- Tratamento de runs com erro emergente do 8B além do injetado: descartar ou sinalizar? (relevante só se o agente usar
+  LLM em passos não-críticos).
 - Métrica primária para reportar nas RQs (acurácia de passo vs distância de passo).
+
+> Escopo: este log registra decisões de **método/parâmetro**. Decisões
+> **arquiteturais** (estruturais) vivem em `docs/adr/` como ADRs. Na dúvida:
+> "muda a estrutura do sistema?" → ADR; "ajusta um valor do experimento?" → aqui.

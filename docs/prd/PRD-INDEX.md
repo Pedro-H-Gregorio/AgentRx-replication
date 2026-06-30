@@ -45,3 +45,9 @@ caminhos de execução separados:
 - `RUN_ID` no formato `run_NNN`; cenários no formato `qNN_<template>_<produto>`.
 - Todo artefato de dados versionado carrega proveniência (ver `NOTICE.md`).
 - "Critério de aceite" = condição verificável (idealmente por teste automatizado).
+
+## Registro de decisões
+
+- Decisões **arquiteturais** (estruturais, duradouras): `docs/adr/` (ADRs
+  numerados; índice em `docs/adr/README.md`).
+- Decisões de **método/parâmetro**: `docs/prd/PRD-08-decisions-log.md`.
