@@ -1,8 +1,0 @@
-{
-  "run_task_id": "catalog_dell_price_filter",
-  "critical_failure_step": 3,
-  "failure_category": "System Failure",
-  "failed_component": "ProductCatalogSearch",
-  "fault_mode": "system_timeout",
-  "reason": "The catalog search dependency timed out before returning evidence to the agents."
-}

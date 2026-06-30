@@ -1,0 +1,73 @@
+{
+  "trajectory_id": "run_001",
+  "instruction": "Quais computadores Dell estão custando mais que R$ 5000?",
+  "events": [
+    {
+      "type": "OrchestrationEvent",
+      "source": "Orchestrator (thought)",
+      "message": "Initial plan: Quais computadores Dell estão custando mais que R$ 5000?"
+    },
+    {
+      "type": "OrchestrationEvent",
+      "source": "Coordinator (Step-1)",
+      "message": "Step-1\nAgent: Coordinator\nOperation: task_decomposition\nStatus: SUCCESS\nObservation: agent.coordinator completed successfully.\nEvents: task_delegated\nOTel trace_id: c156f173b8914655b51686baf6bd1e92\nOTel span_id: 206dbaffac3f7f06\nDuration ms: 9179.847357",
+      "otel": {
+        "trace_id": "c156f173b8914655b51686baf6bd1e92",
+        "span_id": "206dbaffac3f7f06",
+        "parent_span_id": "f820a334b7a8ea7e",
+        "duration_ms": 9179.847357
+      }
+    },
+    {
+      "type": "OrchestrationEvent",
+      "source": "Researcher (Step-2)",
+      "message": "Step-2\nAgent: Researcher\nOperation: prepare_tool_call\nStatus: SUCCESS\nObservation: agent.researcher completed successfully.\nTool: ProductCatalogSearch\nEvents: tool_call_planned\nOTel trace_id: c156f173b8914655b51686baf6bd1e92\nOTel span_id: c75624fc545efe1c\nDuration ms: 3315.818493",
+      "otel": {
+        "trace_id": "c156f173b8914655b51686baf6bd1e92",
+        "span_id": "c75624fc545efe1c",
+        "parent_span_id": "f820a334b7a8ea7e",
+        "duration_ms": 3315.818493
+      }
+    },
+    {
+      "type": "OrchestrationEvent",
+      "source": "ProductCatalogSearch (Step-3)",
+      "message": "Step-3\nAgent: ProductCatalogSearch\nOperation: catalog.search\nStatus: ERROR\nObservation: tool.product_catalog_search failed with CatalogServiceTimeoutError: Catalog service request timed out after 30000ms\nTool: ProductCatalogSearch\nError type: CatalogServiceTimeoutError\nError message: Catalog service request timed out after 30000ms\nEvents: dependency_call_failed, exception\nOTel trace_id: c156f173b8914655b51686baf6bd1e92\nOTel span_id: 3c353453ae58e8a1\nDuration ms: 2.007866",
+      "otel": {
+        "trace_id": "c156f173b8914655b51686baf6bd1e92",
+        "span_id": "3c353453ae58e8a1",
+        "parent_span_id": "f820a334b7a8ea7e",
+        "duration_ms": 2.007866
+      }
+    },
+    {
+      "type": "OrchestrationEvent",
+      "source": "Executor (Step-4)",
+      "message": "Step-4\nAgent: Executor\nOperation: build_answer\nStatus: SUCCESS\nObservation: agent.executor completed successfully.\nEvents: artifact_created\nOTel trace_id: c156f173b8914655b51686baf6bd1e92\nOTel span_id: 8b53eb8479919f39\nDuration ms: 1406.82051",
+      "otel": {
+        "trace_id": "c156f173b8914655b51686baf6bd1e92",
+        "span_id": "8b53eb8479919f39",
+        "parent_span_id": "f820a334b7a8ea7e",
+        "duration_ms": 1406.82051
+      }
+    },
+    {
+      "type": "OrchestrationEvent",
+      "source": "Evaluator (Step-5)",
+      "message": "Step-5\nAgent: Evaluator\nOperation: validate_answer\nStatus: SUCCESS\nObservation: agent.evaluator completed successfully.\nEvents: validation_failed\nOTel trace_id: c156f173b8914655b51686baf6bd1e92\nOTel span_id: c3884dbf9fc2d78f\nDuration ms: 2590.133453",
+      "otel": {
+        "trace_id": "c156f173b8914655b51686baf6bd1e92",
+        "span_id": "c3884dbf9fc2d78f",
+        "parent_span_id": "f820a334b7a8ea7e",
+        "duration_ms": 2590.133453
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "catalog_dell_price_filter",
+    "domain": "custom_langgraph_mas",
+    "task_domain": "product_catalog",
+    "source_schema": "otel-json-local-v0",
+    "run_status": "FAILED"
+  }
+}

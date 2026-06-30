@@ -514,3 +514,10 @@ pyrightconfig.json
 .ionide
 .env
 # End of https://www.toptal.com/developers/gitignore/api/python,latex,visualstudiocode
+openspec
+.agents
+.codex
+.claude
+AGENTS.md
+CLAUDE.md
+skills-lock.json
