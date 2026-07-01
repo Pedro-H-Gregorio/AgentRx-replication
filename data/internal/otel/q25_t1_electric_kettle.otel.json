@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825063841,
+  "created_at_unix_ms": 1782917876263,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "beabd8e89ab22ce1",
-      "parent_span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "f21f7d96dbfb9ab2",
+      "parent_span_id": "df44df518397f435",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825060063473775,
-      "end_time_unix_ns": 1782825060999991885,
-      "duration_ms": 936.51811,
+      "start_time_unix_ns": 1782917876262474634,
+      "end_time_unix_ns": 1782917876262519644,
+      "duration_ms": 0.04501,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q25_t1_electric_kettle",
         "task.input": "What is the cheapest available Electric Kettle?",
         "task.expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 46,
-        "gen_ai.usage.total_tokens": 148,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: What is the cheapest available Electric Kettle?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available Electric Kettles sorted in ascending order by price, allowing me to identify the cheapest option."
+        "agent.output_message": "Plan ready; query {\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825060063498498,
+          "timestamp_unix_ns": 1782917876262492510,
           "attributes": {
             "category": "Instruction/Plan Adherence Failure",
             "node": "Coordinator"
@@ -71,7 +71,7 @@
         },
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825060999951307,
+          "timestamp_unix_ns": 1782917876262514735,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -80,13 +80,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "625bb467125c478e",
-      "parent_span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "964e05c58edb4a56",
+      "parent_span_id": "df44df518397f435",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825061001369923,
-      "end_time_unix_ns": 1782825061772642826,
-      "duration_ms": 771.272903,
+      "start_time_unix_ns": 1782917876262744994,
+      "end_time_unix_ns": 1782917876262781777,
+      "duration_ms": 0.036783,
       "status": {
         "status_code": "OK",
         "description": null
@@ -95,21 +95,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
-        "tool.args_json": "{\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 38,
-        "gen_ai.usage.total_tokens": 138,
+        "tool.args_json": "{\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a call to the ProductCatalogSearch tool with the arguments {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825061001492141,
+          "timestamp_unix_ns": 1782917876262765782,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -118,13 +118,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "170d0e597fb0761b",
-      "parent_span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "ac3ed19f6b95ffa3",
+      "parent_span_id": "df44df518397f435",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825061773800018,
-      "end_time_unix_ns": 1782825061774103084,
-      "duration_ms": 0.303066,
+      "start_time_unix_ns": 1782917876262982719,
+      "end_time_unix_ns": 1782917876263048310,
+      "duration_ms": 0.065591,
       "status": {
         "status_code": "OK",
         "description": null
@@ -144,31 +144,31 @@
         "server.address": "catalog-service.local",
         "rpc.system": "http",
         "http.request.method": "POST",
-        "tool.args_json": "{\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
-        "tool.result_json": "{\"count\": 11, \"items\": [{\"available\": true, \"item_id\": \"1240311797\", \"options\": {\"capacity\": \"1L\", \"color\": \"silver\", \"material\": \"glass\"}, \"price\": 137.17}, {\"available\": true, \"item_id\": \"9472539378\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 143.72}, {\"available\": true, \"item_id\": \"5428723833\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"black\", \"material\": \"plastic\"}, \"price\": 145.48}, {\"available\": true, \"item_id\": \"2323972008\", \"options\": {\"capacity\": \"1L\", \"color\": \"black\", \"material\": \"glass\"}, \"price\": 146.98}, {\"available\": true, \"item_id\": \"2698416822\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"white\", \"material\": \"plastic\"}, \"price\": 149.45}, {\"available\": true, \"item_id\": \"7602931732\", \"options\": {\"capacity\": \"1L\", \"color\": \"black\", \"material\": \"stainless steel\"}, \"price\": 153.25}, {\"available\": true, \"item_id\": \"4458619711\", \"options\": {\"capacity\": \"2L\", \"color\": \"white\", \"material\": \"stainless steel\"}, \"price\": 153.81}, {\"available\": true, \"item_id\": \"5268233322\", \"options\": {\"capacity\": \"1L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 155.99}, {\"available\": true, \"item_id\": \"9624127908\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"silver\", \"material\": \"plastic\"}, \"price\": 158.9}, {\"available\": true, \"item_id\": \"4064702754\", \"options\": {\"capacity\": \"2L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 159.78}, {\"available\": true, \"item_id\": \"2243454707\", \"options\": {\"capacity\": \"1L\", \"color\": \"white\", \"material\": \"plastic\"}, \"price\": 164.46}], \"ok\": true, \"operation\": \"catalog.search\", \"query\": {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}}",
-        "tool.output.count": 11,
-        "agent.input_message": "ProductCatalogSearch input: {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
-        "agent.output_message": "ProductCatalogSearch returned 11 item(s)."
+        "tool.args_json": "{\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
+        "tool.result_json": "{\"count\": 16, \"items\": [{\"available\": true, \"item_id\": \"1240311797\", \"options\": {\"capacity\": \"1L\", \"color\": \"silver\", \"material\": \"glass\"}, \"price\": 137.17}, {\"available\": false, \"item_id\": \"9335834276\", \"options\": {\"capacity\": \"2L\", \"color\": \"black\", \"material\": \"glass\"}, \"price\": 137.92}, {\"available\": false, \"item_id\": \"9132333852\", \"options\": {\"capacity\": \"1L\", \"color\": \"silver\", \"material\": \"plastic\"}, \"price\": 139.47}, {\"available\": false, \"item_id\": \"3015420423\", \"options\": {\"capacity\": \"2L\", \"color\": \"silver\", \"material\": \"glass\"}, \"price\": 141.76}, {\"available\": false, \"item_id\": \"5930656038\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"silver\", \"material\": \"glass\"}, \"price\": 142.3}, {\"available\": true, \"item_id\": \"9472539378\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 143.72}, {\"available\": true, \"item_id\": \"5428723833\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"black\", \"material\": \"plastic\"}, \"price\": 145.48}, {\"available\": true, \"item_id\": \"2323972008\", \"options\": {\"capacity\": \"1L\", \"color\": \"black\", \"material\": \"glass\"}, \"price\": 146.98}, {\"available\": true, \"item_id\": \"2698416822\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"white\", \"material\": \"plastic\"}, \"price\": 149.45}, {\"available\": true, \"item_id\": \"7602931732\", \"options\": {\"capacity\": \"1L\", \"color\": \"black\", \"material\": \"stainless steel\"}, \"price\": 153.25}, {\"available\": true, \"item_id\": \"4458619711\", \"options\": {\"capacity\": \"2L\", \"color\": \"white\", \"material\": \"stainless steel\"}, \"price\": 153.81}, {\"available\": true, \"item_id\": \"5268233322\", \"options\": {\"capacity\": \"1L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 155.99}, {\"available\": false, \"item_id\": \"8142779083\", \"options\": {\"capacity\": \"1L\", \"color\": \"silver\", \"material\": \"stainless steel\"}, \"price\": 157.53}, {\"available\": true, \"item_id\": \"9624127908\", \"options\": {\"capacity\": \"1.5L\", \"color\": \"silver\", \"material\": \"plastic\"}, \"price\": 158.9}, {\"available\": true, \"item_id\": \"4064702754\", \"options\": {\"capacity\": \"2L\", \"color\": \"white\", \"material\": \"glass\"}, \"price\": 159.78}, {\"available\": true, \"item_id\": \"2243454707\", \"options\": {\"capacity\": \"1L\", \"color\": \"white\", \"material\": \"plastic\"}, \"price\": 164.46}], \"ok\": true, \"operation\": \"catalog.search\", \"query\": {\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}}",
+        "tool.output.count": 16,
+        "agent.input_message": "ProductCatalogSearch input: {\"available_only\": false, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
+        "agent.output_message": "ProductCatalogSearch returned 16 item(s)."
       },
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825061774079661,
+          "timestamp_unix_ns": 1782917876263043202,
           "attributes": {
-            "tool.output.count": 11
+            "tool.output.count": 16
           }
         }
       ]
     },
     {
       "name": "agent.executor",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "28acc07006b43481",
-      "parent_span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "ad0bbd64d4806f0b",
+      "parent_span_id": "df44df518397f435",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825061775122292,
-      "end_time_unix_ns": 1782825062653157675,
-      "duration_ms": 878.035383,
+      "start_time_unix_ns": 1782917876263243999,
+      "end_time_unix_ns": 1782917876263292851,
+      "duration_ms": 0.048852,
       "status": {
         "status_code": "OK",
         "description": null
@@ -177,20 +177,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 638,
-        "gen_ai.usage.output_tokens": 25,
-        "gen_ai.usage.total_tokens": 663,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Electric Kettle?",
-        "agent.output_message": "The cheapest available Electric Kettle is item_id \"1240311797\" with a price of 137.17."
+        "agent.output_message": "Found 16 item(s) from the catalog tool: 1240311797, 9335834276, 9132333852, 3015420423, 5930656038."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825062653122390,
+          "timestamp_unix_ns": 1782917876263287887,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "28c8b7df8e71eb03",
-      "parent_span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "8dbcbae492b52cd6",
+      "parent_span_id": "df44df518397f435",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825062654279287,
-      "end_time_unix_ns": 1782825063840260167,
-      "duration_ms": 1185.98088,
+      "start_time_unix_ns": 1782917876263468499,
+      "end_time_unix_ns": 1782917876263520873,
+      "duration_ms": 0.052374,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 645,
-        "gen_ai.usage.output_tokens": 44,
-        "gen_ai.usage.total_tokens": 689,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available Electric Kettle with item_id \"1240311797\" and a price of 137.17, as per the provided tool result.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: The cheapest available Electric Kettle is item_id \"1240311797\" with a price of 137.17.",
-        "agent.output_message": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available Electric Kettle with item_id \"1240311797\" and a price of 137.17, as per the provided tool result."
+        "agent.input_message": "Evaluate answer: Found 16 item(s) from the catalog tool: 1240311797, 9335834276, 9132333852, 3015420423, 5930656038.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825062654377036,
+          "timestamp_unix_ns": 1782917876263486279,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "02c81baef2fce62a3dd5e8356894a032",
-      "span_id": "ae4824f4c383030b",
+      "trace_id": "5c4fa2651a959c12ab660076ac9b1310",
+      "span_id": "df44df518397f435",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825060062821387,
-      "end_time_unix_ns": 1782825063841037522,
-      "duration_ms": 3778.216135,
+      "start_time_unix_ns": 1782917876262061000,
+      "end_time_unix_ns": 1782917876263645823,
+      "duration_ms": 1.584823,
       "status": {
         "status_code": "OK",
         "description": null

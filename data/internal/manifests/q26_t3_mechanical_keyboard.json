@@ -1,0 +1,9 @@
+{
+  "run_id": "q26_t3_mechanical_keyboard",
+  "task_id": "q26_t3_mechanical_keyboard",
+  "use_llm": false,
+  "agent_model": "Llama3.1-8B",
+  "agent_base_url": "http://llm.ideia.com:8500/v1",
+  "llm_temperature": 0.0,
+  "otel_service_name": "agentrx-otel-poc"
+}

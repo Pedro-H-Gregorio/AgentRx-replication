@@ -64,8 +64,13 @@ def _invention(state: ExperimentState) -> None:
     """Executor fabricates information not grounded in the tool evidence."""
     answer = state.get("expected_answer") or {}
     items = state.get("products") or []
+    # Every fabrication cites a non-existent record (item 0000000000) so the answer
+    # provably does not derive from the tool evidence — the hallmark of Invention,
+    # distinct from Misinterpretation (which mis-selects a real evidence item).
     if "count" in answer:  # T2 → a count not derived from the evidence
-        state["forced_answer"] = f"There are {len(items) + 7} options available."
+        state["forced_answer"] = (
+            f"There are {len(items) + 7} options available, per record 0000000000."
+        )
     elif "item_ids" in answer:  # T3 → non-existent items
         state["forced_answer"] = "Items 0000000000 and 1111111111 match the filter."
     else:  # T1 → a non-existent cheapest item
@@ -74,15 +79,25 @@ def _invention(state: ExperimentState) -> None:
 
 
 def _plan_adherence(state: ExperimentState) -> None:
-    """Coordinator plans a query that violates an explicit question constraint."""
+    """Coordinator plans a query that violates an explicit question constraint.
+
+    Every Plan scenario must alter at least one constraint: drop a `price_min`
+    threshold, flip a custom option, or — for the cheapest/available templates —
+    ignore the `available_only` constraint. Guarantees `query != default`.
+    """
     query = dict(state.get("query") or {})
+    altered = False
     if "price_min" in query:
-        query.pop("price_min")  # drop a constraint the question demanded
+        query.pop("price_min")  # drop a numeric threshold the question demanded
+        altered = True
     else:
-        for key in list(query):
+        for key in query:
             if key not in _TOOL_ARG_KEYS:
                 query[key] = f"{query[key]}_violated"  # alter the asked option
+                altered = True
                 break
+    if not altered:  # e.g. T1 "cheapest available": ignore the availability filter
+        query["available_only"] = not bool(query.get("available_only", True))
     state["query"] = query
     state["plan_violated"] = True
 

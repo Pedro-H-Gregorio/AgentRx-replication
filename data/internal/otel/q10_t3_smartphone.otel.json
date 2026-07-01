@@ -31,18 +31,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825010185,
+  "created_at_unix_ms": 1782917876136,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "12f2768ea58e1dc7",
-      "parent_span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "3f8cec0a3dc9c1f7",
+      "parent_span_id": "ea578d9001d32df7",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825007524981722,
-      "end_time_unix_ns": 1782825008365917658,
-      "duration_ms": 840.935936,
+      "start_time_unix_ns": 1782917876134825698,
+      "end_time_unix_ns": 1782917876134866720,
+      "duration_ms": 0.041022,
       "status": {
         "status_code": "OK",
         "description": null
@@ -51,22 +51,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q10_t3_smartphone",
         "task.input": "Which available Smartphone with color=black cost more than $1143.42?",
         "task.expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
-        "gen_ai.usage.input_tokens": 117,
-        "gen_ai.usage.output_tokens": 43,
-        "gen_ai.usage.total_tokens": 160,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Smartphone with color=black cost more than $1143.42?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available smartphones with a black color and a price greater than $1143.42."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42, \"product_type\": \"Smartphone\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825008365879320,
+          "timestamp_unix_ns": 1782917876134860604,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -75,13 +75,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "698a0588a8488b0d",
-      "parent_span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "c6f6be519ed5597f",
+      "parent_span_id": "ea578d9001d32df7",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825008367164534,
-      "end_time_unix_ns": 1782825009166624640,
-      "duration_ms": 799.460106,
+      "start_time_unix_ns": 1782917876135079792,
+      "end_time_unix_ns": 1782917876135124181,
+      "duration_ms": 0.044389,
       "status": {
         "status_code": "OK",
         "description": null
@@ -90,21 +90,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 141,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825008367239016,
+          "timestamp_unix_ns": 1782917876135095013,
           "attributes": {
             "category": "Invalid Invocation",
             "node": "Researcher"
@@ -112,7 +112,7 @@
         },
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825008367300167,
+          "timestamp_unix_ns": 1782917876135107061,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -121,13 +121,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "c2f89fda2725f435",
-      "parent_span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "96abddc29959ff51",
+      "parent_span_id": "ea578d9001d32df7",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825009167639427,
-      "end_time_unix_ns": 1782825009167797226,
-      "duration_ms": 0.157799,
+      "start_time_unix_ns": 1782917876135329586,
+      "end_time_unix_ns": 1782917876135367221,
+      "duration_ms": 0.037635,
       "status": {
         "status_code": "ERROR",
         "description": "catalog.search requires a string product_type"
@@ -157,7 +157,7 @@
       "events": [
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782825009167775384,
+          "timestamp_unix_ns": 1782917876135361236,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "SchemaError"
@@ -167,13 +167,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "e52766c6504a332c",
-      "parent_span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "a5fb6be8cff0f1bb",
+      "parent_span_id": "ea578d9001d32df7",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825009168487546,
-      "end_time_unix_ns": 1782825009447557010,
-      "duration_ms": 279.069464,
+      "start_time_unix_ns": 1782917876135569145,
+      "end_time_unix_ns": 1782917876135598348,
+      "duration_ms": 0.029203,
       "status": {
         "status_code": "OK",
         "description": null
@@ -182,20 +182,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 115,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 122,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Smartphone with color=black cost more than $1143.42?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825009447521351,
+          "timestamp_unix_ns": 1782917876135593648,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -204,13 +204,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "85af690e770e05ae",
-      "parent_span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "267fa136115a208c",
+      "parent_span_id": "ea578d9001d32df7",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825009448652916,
-      "end_time_unix_ns": 1782825010184504441,
-      "duration_ms": 735.851525,
+      "start_time_unix_ns": 1782917876135790161,
+      "end_time_unix_ns": 1782917876135828818,
+      "duration_ms": 0.038657,
       "status": {
         "status_code": "OK",
         "description": null
@@ -219,23 +219,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 97,
-        "gen_ai.usage.output_tokens": 37,
-        "gen_ai.usage.total_tokens": 134,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input was invalid or incomplete.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input was invalid or incomplete."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782825009448746084,
+          "timestamp_unix_ns": 1782917876135810311,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -244,13 +244,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "c6327c1b8599697d8c128b848aef5afd",
-      "span_id": "a3e85a689609806b",
+      "trace_id": "6eb0eb286a302e7444585e8dc7d2f8bf",
+      "span_id": "ea578d9001d32df7",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825007524415755,
-      "end_time_unix_ns": 1782825010185339981,
-      "duration_ms": 2660.924226,
+      "start_time_unix_ns": 1782917876134389729,
+      "end_time_unix_ns": 1782917876135961148,
+      "duration_ms": 1.571419,
       "status": {
         "status_code": "OK",
         "description": null

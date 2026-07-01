@@ -31,18 +31,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825075691,
+  "created_at_unix_ms": 1782917876289,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "c141b1cd2608ea3e",
-      "parent_span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "fe44d1f4d46e77f8",
+      "parent_span_id": "fbbab5fcb8f58560",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825071887599484,
-      "end_time_unix_ns": 1782825072869510630,
-      "duration_ms": 981.911146,
+      "start_time_unix_ns": 1782917876288009351,
+      "end_time_unix_ns": 1782917876288052452,
+      "duration_ms": 0.043101,
       "status": {
         "status_code": "OK",
         "description": null
@@ -51,22 +51,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q28_t3_smartphone",
         "task.input": "Which available Smartphone with color=black cost more than $1143.42?",
         "task.expected_result": "1 available Smartphone (color=black) priced above $1143.42.",
-        "gen_ai.usage.input_tokens": 107,
-        "gen_ai.usage.output_tokens": 49,
-        "gen_ai.usage.total_tokens": 156,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Smartphone with color=black cost more than $1143.42?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available black smartphones, and then filter the results to find the ones that cost more than $1143.42."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"color\": \"black\", \"product_type\": \"Smartphone\"}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825071887623608,
+          "timestamp_unix_ns": 1782917876288027003,
           "attributes": {
             "category": "Instruction/Plan Adherence Failure",
             "node": "Coordinator"
@@ -74,7 +74,7 @@
         },
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825072869470707,
+          "timestamp_unix_ns": 1782917876288047315,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -83,13 +83,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "42f7172d345a6fef",
-      "parent_span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "c24c10fd5b426fc5",
+      "parent_span_id": "fbbab5fcb8f58560",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825072870886559,
-      "end_time_unix_ns": 1782825073669919019,
-      "duration_ms": 799.03246,
+      "start_time_unix_ns": 1782917876288257005,
+      "end_time_unix_ns": 1782917876288291962,
+      "duration_ms": 0.034957,
       "status": {
         "status_code": "OK",
         "description": null
@@ -98,21 +98,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"color\": \"black\", \"product_type\": \"Smartphone\"}",
-        "gen_ai.usage.input_tokens": 98,
-        "gen_ai.usage.output_tokens": 39,
-        "gen_ai.usage.total_tokens": 137,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"color\": \"black\", \"product_type\": \"Smartphone\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"color\": \"black\", \"product_type\": \"Smartphone\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825072871011300,
+          "timestamp_unix_ns": 1782917876288276869,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -121,13 +121,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "cdb979b78b6ba58b",
-      "parent_span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "23f9c1296eab9e39",
+      "parent_span_id": "fbbab5fcb8f58560",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825073670938728,
-      "end_time_unix_ns": 1782825073671146051,
-      "duration_ms": 0.207323,
+      "start_time_unix_ns": 1782917876288486430,
+      "end_time_unix_ns": 1782917876288537356,
+      "duration_ms": 0.050926,
       "status": {
         "status_code": "OK",
         "description": null
@@ -156,7 +156,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825073671126367,
+          "timestamp_unix_ns": 1782917876288532287,
           "attributes": {
             "tool.output.count": 2
           }
@@ -165,13 +165,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "fe5e94ec1ae50545",
-      "parent_span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "b90732f43d2dd01a",
+      "parent_span_id": "fbbab5fcb8f58560",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825073671902964,
-      "end_time_unix_ns": 1782825074522459767,
-      "duration_ms": 850.556803,
+      "start_time_unix_ns": 1782917876288763053,
+      "end_time_unix_ns": 1782917876288801602,
+      "duration_ms": 0.038549,
       "status": {
         "status_code": "OK",
         "description": null
@@ -180,20 +180,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 246,
-        "gen_ai.usage.output_tokens": 35,
-        "gen_ai.usage.total_tokens": 281,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Smartphone with color=black cost more than $1143.42?",
-        "agent.output_message": "The available Smartphone with color=black that cost more than $1143.42 is:\n\nItem ID: 1507389580\nPrice: 1157.86"
+        "agent.output_message": "Found 2 item(s) from the catalog tool: 1507389580, 5339029584."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825074522445368,
+          "timestamp_unix_ns": 1782917876288796522,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -202,13 +202,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "2effc6f3a169d65b",
-      "parent_span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "04196f803c220239",
+      "parent_span_id": "fbbab5fcb8f58560",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825074522866941,
-      "end_time_unix_ns": 1782825075689981478,
-      "duration_ms": 1167.114537,
+      "start_time_unix_ns": 1782917876288981707,
+      "end_time_unix_ns": 1782917876289024641,
+      "duration_ms": 0.042934,
       "status": {
         "status_code": "OK",
         "description": null
@@ -217,23 +217,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 257,
-        "gen_ai.usage.output_tokens": 53,
-        "gen_ai.usage.total_tokens": 310,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the answer accurately identifies the available Smartphone with color=black that cost more than $1143.42 as item ID 1507389580 with a price of 1157.86, matching the provided tool result.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: The available Smartphone with color=black that cost more than $1143.42 is:\n\nItem ID: 1507389580\nPrice: 1157.86",
-        "agent.output_message": "The verdict of APPROVED is justified because the answer accurately identifies the available Smartphone with color=black that cost more than $1143.42 as item ID 1507389580 with a price of 1157.86, matching the provided tool result."
+        "agent.input_message": "Evaluate answer: Found 2 item(s) from the catalog tool: 1507389580, 5339029584.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825074522900455,
+          "timestamp_unix_ns": 1782917876289001164,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -242,13 +242,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "ea855ba99a4d5ff67b685d8491885720",
-      "span_id": "ea68eb739c09d32e",
+      "trace_id": "0529edbea25dbc5496bbf2287c7d6931",
+      "span_id": "fbbab5fcb8f58560",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825071886973432,
-      "end_time_unix_ns": 1782825075690820711,
-      "duration_ms": 3803.847279,
+      "start_time_unix_ns": 1782917876287586402,
+      "end_time_unix_ns": 1782917876289145377,
+      "duration_ms": 1.558975,
       "status": {
         "status_code": "OK",
         "description": null

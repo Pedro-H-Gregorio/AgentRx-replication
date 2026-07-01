@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825019027,
+  "created_at_unix_ms": 1782917876162,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "2762c75f852e9ad0",
-      "parent_span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "ff92f10c312a435f",
+      "parent_span_id": "e7d5c42190dc650f",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825015395625764,
-      "end_time_unix_ns": 1782825016276896571,
-      "duration_ms": 881.270807,
+      "start_time_unix_ns": 1782917876160668329,
+      "end_time_unix_ns": 1782917876160715631,
+      "duration_ms": 0.047302,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q13_t1_electric_kettle",
         "task.input": "What is the cheapest available Electric Kettle?",
         "task.expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 46,
-        "gen_ai.usage.total_tokens": 148,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: What is the cheapest available Electric Kettle?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available Electric Kettles sorted in ascending order by price, allowing me to identify the cheapest option."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825016276852956,
+          "timestamp_unix_ns": 1782917876160707769,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -72,13 +72,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "4f991dd677536ddd",
-      "parent_span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "aaec407748a83ef6",
+      "parent_span_id": "e7d5c42190dc650f",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825016278283789,
-      "end_time_unix_ns": 1782825017080085306,
-      "duration_ms": 801.801517,
+      "start_time_unix_ns": 1782917876160938773,
+      "end_time_unix_ns": 1782917876160974563,
+      "duration_ms": 0.03579,
       "status": {
         "status_code": "OK",
         "description": null
@@ -87,21 +87,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 141,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825016278411334,
+          "timestamp_unix_ns": 1782917876160958758,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -110,13 +110,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "224335e0186b8800",
-      "parent_span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "a95da24ff2959aea",
+      "parent_span_id": "e7d5c42190dc650f",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825017081494514,
-      "end_time_unix_ns": 1782825017081838517,
-      "duration_ms": 0.344003,
+      "start_time_unix_ns": 1782917876161174485,
+      "end_time_unix_ns": 1782917876161248998,
+      "duration_ms": 0.074513,
       "status": {
         "status_code": "OK",
         "description": null
@@ -145,7 +145,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825017081811480,
+          "timestamp_unix_ns": 1782917876161243541,
           "attributes": {
             "tool.output.count": 11
           }
@@ -154,13 +154,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "34f775b0456edcd3",
-      "parent_span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "5c3a4dfdef323020",
+      "parent_span_id": "e7d5c42190dc650f",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825017082802887,
-      "end_time_unix_ns": 1782825017921326837,
-      "duration_ms": 838.52395,
+      "start_time_unix_ns": 1782917876161450124,
+      "end_time_unix_ns": 1782917876161509535,
+      "duration_ms": 0.059411,
       "status": {
         "status_code": "OK",
         "description": null
@@ -169,12 +169,12 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 638,
-        "gen_ai.usage.output_tokens": 25,
-        "gen_ai.usage.total_tokens": 663,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Electric Kettle?",
         "agent.output_message": "The cheapest available item is 2243454707 at $164.46."
@@ -182,7 +182,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825017082860391,
+          "timestamp_unix_ns": 1782917876161464290,
           "attributes": {
             "category": "Misinterpretation of Tool Output",
             "node": "Executor"
@@ -190,7 +190,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825017921290966,
+          "timestamp_unix_ns": 1782917876161504730,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "bcd75e252dc44b91",
-      "parent_span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "c1d8ead4fcbf7a48",
+      "parent_span_id": "e7d5c42190dc650f",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825017922435275,
-      "end_time_unix_ns": 1782825019025789822,
-      "duration_ms": 1103.354547,
+      "start_time_unix_ns": 1782917876161717607,
+      "end_time_unix_ns": 1782917876161775791,
+      "duration_ms": 0.058184,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 637,
-        "gen_ai.usage.output_tokens": 40,
-        "gen_ai.usage.total_tokens": 677,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the answer correctly identifies the cheapest available item, \"2243454707\", at a price of $164.46, as per the provided tool result.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
         "agent.input_message": "Evaluate answer: The cheapest available item is 2243454707 at $164.46.",
-        "agent.output_message": "The verdict of APPROVED is justified because the answer correctly identifies the cheapest available item, \"2243454707\", at a price of $164.46, as per the provided tool result."
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825017922536124,
+          "timestamp_unix_ns": 1782917876161739508,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "8dd2bb4e121c756c7ceb06e86decbf4d",
-      "span_id": "f02097e0bc6688e8",
+      "trace_id": "9e5136b86ba326aa0690a07694806a07",
+      "span_id": "e7d5c42190dc650f",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825015395118333,
-      "end_time_unix_ns": 1782825019026611417,
-      "duration_ms": 3631.493084,
+      "start_time_unix_ns": 1782917876160209460,
+      "end_time_unix_ns": 1782917876161914237,
+      "duration_ms": 1.704777,
       "status": {
         "status_code": "OK",
         "description": null

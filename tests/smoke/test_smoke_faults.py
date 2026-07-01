@@ -48,10 +48,22 @@ def _fault_nodes(payload: dict) -> list[str]:
     ]
 
 
+def _step_attr(payload: dict, index: int, attr: str) -> str:
+    for span in payload["spans"]:
+        attrs = span.get("attributes", {})
+        if attrs.get("experiment.step_index") == index:
+            return str(attrs.get(attr, ""))
+    return ""
+
+
 def _cleanup(run_id: str) -> None:
-    (DATA / "otel" / f"{run_id}.otel.json").unlink(missing_ok=True)
-    (DATA / "ground_truth" / f"{run_id}.ground_truth.json").unlink(missing_ok=True)
-    (DATA / "logs" / f"{run_id}.log").unlink(missing_ok=True)
+    for sub, ext in (
+        ("otel", "otel.json"),
+        ("ground_truth", "ground_truth.json"),
+        ("logs", "log"),
+        ("manifests", "json"),
+    ):
+        (DATA / sub / f"{run_id}.{ext}").unlink(missing_ok=True)
 
 
 @pytest.mark.parametrize(
@@ -77,5 +89,16 @@ def test_smoke_fault(category: str, node: str, expect_failed: bool) -> None:
         # Executor faults keep the tool output valid (the fault is in the Executor)
         if node == "Executor":
             assert _tool_result(payload).get("ok") is True
+        answer = _step_attr(payload, 4, "agent.output_message")
+        # Invention fabricates ungrounded info (cites a non-existent record);
+        # Misinterpretation mis-reads valid evidence and never invents a record id.
+        if category == "Invention of New Information":
+            assert "0000000000" in answer
+        if category == "Misinterpretation of Tool Output":
+            assert "0000000000" not in answer
+        # Plan Adherence must actually violate the query (args != default).
+        if category == "Instruction/Plan Adherence Failure":
+            args = json.loads(_step_attr(payload, 3, "tool.args_json") or "{}")
+            assert args != dict(get_task_spec(task_id).default_tool_args)
     finally:
         _cleanup(run_id)

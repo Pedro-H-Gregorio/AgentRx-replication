@@ -26,18 +26,18 @@
     "template_id": "T4_item_option",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825005034,
+  "created_at_unix_ms": 1782917876118,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "f8f1d4e31b1fc5ad",
-      "parent_span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "771305b2869ca227",
+      "parent_span_id": "ddd13c23426d6f85",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825002506750598,
-      "end_time_unix_ns": 1782825003348333033,
-      "duration_ms": 841.582435,
+      "start_time_unix_ns": 1782917876117695292,
+      "end_time_unix_ns": 1782917876117735628,
+      "duration_ms": 0.040336,
       "status": {
         "status_code": "OK",
         "description": null
@@ -46,22 +46,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q08_t4_mechanical_keyboard",
         "task.input": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
         "task.expected_result": "Item 1151293680 has backlight=RGB.",
-        "gen_ai.usage.input_tokens": 107,
-        "gen_ai.usage.output_tokens": 43,
-        "gen_ai.usage.total_tokens": 150,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will retrieve the product information for item 1151293680 and then check if the backlight setting is RGB."
+        "agent.output_message": "Plan ready; query {\"item_id\": \"1151293680\", \"product_id\": \"1656367028\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825003348297246,
+          "timestamp_unix_ns": 1782917876117729590,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -70,13 +70,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "af6f2531e8cccc81",
-      "parent_span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "2df454903de5443e",
+      "parent_span_id": "ddd13c23426d6f85",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825003349471888,
-      "end_time_unix_ns": 1782825003946977631,
-      "duration_ms": 597.505743,
+      "start_time_unix_ns": 1782917876117951381,
+      "end_time_unix_ns": 1782917876117993982,
+      "duration_ms": 0.042601,
       "status": {
         "status_code": "OK",
         "description": null
@@ -85,21 +85,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"product_id\": 0}",
-        "gen_ai.usage.input_tokens": 85,
-        "gen_ai.usage.output_tokens": 28,
-        "gen_ai.usage.total_tokens": 113,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will call the `ProductCatalogSearch` tool with the argument `{\"product_id\": 0}` to retrieve the product information."
+        "agent.output_message": "Call ProductCatalogSearch with {\"product_id\": 0}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825003349538056,
+          "timestamp_unix_ns": 1782917876117968443,
           "attributes": {
             "category": "Invalid Invocation",
             "node": "Researcher"
@@ -107,7 +107,7 @@
         },
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825003349588786,
+          "timestamp_unix_ns": 1782917876117979654,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -116,13 +116,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "38088a43e17e1a79",
-      "parent_span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "c5aada90af9f065f",
+      "parent_span_id": "ddd13c23426d6f85",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825003948388587,
-      "end_time_unix_ns": 1782825003948609786,
-      "duration_ms": 0.221199,
+      "start_time_unix_ns": 1782917876118198794,
+      "end_time_unix_ns": 1782917876118236752,
+      "duration_ms": 0.037958,
       "status": {
         "status_code": "ERROR",
         "description": "catalog.get_details requires string product_id and item_id"
@@ -152,7 +152,7 @@
       "events": [
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782825003948577903,
+          "timestamp_unix_ns": 1782917876118229939,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "SchemaError"
@@ -162,13 +162,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "727bd429df052fc6",
-      "parent_span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "0615af24bc021ec2",
+      "parent_span_id": "ddd13c23426d6f85",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825003949646101,
-      "end_time_unix_ns": 1782825004227717348,
-      "duration_ms": 278.071247,
+      "start_time_unix_ns": 1782917876118435382,
+      "end_time_unix_ns": 1782917876118465546,
+      "duration_ms": 0.030164,
       "status": {
         "status_code": "OK",
         "description": null
@@ -177,20 +177,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 118,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 125,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825004227669646,
+          "timestamp_unix_ns": 1782917876118460801,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "ec0596967b05fac0",
-      "parent_span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "3265108e7f83c4b4",
+      "parent_span_id": "ddd13c23426d6f85",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825004229242771,
-      "end_time_unix_ns": 1782825005033600729,
-      "duration_ms": 804.357958,
+      "start_time_unix_ns": 1782917876118641359,
+      "end_time_unix_ns": 1782917876118677162,
+      "duration_ms": 0.035803,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 141,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the input provided was invalid or not in the expected format.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the input provided was invalid or not in the expected format."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782825004229352821,
+          "timestamp_unix_ns": 1782917876118658571,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "7816245399fd7069605aa553a2736feb",
-      "span_id": "6517965d9b658ede",
+      "trace_id": "3dc90b361c3d58fc6507ad95a57b8d22",
+      "span_id": "ddd13c23426d6f85",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825002506192351,
-      "end_time_unix_ns": 1782825005034301124,
-      "duration_ms": 2528.108773,
+      "start_time_unix_ns": 1782917876117260035,
+      "end_time_unix_ns": 1782917876118804488,
+      "duration_ms": 1.544453,
       "status": {
         "status_code": "OK",
         "description": null

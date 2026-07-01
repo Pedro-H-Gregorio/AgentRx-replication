@@ -26,18 +26,18 @@
     "template_id": "T4_item_option",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825026089,
+  "created_at_unix_ms": 1782917876178,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "ab1bf8bb4fe140fc",
-      "parent_span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "3301306416ab4291",
+      "parent_span_id": "3cb166960591cb51",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825022843065033,
-      "end_time_unix_ns": 1782825023803960665,
-      "duration_ms": 960.895632,
+      "start_time_unix_ns": 1782917876177718875,
+      "end_time_unix_ns": 1782917876177758738,
+      "duration_ms": 0.039863,
       "status": {
         "status_code": "OK",
         "description": null
@@ -46,22 +46,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q15_t4_vacuum_cleaner",
         "task.input": "Does item 1345513440 of the Vacuum Cleaner have bagged/bagless=bagged?",
         "task.expected_result": "Item 1345513440 has bagged/bagless=bagged.",
-        "gen_ai.usage.input_tokens": 112,
-        "gen_ai.usage.output_tokens": 48,
-        "gen_ai.usage.total_tokens": 160,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Does item 1345513440 of the Vacuum Cleaner have bagged/bagless=bagged?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will retrieve the product information for item 1345513440 of the Vacuum Cleaner and determine if it is bagged or bagless."
+        "agent.output_message": "Plan ready; query {\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825023803919652,
+          "timestamp_unix_ns": 1782917876177752419,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -70,13 +70,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "6d7840437f41082b",
-      "parent_span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "54d06e3d1b2970e7",
+      "parent_span_id": "3cb166960591cb51",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825023805317741,
-      "end_time_unix_ns": 1782825024592320627,
-      "duration_ms": 787.002886,
+      "start_time_unix_ns": 1782917876177967275,
+      "end_time_unix_ns": 1782917876178003189,
+      "duration_ms": 0.035914,
       "status": {
         "status_code": "OK",
         "description": null
@@ -85,21 +85,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}",
-        "gen_ai.usage.input_tokens": 98,
-        "gen_ai.usage.output_tokens": 39,
-        "gen_ai.usage.total_tokens": 137,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825023805429547,
+          "timestamp_unix_ns": 1782917876177987610,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -108,13 +108,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "29c9688fe304e9f5",
-      "parent_span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "02f5c180b66465b9",
+      "parent_span_id": "3cb166960591cb51",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825024593630418,
-      "end_time_unix_ns": 1782825024593855109,
-      "duration_ms": 0.224691,
+      "start_time_unix_ns": 1782917876178209637,
+      "end_time_unix_ns": 1782917876178252194,
+      "duration_ms": 0.042557,
       "status": {
         "status_code": "OK",
         "description": null
@@ -143,7 +143,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825024593829752,
+          "timestamp_unix_ns": 1782917876178246956,
           "attributes": {
             "tool.output.count": 1
           }
@@ -152,13 +152,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "6fda38bee5eae1ef",
-      "parent_span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "b314b99afc208ad5",
+      "parent_span_id": "3cb166960591cb51",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825024594891686,
-      "end_time_unix_ns": 1782825025251446469,
-      "duration_ms": 656.554783,
+      "start_time_unix_ns": 1782917876178455194,
+      "end_time_unix_ns": 1782917876178493918,
+      "duration_ms": 0.038724,
       "status": {
         "status_code": "OK",
         "description": null
@@ -167,12 +167,12 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 189,
-        "gen_ai.usage.output_tokens": 28,
-        "gen_ai.usage.total_tokens": 217,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Does item 1345513440 of the Vacuum Cleaner have bagged/bagless=bagged?",
         "agent.output_message": "No, it does not."
@@ -180,7 +180,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825024594959338,
+          "timestamp_unix_ns": 1782917876178468877,
           "attributes": {
             "category": "Misinterpretation of Tool Output",
             "node": "Executor"
@@ -188,7 +188,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825025251401664,
+          "timestamp_unix_ns": 1782917876178489361,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -197,13 +197,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "d4b25648671efb31",
-      "parent_span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "8b72351e044e615e",
+      "parent_span_id": "3cb166960591cb51",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825025252696632,
-      "end_time_unix_ns": 1782825026089334715,
-      "duration_ms": 836.638083,
+      "start_time_unix_ns": 1782917876178674115,
+      "end_time_unix_ns": 1782917876178712406,
+      "duration_ms": 0.038291,
       "status": {
         "status_code": "OK",
         "description": null
@@ -212,23 +212,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 166,
-        "gen_ai.usage.output_tokens": 39,
-        "gen_ai.usage.total_tokens": 205,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict is APPROVED because the tool result indicates that the item with ID \"1345513440\" is available, as shown by the \"available\" field being set to \"true\".",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
         "agent.input_message": "Evaluate answer: No, it does not.",
-        "agent.output_message": "The verdict is APPROVED because the tool result indicates that the item with ID \"1345513440\" is available, as shown by the \"available\" field being set to \"true\"."
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825025252820428,
+          "timestamp_unix_ns": 1782917876178692229,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -237,13 +237,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "dba7a513c75ef059800d12f632222a32",
-      "span_id": "c3e8d979fc409726",
+      "trace_id": "5a0363c37a826c7d62881ea0b662b418",
+      "span_id": "3cb166960591cb51",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825022842435085,
-      "end_time_unix_ns": 1782825026089689404,
-      "duration_ms": 3247.254319,
+      "start_time_unix_ns": 1782917876177290709,
+      "end_time_unix_ns": 1782917876178835172,
+      "duration_ms": 1.544463,
       "status": {
         "status_code": "OK",
         "description": null

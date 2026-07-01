@@ -32,18 +32,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782824991238,
+  "created_at_unix_ms": 1782917876075,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "0232d8cbb3419f4b",
-      "parent_span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "355726147ed26d50",
+      "parent_span_id": "217c4e7ce05cc012",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824988308367679,
-      "end_time_unix_ns": 1782824989207457300,
-      "duration_ms": 899.089621,
+      "start_time_unix_ns": 1782917876073773724,
+      "end_time_unix_ns": 1782917876073814946,
+      "duration_ms": 0.041222,
       "status": {
         "status_code": "OK",
         "description": null
@@ -52,22 +52,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q03_t3_vacuum_cleaner",
         "task.input": "Which available Vacuum Cleaner with bagged/bagless=bagged cost more than $591.59?",
         "task.expected_result": "2 available Vacuum Cleaner (bagged/bagless=bagged) priced above $591.59.",
-        "gen_ai.usage.input_tokens": 127,
-        "gen_ai.usage.output_tokens": 46,
-        "gen_ai.usage.total_tokens": 173,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Vacuum Cleaner with bagged/bagless=bagged cost more than $591.59?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available vacuum cleaners with a \"bagged\" option and a price greater than $591.59."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"bagged/bagless\": \"bagged\", \"price_min\": 591.59, \"product_type\": \"Vacuum Cleaner\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782824989207420519,
+          "timestamp_unix_ns": 1782917876073809095,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -76,13 +76,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "c4ffff883ea75731",
-      "parent_span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "7367aed9c6bc7cfa",
+      "parent_span_id": "217c4e7ce05cc012",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824989208685212,
-      "end_time_unix_ns": 1782824990221313769,
-      "duration_ms": 1012.628557,
+      "start_time_unix_ns": 1782917876074021011,
+      "end_time_unix_ns": 1782917876074057512,
+      "duration_ms": 0.036501,
       "status": {
         "status_code": "OK",
         "description": null
@@ -91,21 +91,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"bagged/bagless\": \"bagged\", \"price_min\": 591.59, \"product_type\": \"Vacuum Cleaner\"}",
-        "gen_ai.usage.input_tokens": 113,
-        "gen_ai.usage.output_tokens": 54,
-        "gen_ai.usage.total_tokens": 167,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"bagged/bagless\": \"bagless\", \"price_min\": 591.59, \"product_type\": \"Vacuum Cleaner\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"bagged/bagless\": \"bagged\", \"price_min\": 591.59, \"product_type\": \"Vacuum Cleaner\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782824989208803890,
+          "timestamp_unix_ns": 1782917876074041572,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -114,13 +114,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "c4c46930e059987b",
-      "parent_span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "74152177707f8fa0",
+      "parent_span_id": "217c4e7ce05cc012",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824990221957142,
-      "end_time_unix_ns": 1782824990222423435,
-      "duration_ms": 0.466293,
+      "start_time_unix_ns": 1782917876074255771,
+      "end_time_unix_ns": 1782917876074452194,
+      "duration_ms": 0.196423,
       "status": {
         "status_code": "ERROR",
         "description": "catalog search dependency timed out after 30000ms"
@@ -150,7 +150,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782824990222029197,
+          "timestamp_unix_ns": 1782917876074282480,
           "attributes": {
             "category": "System Failure",
             "node": "Tool"
@@ -158,7 +158,7 @@
         },
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782824990222052060,
+          "timestamp_unix_ns": 1782917876074291826,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "CatalogServiceTimeoutError"
@@ -166,7 +166,7 @@
         },
         {
           "name": "exception",
-          "timestamp_unix_ns": 1782824990222408436,
+          "timestamp_unix_ns": 1782917876074446039,
           "attributes": {
             "exception.type": "agentrx_otel_poc.faults.base.CatalogServiceTimeoutError",
             "exception.message": "catalog search dependency timed out after 30000ms",
@@ -178,13 +178,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "e38ec65be176e4d1",
-      "parent_span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "13fc1fae7e2c4a10",
+      "parent_span_id": "217c4e7ce05cc012",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824990222968883,
-      "end_time_unix_ns": 1782824990508345415,
-      "duration_ms": 285.376532,
+      "start_time_unix_ns": 1782917876074688585,
+      "end_time_unix_ns": 1782917876074720169,
+      "duration_ms": 0.031584,
       "status": {
         "status_code": "OK",
         "description": null
@@ -193,20 +193,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 125,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 132,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Vacuum Cleaner with bagged/bagless=bagged cost more than $591.59?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782824990508308600,
+          "timestamp_unix_ns": 1782917876074715283,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -215,13 +215,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "42e1c1deddd48b02",
-      "parent_span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "7088b78616216473",
+      "parent_span_id": "217c4e7ce05cc012",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824990509462265,
-      "end_time_unix_ns": 1782824991235893357,
-      "duration_ms": 726.431092,
+      "start_time_unix_ns": 1782917876074912510,
+      "end_time_unix_ns": 1782917876074948985,
+      "duration_ms": 0.036475,
       "status": {
         "status_code": "OK",
         "description": null
@@ -230,23 +230,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 36,
-        "gen_ai.usage.total_tokens": 138,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782824990509556884,
+          "timestamp_unix_ns": 1782917876074930922,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -255,13 +255,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "95537dd5f881d1adff84ad054db44c7e",
-      "span_id": "65cd1d2c0bd7faad",
+      "trace_id": "16edb4050c182a2e7dc3fea0a8eef905",
+      "span_id": "217c4e7ce05cc012",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824988307619494,
-      "end_time_unix_ns": 1782824991237060511,
-      "duration_ms": 2929.441017,
+      "start_time_unix_ns": 1782917876073349771,
+      "end_time_unix_ns": 1782917876075076372,
+      "duration_ms": 1.726601,
       "status": {
         "status_code": "OK",
         "description": null

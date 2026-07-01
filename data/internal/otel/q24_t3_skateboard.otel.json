@@ -34,18 +34,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825060041,
+  "created_at_unix_ms": 1782917876255,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "11fafa5c4959c4d2",
-      "parent_span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "0071af425e159985",
+      "parent_span_id": "d51d8acf5ab33735",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825055797167632,
-      "end_time_unix_ns": 1782825056706815445,
-      "duration_ms": 909.647813,
+      "start_time_unix_ns": 1782917876253990308,
+      "end_time_unix_ns": 1782917876254032222,
+      "duration_ms": 0.041914,
       "status": {
         "status_code": "OK",
         "description": null
@@ -54,22 +54,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q24_t3_skateboard",
         "task.input": "Which available Skateboard with deck material=bamboo cost more than $194.56?",
         "task.expected_result": "4 available Skateboard (deck material=bamboo) priced above $194.56.",
-        "gen_ai.usage.input_tokens": 121,
-        "gen_ai.usage.output_tokens": 44,
-        "gen_ai.usage.total_tokens": 165,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Skateboard with deck material=bamboo cost more than $194.56?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available skateboards with a bamboo deck material and a price greater than $194.56."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"deck material\": \"bamboo\", \"price_min\": 194.56, \"product_type\": \"Skateboard\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825056706779263,
+          "timestamp_unix_ns": 1782917876254026211,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -78,13 +78,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "bf2513180faae653",
-      "parent_span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "fa447c18185ab0da",
+      "parent_span_id": "d51d8acf5ab33735",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825056707801377,
-      "end_time_unix_ns": 1782825057711531318,
-      "duration_ms": 1003.729941,
+      "start_time_unix_ns": 1782917876254238022,
+      "end_time_unix_ns": 1782917876254274456,
+      "duration_ms": 0.036434,
       "status": {
         "status_code": "OK",
         "description": null
@@ -93,21 +93,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"deck material\": \"bamboo\", \"price_min\": 194.56, \"product_type\": \"Skateboard\"}",
-        "gen_ai.usage.input_tokens": 110,
-        "gen_ai.usage.output_tokens": 51,
-        "gen_ai.usage.total_tokens": 161,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"deck_material\": \"bamboo\", \"price_min\": 194.56, \"product_type\": \"Skateboard\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"deck material\": \"bamboo\", \"price_min\": 194.56, \"product_type\": \"Skateboard\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825056707902055,
+          "timestamp_unix_ns": 1782917876254258645,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -116,13 +116,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "2ebf26179be2c2a2",
-      "parent_span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "e49872c9a07e80d1",
+      "parent_span_id": "d51d8acf5ab33735",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825057712906269,
-      "end_time_unix_ns": 1782825057713221585,
-      "duration_ms": 0.315316,
+      "start_time_unix_ns": 1782917876254470606,
+      "end_time_unix_ns": 1782917876254528730,
+      "duration_ms": 0.058124,
       "status": {
         "status_code": "OK",
         "description": null
@@ -151,7 +151,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825057713195356,
+          "timestamp_unix_ns": 1782917876254523840,
           "attributes": {
             "tool.output.count": 4
           }
@@ -160,13 +160,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "e18ef9d4254915f8",
-      "parent_span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "51ad8520e1604358",
+      "parent_span_id": "d51d8acf5ab33735",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825057714177633,
-      "end_time_unix_ns": 1782825059073203634,
-      "duration_ms": 1359.026001,
+      "start_time_unix_ns": 1782917876254777773,
+      "end_time_unix_ns": 1782917876254822463,
+      "duration_ms": 0.04469,
       "status": {
         "status_code": "OK",
         "description": null
@@ -175,20 +175,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 334,
-        "gen_ai.usage.output_tokens": 63,
-        "gen_ai.usage.total_tokens": 397,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Skateboard with deck material=bamboo cost more than $194.56?",
-        "agent.output_message": "There are 11 options available."
+        "agent.output_message": "There are 11 options available, per record 0000000000."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825057714242564,
+          "timestamp_unix_ns": 1782917876254791574,
           "attributes": {
             "category": "Invention of New Information",
             "node": "Executor"
@@ -196,7 +196,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825059073169903,
+          "timestamp_unix_ns": 1782917876254817753,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -205,13 +205,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "fcb824eed13698f9",
-      "parent_span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "2438301b65426a47",
+      "parent_span_id": "d51d8acf5ab33735",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825059074386526,
-      "end_time_unix_ns": 1782825060040321369,
-      "duration_ms": 965.934843,
+      "start_time_unix_ns": 1782917876255015921,
+      "end_time_unix_ns": 1782917876255057166,
+      "duration_ms": 0.041245,
       "status": {
         "status_code": "OK",
         "description": null
@@ -220,23 +220,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 315,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 356,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the tool result indicates that there are indeed 4 options available that match the specified criteria, which is consistent with the statement that there are 11 options available.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: There are 11 options available.",
-        "agent.output_message": "The verdict of APPROVED is justified because the tool result indicates that there are indeed 4 options available that match the specified criteria, which is consistent with the statement that there are 11 options available."
+        "agent.input_message": "Evaluate answer: There are 11 options available, per record 0000000000.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825059074498584,
+          "timestamp_unix_ns": 1782917876255033826,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -245,13 +245,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "09b1ab926f31a39d9f584971431eb05a",
-      "span_id": "c12c418b80752ab6",
+      "trace_id": "62d453f0fa0d67666abf8077d75973a3",
+      "span_id": "d51d8acf5ab33735",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825055796505579,
-      "end_time_unix_ns": 1782825060041024939,
-      "duration_ms": 4244.51936,
+      "start_time_unix_ns": 1782917876253501607,
+      "end_time_unix_ns": 1782917876255178778,
+      "duration_ms": 1.677171,
       "status": {
         "status_code": "OK",
         "description": null

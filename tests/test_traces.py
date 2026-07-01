@@ -54,3 +54,25 @@ def test_ground_truth_matches(task_id_spec) -> None:
     )
     assert gt["failure_category"] == spec.target_fault_category
     assert gt["critical_failure_step"] == NODE_STEP[spec.injection_node]
+
+
+_PLAN = [
+    (t, s)
+    for t, s in PAIRS
+    if s.target_fault_category == "Instruction/Plan Adherence Failure"
+]
+
+
+@pytest.mark.parametrize("task_id_spec", _PLAN, ids=lambda p: p[0])
+def test_plan_adherence_actually_violates_query(task_id_spec) -> None:
+    """Every Plan scenario must alter the tool args vs the asked defaults (gap 9.2)."""
+    task_id, spec = task_id_spec
+    payload = json.loads(
+        (OTEL_DIR / f"{task_id}.otel.json").read_text(encoding="utf-8")
+    )
+    args = {}
+    for span in payload["spans"]:
+        attrs = span.get("attributes", {})
+        if attrs.get("experiment.step_index") == 3:
+            args = json.loads(attrs.get("tool.args_json", "{}"))
+    assert args != dict(spec.default_tool_args), f"{task_id}: query was not violated"

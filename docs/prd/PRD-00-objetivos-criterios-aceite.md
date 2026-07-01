@@ -71,8 +71,9 @@ de 30 traces base.
   truth conforme esperado).
 - **M3 — Adapters**: de 1 trace OTel saem as 2 trajetórias; verificável que ambas carregam a mesma informação semântica
   e diferem só na estrutura.
-- **M4 — AgentRx**: domínio `product_catalog` registrado; pipeline roda numa trajetória de exemplo e devolve passo +
-  categoria preditos.
+- **M4 — AgentRx**: juiz roda em modo **judge-only** sobre uma trajetória de exemplo e devolve passo + categoria
+  preditos, sem tocar o submódulo. O registro do domínio `product_catalog` fica **adiado** (ADR-0009); a perda das
+  checagens de invariantes de policy é ameaça à validade declarada, não requisito de aceite do M4.
 - **M5 — Experimento**: matriz completa executada; CSV consolidado (pergunta + trajetória + predição) gerado; scripts de
   análise produzem as métricas das RQs.
 

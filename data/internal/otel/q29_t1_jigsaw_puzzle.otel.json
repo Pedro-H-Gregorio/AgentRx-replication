@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825079654,
+  "created_at_unix_ms": 1782917876298,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "cd32824e39f8523d",
-      "parent_span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "fbd01ccb8b8f3639",
+      "parent_span_id": "88806b342e40f0f1",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825075711192740,
-      "end_time_unix_ns": 1782825076698315157,
-      "duration_ms": 987.122417,
+      "start_time_unix_ns": 1782917876296641642,
+      "end_time_unix_ns": 1782917876296713592,
+      "duration_ms": 0.07195,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q29_t1_jigsaw_puzzle",
         "task.input": "What is the cheapest available Jigsaw Puzzle?",
         "task.expected_result": "The cheapest available Jigsaw Puzzle is item 9665100170 at $45.39.",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 47,
-        "gen_ai.usage.total_tokens": 149,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: What is the cheapest available Jigsaw Puzzle?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available Jigsaw Puzzles sorted in ascending order by price, allowing me to identify the cheapest option."
+        "agent.output_message": "Plan ready; query {\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825075711215057,
+          "timestamp_unix_ns": 1782917876296682706,
           "attributes": {
             "category": "Instruction/Plan Adherence Failure",
             "node": "Coordinator"
@@ -71,7 +71,7 @@
         },
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825076698270170,
+          "timestamp_unix_ns": 1782917876296707514,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -80,13 +80,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "9e23d3821e677b75",
-      "parent_span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "54be863f97cbcd33",
+      "parent_span_id": "88806b342e40f0f1",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825076699798198,
-      "end_time_unix_ns": 1782825077742383918,
-      "duration_ms": 1042.58572,
+      "start_time_unix_ns": 1782917876296946258,
+      "end_time_unix_ns": 1782917876296982402,
+      "duration_ms": 0.036144,
       "status": {
         "status_code": "OK",
         "description": null
@@ -95,21 +95,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
-        "tool.args_json": "{\"available_only\": true, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 55,
-        "gen_ai.usage.total_tokens": 155,
+        "tool.args_json": "{\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a call to the ProductCatalogSearch tool with the arguments {\"available_only\": true, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"} to retrieve the list of available Jigsaw Puzzles sorted in ascending order of price."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825076699935791,
+          "timestamp_unix_ns": 1782917876296966988,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -118,13 +118,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "9314ccdbe212cf7d",
-      "parent_span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "8c86ca80afeb4ea3",
+      "parent_span_id": "88806b342e40f0f1",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825077743812706,
-      "end_time_unix_ns": 1782825077744150404,
-      "duration_ms": 0.337698,
+      "start_time_unix_ns": 1782917876297185091,
+      "end_time_unix_ns": 1782917876297255910,
+      "duration_ms": 0.070819,
       "status": {
         "status_code": "OK",
         "description": null
@@ -144,31 +144,31 @@
         "server.address": "catalog-service.local",
         "rpc.system": "http",
         "http.request.method": "POST",
-        "tool.args_json": "{\"available_only\": true, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
-        "tool.result_json": "{\"count\": 9, \"items\": [{\"available\": true, \"item_id\": \"9665100170\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"1500\", \"theme\": \"animals\"}, \"price\": 45.39}, {\"available\": true, \"item_id\": \"6245746168\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1500\", \"theme\": \"animals\"}, \"price\": 46.0}, {\"available\": true, \"item_id\": \"1096508426\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"500\", \"theme\": \"art\"}, \"price\": 46.13}, {\"available\": true, \"item_id\": \"5645314103\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"2000\", \"theme\": \"animals\"}, \"price\": 46.19}, {\"available\": true, \"item_id\": \"3112842858\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1000\", \"theme\": \"fantasy\"}, \"price\": 49.1}, {\"available\": true, \"item_id\": \"5546244844\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1500\", \"theme\": \"art\"}, \"price\": 51.59}, {\"available\": true, \"item_id\": \"4068787148\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"500\", \"theme\": \"art\"}, \"price\": 52.01}, {\"available\": true, \"item_id\": \"9237024510\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"500\", \"theme\": \"animals\"}, \"price\": 53.53}, {\"available\": true, \"item_id\": \"4572024853\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"1000\", \"theme\": \"animals\"}, \"price\": 53.72}], \"ok\": true, \"operation\": \"catalog.search\", \"query\": {\"available_only\": true, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}}",
-        "tool.output.count": 9,
-        "agent.input_message": "ProductCatalogSearch input: {\"available_only\": true, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
-        "agent.output_message": "ProductCatalogSearch returned 9 item(s)."
+        "tool.args_json": "{\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
+        "tool.result_json": "{\"count\": 18, \"items\": [{\"available\": true, \"item_id\": \"9665100170\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"1500\", \"theme\": \"animals\"}, \"price\": 45.39}, {\"available\": false, \"item_id\": \"9370300555\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"1000\", \"theme\": \"art\"}, \"price\": 45.9}, {\"available\": true, \"item_id\": \"6245746168\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1500\", \"theme\": \"animals\"}, \"price\": 46.0}, {\"available\": true, \"item_id\": \"1096508426\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"500\", \"theme\": \"art\"}, \"price\": 46.13}, {\"available\": true, \"item_id\": \"5645314103\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"2000\", \"theme\": \"animals\"}, \"price\": 46.19}, {\"available\": false, \"item_id\": \"3614853563\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"2000\", \"theme\": \"art\"}, \"price\": 46.99}, {\"available\": false, \"item_id\": \"7869640094\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"2000\", \"theme\": \"animals\"}, \"price\": 47.59}, {\"available\": false, \"item_id\": \"5172162216\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"2000\", \"theme\": \"landscape\"}, \"price\": 48.51}, {\"available\": true, \"item_id\": \"3112842858\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1000\", \"theme\": \"fantasy\"}, \"price\": 49.1}, {\"available\": true, \"item_id\": \"5546244844\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1500\", \"theme\": \"art\"}, \"price\": 51.59}, {\"available\": false, \"item_id\": \"9030221155\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"2000\", \"theme\": \"art\"}, \"price\": 51.98}, {\"available\": true, \"item_id\": \"4068787148\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"500\", \"theme\": \"art\"}, \"price\": 52.01}, {\"available\": false, \"item_id\": \"7127170374\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"2000\", \"theme\": \"fantasy\"}, \"price\": 52.03}, {\"available\": true, \"item_id\": \"9237024510\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"500\", \"theme\": \"animals\"}, \"price\": 53.53}, {\"available\": true, \"item_id\": \"4572024853\", \"options\": {\"difficulty level\": \"expert\", \"pieces\": \"1000\", \"theme\": \"animals\"}, \"price\": 53.72}, {\"available\": false, \"item_id\": \"4772738468\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"1000\", \"theme\": \"animals\"}, \"price\": 53.91}, {\"available\": false, \"item_id\": \"9779102705\", \"options\": {\"difficulty level\": \"intermediate\", \"pieces\": \"1000\", \"theme\": \"art\"}, \"price\": 54.11}, {\"available\": false, \"item_id\": \"1008948180\", \"options\": {\"difficulty level\": \"beginner\", \"pieces\": \"1000\", \"theme\": \"art\"}, \"price\": 54.34}], \"ok\": true, \"operation\": \"catalog.search\", \"query\": {\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}}",
+        "tool.output.count": 18,
+        "agent.input_message": "ProductCatalogSearch input: {\"available_only\": false, \"product_type\": \"Jigsaw Puzzle\", \"sort\": \"price_asc\"}",
+        "agent.output_message": "ProductCatalogSearch returned 18 item(s)."
       },
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825077744123884,
+          "timestamp_unix_ns": 1782917876297251189,
           "attributes": {
-            "tool.output.count": 9
+            "tool.output.count": 18
           }
         }
       ]
     },
     {
       "name": "agent.executor",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "94930c53b8514299",
-      "parent_span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "3e7bcbb5230580ca",
+      "parent_span_id": "88806b342e40f0f1",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825077745172866,
-      "end_time_unix_ns": 1782825078541953611,
-      "duration_ms": 796.780745,
+      "start_time_unix_ns": 1782917876297455301,
+      "end_time_unix_ns": 1782917876297505727,
+      "duration_ms": 0.050426,
       "status": {
         "status_code": "OK",
         "description": null
@@ -177,20 +177,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 546,
-        "gen_ai.usage.output_tokens": 25,
-        "gen_ai.usage.total_tokens": 571,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Jigsaw Puzzle?",
-        "agent.output_message": "The cheapest available Jigsaw Puzzle is item_id \"9665100170\" with a price of 45.39."
+        "agent.output_message": "Found 18 item(s) from the catalog tool: 9665100170, 9370300555, 6245746168, 1096508426, 5645314103."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825078541906138,
+          "timestamp_unix_ns": 1782917876297500830,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "ec0c8b17cb196b30",
-      "parent_span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "ba2db59d891836e8",
+      "parent_span_id": "88806b342e40f0f1",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825078543269570,
-      "end_time_unix_ns": 1782825079651571468,
-      "duration_ms": 1108.301898,
+      "start_time_unix_ns": 1782917876297697973,
+      "end_time_unix_ns": 1782917876297756622,
+      "duration_ms": 0.058649,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 553,
-        "gen_ai.usage.output_tokens": 43,
-        "gen_ai.usage.total_tokens": 596,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available Jigsaw Puzzle, item_id \"9665100170\", with a price of 45.39, as per the tool result.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: The cheapest available Jigsaw Puzzle is item_id \"9665100170\" with a price of 45.39.",
-        "agent.output_message": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available Jigsaw Puzzle, item_id \"9665100170\", with a price of 45.39, as per the tool result."
+        "agent.input_message": "Evaluate answer: Found 18 item(s) from the catalog tool: 9665100170, 9370300555, 6245746168, 1096508426, 5645314103.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825078543388160,
+          "timestamp_unix_ns": 1782917876297716872,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "3810993051323dada3ff43854a44767e",
-      "span_id": "bc37f5f980e98c57",
+      "trace_id": "1490c1ccd2b4281b49367a385a4e275d",
+      "span_id": "88806b342e40f0f1",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825075710599346,
-      "end_time_unix_ns": 1782825079653026235,
-      "duration_ms": 3942.426889,
+      "start_time_unix_ns": 1782917876296200711,
+      "end_time_unix_ns": 1782917876297883664,
+      "duration_ms": 1.682953,
       "status": {
         "status_code": "OK",
         "description": null

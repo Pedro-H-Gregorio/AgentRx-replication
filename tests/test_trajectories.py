@@ -69,8 +69,15 @@ def test_parity_a_minus_telemetry_equals_b(run_id: str) -> None:
             )
 
 
+AGENTRX_SUBMODULE = ROOT / "AgentRx"
+
+
 @pytest.mark.parametrize("run_id", RUN_IDS)
 def test_validates_against_agentrx_ir(run_id: str) -> None:
-    validate_ir = pytest.importorskip("agentrx.ir.trajectory_ir").validate_ir
+    if not AGENTRX_SUBMODULE.exists():
+        pytest.skip("AgentRx submodule not initialized (git submodule update --init)")
+    # Submodule present → a broken import is a real failure, never a silent skip.
+    from agentrx.ir.trajectory_ir import validate_ir
+
     for directory in (TELEMETRY_DIR, AGENTRX_DIR):
         validate_ir(_load(directory, run_id))

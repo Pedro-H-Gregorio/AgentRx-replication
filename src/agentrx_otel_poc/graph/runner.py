@@ -7,6 +7,7 @@ scenario's own target category (scripted injection, deterministic ground truth).
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,28 @@ from .builder import build_graph
 from .context import GraphContext
 
 DATA = Path(__file__).resolve().parents[3] / "data" / "internal"
+
+
+def _write_manifest(settings: Settings, task_id: str, run_id: str) -> None:
+    """Record the effective run config (reproducibility, PRD-00 §4.1).
+
+    Kept in a separate file (never inside the trajectories); it holds config, not
+    the fault ground truth.
+    """
+    manifest = {
+        "run_id": run_id,
+        "task_id": task_id,
+        "use_llm": settings.use_llm,
+        "agent_model": settings.agent_model,
+        "agent_base_url": settings.agent_base_url,
+        "llm_temperature": settings.llm_temperature,
+        "otel_service_name": settings.otel_service_name,
+    }
+    path = DATA / "manifests" / f"{run_id}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 def run_scenario(
@@ -85,4 +108,5 @@ def run_scenario(
             DATA / "ground_truth" / f"{rid}.ground_truth.json",
             logger=logger.child("ground_truth"),
         )
+    _write_manifest(settings, spec.task_id, rid)
     return payload

@@ -1,7 +1,7 @@
 PYTHON ?= uv run python
 PYTEST ?= uv run pytest -q
 
-.PHONY: install check generate simulate derive smoke \
+.PHONY: install check generate simulate derive smoke clean-data \
         validate-benchmark validate-traces validate-trajectories
 
 install:
@@ -27,6 +27,15 @@ derive:
 
 smoke:
 	$(PYTEST) tests/smoke
+
+# Reset dos artefatos de run (mantém benchmark + catálogo). Idempotente.
+clean-data:
+	rm -f data/internal/otel/*.otel.json \
+	      data/internal/trajectory_telemetry/*.json \
+	      data/internal/trajectory_agentrx/*.json \
+	      data/internal/ground_truth/*.ground_truth.json \
+	      data/internal/logs/*.log \
+	      data/internal/manifests/*.json
 
 # --- Validadores isolados ---
 

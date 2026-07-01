@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782824999347,
+  "created_at_unix_ms": 1782917876100,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "ceb12ce7276b3f44",
-      "parent_span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "5e579bd07313b0f3",
+      "parent_span_id": "015a190a0d63a9ad",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824996518274887,
-      "end_time_unix_ns": 1782824997366004745,
-      "duration_ms": 847.729858,
+      "start_time_unix_ns": 1782917876099372889,
+      "end_time_unix_ns": 1782917876099411254,
+      "duration_ms": 0.038365,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q06_t1_skateboard",
         "task.input": "What is the cheapest available Skateboard?",
         "task.expected_result": "The cheapest available Skateboard is item 6843647669 at $180.10.",
-        "gen_ai.usage.input_tokens": 101,
-        "gen_ai.usage.output_tokens": 44,
-        "gen_ai.usage.total_tokens": 145,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: What is the cheapest available Skateboard?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available skateboards sorted in ascending order by price, allowing me to identify the cheapest option."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"product_type\": \"Skateboard\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782824997365968599,
+          "timestamp_unix_ns": 1782917876099405718,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -72,13 +72,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "9f88b3b82193d786",
-      "parent_span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "6d6dd45f0aec0e87",
+      "parent_span_id": "015a190a0d63a9ad",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824997367193622,
-      "end_time_unix_ns": 1782824998339362069,
-      "duration_ms": 972.168447,
+      "start_time_unix_ns": 1782917876099618248,
+      "end_time_unix_ns": 1782917876099657725,
+      "duration_ms": 0.039477,
       "status": {
         "status_code": "OK",
         "description": null
@@ -87,21 +87,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"product_type\": \"Skateboard\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 52,
-        "gen_ai.usage.total_tokens": 152,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a call to the ProductCatalogSearch tool with the arguments {\"available_only\": true, \"product_type\": \"Skateboard\", \"sort\": \"price_asc\"} to retrieve the list of available skateboards sorted in ascending order of price."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"product_type\": \"Skateboard\", \"sort\": \"price_asc\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782824997367296143,
+          "timestamp_unix_ns": 1782917876099642242,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -110,13 +110,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "9ab655ce00b69f79",
-      "parent_span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "c57be7d580114455",
+      "parent_span_id": "015a190a0d63a9ad",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824998340958598,
-      "end_time_unix_ns": 1782824998342234201,
-      "duration_ms": 1.275603,
+      "start_time_unix_ns": 1782917876099864023,
+      "end_time_unix_ns": 1782917876100064260,
+      "duration_ms": 0.200237,
       "status": {
         "status_code": "ERROR",
         "description": "catalog search dependency timed out after 30000ms"
@@ -146,7 +146,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782824998341149098,
+          "timestamp_unix_ns": 1782917876099887367,
           "attributes": {
             "category": "System Failure",
             "node": "Tool"
@@ -154,7 +154,7 @@
         },
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782824998341213726,
+          "timestamp_unix_ns": 1782917876099899733,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "CatalogServiceTimeoutError"
@@ -162,7 +162,7 @@
         },
         {
           "name": "exception",
-          "timestamp_unix_ns": 1782824998342196914,
+          "timestamp_unix_ns": 1782917876100058181,
           "attributes": {
             "exception.type": "agentrx_otel_poc.faults.base.CatalogServiceTimeoutError",
             "exception.message": "catalog search dependency timed out after 30000ms",
@@ -174,13 +174,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "1b858c1df62bf84e",
-      "parent_span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "ecead109b35f9733",
+      "parent_span_id": "015a190a0d63a9ad",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824998343515856,
-      "end_time_unix_ns": 1782824998615838750,
-      "duration_ms": 272.322894,
+      "start_time_unix_ns": 1782917876100298626,
+      "end_time_unix_ns": 1782917876100331913,
+      "duration_ms": 0.033287,
       "status": {
         "status_code": "OK",
         "description": null
@@ -189,20 +189,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 112,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 119,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Skateboard?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782824998615797621,
+          "timestamp_unix_ns": 1782917876100326839,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -211,13 +211,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "0e9296f105167405",
-      "parent_span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "c7dd71717f6e7506",
+      "parent_span_id": "015a190a0d63a9ad",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824998616890920,
-      "end_time_unix_ns": 1782824999345981942,
-      "duration_ms": 729.091022,
+      "start_time_unix_ns": 1782917876100523497,
+      "end_time_unix_ns": 1782917876100561297,
+      "duration_ms": 0.0378,
       "status": {
         "status_code": "OK",
         "description": null
@@ -226,23 +226,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 36,
-        "gen_ai.usage.total_tokens": 138,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782824998616983309,
+          "timestamp_unix_ns": 1782917876100542883,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -251,13 +251,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "896053cae0fc599f479c8f6273b79a6d",
-      "span_id": "021834c8750c1ea6",
+      "trace_id": "faac14b643d74220a1ba25891622260b",
+      "span_id": "015a190a0d63a9ad",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824996517716792,
-      "end_time_unix_ns": 1782824999346730698,
-      "duration_ms": 2829.013906,
+      "start_time_unix_ns": 1782917876098949227,
+      "end_time_unix_ns": 1782917876100695245,
+      "duration_ms": 1.746018,
       "status": {
         "status_code": "OK",
         "description": null

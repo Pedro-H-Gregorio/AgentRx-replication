@@ -32,6 +32,7 @@ def _cleanup(run_id: str) -> None:
     (DATA / "otel" / f"{run_id}.otel.json").unlink(missing_ok=True)
     (DATA / "ground_truth" / f"{run_id}.ground_truth.json").unlink(missing_ok=True)
     (DATA / "logs" / f"{run_id}.log").unlink(missing_ok=True)
+    (DATA / "manifests" / f"{run_id}.json").unlink(missing_ok=True)
 
 
 def test_unaffected_steps_identical_with_and_without_fault() -> None:

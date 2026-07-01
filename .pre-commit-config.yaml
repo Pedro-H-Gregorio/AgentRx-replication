@@ -2,6 +2,10 @@ default_install_hook_types:
   - pre-commit
   - commit-msg
 
+# Never let hooks touch the AgentRx submodule (regra: não editar suas entranhas)
+# nor the manuscript LaTeX tree.
+exclude: '^(AgentRx/|manuscript/)'
+
 repos:
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.2.0

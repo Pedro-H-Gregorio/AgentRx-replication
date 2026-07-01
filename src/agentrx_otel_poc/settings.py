@@ -8,11 +8,6 @@ load_dotenv()
 @dataclass(frozen=True)
 class Settings:
     use_llm: bool = os.getenv("USE_LLM", "false").lower() == "true"
-    openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
-    openai_base_url: str | None = os.getenv("OPENAI_BASE_URL") or os.getenv(
-        "OPENAI_API_BASE"
-    )
-    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
     llm_temperature: float = float(os.getenv("LLM_TEMPERATURE", "0"))
     llm_timeout_seconds: float = float(os.getenv("LLM_TIMEOUT_SECONDS", "30"))
     # MAS agent model is parametrizable and recorded in each run manifest (PRD-00 §4.1).
@@ -20,7 +15,4 @@ class Settings:
     agent_model: str = os.getenv("AGENT_MODEL", "Llama3.1-8B")
     agent_base_url: str | None = os.getenv("AGENT_BASE_URL")
     agent_api_key: str = os.getenv("AGENT_API_KEY", "ollama")
-    run_id: str = os.getenv("RUN_ID", "run_001")
-    task_id: str = os.getenv("TASK_ID", "")
-    fault_type: str = os.getenv("FAULT_TYPE", "")
     otel_service_name: str = os.getenv("OTEL_SERVICE_NAME", "agentrx-otel-poc")

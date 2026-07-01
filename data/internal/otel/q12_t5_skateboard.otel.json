@@ -26,18 +26,18 @@
     "template_id": "T5_item_price",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825015380,
+  "created_at_unix_ms": 1782917876153,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "c01ce65d03bd6cf1",
-      "parent_span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "f45d42438fe6f1ff",
+      "parent_span_id": "e43cafa9bb2a5a8d",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825012899269433,
-      "end_time_unix_ns": 1782825013707699560,
-      "duration_ms": 808.430127,
+      "start_time_unix_ns": 1782917876152093803,
+      "end_time_unix_ns": 1782917876152133763,
+      "duration_ms": 0.03996,
       "status": {
         "status_code": "OK",
         "description": null
@@ -46,22 +46,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q12_t5_skateboard",
         "task.input": "What is the price of item 2177997696?",
         "task.expected_result": "Item 2177997696 is priced at $206.60.",
-        "gen_ai.usage.input_tokens": 103,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 144,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: What is the price of item 2177997696?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which contains the item_id and product_id, and retrieve the price of item 2177997696."
+        "agent.output_message": "Plan ready; query {\"item_id\": \"2177997696\", \"product_id\": \"1968349452\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825013707657443,
+          "timestamp_unix_ns": 1782917876152127595,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -70,13 +70,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "29e52a7c1634983b",
-      "parent_span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "f8cccd8447a27d5c",
+      "parent_span_id": "e43cafa9bb2a5a8d",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825013709202614,
-      "end_time_unix_ns": 1782825014287516779,
-      "duration_ms": 578.314165,
+      "start_time_unix_ns": 1782917876152353467,
+      "end_time_unix_ns": 1782917876152394523,
+      "duration_ms": 0.041056,
       "status": {
         "status_code": "OK",
         "description": null
@@ -85,21 +85,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"product_id\": 0}",
-        "gen_ai.usage.input_tokens": 85,
-        "gen_ai.usage.output_tokens": 28,
-        "gen_ai.usage.total_tokens": 113,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will call the `ProductCatalogSearch` tool with the argument `{\"product_id\": 0}` to retrieve the product information."
+        "agent.output_message": "Call ProductCatalogSearch with {\"product_id\": 0}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825013709296484,
+          "timestamp_unix_ns": 1782917876152369317,
           "attributes": {
             "category": "Invalid Invocation",
             "node": "Researcher"
@@ -107,7 +107,7 @@
         },
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825013709360481,
+          "timestamp_unix_ns": 1782917876152379995,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -116,13 +116,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "cd54c2428cd066de",
-      "parent_span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "466a1a4f1634b64a",
+      "parent_span_id": "e43cafa9bb2a5a8d",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825014288511213,
-      "end_time_unix_ns": 1782825014288653472,
-      "duration_ms": 0.142259,
+      "start_time_unix_ns": 1782917876152610025,
+      "end_time_unix_ns": 1782917876152651742,
+      "duration_ms": 0.041717,
       "status": {
         "status_code": "ERROR",
         "description": "catalog.get_details requires string product_id and item_id"
@@ -152,7 +152,7 @@
       "events": [
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782825014288631695,
+          "timestamp_unix_ns": 1782917876152645295,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "SchemaError"
@@ -162,13 +162,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "66898d44117dcb85",
-      "parent_span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "d032a65828e9ab3e",
+      "parent_span_id": "e43cafa9bb2a5a8d",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825014289394855,
-      "end_time_unix_ns": 1782825014584864549,
-      "duration_ms": 295.469694,
+      "start_time_unix_ns": 1782917876152878975,
+      "end_time_unix_ns": 1782917876152915551,
+      "duration_ms": 0.036576,
       "status": {
         "status_code": "OK",
         "description": null
@@ -177,20 +177,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 114,
-        "gen_ai.usage.output_tokens": 8,
-        "gen_ai.usage.total_tokens": 122,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the price of item 2177997696?",
-        "agent.output_message": "The task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825014584826790,
+          "timestamp_unix_ns": 1782917876152910246,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "418941f8e12fc446",
-      "parent_span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "0874f196ff348b4f",
+      "parent_span_id": "e43cafa9bb2a5a8d",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825014585990948,
-      "end_time_unix_ns": 1782825015379366503,
-      "duration_ms": 793.375555,
+      "start_time_unix_ns": 1782917876153109096,
+      "end_time_unix_ns": 1782917876153145600,
+      "duration_ms": 0.036504,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 101,
-        "gen_ai.usage.output_tokens": 40,
-        "gen_ai.usage.total_tokens": 141,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the tool result indicates a specific error (\"SchemaError\") that prevents the task from being completed, rather than a generic inability to complete the task.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: The task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the tool result indicates a specific error (\"SchemaError\") that prevents the task from being completed, rather than a generic inability to complete the task."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782825014586090852,
+          "timestamp_unix_ns": 1782917876153127943,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "f35d0cbe4dccef6cc95e165a5d46274c",
-      "span_id": "55fa9672cdecde0a",
+      "trace_id": "7bf81031b34f7344386588dddd390197",
+      "span_id": "e43cafa9bb2a5a8d",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825012898723101,
-      "end_time_unix_ns": 1782825015380221108,
-      "duration_ms": 2481.498007,
+      "start_time_unix_ns": 1782917876151633235,
+      "end_time_unix_ns": 1782917876153270912,
+      "duration_ms": 1.637677,
       "status": {
         "status_code": "OK",
         "description": null

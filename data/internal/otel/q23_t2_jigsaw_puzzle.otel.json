@@ -27,18 +27,18 @@
     "template_id": "T2_count",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825055775,
+  "created_at_unix_ms": 1782917876246,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "741e9e5424db9473",
-      "parent_span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "bfd0ce2db3b4d3c8",
+      "parent_span_id": "1b7cb1ff2d71f2e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825051618711779,
-      "end_time_unix_ns": 1782825052621294275,
-      "duration_ms": 1002.582496,
+      "start_time_unix_ns": 1782917876245307489,
+      "end_time_unix_ns": 1782917876245345841,
+      "duration_ms": 0.038352,
       "status": {
         "status_code": "OK",
         "description": null
@@ -47,22 +47,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q23_t2_jigsaw_puzzle",
         "task.input": "How many Jigsaw Puzzle options are available?",
         "task.expected_result": "There are 9 available Jigsaw Puzzle options.",
-        "gen_ai.usage.input_tokens": 101,
-        "gen_ai.usage.output_tokens": 52,
-        "gen_ai.usage.total_tokens": 153,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: How many Jigsaw Puzzle options are available?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Jigsaw Puzzle\"}, to retrieve the count of available Jigsaw Puzzle options."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Jigsaw Puzzle\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825052621259320,
+          "timestamp_unix_ns": 1782917876245339581,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -71,13 +71,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "5e20922a1cfff135",
-      "parent_span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "64f4465928654477",
+      "parent_span_id": "1b7cb1ff2d71f2e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825052622574967,
-      "end_time_unix_ns": 1782825053421920844,
-      "duration_ms": 799.345877,
+      "start_time_unix_ns": 1782917876245548250,
+      "end_time_unix_ns": 1782917876245582389,
+      "duration_ms": 0.034139,
       "status": {
         "status_code": "OK",
         "description": null
@@ -86,21 +86,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"op\": \"count\", \"product_type\": \"Jigsaw Puzzle\"}",
-        "gen_ai.usage.input_tokens": 99,
-        "gen_ai.usage.output_tokens": 40,
-        "gen_ai.usage.total_tokens": 139,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Jigsaw Puzzle\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Jigsaw Puzzle\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825052622696116,
+          "timestamp_unix_ns": 1782917876245567691,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -109,13 +109,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "777fd8f78bd52bdf",
-      "parent_span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "9187e8f7906b70bd",
+      "parent_span_id": "1b7cb1ff2d71f2e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825053423513526,
-      "end_time_unix_ns": 1782825053423979083,
-      "duration_ms": 0.465557,
+      "start_time_unix_ns": 1782917876245801686,
+      "end_time_unix_ns": 1782917876245867168,
+      "duration_ms": 0.065482,
       "status": {
         "status_code": "OK",
         "description": null
@@ -144,7 +144,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825053423943104,
+          "timestamp_unix_ns": 1782917876245861743,
           "attributes": {
             "tool.output.count": 9
           }
@@ -153,13 +153,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "ff56656b111baab6",
-      "parent_span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "3b200647de0475a5",
+      "parent_span_id": "1b7cb1ff2d71f2e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825053425136921,
-      "end_time_unix_ns": 1782825054586647483,
-      "duration_ms": 1161.510562,
+      "start_time_unix_ns": 1782917876246082419,
+      "end_time_unix_ns": 1782917876246134511,
+      "duration_ms": 0.052092,
       "status": {
         "status_code": "OK",
         "description": null
@@ -168,20 +168,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 545,
-        "gen_ai.usage.output_tokens": 48,
-        "gen_ai.usage.total_tokens": 593,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: How many Jigsaw Puzzle options are available?",
-        "agent.output_message": "There are 16 options available."
+        "agent.output_message": "There are 16 options available, per record 0000000000."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825053425162311,
+          "timestamp_unix_ns": 1782917876246097273,
           "attributes": {
             "category": "Invention of New Information",
             "node": "Executor"
@@ -189,7 +189,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825054586601939,
+          "timestamp_unix_ns": 1782917876246129403,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -198,13 +198,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "d1c49ad02167f568",
-      "parent_span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "6ed5904e8a1573aa",
+      "parent_span_id": "1b7cb1ff2d71f2e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825054587827724,
-      "end_time_unix_ns": 1782825055773393398,
-      "duration_ms": 1185.565674,
+      "start_time_unix_ns": 1782917876246331652,
+      "end_time_unix_ns": 1782917876246381074,
+      "duration_ms": 0.049422,
       "status": {
         "status_code": "OK",
         "description": null
@@ -213,23 +213,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 535,
-        "gen_ai.usage.output_tokens": 48,
-        "gen_ai.usage.total_tokens": 583,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the tool result indicates that there are indeed 9 available options, which matches the given statement of 16 options being available, however, the statement is incorrect, and the tool result is correct.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: There are 16 options available.",
-        "agent.output_message": "The verdict of APPROVED is justified because the tool result indicates that there are indeed 9 available options, which matches the given statement of 16 options being available, however, the statement is incorrect, and the tool result is correct."
+        "agent.input_message": "Evaluate answer: There are 16 options available, per record 0000000000.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825054587944088,
+          "timestamp_unix_ns": 1782917876246350877,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -238,13 +238,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "a3ba93ca6ae781b8bcc9c043241280fb",
-      "span_id": "1b01a03cc3a2f0eb",
+      "trace_id": "9408e1d73424242a9b25492717fe1e74",
+      "span_id": "1b7cb1ff2d71f2e9",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825051618132194,
-      "end_time_unix_ns": 1782825055774321825,
-      "duration_ms": 4156.189631,
+      "start_time_unix_ns": 1782917876244893642,
+      "end_time_unix_ns": 1782917876246511928,
+      "duration_ms": 1.618286,
       "status": {
         "status_code": "OK",
         "description": null

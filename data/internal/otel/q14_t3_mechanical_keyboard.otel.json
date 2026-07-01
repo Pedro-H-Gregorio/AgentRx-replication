@@ -32,18 +32,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825022821,
+  "created_at_unix_ms": 1782917876170,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "cbda54cd3ed005f2",
-      "parent_span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "c3b8d033a255e326",
+      "parent_span_id": "9fbcbb0df3dace46",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825019041663086,
-      "end_time_unix_ns": 1782825019927200497,
-      "duration_ms": 885.537411,
+      "start_time_unix_ns": 1782917876169204928,
+      "end_time_unix_ns": 1782917876169248421,
+      "duration_ms": 0.043493,
       "status": {
         "status_code": "OK",
         "description": null
@@ -52,22 +52,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q14_t3_mechanical_keyboard",
         "task.input": "Which available Mechanical Keyboard with backlight=RGB cost more than $233.90?",
         "task.expected_result": "2 available Mechanical Keyboard (backlight=RGB) priced above $233.90.",
-        "gen_ai.usage.input_tokens": 118,
-        "gen_ai.usage.output_tokens": 42,
-        "gen_ai.usage.total_tokens": 160,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Mechanical Keyboard with backlight=RGB cost more than $233.90?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available Mechanical Keyboards with RGB backlight that cost more than $233.90."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"backlight\": \"RGB\", \"price_min\": 233.9, \"product_type\": \"Mechanical Keyboard\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825019927156818,
+          "timestamp_unix_ns": 1782917876169241911,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -76,13 +76,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "de8e6c17173efca3",
-      "parent_span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "9517eac98ae6ee90",
+      "parent_span_id": "9fbcbb0df3dace46",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825019928718580,
-      "end_time_unix_ns": 1782825020892160518,
-      "duration_ms": 963.441938,
+      "start_time_unix_ns": 1782917876169454564,
+      "end_time_unix_ns": 1782917876169492469,
+      "duration_ms": 0.037905,
       "status": {
         "status_code": "OK",
         "description": null
@@ -91,21 +91,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"backlight\": \"RGB\", \"price_min\": 233.9, \"product_type\": \"Mechanical Keyboard\"}",
-        "gen_ai.usage.input_tokens": 109,
-        "gen_ai.usage.output_tokens": 50,
-        "gen_ai.usage.total_tokens": 159,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"backlight\": \"RGB\", \"price_min\": 233.9, \"product_type\": \"Mechanical Keyboard\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"backlight\": \"RGB\", \"price_min\": 233.9, \"product_type\": \"Mechanical Keyboard\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825019928862757,
+          "timestamp_unix_ns": 1782917876169475976,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -114,13 +114,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "a166c443ba12f4a3",
-      "parent_span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "5f3a69abd24e49d0",
+      "parent_span_id": "9fbcbb0df3dace46",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825020893309077,
-      "end_time_unix_ns": 1782825020893594634,
-      "duration_ms": 0.285557,
+      "start_time_unix_ns": 1782917876169697197,
+      "end_time_unix_ns": 1782917876169767772,
+      "duration_ms": 0.070575,
       "status": {
         "status_code": "OK",
         "description": null
@@ -149,7 +149,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825020893568920,
+          "timestamp_unix_ns": 1782917876169761691,
           "attributes": {
             "tool.output.count": 2
           }
@@ -158,13 +158,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "e9497198d267e23a",
-      "parent_span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "494480b42864c55e",
+      "parent_span_id": "9fbcbb0df3dace46",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825020894606785,
-      "end_time_unix_ns": 1782825021825080716,
-      "duration_ms": 930.473931,
+      "start_time_unix_ns": 1782917876169971824,
+      "end_time_unix_ns": 1782917876170014488,
+      "duration_ms": 0.042664,
       "status": {
         "status_code": "OK",
         "description": null
@@ -173,12 +173,12 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 237,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 278,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Mechanical Keyboard with backlight=RGB cost more than $233.90?",
         "agent.output_message": "No items match that filter above the given price."
@@ -186,7 +186,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825020894674223,
+          "timestamp_unix_ns": 1782917876169985871,
           "attributes": {
             "category": "Misinterpretation of Tool Output",
             "node": "Executor"
@@ -194,7 +194,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825021825041297,
+          "timestamp_unix_ns": 1782917876170009792,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -203,13 +203,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "ea7b9aef6e0b685a",
-      "parent_span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "46cd87a9d343bf6c",
+      "parent_span_id": "9fbcbb0df3dace46",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825021826269919,
-      "end_time_unix_ns": 1782825022820510710,
-      "duration_ms": 994.240791,
+      "start_time_unix_ns": 1782917876170191506,
+      "end_time_unix_ns": 1782917876170233721,
+      "duration_ms": 0.042215,
       "status": {
         "status_code": "OK",
         "description": null
@@ -218,23 +218,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 223,
-        "gen_ai.usage.output_tokens": 47,
-        "gen_ai.usage.total_tokens": 270,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict is APPROVED because the tool result indicates that there are items available that match the filter, despite the statement claiming no items match, which contradicts the actual tool result showing two items with a total count of 2.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
         "agent.input_message": "Evaluate answer: No items match that filter above the given price.",
-        "agent.output_message": "The verdict is APPROVED because the tool result indicates that there are items available that match the filter, despite the statement claiming no items match, which contradicts the actual tool result showing two items with a total count of 2."
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825021826391508,
+          "timestamp_unix_ns": 1782917876170210522,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -243,13 +243,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "9e34701d87fecd8a3ba9c84f7315b4c9",
-      "span_id": "117ce0e8127f421a",
+      "trace_id": "3f64eb1dc0609506cf164a6f31eee728",
+      "span_id": "9fbcbb0df3dace46",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825019040977882,
-      "end_time_unix_ns": 1782825022821183036,
-      "duration_ms": 3780.205154,
+      "start_time_unix_ns": 1782917876168759597,
+      "end_time_unix_ns": 1782917876170361310,
+      "duration_ms": 1.601713,
       "status": {
         "status_code": "OK",
         "description": null

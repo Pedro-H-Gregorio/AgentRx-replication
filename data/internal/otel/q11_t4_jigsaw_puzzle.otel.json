@@ -26,18 +26,18 @@
     "template_id": "T4_item_option",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825012882,
+  "created_at_unix_ms": 1782917876144,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "779bf5280d832223",
-      "parent_span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "164798d2ab759c53",
+      "parent_span_id": "7c5212906220f445",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825010211349004,
-      "end_time_unix_ns": 1782825011194412034,
-      "duration_ms": 983.06303,
+      "start_time_unix_ns": 1782917876143569110,
+      "end_time_unix_ns": 1782917876143615747,
+      "duration_ms": 0.046637,
       "status": {
         "status_code": "OK",
         "description": null
@@ -46,22 +46,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q11_t4_jigsaw_puzzle",
         "task.input": "Does item 1096508426 of the Jigsaw Puzzle have difficulty level=beginner?",
         "task.expected_result": "Item 1096508426 has difficulty level=beginner.",
-        "gen_ai.usage.input_tokens": 110,
-        "gen_ai.usage.output_tokens": 52,
-        "gen_ai.usage.total_tokens": 162,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Does item 1096508426 of the Jigsaw Puzzle have difficulty level=beginner?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will retrieve the product information associated with item 1096508426, and then extract the difficulty level to determine if it is set to \"beginner\"."
+        "agent.output_message": "Plan ready; query {\"item_id\": \"1096508426\", \"product_id\": \"1808611083\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825011194371349,
+          "timestamp_unix_ns": 1782917876143608369,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -70,13 +70,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "f6782cad117e0662",
-      "parent_span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "6be2523b0e952117",
+      "parent_span_id": "7c5212906220f445",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825011195752998,
-      "end_time_unix_ns": 1782825011791974458,
-      "duration_ms": 596.22146,
+      "start_time_unix_ns": 1782917876143858322,
+      "end_time_unix_ns": 1782917876143901265,
+      "duration_ms": 0.042943,
       "status": {
         "status_code": "OK",
         "description": null
@@ -85,21 +85,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"product_id\": 0}",
-        "gen_ai.usage.input_tokens": 85,
-        "gen_ai.usage.output_tokens": 28,
-        "gen_ai.usage.total_tokens": 113,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will call the `ProductCatalogSearch` tool with the argument `{\"product_id\": 0}` to retrieve the product information."
+        "agent.output_message": "Call ProductCatalogSearch with {\"product_id\": 0}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825011195851097,
+          "timestamp_unix_ns": 1782917876143874315,
           "attributes": {
             "category": "Invalid Invocation",
             "node": "Researcher"
@@ -107,7 +107,7 @@
         },
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825011195904947,
+          "timestamp_unix_ns": 1782917876143885491,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -116,13 +116,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "84c1f1533130c212",
-      "parent_span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "3acdacb3d87ff7b2",
+      "parent_span_id": "7c5212906220f445",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825011794097285,
-      "end_time_unix_ns": 1782825011794379411,
-      "duration_ms": 0.282126,
+      "start_time_unix_ns": 1782917876144117272,
+      "end_time_unix_ns": 1782917876144156110,
+      "duration_ms": 0.038838,
       "status": {
         "status_code": "ERROR",
         "description": "catalog.get_details requires string product_id and item_id"
@@ -152,7 +152,7 @@
       "events": [
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782825011794338505,
+          "timestamp_unix_ns": 1782917876144150155,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "SchemaError"
@@ -162,13 +162,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "62cc058057385323",
-      "parent_span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "18dea5498f6ea18d",
+      "parent_span_id": "7c5212906220f445",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825011795709639,
-      "end_time_unix_ns": 1782825012076091670,
-      "duration_ms": 280.382031,
+      "start_time_unix_ns": 1782917876144355157,
+      "end_time_unix_ns": 1782917876144383544,
+      "duration_ms": 0.028387,
       "status": {
         "status_code": "OK",
         "description": null
@@ -177,20 +177,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 121,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 128,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Does item 1096508426 of the Jigsaw Puzzle have difficulty level=beginner?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825012076052558,
+          "timestamp_unix_ns": 1782917876144378741,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "fa66cce049cc4a74",
-      "parent_span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "90f5dac60fbfaa0f",
+      "parent_span_id": "7c5212906220f445",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825012077494869,
-      "end_time_unix_ns": 1782825012880779489,
-      "duration_ms": 803.28462,
+      "start_time_unix_ns": 1782917876144556840,
+      "end_time_unix_ns": 1782917876144590852,
+      "duration_ms": 0.034012,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 41,
-        "gen_ai.usage.total_tokens": 141,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the input provided was invalid or not in the expected format.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the input provided was invalid or not in the expected format."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782825012077626817,
+          "timestamp_unix_ns": 1782917876144573946,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "768914c25381d67848ab49b9b442ddfb",
-      "span_id": "6f8fa6faf49a980d",
+      "trace_id": "8f2a3651a4811d78bd580e3d29d8a460",
+      "span_id": "7c5212906220f445",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825010210410768,
-      "end_time_unix_ns": 1782825012881561926,
-      "duration_ms": 2671.151158,
+      "start_time_unix_ns": 1782917876143083496,
+      "end_time_unix_ns": 1782917876144719669,
+      "duration_ms": 1.636173,
       "status": {
         "status_code": "OK",
         "description": null

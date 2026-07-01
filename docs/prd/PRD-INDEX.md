@@ -42,7 +42,7 @@ caminhos de execução separados:
 ## Convenções
 
 - Idioma dos PRDs: pt-BR. Identificadores de código e nomes de campo: inglês.
-- `RUN_ID` no formato `run_NNN`; cenários no formato `qNN_<template>_<produto>`.
+- Identificador de run = id do cenário, no formato `qNN_<template>_<produto>`.
 - Todo artefato de dados versionado carrega proveniência (ver `NOTICE.md`).
 - "Critério de aceite" = condição verificável (idealmente por teste automatizado).
 

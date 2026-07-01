@@ -26,18 +26,18 @@
     "template_id": "T4_item_option",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782824993947,
+  "created_at_unix_ms": 1782917876083,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "f44a03a371b820e2",
-      "parent_span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "44238ed5feb7e3fd",
+      "parent_span_id": "3443f849fea379e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824991258193934,
-      "end_time_unix_ns": 1782824992194648653,
-      "duration_ms": 936.454719,
+      "start_time_unix_ns": 1782917876082223570,
+      "end_time_unix_ns": 1782917876082261686,
+      "duration_ms": 0.038116,
       "status": {
         "status_code": "OK",
         "description": null
@@ -46,22 +46,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q04_t4_smartphone",
         "task.input": "Does item 1507389580 of the Smartphone have RAM=8GB?",
         "task.expected_result": "Item 1507389580 has RAM=8GB.",
-        "gen_ai.usage.input_tokens": 107,
-        "gen_ai.usage.output_tokens": 49,
-        "gen_ai.usage.total_tokens": 156,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Does item 1507389580 of the Smartphone have RAM=8GB?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will retrieve the product information for item 1507389580 and then check if the RAM of the corresponding Smartphone product is 8GB."
+        "agent.output_message": "Plan ready; query {\"item_id\": \"1507389580\", \"product_id\": \"1801728040\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782824992194601696,
+          "timestamp_unix_ns": 1782917876082256157,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -70,13 +70,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "33322bfb1681a12b",
-      "parent_span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "2f7eb16609a3e1f0",
+      "parent_span_id": "3443f849fea379e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824992196024848,
-      "end_time_unix_ns": 1782824992961622517,
-      "duration_ms": 765.597669,
+      "start_time_unix_ns": 1782917876082466707,
+      "end_time_unix_ns": 1782917876082502373,
+      "duration_ms": 0.035666,
       "status": {
         "status_code": "OK",
         "description": null
@@ -85,21 +85,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"item_id\": \"1507389580\", \"product_id\": \"1801728040\"}",
-        "gen_ai.usage.input_tokens": 98,
-        "gen_ai.usage.output_tokens": 39,
-        "gen_ai.usage.total_tokens": 137,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"item_id\": \"1507389580\", \"product_id\": \"1801728040\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"item_id\": \"1507389580\", \"product_id\": \"1801728040\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782824992196140338,
+          "timestamp_unix_ns": 1782917876082487005,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -108,13 +108,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "41a88bdcae898a7b",
-      "parent_span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "253a31b210007288",
+      "parent_span_id": "3443f849fea379e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824992962628478,
-      "end_time_unix_ns": 1782824992963388654,
-      "duration_ms": 0.760176,
+      "start_time_unix_ns": 1782917876082709558,
+      "end_time_unix_ns": 1782917876082901222,
+      "duration_ms": 0.191664,
       "status": {
         "status_code": "ERROR",
         "description": "catalog search dependency timed out after 30000ms"
@@ -144,7 +144,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782824992962735946,
+          "timestamp_unix_ns": 1782917876082734769,
           "attributes": {
             "category": "System Failure",
             "node": "Tool"
@@ -152,7 +152,7 @@
         },
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782824992962784281,
+          "timestamp_unix_ns": 1782917876082744537,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "CatalogServiceTimeoutError"
@@ -160,7 +160,7 @@
         },
         {
           "name": "exception",
-          "timestamp_unix_ns": 1782824992963363586,
+          "timestamp_unix_ns": 1782917876082894673,
           "attributes": {
             "exception.type": "agentrx_otel_poc.faults.base.CatalogServiceTimeoutError",
             "exception.message": "catalog search dependency timed out after 30000ms",
@@ -172,13 +172,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "b43ba21fb5d6c6b4",
-      "parent_span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "135dec2fa1ec86b8",
+      "parent_span_id": "3443f849fea379e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824992964265752,
-      "end_time_unix_ns": 1782824993242455611,
-      "duration_ms": 278.189859,
+      "start_time_unix_ns": 1782917876083135715,
+      "end_time_unix_ns": 1782917876083166137,
+      "duration_ms": 0.030422,
       "status": {
         "status_code": "OK",
         "description": null
@@ -187,20 +187,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 120,
-        "gen_ai.usage.output_tokens": 7,
-        "gen_ai.usage.total_tokens": 127,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Does item 1507389580 of the Smartphone have RAM=8GB?",
-        "agent.output_message": "Task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782824993242419614,
+          "timestamp_unix_ns": 1782917876083161111,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -209,13 +209,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "50b53542bc005a7d",
-      "parent_span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "489a6c6c62df761a",
+      "parent_span_id": "3443f849fea379e9",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824993243532125,
-      "end_time_unix_ns": 1782824993946663686,
-      "duration_ms": 703.131561,
+      "start_time_unix_ns": 1782917876083354271,
+      "end_time_unix_ns": 1782917876083388743,
+      "duration_ms": 0.034472,
       "status": {
         "status_code": "OK",
         "description": null
@@ -224,23 +224,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 102,
-        "gen_ai.usage.output_tokens": 36,
-        "gen_ai.usage.total_tokens": 138,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: Task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782824993243624360,
+          "timestamp_unix_ns": 1782917876083371599,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -249,13 +249,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "7126c8de4815501591677820421ff69e",
-      "span_id": "76f96841bea75c9d",
+      "trace_id": "76e6299c38962d48620f506479114c0a",
+      "span_id": "3443f849fea379e9",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824991257587232,
-      "end_time_unix_ns": 1782824993947405684,
-      "duration_ms": 2689.818452,
+      "start_time_unix_ns": 1782917876081810607,
+      "end_time_unix_ns": 1782917876083512010,
+      "duration_ms": 1.701403,
       "status": {
         "status_code": "OK",
         "description": null

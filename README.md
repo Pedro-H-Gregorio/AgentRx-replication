@@ -26,9 +26,12 @@ Determinismo é o default: `USE_LLM=false`, temperatura 0, sem rede no caminho d
 parametrizável via `.env` (`AGENT_MODEL`).
 
 Com `USE_LLM=true`, os nós-agente (Coordinator, Researcher, Executor, Evaluator) chamam o modelo do agente em
-`AGENT_BASE_URL` (ex.: Ollama em `http://localhost:11434/v1`, com o modelo já baixado). A **injeção de falha continua
-scriptada** — o LLM só gera a prosa do passo e a telemetria de tokens. Se o endpoint não responder, o passo cai em
-fallback determinístico e registra `agent.llm.failed` no log (cheque o log se o LLM parecer não ter sido usado).
+`AGENT_BASE_URL` (ex.: Ollama em `http://localhost:11434/v1`, com o modelo já baixado). O agente usa **só** as vars
+`AGENT_MODEL`/`AGENT_BASE_URL`/`AGENT_API_KEY` — setar `AGENT_BASE_URL` explicitamente (não confiar em `OPENAI_*`, que o
+SDK da openai poderia ler do ambiente sem registrar no manifesto). A **injeção de falha continua scriptada** — o LLM só
+gera a prosa do passo e a telemetria de tokens. Se o endpoint não responder, o passo cai em fallback determinístico e
+registra `agent.llm.failed` no log. **Checagem prática:** `total_tokens > 0` no manifesto/telemetria confirma que o LLM
+real foi usado; tokens 0 com `USE_LLM=true` = fallback silencioso por config errada.
 
 ## Tutorial — pipeline segregado
 
@@ -51,6 +54,18 @@ make check      # → ruff + check_file_size OK
 ```
 
 Os validadores também rodam isolados: `make validate-benchmark`, `make validate-traces`, `make validate-trajectories`.
+
+### Reset antes do experimento
+
+Para começar o experimento do zero (limpar traces/trajetórias/ground truth/logs/manifests de runs de teste):
+
+```bash
+make clean-data   # apaga data/internal/{otel,trajectory_*,ground_truth,logs,manifests}
+make generate simulate derive   # regenera a baseline determinística
+```
+
+`make clean-data` é idempotente e não toca no benchmark nem no catálogo vendorizado. Os artefatos de run seguem
+versionados (commite a baseline nova após regenerar).
 
 ## Juiz do AgentRx (próxima etapa)
 

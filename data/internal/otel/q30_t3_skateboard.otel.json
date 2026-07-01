@@ -34,18 +34,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825084464,
+  "created_at_unix_ms": 1782917876307,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "8e8de91ec6313bef",
-      "parent_span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "bcd8c462b26f4eb7",
+      "parent_span_id": "2252cc133c555186",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825079678746142,
-      "end_time_unix_ns": 1782825080788393514,
-      "duration_ms": 1109.647372,
+      "start_time_unix_ns": 1782917876305713940,
+      "end_time_unix_ns": 1782917876305762568,
+      "duration_ms": 0.048628,
       "status": {
         "status_code": "OK",
         "description": null
@@ -54,22 +54,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q30_t3_skateboard",
         "task.input": "Which available Skateboard with deck material=bamboo cost more than $194.56?",
         "task.expected_result": "4 available Skateboard (deck material=bamboo) priced above $194.56.",
-        "gen_ai.usage.input_tokens": 112,
-        "gen_ai.usage.output_tokens": 53,
-        "gen_ai.usage.total_tokens": 165,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Skateboard with deck material=bamboo cost more than $194.56?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available skateboards with a bamboo deck material, and then filter the results to find the products that cost more than $194.56."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"deck material\": \"bamboo\", \"product_type\": \"Skateboard\"}."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825079678966416,
+          "timestamp_unix_ns": 1782917876305733265,
           "attributes": {
             "category": "Instruction/Plan Adherence Failure",
             "node": "Coordinator"
@@ -77,7 +77,7 @@
         },
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825080788349946,
+          "timestamp_unix_ns": 1782917876305756778,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -86,13 +86,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "5445f9464922ad5b",
-      "parent_span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "0d1e4fd8d02cbda7",
+      "parent_span_id": "2252cc133c555186",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825080789711260,
-      "end_time_unix_ns": 1782825081633344536,
-      "duration_ms": 843.633276,
+      "start_time_unix_ns": 1782917876305976611,
+      "end_time_unix_ns": 1782917876306011848,
+      "duration_ms": 0.035237,
       "status": {
         "status_code": "OK",
         "description": null
@@ -101,21 +101,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"deck material\": \"bamboo\", \"product_type\": \"Skateboard\"}",
-        "gen_ai.usage.input_tokens": 101,
-        "gen_ai.usage.output_tokens": 42,
-        "gen_ai.usage.total_tokens": 143,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"deck_material\": \"bamboo\", \"product_type\": \"Skateboard\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"deck material\": \"bamboo\", \"product_type\": \"Skateboard\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825080789835700,
+          "timestamp_unix_ns": 1782917876305997042,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -124,13 +124,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "6d52f4b986511efa",
-      "parent_span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "fc0bc99c41f1fd93",
+      "parent_span_id": "2252cc133c555186",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825081634844563,
-      "end_time_unix_ns": 1782825081635245223,
-      "duration_ms": 0.40066,
+      "start_time_unix_ns": 1782917876306208866,
+      "end_time_unix_ns": 1782917876306271643,
+      "duration_ms": 0.062777,
       "status": {
         "status_code": "OK",
         "description": null
@@ -159,7 +159,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825081635213916,
+          "timestamp_unix_ns": 1782917876306266375,
           "attributes": {
             "tool.output.count": 8
           }
@@ -168,13 +168,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "74ecb19b132a4775",
-      "parent_span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "148037892d31f825",
+      "parent_span_id": "2252cc133c555186",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825081636836903,
-      "end_time_unix_ns": 1782825083220790536,
-      "duration_ms": 1583.953633,
+      "start_time_unix_ns": 1782917876306481905,
+      "end_time_unix_ns": 1782917876306527625,
+      "duration_ms": 0.04572,
       "status": {
         "status_code": "OK",
         "description": null
@@ -183,20 +183,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 513,
-        "gen_ai.usage.output_tokens": 71,
-        "gen_ai.usage.total_tokens": 584,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Skateboard with deck material=bamboo cost more than $194.56?",
-        "agent.output_message": "The available Skateboard with deck material=bamboo that cost more than $194.56 is:\n\n- item_id: 6956751343, price: 217.06\n- item_id: 4293355847, price: 200.8\n- item_id: 8176740019, price: 208.6"
+        "agent.output_message": "Found 8 item(s) from the catalog tool: 3541421151, 4293355847, 5312063289, 6313971174, 6673921677."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825083220727827,
+          "timestamp_unix_ns": 1782917876306522320,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -205,13 +205,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "4187e25f42588fcf",
-      "parent_span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "f12f6928706e7fbc",
+      "parent_span_id": "2252cc133c555186",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825083222226323,
-      "end_time_unix_ns": 1782825084462627254,
-      "duration_ms": 1240.400931,
+      "start_time_unix_ns": 1782917876306730195,
+      "end_time_unix_ns": 1782917876306782146,
+      "duration_ms": 0.051951,
       "status": {
         "status_code": "OK",
         "description": null
@@ -220,23 +220,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 558,
-        "gen_ai.usage.output_tokens": 50,
-        "gen_ai.usage.total_tokens": 608,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict of APPROVED is justified because the answer correctly identifies the available Skateboard with a bamboo deck material that costs more than $194.56, which is item_id: 6956751343 with a price of 217.06.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
-        "agent.input_message": "Evaluate answer: The available Skateboard with deck material=bamboo that cost more than $194.56 is:\n\n- item_id: 6956751343, price: 217.06\n- item_id: 4293355847, price: 200.8\n- item_id: 8176740019, price: 208.6",
-        "agent.output_message": "The verdict of APPROVED is justified because the answer correctly identifies the available Skateboard with a bamboo deck material that costs more than $194.56, which is item_id: 6956751343 with a price of 217.06."
+        "agent.input_message": "Evaluate answer: Found 8 item(s) from the catalog tool: 3541421151, 4293355847, 5312063289, 6313971174, 6673921677.",
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825083222353557,
+          "timestamp_unix_ns": 1782917876306751279,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -245,13 +245,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "d4873f205f21d0eb63494377675e344d",
-      "span_id": "c5d52f34689efbe4",
+      "trace_id": "04a642a84b07d529ac54ea56e67d9d7c",
+      "span_id": "2252cc133c555186",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825079678046083,
-      "end_time_unix_ns": 1782825084463627590,
-      "duration_ms": 4785.581507,
+      "start_time_unix_ns": 1782917876305269357,
+      "end_time_unix_ns": 1782917876306911016,
+      "duration_ms": 1.641659,
       "status": {
         "status_code": "OK",
         "description": null

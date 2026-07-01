@@ -45,11 +45,12 @@ não estrutura.
 - Teste de paridade: extrair de A e de B a sequência (agent, operation, status, tool_result) e exigir igualdade.
   Diferença permitida só nos campos de métrica.
 
-## 7. Adapters auxiliares (já existentes, manter)
+## 7. Adapters auxiliares (descontinuados)
 
-- `metrics_adapter.py` — tabela por passo (sanidade/observabilidade), não é braço.
-- `text_adapter.py` — **redefinir**: o baseline textual de referência é o Braço B (prosa fiel), não o `.txt` de 9 linhas
-  atual, que é um espantalho e deve ser descontinuado como condição experimental.
+- `metrics_adapter.py` — **removido** (PRD-08 D18): nunca foi ligado ao pipeline e o parser + os 2 braços já cobrem a
+  derivação; se uma tabela de sanidade for necessária, recriar pequena sob demanda.
+- `text_adapter.py` — descontinuado: o baseline textual de referência é o **Braço B** (prosa fiel), não o `.txt` de 9
+  linhas (espantalho).
 
 ## 8. Critérios de aceite
 

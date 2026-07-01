@@ -27,18 +27,18 @@
     "template_id": "T2_count",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782824988284,
+  "created_at_unix_ms": 1782917876066,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "a9e69d2890e2ce2a",
-      "parent_span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "9d9aa2f298575390",
+      "parent_span_id": "2436eb5d62a43fc6",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824985451306621,
-      "end_time_unix_ns": 1782824986462061585,
-      "duration_ms": 1010.754964,
+      "start_time_unix_ns": 1782917876064956684,
+      "end_time_unix_ns": 1782917876065001014,
+      "duration_ms": 0.04433,
       "status": {
         "status_code": "OK",
         "description": null
@@ -47,22 +47,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q02_t2_mechanical_keyboard",
         "task.input": "How many Mechanical Keyboard options are available?",
         "task.expected_result": "There are 13 available Mechanical Keyboard options.",
-        "gen_ai.usage.input_tokens": 100,
-        "gen_ai.usage.output_tokens": 54,
-        "gen_ai.usage.total_tokens": 154,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: How many Mechanical Keyboard options are available?",
-        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"}, to retrieve the count of Mechanical Keyboard options available in the catalog."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782824986462013094,
+          "timestamp_unix_ns": 1782917876064994404,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -71,13 +71,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "b91d05755224f4c0",
-      "parent_span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "595907126e2eaaa4",
+      "parent_span_id": "2436eb5d62a43fc6",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824986463478914,
-      "end_time_unix_ns": 1782824987251858106,
-      "duration_ms": 788.379192,
+      "start_time_unix_ns": 1782917876065208769,
+      "end_time_unix_ns": 1782917876065245462,
+      "duration_ms": 0.036693,
       "status": {
         "status_code": "OK",
         "description": null
@@ -86,21 +86,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"}",
-        "gen_ai.usage.input_tokens": 99,
-        "gen_ai.usage.output_tokens": 40,
-        "gen_ai.usage.total_tokens": 139,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"} to satisfy the plan."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782824986463617188,
+          "timestamp_unix_ns": 1782917876065229951,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -109,13 +109,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "d7b6e1222fb02072",
-      "parent_span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "464ff4568d597e5f",
+      "parent_span_id": "2436eb5d62a43fc6",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824987253297218,
-      "end_time_unix_ns": 1782824987254324429,
-      "duration_ms": 1.027211,
+      "start_time_unix_ns": 1782917876065447017,
+      "end_time_unix_ns": 1782917876065670584,
+      "duration_ms": 0.223567,
       "status": {
         "status_code": "ERROR",
         "description": "catalog search dependency timed out after 30000ms"
@@ -145,7 +145,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782824987253450699,
+          "timestamp_unix_ns": 1782917876065472376,
           "attributes": {
             "category": "System Failure",
             "node": "Tool"
@@ -153,7 +153,7 @@
         },
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782824987253501087,
+          "timestamp_unix_ns": 1782917876065482572,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "CatalogServiceTimeoutError"
@@ -161,7 +161,7 @@
         },
         {
           "name": "exception",
-          "timestamp_unix_ns": 1782824987254293491,
+          "timestamp_unix_ns": 1782917876065663011,
           "attributes": {
             "exception.type": "agentrx_otel_poc.faults.base.CatalogServiceTimeoutError",
             "exception.message": "catalog search dependency timed out after 30000ms",
@@ -173,13 +173,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "fd5a5bc22fd2fac2",
-      "parent_span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "e011fa1935a02282",
+      "parent_span_id": "2436eb5d62a43fc6",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824987255905613,
-      "end_time_unix_ns": 1782824987551220105,
-      "duration_ms": 295.314492,
+      "start_time_unix_ns": 1782917876065916125,
+      "end_time_unix_ns": 1782917876065949982,
+      "duration_ms": 0.033857,
       "status": {
         "status_code": "OK",
         "description": null
@@ -188,20 +188,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 112,
-        "gen_ai.usage.output_tokens": 8,
-        "gen_ai.usage.total_tokens": 120,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: How many Mechanical Keyboard options are available?",
-        "agent.output_message": "The task could not be completed."
+        "agent.output_message": "The product catalog search could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782824987551176227,
+          "timestamp_unix_ns": 1782917876065944790,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -210,13 +210,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "8864f31513d2c853",
-      "parent_span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "007f663d9d0ec84e",
+      "parent_span_id": "2436eb5d62a43fc6",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824987552641079,
-      "end_time_unix_ns": 1782824988282682840,
-      "duration_ms": 730.041761,
+      "start_time_unix_ns": 1782917876066137124,
+      "end_time_unix_ns": 1782917876066176059,
+      "duration_ms": 0.038935,
       "status": {
         "status_code": "OK",
         "description": null
@@ -225,23 +225,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 103,
-        "gen_ai.usage.output_tokens": 36,
-        "gen_ai.usage.total_tokens": 139,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "REJECTED",
-        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure to fulfill the task requirements.",
+        "validation.reason": "Tool evidence is unavailable.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: The task could not be completed.",
-        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure to fulfill the task requirements."
+        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
+        "agent.output_message": "Tool evidence is unavailable."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782824987552784122,
+          "timestamp_unix_ns": 1782917876066157456,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -250,13 +250,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "285ea193e5fa05a6711806c859b3533e",
-      "span_id": "dd500c86cda2e01b",
+      "trace_id": "8041cd514e1312ba7a4f9df42c7c2fdd",
+      "span_id": "2436eb5d62a43fc6",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782824985450571444,
-      "end_time_unix_ns": 1782824988283549228,
-      "duration_ms": 2832.977784,
+      "start_time_unix_ns": 1782917876064439123,
+      "end_time_unix_ns": 1782917876066300559,
+      "duration_ms": 1.861436,
       "status": {
         "status_code": "OK",
         "description": null

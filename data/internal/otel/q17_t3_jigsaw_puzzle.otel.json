@@ -31,18 +31,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782825033409,
+  "created_at_unix_ms": 1782917876196,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "864c9da9201de171",
-      "parent_span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "f3829eefe79e3e21",
+      "parent_span_id": "227df2f49d9e1a7b",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825029420131622,
-      "end_time_unix_ns": 1782825030666401266,
-      "duration_ms": 1246.269644,
+      "start_time_unix_ns": 1782917876194816026,
+      "end_time_unix_ns": 1782917876194859101,
+      "duration_ms": 0.043075,
       "status": {
         "status_code": "OK",
         "description": null
@@ -51,22 +51,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q17_t3_jigsaw_puzzle",
         "task.input": "Which available Jigsaw Puzzle with difficulty level=beginner cost more than $45.76?",
         "task.expected_result": "1 available Jigsaw Puzzle (difficulty level=beginner) priced above $45.76.",
-        "gen_ai.usage.input_tokens": 122,
-        "gen_ai.usage.output_tokens": 66,
-        "gen_ai.usage.total_tokens": 188,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Task: Which available Jigsaw Puzzle with difficulty level=beginner cost more than $45.76?",
-        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available Jigsaw Puzzles with a difficulty level of \"beginner\" and a price greater than $45.76, and then I will extract the puzzle with the highest price from the result."
+        "agent.output_message": "Plan ready; query {\"available_only\": true, \"difficulty level\": \"beginner\", \"price_min\": 45.76, \"product_type\": \"Jigsaw Puzzle\"}."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782825030666359925,
+          "timestamp_unix_ns": 1782917876194853186,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -75,13 +75,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "26a47c4a8437139b",
-      "parent_span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "4acd9f0002a09de2",
+      "parent_span_id": "227df2f49d9e1a7b",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825030668308926,
-      "end_time_unix_ns": 1782825031624038461,
-      "duration_ms": 955.729535,
+      "start_time_unix_ns": 1782917876195066827,
+      "end_time_unix_ns": 1782917876195103061,
+      "duration_ms": 0.036234,
       "status": {
         "status_code": "OK",
         "description": null
@@ -90,21 +90,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"difficulty level\": \"beginner\", \"price_min\": 45.76, \"product_type\": \"Jigsaw Puzzle\"}",
-        "gen_ai.usage.input_tokens": 110,
-        "gen_ai.usage.output_tokens": 50,
-        "gen_ai.usage.total_tokens": 160,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "I will make a call to the ProductCatalogSearch tool with the following arguments: {\"available_only\": true, \"difficulty level\": \"beginner\", \"price_min\": 45.76, \"product_type\": \"Jigsaw Puzzle\"}."
+        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"difficulty level\": \"beginner\", \"price_min\": 45.76, \"product_type\": \"Jigsaw Puzzle\"}."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782825030668473941,
+          "timestamp_unix_ns": 1782917876195087639,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -113,13 +113,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "4c2f0c7d2bcbcf34",
-      "parent_span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "72840d6400bf3d2b",
+      "parent_span_id": "227df2f49d9e1a7b",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825031625559301,
-      "end_time_unix_ns": 1782825031625917210,
-      "duration_ms": 0.357909,
+      "start_time_unix_ns": 1782917876195303198,
+      "end_time_unix_ns": 1782917876195358681,
+      "duration_ms": 0.055483,
       "status": {
         "status_code": "OK",
         "description": null
@@ -148,7 +148,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782825031625887880,
+          "timestamp_unix_ns": 1782917876195353350,
           "attributes": {
             "tool.output.count": 1
           }
@@ -157,13 +157,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "e590652f4a228e02",
-      "parent_span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "9910cfd042fa33e0",
+      "parent_span_id": "227df2f49d9e1a7b",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825031627008591,
-      "end_time_unix_ns": 1782825032453712119,
-      "duration_ms": 826.703528,
+      "start_time_unix_ns": 1782917876195560711,
+      "end_time_unix_ns": 1782917876195599591,
+      "duration_ms": 0.03888,
       "status": {
         "status_code": "OK",
         "description": null
@@ -172,12 +172,12 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 193,
-        "gen_ai.usage.output_tokens": 38,
-        "gen_ai.usage.total_tokens": 231,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Jigsaw Puzzle with difficulty level=beginner cost more than $45.76?",
         "agent.output_message": "No items match that filter above the given price."
@@ -185,7 +185,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782825031627079106,
+          "timestamp_unix_ns": 1782917876195574517,
           "attributes": {
             "category": "Misinterpretation of Tool Output",
             "node": "Executor"
@@ -193,7 +193,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782825032453671619,
+          "timestamp_unix_ns": 1782917876195595232,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -202,13 +202,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "6f52897a22484dde",
-      "parent_span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "50451af988bc6471",
+      "parent_span_id": "227df2f49d9e1a7b",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825032455048024,
-      "end_time_unix_ns": 1782825033408535610,
-      "duration_ms": 953.487586,
+      "start_time_unix_ns": 1782917876195787496,
+      "end_time_unix_ns": 1782917876195827528,
+      "duration_ms": 0.040032,
       "status": {
         "status_code": "OK",
         "description": null
@@ -217,23 +217,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_llm",
+        "experiment.operation_type": "agent_fallback",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 176,
-        "gen_ai.usage.output_tokens": 40,
-        "gen_ai.usage.total_tokens": 216,
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
         "validation.status": "APPROVED",
-        "validation.reason": "The verdict is APPROVED because the tool result indicates that there is at least one item available that matches the filter criteria, including the given price of 45.76, thus fulfilling the condition.",
+        "validation.reason": "Tool evidence is available.",
         "constraint.violations_json": "[]",
         "agent.input_message": "Evaluate answer: No items match that filter above the given price.",
-        "agent.output_message": "The verdict is APPROVED because the tool result indicates that there is at least one item available that matches the filter criteria, including the given price of 45.76, thus fulfilling the condition."
+        "agent.output_message": "Tool evidence is available."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782825032455165827,
+          "timestamp_unix_ns": 1782917876195806598,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -242,13 +242,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "966acd7d938033a411fe2e8feff916ac",
-      "span_id": "b2d1bef9c37345aa",
+      "trace_id": "5b7e080f65a675821c9107c35f6b9292",
+      "span_id": "227df2f49d9e1a7b",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782825029419259692,
-      "end_time_unix_ns": 1782825033409377563,
-      "duration_ms": 3990.117871,
+      "start_time_unix_ns": 1782917876194365882,
+      "end_time_unix_ns": 1782917876195948425,
+      "duration_ms": 1.582543,
       "status": {
         "status_code": "OK",
         "description": null
