@@ -32,18 +32,18 @@
     "template_id": "T3_spec_filter",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782917876110,
+  "created_at_unix_ms": 1783047434125,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "e807bf4f3619a571",
-      "parent_span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "92ef4487ab0ab27b",
+      "parent_span_id": "ebc32ab756dd1f56",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876108012323,
-      "end_time_unix_ns": 1782917876108052147,
-      "duration_ms": 0.039824,
+      "start_time_unix_ns": 1783047431329603931,
+      "end_time_unix_ns": 1783047432248061147,
+      "duration_ms": 918.457216,
       "status": {
         "status_code": "OK",
         "description": null
@@ -52,22 +52,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q07_t3_electric_kettle",
         "task.input": "Which available Electric Kettle with capacity=1.5L cost more than $147.46?",
         "task.expected_result": "2 available Electric Kettle (capacity=1.5L) priced above $147.46.",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 124,
+        "gen_ai.usage.output_tokens": 50,
+        "gen_ai.usage.total_tokens": 174,
         "agent.input_message": "Task: Which available Electric Kettle with capacity=1.5L cost more than $147.46?",
-        "agent.output_message": "Plan ready; query {\"available_only\": true, \"capacity\": \"1.5L\", \"price_min\": 147.46, \"product_type\": \"Electric Kettle\"}."
+        "agent.output_message": "To answer the task, I will use the ProductCatalogSearch tool to execute the provided query, which will return a list of available Electric Kettles with a capacity of 1.5L and a price greater than $147.46."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782917876108046451,
+          "timestamp_unix_ns": 1783047432248014596,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -76,13 +76,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "c9e1b44efd1983ec",
-      "parent_span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "04dfd3d10ede8f16",
+      "parent_span_id": "ebc32ab756dd1f56",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876108266049,
-      "end_time_unix_ns": 1782917876108307091,
-      "duration_ms": 0.041042,
+      "start_time_unix_ns": 1783047432249426767,
+      "end_time_unix_ns": 1783047433039603768,
+      "duration_ms": 790.177001,
       "status": {
         "status_code": "OK",
         "description": null
@@ -91,21 +91,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"capacity\": \"1.5L\", \"price_min\": 147.46}",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 102,
+        "gen_ai.usage.output_tokens": 43,
+        "gen_ai.usage.total_tokens": 145,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"capacity\": \"1.5L\", \"price_min\": 147.46}."
+        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"capacity\": \"1.5L\", \"price_min\": 147.46} to satisfy the plan."
       },
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782917876108280842,
+          "timestamp_unix_ns": 1783047432249502850,
           "attributes": {
             "category": "Invalid Invocation",
             "node": "Researcher"
@@ -113,7 +113,7 @@
         },
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782917876108292624,
+          "timestamp_unix_ns": 1783047432249570755,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -122,13 +122,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "abdeb639f7b61a73",
-      "parent_span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "84c13878aa985683",
+      "parent_span_id": "ebc32ab756dd1f56",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876108504802,
-      "end_time_unix_ns": 1782917876109428300,
-      "duration_ms": 0.923498,
+      "start_time_unix_ns": 1783047433041101903,
+      "end_time_unix_ns": 1783047433044140546,
+      "duration_ms": 3.038643,
       "status": {
         "status_code": "ERROR",
         "description": "catalog.search requires a string product_type"
@@ -158,7 +158,7 @@
       "events": [
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782917876109419141,
+          "timestamp_unix_ns": 1783047433044122445,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "SchemaError"
@@ -168,13 +168,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "d2b5174599b76d28",
-      "parent_span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "8ca5eb8a394d8004",
+      "parent_span_id": "ebc32ab756dd1f56",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876109685557,
-      "end_time_unix_ns": 1782917876109725640,
-      "duration_ms": 0.040083,
+      "start_time_unix_ns": 1783047433044703520,
+      "end_time_unix_ns": 1783047433283417158,
+      "duration_ms": 238.713638,
       "status": {
         "status_code": "OK",
         "description": null
@@ -183,20 +183,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 119,
+        "gen_ai.usage.output_tokens": 7,
+        "gen_ai.usage.total_tokens": 126,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: Which available Electric Kettle with capacity=1.5L cost more than $147.46?",
-        "agent.output_message": "The product catalog search could not be completed."
+        "agent.output_message": "Task could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782917876109719733,
+          "timestamp_unix_ns": 1783047433283375733,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -205,13 +205,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "1bc9c8c0ea1daeef",
-      "parent_span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "0ba4cfc33f15ef29",
+      "parent_span_id": "ebc32ab756dd1f56",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876109922860,
-      "end_time_unix_ns": 1782917876109962759,
-      "duration_ms": 0.039899,
+      "start_time_unix_ns": 1783047433284647619,
+      "end_time_unix_ns": 1783047434122905774,
+      "duration_ms": 838.258155,
       "status": {
         "status_code": "OK",
         "description": null
@@ -220,23 +220,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 97,
+        "gen_ai.usage.output_tokens": 46,
+        "gen_ai.usage.total_tokens": 143,
         "validation.status": "REJECTED",
-        "validation.reason": "Tool evidence is unavailable.",
+        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input does not meet the required schema for the \"catalog.search\" operation.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
-        "agent.output_message": "Tool evidence is unavailable."
+        "agent.input_message": "Evaluate answer: Task could not be completed.",
+        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a schema error in the tool result, indicating that the provided input does not meet the required schema for the \"catalog.search\" operation."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782917876109944059,
+          "timestamp_unix_ns": 1783047433284751810,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -245,13 +245,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "c82ec7ea14dad964d14fd814f19c8688",
-      "span_id": "183a8b0a7f858acd",
+      "trace_id": "88295d1793756b84b6ff38ca551aadf0",
+      "span_id": "ebc32ab756dd1f56",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876107550421,
-      "end_time_unix_ns": 1782917876110087784,
-      "duration_ms": 2.537363,
+      "start_time_unix_ns": 1783047431328937194,
+      "end_time_unix_ns": 1783047434124000931,
+      "duration_ms": 2795.063737,
       "status": {
         "status_code": "OK",
         "description": null

@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782917876057,
+  "created_at_unix_ms": 1783047417785,
   "status": "FAILED",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "95b80a2f14bff3bb",
-      "parent_span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "ee032252550884d0",
+      "parent_span_id": "d92f92a1a0c3719c",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876055512311,
-      "end_time_unix_ns": 1782917876055588448,
-      "duration_ms": 0.076137,
+      "start_time_unix_ns": 1783047414860260758,
+      "end_time_unix_ns": 1783047416057444058,
+      "duration_ms": 1197.1833,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q01_t1_electric_kettle",
         "task.input": "What is the cheapest available Electric Kettle?",
         "task.expected_result": "The cheapest available Electric Kettle is item 1240311797 at $137.17.",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 102,
+        "gen_ai.usage.output_tokens": 46,
+        "gen_ai.usage.total_tokens": 148,
         "agent.input_message": "Task: What is the cheapest available Electric Kettle?",
-        "agent.output_message": "Plan ready; query {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
+        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available Electric Kettles sorted in ascending order by price, allowing me to identify the cheapest option."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782917876055574317,
+          "timestamp_unix_ns": 1783047416057422494,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -72,13 +72,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "141b16126cac174a",
-      "parent_span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "98b8a41516288987",
+      "parent_span_id": "d92f92a1a0c3719c",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876055911481,
-      "end_time_unix_ns": 1782917876055960271,
-      "duration_ms": 0.04879,
+      "start_time_unix_ns": 1783047416057912326,
+      "end_time_unix_ns": 1783047416834172487,
+      "duration_ms": 776.260161,
       "status": {
         "status_code": "OK",
         "description": null
@@ -87,21 +87,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 100,
+        "gen_ai.usage.output_tokens": 41,
+        "gen_ai.usage.total_tokens": 141,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}."
+        "agent.output_message": "I will make a tool call to ProductCatalogSearch with the arguments {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"} to satisfy the plan."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782917876055937343,
+          "timestamp_unix_ns": 1783047416057948894,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -110,13 +110,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "37e734ff0b921299",
-      "parent_span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "2a8880460f14b3f0",
+      "parent_span_id": "d92f92a1a0c3719c",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876056189651,
-      "end_time_unix_ns": 1782917876056536008,
-      "duration_ms": 0.346357,
+      "start_time_unix_ns": 1783047416835775867,
+      "end_time_unix_ns": 1783047416837544060,
+      "duration_ms": 1.768193,
       "status": {
         "status_code": "ERROR",
         "description": "catalog search dependency timed out after 30000ms"
@@ -146,7 +146,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782917876056217308,
+          "timestamp_unix_ns": 1783047416835944172,
           "attributes": {
             "category": "System Failure",
             "node": "Tool"
@@ -154,7 +154,7 @@
         },
         {
           "name": "dependency_call_failed",
-          "timestamp_unix_ns": 1782917876056231698,
+          "timestamp_unix_ns": 1783047416836009663,
           "attributes": {
             "peer.service": "catalog-service",
             "exception.type": "CatalogServiceTimeoutError"
@@ -162,7 +162,7 @@
         },
         {
           "name": "exception",
-          "timestamp_unix_ns": 1782917876056527581,
+          "timestamp_unix_ns": 1783047416837502170,
           "attributes": {
             "exception.type": "agentrx_otel_poc.faults.base.CatalogServiceTimeoutError",
             "exception.message": "catalog search dependency timed out after 30000ms",
@@ -174,13 +174,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "0b9f0891a1ad9c9b",
-      "parent_span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "19fdb45fc2e1d815",
+      "parent_span_id": "d92f92a1a0c3719c",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876056799962,
-      "end_time_unix_ns": 1782917876056837857,
-      "duration_ms": 0.037895,
+      "start_time_unix_ns": 1783047416838210435,
+      "end_time_unix_ns": 1783047417084524583,
+      "duration_ms": 246.314148,
       "status": {
         "status_code": "OK",
         "description": null
@@ -189,20 +189,20 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 113,
+        "gen_ai.usage.output_tokens": 7,
+        "gen_ai.usage.total_tokens": 120,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Electric Kettle?",
-        "agent.output_message": "The product catalog search could not be completed."
+        "agent.output_message": "Task could not be completed."
       },
       "events": [
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782917876056832561,
+          "timestamp_unix_ns": 1783047417084483504,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -211,13 +211,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "6953f667e60bc601",
-      "parent_span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "6feceb124e98ea7f",
+      "parent_span_id": "d92f92a1a0c3719c",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876057028590,
-      "end_time_unix_ns": 1782917876057067835,
-      "duration_ms": 0.039245,
+      "start_time_unix_ns": 1783047417085653900,
+      "end_time_unix_ns": 1783047417783693233,
+      "duration_ms": 698.039333,
       "status": {
         "status_code": "OK",
         "description": null
@@ -226,23 +226,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 102,
+        "gen_ai.usage.output_tokens": 36,
+        "gen_ai.usage.total_tokens": 138,
         "validation.status": "REJECTED",
-        "validation.reason": "Tool evidence is unavailable.",
+        "validation.reason": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality.",
         "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
-        "agent.input_message": "Evaluate answer: The product catalog search could not be completed.",
-        "agent.output_message": "Tool evidence is unavailable."
+        "agent.input_message": "Evaluate answer: Task could not be completed.",
+        "agent.output_message": "The verdict of \"REJECTED\" is justified because the task could not be completed due to a timeout error from the CatalogService, indicating a failure in the tool's functionality."
       },
       "events": [
         {
           "name": "validation_failed",
-          "timestamp_unix_ns": 1782917876057047895,
+          "timestamp_unix_ns": 1783047417085756169,
           "attributes": {
             "reason": "Tool evidence is unavailable."
           }
@@ -251,13 +251,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "b8fc29cde038252f00b11bcffe2b2c57",
-      "span_id": "586cf5510bfe8a09",
+      "trace_id": "59d01f6ef34d76638897f47b52126fa9",
+      "span_id": "d92f92a1a0c3719c",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876054314325,
-      "end_time_unix_ns": 1782917876057207908,
-      "duration_ms": 2.893583,
+      "start_time_unix_ns": 1783047414859174292,
+      "end_time_unix_ns": 1783047417784672083,
+      "duration_ms": 2925.497791,
       "status": {
         "status_code": "OK",
         "description": null

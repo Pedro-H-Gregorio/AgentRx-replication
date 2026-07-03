@@ -1,7 +1,7 @@
 {
   "run_id": "q06_t1_skateboard",
   "task_id": "q06_t1_skateboard",
-  "use_llm": false,
+  "use_llm": true,
   "agent_model": "Llama3.1-8B",
   "agent_base_url": "http://llm.ideia.com:8500/v1",
   "llm_temperature": 0.0,

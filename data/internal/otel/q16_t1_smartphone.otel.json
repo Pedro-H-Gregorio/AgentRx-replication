@@ -28,18 +28,18 @@
     "template_id": "T1_cheapest",
     "failure_response": "The product catalog search could not be completed."
   },
-  "created_at_unix_ms": 1782917876187,
+  "created_at_unix_ms": 1783047462521,
   "status": "SUCCESS",
   "spans": [
     {
       "name": "agent.coordinator",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "2f0e2d573f1aad42",
-      "parent_span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "d77fc0bab6d8fa35",
+      "parent_span_id": "0be738773dcb2487",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876186116597,
-      "end_time_unix_ns": 1782917876186155394,
-      "duration_ms": 0.038797,
+      "start_time_unix_ns": 1783047459220752090,
+      "end_time_unix_ns": 1783047460037626231,
+      "duration_ms": 816.874141,
       "status": {
         "status_code": "OK",
         "description": null
@@ -48,22 +48,22 @@
         "experiment.step_index": 1,
         "gen_ai.agent.name": "Coordinator",
         "gen_ai.operation.name": "task_decomposition",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "orchestration",
         "gen_ai.request.model": "Llama3.1-8B",
         "task.id": "q16_t1_smartphone",
         "task.input": "What is the cheapest available Smartphone?",
         "task.expected_result": "The cheapest available Smartphone is item 5339029584 at $1128.99.",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 99,
+        "gen_ai.usage.output_tokens": 43,
+        "gen_ai.usage.total_tokens": 142,
         "agent.input_message": "Task: What is the cheapest available Smartphone?",
-        "agent.output_message": "Plan ready; query {\"available_only\": true, \"product_type\": \"Smartphone\", \"sort\": \"price_asc\"}."
+        "agent.output_message": "To answer the task, I will utilize the ProductCatalogSearch tool by executing the provided query, which will return a list of available smartphones sorted in ascending order by price, allowing me to identify the cheapest option."
       },
       "events": [
         {
           "name": "task_delegated",
-          "timestamp_unix_ns": 1782917876186149504,
+          "timestamp_unix_ns": 1783047460037592197,
           "attributes": {
             "target_agent": "Researcher"
           }
@@ -72,13 +72,13 @@
     },
     {
       "name": "agent.researcher",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "ebe6e0b2192f06c2",
-      "parent_span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "85521738002465ab",
+      "parent_span_id": "0be738773dcb2487",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876186361617,
-      "end_time_unix_ns": 1782917876186397050,
-      "duration_ms": 0.035433,
+      "start_time_unix_ns": 1783047460038807484,
+      "end_time_unix_ns": 1783047460947785417,
+      "duration_ms": 908.977933,
       "status": {
         "status_code": "OK",
         "description": null
@@ -87,21 +87,21 @@
         "experiment.step_index": 2,
         "gen_ai.agent.name": "Researcher",
         "gen_ai.operation.name": "prepare_tool_call",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "information_retrieval",
         "gen_ai.request.model": "Llama3.1-8B",
         "tool.name": "ProductCatalogSearch",
         "tool.args_json": "{\"available_only\": true, \"product_type\": \"Smartphone\", \"sort\": \"price_asc\"}",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 99,
+        "gen_ai.usage.output_tokens": 50,
+        "gen_ai.usage.total_tokens": 149,
         "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
-        "agent.output_message": "Call ProductCatalogSearch with {\"available_only\": true, \"product_type\": \"Smartphone\", \"sort\": \"price_asc\"}."
+        "agent.output_message": "I will make a call to the ProductCatalogSearch tool with the arguments {\"available_only\": true, \"product_type\": \"Smartphone\", \"sort\": \"price_asc\"} to retrieve a list of available smartphones sorted in ascending order of price."
       },
       "events": [
         {
           "name": "tool_call_planned",
-          "timestamp_unix_ns": 1782917876186381091,
+          "timestamp_unix_ns": 1783047460038915547,
           "attributes": {
             "tool.name": "ProductCatalogSearch"
           }
@@ -110,13 +110,13 @@
     },
     {
       "name": "tool.product_catalog_search",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "814744bc596fe74e",
-      "parent_span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "41661ee0847af9ac",
+      "parent_span_id": "0be738773dcb2487",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876186595437,
-      "end_time_unix_ns": 1782917876186652925,
-      "duration_ms": 0.057488,
+      "start_time_unix_ns": 1783047460948380662,
+      "end_time_unix_ns": 1783047460948503430,
+      "duration_ms": 0.122768,
       "status": {
         "status_code": "OK",
         "description": null
@@ -145,7 +145,7 @@
       "events": [
         {
           "name": "dependency_call_completed",
-          "timestamp_unix_ns": 1782917876186647813,
+          "timestamp_unix_ns": 1783047460948492887,
           "attributes": {
             "tool.output.count": 2
           }
@@ -154,13 +154,13 @@
     },
     {
       "name": "agent.executor",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "ea1c244fa073a7e4",
-      "parent_span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "4c3310ee108af058",
+      "parent_span_id": "0be738773dcb2487",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876186885906,
-      "end_time_unix_ns": 1782917876186930990,
-      "duration_ms": 0.045084,
+      "start_time_unix_ns": 1783047460948874250,
+      "end_time_unix_ns": 1783047461530443011,
+      "duration_ms": 581.568761,
       "status": {
         "status_code": "OK",
         "description": null
@@ -169,12 +169,12 @@
         "experiment.step_index": 4,
         "gen_ai.agent.name": "Executor",
         "gen_ai.operation.name": "build_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "response_synthesis",
         "gen_ai.request.model": "Llama3.1-8B",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 238,
+        "gen_ai.usage.output_tokens": 24,
+        "gen_ai.usage.total_tokens": 262,
         "agent.reasoning_summary": "",
         "agent.input_message": "Synthesize answer for: What is the cheapest available Smartphone?",
         "agent.output_message": "The cheapest available item is 1507389580 at $1157.86."
@@ -182,7 +182,7 @@
       "events": [
         {
           "name": "fault.injected",
-          "timestamp_unix_ns": 1782917876186900034,
+          "timestamp_unix_ns": 1783047460948896462,
           "attributes": {
             "category": "Misinterpretation of Tool Output",
             "node": "Executor"
@@ -190,7 +190,7 @@
         },
         {
           "name": "artifact_created",
-          "timestamp_unix_ns": 1782917876186926327,
+          "timestamp_unix_ns": 1783047461530408470,
           "attributes": {
             "artifact.type": "answer_summary"
           }
@@ -199,13 +199,13 @@
     },
     {
       "name": "agent.evaluator",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "c96025319210ee21",
-      "parent_span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "f93760d5a401c086",
+      "parent_span_id": "0be738773dcb2487",
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876187120062,
-      "end_time_unix_ns": 1782917876187162930,
-      "duration_ms": 0.042868,
+      "start_time_unix_ns": 1783047461531550096,
+      "end_time_unix_ns": 1783047462519218527,
+      "duration_ms": 987.668431,
       "status": {
         "status_code": "OK",
         "description": null
@@ -214,23 +214,23 @@
         "experiment.step_index": 5,
         "gen_ai.agent.name": "Evaluator",
         "gen_ai.operation.name": "validate_answer",
-        "experiment.operation_type": "agent_fallback",
+        "experiment.operation_type": "agent_llm",
         "agent.role": "quality_assurance",
         "gen_ai.request.model": "Llama3.1-8B",
         "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
-        "gen_ai.usage.input_tokens": 0,
-        "gen_ai.usage.output_tokens": 0,
-        "gen_ai.usage.total_tokens": 0,
+        "gen_ai.usage.input_tokens": 240,
+        "gen_ai.usage.output_tokens": 44,
+        "gen_ai.usage.total_tokens": 284,
         "validation.status": "APPROVED",
-        "validation.reason": "Tool evidence is available.",
+        "validation.reason": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available item, \"1507389580\", with a price of $1157.86, as per the search results provided by the tool.",
         "constraint.violations_json": "[]",
         "agent.input_message": "Evaluate answer: The cheapest available item is 1507389580 at $1157.86.",
-        "agent.output_message": "Tool evidence is available."
+        "agent.output_message": "The verdict of APPROVED is justified because the answer accurately identifies the cheapest available item, \"1507389580\", with a price of $1157.86, as per the search results provided by the tool."
       },
       "events": [
         {
           "name": "validation_passed",
-          "timestamp_unix_ns": 1782917876187138835,
+          "timestamp_unix_ns": 1783047461531655048,
           "attributes": {
             "criterion": "tool_evidence_available"
           }
@@ -239,13 +239,13 @@
     },
     {
       "name": "run.experiment",
-      "trace_id": "d6a53724f9d2c9ff2baaa4af3665981a",
-      "span_id": "c3e1ea03b550353e",
+      "trace_id": "0d78d41280fc283ce2face974718aab4",
+      "span_id": "0be738773dcb2487",
       "parent_span_id": null,
       "kind": "INTERNAL",
-      "start_time_unix_ns": 1782917876185695028,
-      "end_time_unix_ns": 1782917876187289854,
-      "duration_ms": 1.594826,
+      "start_time_unix_ns": 1783047459220146233,
+      "end_time_unix_ns": 1783047462520579091,
+      "duration_ms": 3300.432858,
       "status": {
         "status_code": "OK",
         "description": null
