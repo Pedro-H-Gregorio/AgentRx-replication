@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""OpenAI-compatible stand-in for the Copilot CLI (JUDGE_BACKEND=openai).
+
+AgentRx resolves the judge binary from AGENT_VERIFY_COPILOT_BIN and shells out
+with `-s --no-ask-user --allow-all --output-format text [--model M]`, feeding
+the prompt on stdin and reading the verdict from stdout. This shim honours that
+contract but forwards the prompt to any OpenAI-compatible chat endpoint
+(Ollama, vLLM, OpenRouter, …), so the judge model is reachable via base_url
+without editing the AgentRx submodule.
+
+Config (env, set by the orchestrator from JUDGE_*): JUDGE_BASE_URL, JUDGE_MODEL,
+JUDGE_API_KEY, JUDGE_TEMPERATURE, JUDGE_TIMEOUT_SECONDS. Retries on transient
+rate limits (HTTP 429) and 5xx with backoff — respecting `Retry-After` when the
+server sends it — so unattended runs survive free-tier throttling
+(JUDGE_MAX_RETRIES, JUDGE_RETRY_BASE_SECONDS, JUDGE_RETRY_MAX_SECONDS). The
+retry MUST live here: AgentRx's own retries are immediate and would burn out
+before the rate-limit window resets. Stdlib only (urllib). On terminal failure:
+empty stdout + exit 1, so AgentRx treats it as an empty response.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import time
+import urllib.error
+import urllib.request
+
+RETRYABLE_STATUS = {429, 500, 502, 503, 504}
+
+
+def _die(msg: str) -> int:
+    print(f"[judge-openai] {msg}", file=sys.stderr)
+    return 1
+
+
+def _retry_wait(exc: urllib.error.HTTPError, attempt: int) -> float:
+    """Seconds to wait: honour Retry-After if numeric, else exponential."""
+    base = float(os.getenv("JUDGE_RETRY_BASE_SECONDS", "5"))
+    cap = float(os.getenv("JUDGE_RETRY_MAX_SECONDS", "120"))
+    retry_after = exc.headers.get("Retry-After") if exc.headers else None
+    if retry_after and retry_after.strip().isdigit():
+        return min(float(retry_after), cap)
+    return min(base * (2**attempt), cap)
+
+
+def _record_meta(body: dict, retries: int) -> None:
+    """Persist per-rep metadata: the effective model (providers may rename it)
+    and how many retries it took (observability for rate-limited runs)."""
+    meta_file = os.getenv("JUDGE_META_FILE")
+    if not meta_file:
+        return
+    data: dict = {"retries": retries}
+    if body.get("model"):
+        data["effective_model"] = body["model"]
+    try:
+        with open(meta_file, "w", encoding="utf-8") as handle:
+            json.dump(data, handle)
+    except OSError:
+        pass
+
+
+def _post(request: urllib.request.Request, timeout: float) -> str:
+    max_retries = int(os.getenv("JUDGE_MAX_RETRIES", "5"))
+    for attempt in range(max_retries + 1):
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                body = json.loads(response.read().decode("utf-8"))
+            _record_meta(body, attempt)  # attempt == retries done before success
+            return body["choices"][0]["message"]["content"]
+        except urllib.error.HTTPError as exc:
+            if exc.code not in RETRYABLE_STATUS or attempt == max_retries:
+                raise
+            wait = _retry_wait(exc, attempt)
+            print(
+                f"[judge-openai] HTTP {exc.code}; retry "
+                f"{attempt + 1}/{max_retries} in {wait:.0f}s",
+                file=sys.stderr,
+            )
+            time.sleep(wait)
+    raise RuntimeError("unreachable")
+
+
+def main() -> int:
+    if "--version" in sys.argv:
+        print("judge-openai 1.0.0")
+        return 0
+
+    base_url = (os.getenv("JUDGE_BASE_URL") or "").rstrip("/")
+    if not base_url:
+        return _die("JUDGE_BASE_URL is not set")
+    model = os.getenv("JUDGE_MODEL") or ""
+    if not model:
+        return _die("JUDGE_MODEL is not set")
+    prompt = sys.stdin.read()
+
+    payload = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": float(os.getenv("JUDGE_TEMPERATURE", "0")),
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        f"{base_url}/chat/completions",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {os.getenv('JUDGE_API_KEY', '')}",
+        },
+    )
+    timeout = float(os.getenv("JUDGE_TIMEOUT_SECONDS", "600"))
+    try:
+        content = _post(request, timeout)
+    except (KeyError, IndexError, ValueError, OSError) as exc:
+        # OSError covers urllib's URLError/HTTPError (both subclasses).
+        return _die(f"request failed: {exc}")
+
+    print(content)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

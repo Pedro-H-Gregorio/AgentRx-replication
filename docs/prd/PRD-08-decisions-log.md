@@ -25,13 +25,37 @@ descartadas. Acrescentar ao final; não reescrever o histórico.
 | D18 | Remover `adapters/metrics_adapter.py` | 143 linhas mortas (0 referências); parser + 2 braços já cobrem a derivação | Ligá-lo como "tabela de sanidade" do PRD-04 §7 (uso não demandado, YAGNI) |
 | D19 | `make clean-data` para reset + **seguir versionando** os artefatos de run | Reset idempotente antes do experimento; baseline auditável fica no git | Gitignorar os artefatos de run (perderia a baseline versionada) |
 | D20 | Corrigir a reprodutibilidade da config do agente **só via `.env`/docs** (usar `AGENT_*` explícito; `example.env` sem `OPENAI_*`) | Endurecer o código (gravar base_url efetivo no manifesto / falhar alto no fallback) cabe melhor quando o juiz entrar (C6); docs bastam agora | Endurecer `agent_llm`/manifesto já agora (fora do escopo desta limpeza) |
+| D21 | Invocar o juiz com **IR pré-plantada + `--stage judge`** (copiar a trajetória como `<run_dir>/trajectory_ir.json` antes de chamar `run.py`) | O estágio IR do AgentRx é pulado quando o arquivo já existe; evita o conversor de domínio `flash`/`llm_ir` re-converter (não-determinístico) a IR canônica | `run.py --skip-static --skip-dynamic` (roda o IR e expõe ao fallback); importar `agentrx.judge` (acopla ao submódulo) |
+| D22 | **Juiz cego**: nunca passar `--ground-truth` ao AgentRx; scoring 100% nosso a partir de `data/internal/ground_truth/` | Elimina a classe de risco de vazamento por construção; nosso GT exigiria conversor; scoring único evita divergir do C7 | Passar `--ground-truth` (mesmo sem entrar no prompt no caminho do pipeline) |
+| D23 | **3 reps = 3 invocações** do `run.py` com `run_dir` distintos (`rep1/2/3`) | `run_single_iteration` grava sempre `runs/run1.json` (1 iteração/processo); a repetição é responsabilidade do orquestrador | Pedir N iterações internas ao AgentRx (exigiria editar o submódulo) |
+| D24 | **Critério de root cause replica o AgentRx**: categoria = moda das failures; passo = `round(média)` dos `step_numbers` | Comparabilidade direta com a métrica nativa (`compute_stats`/`analysis()`); o C7 herda o mesmo critério sem tradução | "Primeira failure" ou "menor passo" (divergiriam da métrica do AgentRx; ficam como métricas secundárias no C8) |
+| D25 | **Versionar só** `manifest.json` + `runs_index.jsonl` + `run1.json`; gitignorar o resto dos run dirs | `trajectory_ir.json` é cópia byte-idêntica de arquivo já versionado; `state.json`/plots são operacionais; baseline auditável sem duplicar as 60 trajetórias por experimento | Versionar run dirs inteiros (D19 estrito; incharia o repo) |
+| D26 | **`JUDGE_TEMPERATURE`** (default 0) usada pelo shim `openai`; no backend `copilot` a temperatura é `unknown` no manifesto | Determinismo recomendado + parametrizável; o CLI do Copilot não expõe temperatura, então a assimetria é declarada como ameaça à validade (C8) | Hardcode 0 no shim (impede variar); omitir temperatura (perde determinismo) |
+| D27 | **Sem retry automático** por rep; retry é explícito (`make judge ONLY=errors`); timeout 600s configurável (`JUDGE_TIMEOUT_SECONDS`) | A idempotência já cobre a retomada; o índice registra fielmente a instabilidade do backend (não a mascara) | Retry automático 1× (esconde falhas transitórias do índice) |
+| D28 | **Backoff de transporte no shim `openai`** (429/5xx) é camada distinta do D27: re-tenta *dentro de uma rep* respeitando `Retry-After`/exponencial (`JUDGE_MAX_RETRIES`), enquanto o D27 mantém "sem retry *da rep*" no orquestrador; o `retries` fica no índice | Rate-limit de tier grátis é ruído transitório, não instabilidade a registrar como falha; as retentativas do AgentRx são secas e não aguardam a janela resetar | Deixar o 429 virar `error` (perderia reps por ruído); retry no orquestrador (mascara a instância) |
+| D29 | **Veredito vazio = `error`**, nunca `ok` (`has_verdict`: JSON válido E ≥1 failure); `failure_case 0` legítimo conta como veredito | Juiz sem auth/resposta vazia não pode passar por sucesso silencioso; `ONLY=errors` o reexecuta | Aceitar `run1.json` válido-porém-vazio como `ok` (mascara auth quebrada) |
+| D30 | **`--preflight`** sonda o backend antes da matriz (mesma invocação real) e aborta cedo | Falha de auth/modelo aparece num probe barato, não após N reps desperdiçadas | Descobrir o problema rep a rep (desperdício em matriz grande) |
+| D31 | A matriz roda com **agente-LLM** (`USE_LLM=true`). O **modelo do agente NÃO é fixo**: o MAS é agnóstico de modelo (invariante), escolhido depois via `AGENT_MODEL` e registrado no manifesto de cada run. As trajetórias hoje em `data/internal/` foram geradas com Llama3.1-8B **por acaso** (era o que estava rodando) e são provisórias — podem ser regeneradas com outro modelo | O que é decisão é *usar um LLM* (prosa realista para o juiz), não *qual* LLM; a injeção continua scriptada (gabarito intacto) | Agente determinístico por template (default; descartado); **fixar um modelo específico do agente** (violaria a agnosticidade — o modelo é parâmetro, D2) |
 
-## Decisões em aberto (resolver antes do M5)
+## Consequências de D31 (obrigatórias no C7)
 
-- Quantidade exata de cenários (30 vs 25) — assumido 30.
-- Tratamento de runs com erro emergente do 8B além do injetado: descartar ou sinalizar? (relevante só se o agente usar
-  LLM em passos não-críticos).
-- Métrica primária para reportar nas RQs (acurácia de passo vs distância de passo).
+- **Filtro de higiene (D14) deixa de ser YAGNI e vira requisito**: com prosa gerada por LLM, o agente pode errar
+  **além** da falha injetada; runs com erro emergente contaminam o gabarito (o juiz pode "acertar" a falha errada). O C7
+  SHALL detectar e descartar/sinalizar essas runs. Critério a definir (ex.: divergência do resultado esperado em passos
+  não-injetados).
+- **Imparcialidade cai para o teste fraco** (R5, ausência de marcadores) — o teste forte de igualdade byte a byte
+  pressupõe determinismo. Efeito colateral: o teste forte de imparcialidade **falha** localmente enquanto `USE_LLM=true`
+  (deveria gatear em `USE_LLM`; se isso incomodar o `make check`, ajustar o gate do teste é item à parte).
+- **Reprodutibilidade**: trajetórias LLM não são byte-idênticas entre execuções; fixar seed e manter o
+  modelo/temperatura registrados no manifesto do MAS (já registrados: `use_llm`, `agent_model`, `llm_temperature`).
+
+## Decisões em aberto
+
+- **Critério exato do filtro D14** (como detectar "erro emergente além do injetado") — desenhar no C7.
+
+> Resolvidas desde a redação original: quantidade de cenários (D6 fixou **30**, 6/categoria); métrica primária das RQs
+> (o **PRD-07** especifica o conjunto do artigo — 3 de passo + tolerâncias + distância crua/normalizada + 4 de
+> categoria; não há "métrica única"); e config do agente na matriz (D31: `USE_LLM=true`).
 
 > Escopo: este log registra decisões de **método/parâmetro**. Decisões **arquiteturais** (estruturais) vivem em
 > `docs/adr/` como ADRs. Na dúvida: "muda a estrutura do sistema?" → ADR; "ajusta um valor do experimento?" → aqui.

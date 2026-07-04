@@ -16,3 +16,12 @@ class Settings:
     agent_base_url: str | None = os.getenv("AGENT_BASE_URL")
     agent_api_key: str = os.getenv("AGENT_API_KEY", "ollama")
     otel_service_name: str = os.getenv("OTEL_SERVICE_NAME", "agentrx-otel-poc")
+    # AgentRx judge (C6). backend picks how the judge model is reached:
+    #   copilot -> real Copilot CLI; openai -> OpenAI-compatible base_url via shim;
+    #   stub -> deterministic offline verdict (smoke). Recorded per run manifest.
+    judge_backend: str = os.getenv("JUDGE_BACKEND", "stub")
+    judge_model: str = os.getenv("JUDGE_MODEL", "")
+    judge_base_url: str | None = os.getenv("JUDGE_BASE_URL")
+    judge_api_key: str = os.getenv("JUDGE_API_KEY", "")
+    judge_timeout_seconds: float = float(os.getenv("JUDGE_TIMEOUT_SECONDS", "600"))
+    judge_temperature: float = float(os.getenv("JUDGE_TEMPERATURE", "0"))

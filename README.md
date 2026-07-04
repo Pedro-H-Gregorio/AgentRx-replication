@@ -67,11 +67,56 @@ make generate simulate derive   # regenera a baseline determinística
 `make clean-data` é idempotente e não toca no benchmark nem no catálogo vendorizado. Os artefatos de run seguem
 versionados (commite a baseline nova após regenerar).
 
-## Juiz do AgentRx (próxima etapa)
+## Juiz do AgentRx (passo 6)
 
-A invocação do juiz é trabalho de uma change seguinte. Pela regra de **não tocar no submódulo AgentRx**, a integração
-será em modo **judge-only** sobre a IR canônica que os adapters já emitem (ver `docs/adr/0009-...`). O pacote do MAS
-nunca importa o AgentRx; a integração é por arquivos.
+Julga as trajetórias dos 2 braços em modo **judge-only** sobre a IR canônica, tratando o AgentRx como **caixa preta**
+(submódulo intocado; integração por subprocess + arquivos, ver `docs/adr/0009-...` e `docs/adr/0011-...`). O backend do
+juiz é escolhido por `JUDGE_BACKEND` no `.env`:
+
+| Backend | Alcança o modelo por | Uso |
+| -- | -- | -- |
+| `stub` | veredito fixo, sem rede | smoke offline determinístico (default) |
+| `openai` | `JUDGE_BASE_URL` (Ollama/vLLM/OpenRouter) | juiz via API OpenAI-compatible |
+| `copilot` | CLI do GitHub Copilot no PATH | juiz via Copilot |
+| `codex` | `codex exec` (Codex CLI autenticado) | juiz via Codex/ChatGPT |
+
+Backend = qualquer shim em `scripts/judge_shims/`; soltar um novo shim adiciona um backend sem tocar no orquestrador
+(ADR-0011). No `codex`, deixe `JUDGE_MODEL` vazio para o modelo default do plano (conta ChatGPT rejeita `gpt-5-codex`).
+
+**Auth do backend `copilot`**: autentique a própria CLI com **`copilot login`** (não usar `gh`). E use um `JUDGE_MODEL`
+que o Copilot ofereça (ex.: `gpt-5`, `claude-opus-4.6`, `claude-sonnet-4.5`) ou **deixe vazio** para o default — um
+modelo inexistente (ex.: `gpt-5.4`) faz o Copilot sair com erro e o juiz recebe resposta vazia.
+
+Cada rep grava a saída do AgentRx em `<run_dir>/agentrx.log`; o terminal mostra o caminho, a cauda em erros e as linhas
+WARN/ERROR sempre. `JUDGE_VERBOSE=1` despeja o log inteiro por rep.
+
+**Rate limit (backoff)**: no backend `openai`, o shim re-tenta em HTTP 429/5xx com backoff (respeita `Retry-After`),
+controlado por `JUDGE_MAX_RETRIES`/`JUDGE_RETRY_BASE_SECONDS`/`JUDGE_RETRY_MAX_SECONDS` — para a matriz atravessar tiers
+grátis (ex.: OpenRouter `:free`) sem babá. Cota **diária** ainda esgota: a rep erra e você retoma depois com
+`make judge ONLY=errors`, ou usa um servidor local (Ollama) sem limite.
+
+```bash
+make smoke-judge        # stub: 1 cenário/categoria × 2 braços × 1 rep (offline)
+make smoke-judge-live   # mesmo recorte, com o juiz real do .env
+make judge              # matriz completa (30 × 2 × 3), pulando reps já julgadas
+```
+
+Fatias do passo `judge` (todas opcionais e combináveis):
+
+```bash
+make judge FAULT="System Failure" ARM=telemetry REPS=1
+make judge SCENARIOS="q01_t1_electric_kettle q07_t3_electric_kettle"
+make judge ONLY=errors          # reexecuta só as reps que falharam
+make judge FORCE=1              # rejulga mesmo as já concluídas
+```
+
+Saída em `data/internal/agentrx/<experiment_id>/`: `manifest.json` (juiz/backend/modelo/git SHAs), `runs_index.jsonl` (1
+linha por rep — insumo dos CSVs) e um resumo hit/miss por categoria no stdout. Cada linha do índice traz
+`effective_model` (o modelo que o backend **de fato** usou — codex/ChatGPT resolve o default server-side, o OpenRouter
+renomeia o `:free`) e `retries` (quantas vezes o shim re-tentou por rate-limit), capturados pelo shim para
+reprodutibilidade/observabilidade. Um veredito vazio (juiz sem auth / resposta vazia) vira `status=error`, não `ok`,
+então `make judge ONLY=errors` o reexecuta. Versionam-se só manifesto, índice e o `run1.json` de cada rep
+(`validate-judge` verifica índice×disco e ausência de vazamento de gabarito).
 
 ## Onde as coisas vivem
 

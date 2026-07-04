@@ -1,6 +1,9 @@
 # ADR-0006 — Injeção scriptada + log cego ao gabarito (imparcialidade)
 
-- **Status**: Accepted
+- **Status**: Superseded — consolidado em
+  [`0006-injecao-scriptada-renderizacao-cega.md`](0006-injecao-scriptada-renderizacao-cega.md) (mesmo número ADR-0006,
+  versão canônica de 2026-06-30). Este é o rascunho anterior (2026-06-27), mantido só por proveniência; a decisão
+  vigente e o texto completo estão no arquivo canônico.
 - **Data**: 2026-06-27
 - **Relacionado**: PRD-03, PRD-06, AGENTS.md (regra 7)
 

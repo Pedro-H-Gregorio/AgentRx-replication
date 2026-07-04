@@ -14,8 +14,9 @@ incrementais; cada arquivo é mantido **abaixo de 200 linhas** para facilitar a 
 | 4 | `PRD-04-adapters-dois-bracos.md` | Artefato OTel bruto, parser, adapters das 2 trajetórias | base |
 | 5 | `PRD-05-integracao-agentrx-coleta-csv.md` | Domínio próprio no AgentRx, invocação do juiz, coleta e CSV | base |
 | 6 | `PRD-06-contrato-dados-otel-ir.md` | Campos da versão OTel e mapeamento OTel→IR dos 2 braços (telemetria e AgentRx puro) | base |
-| 7 | `PRD-07-runner-metricas-analise.md` | Runner de matriz, métricas, scripts de análise | próximo incremento |
+| 7 | `PRD-07-metricas-runner-analise.md` | Métricas fiéis ao AgentRx, runner de matriz, scripts de análise | base |
 | 9 | `PRD-09-experimento-trail.md` | Experimento TRAIL (segregado): campos do dataset, extração, adapters, avaliação | base |
+| 10 | `PRD-10-dicionario-de-dados-csv.md` | Dicionário de dados dos 3 CSVs (campo a campo: tipo, origem, significado) | base |
 
 ## Dois experimentos segregados
 

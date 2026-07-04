@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+"""Codex CLI stand-in for the Copilot CLI (JUDGE_BACKEND=codex).
+
+AgentRx resolves the judge binary from AGENT_VERIFY_COPILOT_BIN and shells out
+with `-s --no-ask-user --allow-all --output-format text [--model M]`, feeding
+the prompt on stdin and reading the verdict from stdout. This shim honours that
+contract but drives the OpenAI **Codex CLI** (`codex exec`) instead — so the
+judge can be a Codex/ChatGPT model, without editing the AgentRx submodule.
+
+`codex exec` reads the prompt from stdin and streams agent activity to stdout;
+we use `--output-last-message FILE` to capture ONLY the final message (the JSON
+verdict), avoiding that noise. Sandbox is read-only (the judge runs no commands).
+
+Config (env): JUDGE_MODEL (optional `--model`; must be one your account/plan
+supports — e.g. a ChatGPT login rejects `gpt-5-codex`; leave empty for the
+default), JUDGE_TIMEOUT_SECONDS, JUDGE_CODEX_BIN (default `codex`),
+JUDGE_CODEX_ARGS (extra `codex exec` flags). Auth is the Codex CLI's own
+(`codex login` / `OPENAI_API_KEY`). On any failure: empty stdout + exit 1.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import shlex
+import subprocess
+import sys
+import tempfile
+
+
+def _die(msg: str) -> int:
+    print(f"[judge-codex] {msg}", file=sys.stderr)
+    return 1
+
+
+def _record_model(stderr: str) -> None:
+    """Persist the effective model (codex logs `model: <name>` on stderr)."""
+    meta_file = os.getenv("JUDGE_META_FILE")
+    if not meta_file:
+        return
+    match = re.search(r"^model:\s*(\S+)", stderr or "", re.MULTILINE)
+    data: dict = {"retries": 0}  # codex exec has no retry loop here
+    if match:
+        data["effective_model"] = match.group(1)
+    try:
+        with open(meta_file, "w", encoding="utf-8") as handle:
+            json.dump(data, handle)
+    except OSError:
+        pass
+
+
+def _build_cmd(binary: str, last_file: str) -> list[str]:
+    extra = shlex.split(os.getenv("JUDGE_CODEX_ARGS", ""))
+    cmd = [binary, "exec", "--color", "never", "-o", last_file]
+    if not ({"--sandbox", "-s"} & set(extra)):
+        cmd += ["--sandbox", "read-only"]
+    model = os.getenv("JUDGE_MODEL") or ""
+    if model:
+        cmd += ["--model", model]
+    return cmd + extra
+
+
+def main() -> int:
+    if "--version" in sys.argv:
+        print("judge-codex 1.0.0")
+        return 0
+
+    prompt = sys.stdin.read()
+    binary = os.getenv("JUDGE_CODEX_BIN", "codex")
+    timeout = float(os.getenv("JUDGE_TIMEOUT_SECONDS", "600"))
+    fd, last_file = tempfile.mkstemp(prefix="judge-codex-", suffix=".txt")
+    os.close(fd)
+    try:
+        cmd = _build_cmd(binary, last_file)
+        try:
+            proc = subprocess.run(
+                cmd, input=prompt, capture_output=True, text=True, timeout=timeout
+            )
+        except subprocess.TimeoutExpired:
+            return _die(f"codex exec timed out after {timeout:.0f}s")
+        except OSError as exc:
+            return _die(f"cannot run {binary!r}: {exc}")
+
+        if proc.returncode != 0:
+            return _die(
+                f"codex exec exit {proc.returncode}: {proc.stderr.strip()[-300:]}"
+            )
+        _record_model(proc.stderr)
+        with open(last_file, encoding="utf-8") as handle:
+            verdict = handle.read().strip()
+        if not verdict:
+            return _die("codex exec produced no final message")
+        print(verdict)
+        return 0
+    finally:
+        os.unlink(last_file)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

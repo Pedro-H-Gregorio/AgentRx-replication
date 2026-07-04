@@ -31,6 +31,10 @@ se a decisão muda, crie um novo ADR que **supersede** o anterior.
 | 0008 | Catálogo tau-bench vendorizado (MIT); dataset TRAIL é gated e NÃO versionado | Accepted | PRD-01, PRD-09 |
 | 0009 | Integração com o AgentRx em modo judge-only com IR canônica; registro de domínio `product_catalog` adiado | Accepted | PRD-05, PRD-06, ADR-0004 |
 | 0010 | Decomposição do MAS em pacotes, limite de 200 linhas por arquivo e pipeline segregado | Accepted | PRD-01, PRD-04 |
+| 0011 | Fronteira de integração com o juiz por interposição do binário do Copilot CLI (backend = qualquer shim; submódulo intocado) | Accepted | PRD-05, PRD-08, ADR-0009 |
 
-ADRs com arquivo completo: 0006, 0009, 0010 (criados na change `build-simulated-mas`). Os demais estão registrados acima
-e detalhados no PRD apontado; expanda para arquivo próprio ao revisitá-los.
+ADRs com arquivo completo: 0006, 0009, 0010, 0011. Os demais estão registrados acima e detalhados no PRD apontado;
+expanda para arquivo próprio ao revisitá-los.
+
+Nota: o ADR-0006 tem dois arquivos históricos; o canônico é `0006-injecao-scriptada-renderizacao-cega.md` (2026-06-30).
+O `0006-injecao-scriptada-log-imparcial.md` (2026-06-27) é o rascunho anterior, marcado como Superseded/consolidado.

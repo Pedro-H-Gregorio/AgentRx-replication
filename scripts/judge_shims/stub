@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""Deterministic offline stand-in for the Copilot CLI (JUDGE_BACKEND=stub).
+
+AgentRx's copilot client resolves the judge binary from AGENT_VERIFY_COPILOT_BIN
+and shells out with `-s --no-ask-user --allow-all --output-format text
+[--model M]`, feeding the prompt on stdin and reading the verdict from stdout.
+This shim mimics that contract without any network call: it drains stdin and
+prints one fixed, valid judge verdict, so a full `JUDGE_BACKEND=stub` run is
+byte-deterministic (smoke wiring test, not a judge-accuracy test).
+
+The verdict JSON matches the single-pass judge parser: it needs `failure_case`
+(int 1-10) and `index` (step number); both are present and constant.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+
+# Constant verdict: System Failure (9) at step 3. Fixed on purpose — the stub
+# proves the pipeline plumbs a verdict end to end, not that it is correct.
+_VERDICT = {
+    "reason_for_failure": "stub deterministic verdict",
+    "failure_case": 9,
+    "reason_for_index": "stub deterministic index",
+    "index": 3,
+}
+
+
+def main() -> int:
+    if "--version" in sys.argv:
+        print("judge-stub 1.0.0")
+        return 0
+    # Drain stdin so the parent's write side never blocks; content is ignored.
+    sys.stdin.read()
+    print(json.dumps(_VERDICT))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
