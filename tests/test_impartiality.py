@@ -1,11 +1,20 @@
-"""R5 impartiality: category-blind renderer (static) + template invariance (dynamic)."""
+"""R5 impartiality: category-blind renderer (static) + template invariance (dynamic).
+
+The static test (source-level renderer blindness) is the always-valid weak guard.
+The dynamic byte-equality test presupposes the deterministic agent, so it is gated
+on `USE_LLM`: with `USE_LLM=true` the prose is LLM-generated and not byte-stable,
+so it skips and the static guard carries R5 (PRD-08 D31).
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from agentrx_otel_poc.adapters.derive import derive_arms
 from agentrx_otel_poc.graph.runner import DATA, run_scenario
+from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import NODE_STEP, load_benchmark
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -35,6 +44,11 @@ def _cleanup(run_id: str) -> None:
     (DATA / "manifests" / f"{run_id}.json").unlink(missing_ok=True)
 
 
+@pytest.mark.skipif(
+    Settings().use_llm,
+    reason="strong byte-equality needs the deterministic agent; with USE_LLM=true "
+    "the weak static renderer-blindness test guards R5 (PRD-08 D31)",
+)
 def test_unaffected_steps_identical_with_and_without_fault() -> None:
     benchmark = load_benchmark()
     task_id = next(

@@ -38,11 +38,11 @@ Regras de dependência:
 | Externo | `data/external/<fonte>/` | sim (+ NOTICE) | dados de terceiros, fixados por commit |
 | Benchmark | `data/benchmark/` | sim | saída do gerador (perguntas) |
 | Bruto | `data/internal/otel/` | sim | trace OTel = fonte de verdade |
-| Derivado | `data/internal/{trajectory_*,metrics,...}/` | sim | projeções do bruto (regeráveis) |
-| Saídas | `data/outputs/` | sim | CSVs e tabelas de métricas |
+| Derivado | `data/internal/{trajectory_*,agentrx,...}/` | sim | projeções do bruto (regeráveis) |
+| Produto | `data/experiment/results/<experiment_id>/` | sim | CSVs de resultado do experimento (ADR-0012) |
 
-Invariante: apagar tudo em `data/internal/{trajectory_*,metrics}` e `data/outputs` e rodar `make run` reconstrói os
-arquivos idênticos a partir do OTel + scripts.
+Invariante: apagar tudo em `data/internal/{trajectory_*,agentrx}` e `data/experiment` e rodar
+`make simulate derive judge collect` reconstrói os arquivos a partir do OTel + scripts.
 
 ## 4. Garantias de reprodutibilidade
 
@@ -84,7 +84,7 @@ arquivos idênticos a partir do OTel + scripts.
 1. `git clone --recurse-submodules` + `make install`.
 2. `make generate` → confere `benchmark_30.json` (30 itens, 6/categoria).
 3. `make smoke` → 5 falhas passam.
-4. `make run && make collect` → CSVs em `data/outputs/`.
-5. `make analyze` → tabelas/figuras das RQs.
+4. `make simulate derive judge && make collect` → CSVs em `data/experiment/results/<experiment_id>/`.
+5. análise sobre os CSVs → tabelas/figuras das RQs.
 
 Se algum passo exigir conhecimento não escrito, é um defeito de reprodutibilidade e deve virar issue.

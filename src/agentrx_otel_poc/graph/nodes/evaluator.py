@@ -65,7 +65,11 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
                 f"Tool result: {dumps(result)}"
             )
             reason_text, usage = agent_message(
-                ctx, prompt, reason, logger=ctx.logger.child("evaluator")
+                ctx,
+                prompt,
+                reason,
+                label="Evaluator",
+                logger=ctx.logger.child("evaluator"),
             )
             state["validation_status"] = status
             state["validation_reason"] = reason_text

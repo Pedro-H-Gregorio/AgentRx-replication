@@ -49,7 +49,11 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
                 f"Task: {state['task']}\nTool result: {dumps(state.get('tool_result', {}))}"
             )
             text, usage = agent_message(
-                ctx, prompt, base, logger=ctx.logger.child("executor")
+                ctx,
+                prompt,
+                base,
+                label="Executor",
+                logger=ctx.logger.child("executor"),
             )
             summary = state.get("forced_answer") or text
             state["summary"] = summary

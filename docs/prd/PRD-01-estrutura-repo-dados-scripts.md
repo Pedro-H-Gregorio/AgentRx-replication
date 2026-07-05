@@ -25,7 +25,7 @@ repo/
 │   ├── external/taubench_retail/products.json   # catálogo (com NOTICE)
 │   ├── benchmark/benchmark_30.json              # saída do gerador (versionado)
 │   ├── internal/                # artefatos por run (ver §4)
-│   └── outputs/                 # CSVs consolidados e tabelas de métricas
+│   └── experiment/results/<experiment_id>/  # PRODUTO: CSVs de resultado (ADR-0012)
 ├── tests/                       # smoke tests por falha (PRD-03)
 ├── manuscript/                  # paper ACM (já existe)
 ├── docs/prd/                    # estes PRDs
@@ -59,9 +59,9 @@ ser regenerados e, em princípio, não precisariam ser versionados — mas serã
 ## 5. Pasta `scripts/`
 
 - `generate_benchmark.py` — entrada `products.json`, saída `benchmark_30.json`.
-- `run_matrix.py` — orquestra cenário × braço × julgamento.
-- `collect_agentrx.py` — lê `runs/<run_name>/` do AgentRx e monta os CSVs.
-- `analysis/` — um script por figura/tabela do paper; entrada = CSVs de `data/outputs/`, saída =
+- `run_judge.py` — orquestra a matriz cenário × braço × rep do juiz (C6). (Não há `run_matrix.py`.)
+- `collect_agentrx.py` — agrega os vereditos brutos de `data/internal/agentrx/<experiment_id>/` nos 3 CSVs (C7).
+- `analysis/` — um script por figura/tabela do paper; entrada = CSVs de `data/experiment/results/`, saída =
   `manuscript/paper/figures/` ou tabelas.
 
 Todo script é **idempotente** e aceita `--seed` quando houver qualquer escolha não trivial; sem IA no caminho de geração
@@ -78,8 +78,8 @@ de dados de entrada.
   aplicável.
 - **Makefile**: alvos `install`, `check`, `generate`, `smoke`, `run`, `collect`, `analyze` — cada etapa reexecutável
   isoladamente.
-- **Versionado vs. ignorado**: versiona-se `benchmark_30.json`, `data/internal/**` e `data/outputs/**`; ignora-se
-  `.venv`, caches, `AgentRx/runs/**` (regeráveis).
+- **Versionado vs. ignorado**: versiona-se `benchmark_30.json`, `data/internal/**` (só manifesto/índice/`run1.json` em
+  `data/internal/agentrx/**`) e `data/experiment/**`; ignora-se `.venv`, caches, `AgentRx/runs/**` (regeráveis).
 
 ## 7. Critérios de aceite
 

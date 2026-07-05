@@ -1,0 +1,183 @@
+{
+  "_provenance": "AgentRx Report.compute_stats() + analysis() step logic; commit f228165bfec60a801fd5fedd9d8ffe0f9de0c69d; regenerate via generate_parity_fixtures.py",
+  "cases": [
+    {
+      "name": "single_hit",
+      "failures": [
+        [
+          9,
+          3
+        ]
+      ],
+      "gt_case": 9,
+      "gt_step": 3,
+      "trajectory_length": 5,
+      "expected": {
+        "most_common_failure": 9,
+        "step_mean": 3,
+        "step_median": 3,
+        "category_std": 0.0,
+        "step_std": 0.0,
+        "failure_case_accuracy": 1.0,
+        "step_mae": 0,
+        "step_acc_exact": 1,
+        "step_acc_tol1": 1,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 0,
+        "avg_step_distance_norm": 0.0
+      }
+    },
+    {
+      "name": "multi_failure_pool",
+      "failures": [
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          9,
+          4
+        ]
+      ],
+      "gt_case": 3,
+      "gt_step": 2,
+      "trajectory_length": 5,
+      "expected": {
+        "most_common_failure": 3,
+        "step_mean": 2.75,
+        "step_median": 2.5,
+        "category_std": 3.0,
+        "step_std": 0.9574271077563381,
+        "failure_case_accuracy": 0.75,
+        "step_mae": 0.75,
+        "step_acc_exact": 0,
+        "step_acc_tol1": 1,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 0.75,
+        "avg_step_distance_norm": 0.15
+      }
+    },
+    {
+      "name": "mode_tie",
+      "failures": [
+        [
+          3,
+          2
+        ],
+        [
+          9,
+          2
+        ]
+      ],
+      "gt_case": 3,
+      "gt_step": 2,
+      "trajectory_length": 4,
+      "expected": {
+        "most_common_failure": 3,
+        "step_mean": 2,
+        "step_median": 2.0,
+        "category_std": 4.242640687119285,
+        "step_std": 0.0,
+        "failure_case_accuracy": 0.5,
+        "step_mae": 0,
+        "step_acc_exact": 1,
+        "step_acc_tol1": 1,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 0,
+        "avg_step_distance_norm": 0.0
+      }
+    },
+    {
+      "name": "inconclusive",
+      "failures": [
+        [
+          10,
+          4
+        ]
+      ],
+      "gt_case": 3,
+      "gt_step": 2,
+      "trajectory_length": 6,
+      "expected": {
+        "most_common_failure": 10,
+        "step_mean": 4,
+        "step_median": 4,
+        "category_std": 0.0,
+        "step_std": 0.0,
+        "failure_case_accuracy": 0.0,
+        "step_mae": 2,
+        "step_acc_exact": 0,
+        "step_acc_tol1": 0,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 2,
+        "avg_step_distance_norm": 0.3333333333333333
+      }
+    },
+    {
+      "name": "no_error",
+      "failures": [
+        [
+          0,
+          1
+        ]
+      ],
+      "gt_case": 9,
+      "gt_step": 3,
+      "trajectory_length": 5,
+      "expected": {
+        "most_common_failure": 0,
+        "step_mean": 1,
+        "step_median": 1,
+        "category_std": 0.0,
+        "step_std": 0.0,
+        "failure_case_accuracy": 0.0,
+        "step_mae": 2,
+        "step_acc_exact": 0,
+        "step_acc_tol1": 0,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 2,
+        "avg_step_distance_norm": 0.4
+      }
+    },
+    {
+      "name": "category_miss",
+      "failures": [
+        [
+          4,
+          3
+        ]
+      ],
+      "gt_case": 9,
+      "gt_step": 3,
+      "trajectory_length": 7,
+      "expected": {
+        "most_common_failure": 4,
+        "step_mean": 3,
+        "step_median": 3,
+        "category_std": 0.0,
+        "step_std": 0.0,
+        "failure_case_accuracy": 0.0,
+        "step_mae": 0,
+        "step_acc_exact": 1,
+        "step_acc_tol1": 1,
+        "step_acc_tol3": 1,
+        "step_acc_tol5": 1,
+        "avg_step_distance": 0,
+        "avg_step_distance_norm": 0.0
+      }
+    }
+  ]
+}

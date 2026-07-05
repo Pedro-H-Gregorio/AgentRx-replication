@@ -1,0 +1,11 @@
+{
+  "trajectory_id": "gold01",
+  "instruction": "Golden fixture trajectory (5 steps) — synthetic, self-contained.",
+  "steps": [
+    {"index": 1, "substeps": []},
+    {"index": 2, "substeps": []},
+    {"index": 3, "substeps": []},
+    {"index": 4, "substeps": []},
+    {"index": 5, "substeps": []}
+  ]
+}

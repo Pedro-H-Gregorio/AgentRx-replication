@@ -1,0 +1,28 @@
+{
+  "summary": {
+    "note": "golden"
+  },
+  "detailed_results": [
+    {
+      "task_id": "gold01",
+      "failures": [
+        {
+          "task_id": "gold01",
+          "failure_case": 3,
+          "step_number": 3,
+          "description": "golden",
+          "checklist_reasoning": null
+        },
+        {
+          "task_id": "gold01",
+          "failure_case": 9,
+          "step_number": 4,
+          "description": "golden",
+          "checklist_reasoning": null
+        }
+      ],
+      "num_judges": 1,
+      "trajectory_length": 5
+    }
+  ]
+}

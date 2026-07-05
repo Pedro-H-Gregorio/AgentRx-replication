@@ -49,7 +49,7 @@ data/external/TRAIL/*.parquet
        └─ src/trail_experiment/parser.py  → árvore → lista plana de passos
             ├─ adapter_telemetry → trajetória COM telemetria (campos TRAIL nativos)
             └─ adapter_pure      → trajetória SEM telemetria (estilo-AgentRx)
-                 └─ AgentRx (juiz) ×3  → collect_trail.py → data/outputs/trail/
+                 └─ AgentRx (juiz) ×3  → collect_trail.py → data/experiment/results/trail/
 ```
 
 Mantém o mesmo conceito de **2 braços** do MAS, mas com adapters próprios e campos nativos do TRAIL. Sem normalização
@@ -84,5 +84,5 @@ inexistente. Alternativa: domínio genérico mínimo. Registrar a escolha no dec
 - Teste de paridade: removendo a telemetria do braço com telemetria, o `content` iguala o do braço puro (mesma diff
   auditável do PRD-06, com campos TRAIL).
 - `.parquet` não aparece no git; `NOTICE.md` + `fetch.py` presentes.
-- `collect_trail.py` gera CSVs em `data/outputs/trail/`, separados do MAS.
+- `collect_trail.py` gera CSVs em `data/experiment/results/trail/`, separados do MAS.
 - O mapa de taxonomia TRAIL→AgentRx está versionado e é auditável.

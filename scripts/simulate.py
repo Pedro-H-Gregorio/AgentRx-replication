@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from agentrx_otel_poc.graph.agent_llm import AgentLLMError  # noqa: E402
 from agentrx_otel_poc.graph.runner import run_scenario  # noqa: E402
 from agentrx_otel_poc.tasks import load_benchmark  # noqa: E402
 
@@ -25,7 +26,12 @@ def main() -> int:
 
     task_ids = [args.task_id] if args.task_id else list(load_benchmark())
     for task_id in task_ids:
-        payload = run_scenario(task_id, run_id=task_id)
+        try:
+            payload = run_scenario(task_id, run_id=task_id)
+        except AgentLLMError as exc:
+            # Strict mode (USE_LLM_STRICT): fail fast so no mixed corpus is written.
+            print(f"simulate: ABORTED at {task_id} -> {exc}", file=sys.stderr)
+            return 3
         print(
             f"simulate: {task_id} -> {len(payload['spans'])} spans, {payload['status']}"
         )

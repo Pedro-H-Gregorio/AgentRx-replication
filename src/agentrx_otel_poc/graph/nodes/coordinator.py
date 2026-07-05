@@ -51,7 +51,11 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
                 f"Query: {dumps(state['query'])}"
             )
             output, usage = agent_message(
-                ctx, prompt, fallback, logger=ctx.logger.child("coordinator")
+                ctx,
+                prompt,
+                fallback,
+                label="Coordinator",
+                logger=ctx.logger.child("coordinator"),
             )
             set_usage(span, usage)
             span.add_event("task_delegated", {"target_agent": "Researcher"})

@@ -43,8 +43,8 @@ estendido).
 
 ## 5. Esquema do CSV (uma linha por trajetória)
 
-O significado, tipo e origem de cada campo estão no **PRD-10 (dicionário de dados)**; exemplo preenchido em
-`docs/examples/`. Resumo das colunas:
+O significado, tipo e origem de cada campo são **canônicos no PRD-10 (dicionário de dados)**; exemplo de mesa em
+`docs/examples/metrics-reference.md`. Resumo das colunas (ver PRD-10 para tipos/faixas e as colunas-espelho `*_name`):
 
 `scenario_id, arm, n_judge_runs, trajectory_length, gt_step, gt_category,`
 `gt_failures_json, gt_earliest_category, gt_terminal_category,` `most_common_category, step_mean, step_median,`
@@ -69,13 +69,27 @@ crítica (documentar isso — não é limitação, é consequência do desenho).
 do estudo devem mapear para esses **inteiros** (o código compara `str(value)`). Versionar a tabela `categoria → id`. A
 métrica de passo independe disso.
 
-## 8. Runner e análise (scripts)
+## 8. Runner e coleta (scripts)
 
-- `scripts/run_matrix.py`: cenário × braço × n julgamentos; grava manifesto de run (modelos, seeds, versões) +
-  `runs_long.csv`.
-- `scripts/collect_agentrx.py`: agrega `runs_long` → o CSV da §5 (reusando `compute_stats`/`analysis` do submódulo; se
-  reimplementar, passar no teste de paridade numérica contra elas).
-- `scripts/analysis/`: consome os CSVs; a análise comparativa (A vs B, TRAIL) é outro artefato, sobre estes números.
+- **Runner**: `scripts/run_judge.py` (C6) — cenário × braço × rep, sequencial e idempotente; grava
+  `data/internal/agentrx/<experiment_id>/` com manifesto + `runs_index.jsonl` (insumo da coleta). Não há `run_matrix.py`
+  (planejado, mas o `run_judge.py` já é a matriz).
+- `scripts/collect_agentrx.py` (C7): agrega os vereditos brutos → os 3 CSVs (§5 / PRD-10) em
+  `data/experiment/results/<experiment_id>/`. A agregação **reimplementa** o critério do `compute_stats`/`analysis()`
+  (pooling achatado das failures das reps `ok`; PRD-08 D32) e **passa no teste de paridade numérica** contra fixtures
+  versionadas geradas uma vez do submódulo — **não importa `agentrx`** (regra 6; PRD-08 D33). O coletor é **neutro**:
+  nenhuma estatística, nenhuma comparação A/B, nenhuma linha descartada.
+- **Análise**: consome os CSVs de `data/experiment/results/`; a comparação A vs B / TRAIL é artefato **posterior**,
+  sobre estes números (fora do escopo do C7).
+
+### 8.1 Auditoria de higiene (manual, pareada) — PRD-08 D35
+
+Com `USE_LLM=true` (D31) o agente pode, em tese, narrar uma prosa desancorada além da falha injetada. Em vez de um
+filtro automático (descartado — D35: superfície pequena com injeção scriptada, e a contaminação é ~simétrica entre
+braços), o protocolo é **manual e documentado**: candidato a erro emergente = cenário em que **os dois braços, nas 3
+reps, apontam consistentemente um passo ≠ do injetado**. Esses (poucos) casos são auditados lendo a trajetória e
+decididos caso a caso, com a decisão registrada no PRD-08. A exclusão, se houver, é **pareada** (sai dos dois braços,
+senão quebra o A/B). É ameaça à validade declarada, não requisito de código do C7.
 
 ## 9. Baselines de referência do artigo (preenchidos)
 
@@ -89,6 +103,7 @@ absolutos com estes (setup diferente) — âncora metodológica.
 - CSV da §5 gerado com as **10** métricas (3 de passo + tolerâncias, distância crua e normalizada, e as **4** de
   categoria).
 - `runs_long.csv` existe e reconstrói a agregação.
-- Cálculo reusa `compute_stats`/`analysis` ou passa no teste de paridade numérica.
-- Tabela `categoria → id (1–10)` versionada.
+- Cálculo **reimplementa** o critério e passa no teste de paridade numérica contra fixtures do submódulo (não importa
+  `agentrx`; PRD-08 D33).
+- Tabela `categoria → id (1–10)` versionada (fonte única em `judge/scoring.py`).
 - MAS e TRAIL produzem o mesmo esquema, em saídas separadas.

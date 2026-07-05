@@ -1,0 +1,3 @@
+{"run_id": "gold01", "arm": "telemetry", "rep": 1, "status": "ok", "run_dir": "telemetry/gold01/rep1", "effective_model": null, "retries": 0}
+{"run_id": "gold01", "arm": "telemetry", "rep": 2, "status": "ok", "run_dir": "telemetry/gold01/rep2", "effective_model": null, "retries": 0}
+{"run_id": "gold01", "arm": "telemetry", "rep": 3, "status": "ok", "run_dir": "telemetry/gold01/rep3", "effective_model": null, "retries": 0}

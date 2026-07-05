@@ -32,8 +32,9 @@ se a decisão muda, crie um novo ADR que **supersede** o anterior.
 | 0009 | Integração com o AgentRx em modo judge-only com IR canônica; registro de domínio `product_catalog` adiado | Accepted | PRD-05, PRD-06, ADR-0004 |
 | 0010 | Decomposição do MAS em pacotes, limite de 200 linhas por arquivo e pipeline segregado | Accepted | PRD-01, PRD-04 |
 | 0011 | Fronteira de integração com o juiz por interposição do binário do Copilot CLI (backend = qualquer shim; submódulo intocado) | Accepted | PRD-05, PRD-08, ADR-0009 |
+| 0012 | Produtos do experimento em `data/experiment/` (separados dos intermediários de `data/internal/`); `data/outputs/` abandonado | Accepted | PRD-01, PRD-05, PRD-07, PRD-10, ADR-0002 |
 
-ADRs com arquivo completo: 0006, 0009, 0010, 0011. Os demais estão registrados acima e detalhados no PRD apontado;
+ADRs com arquivo completo: 0006, 0009, 0010, 0011, 0012. Os demais estão registrados acima e detalhados no PRD apontado;
 expanda para arquivo próprio ao revisitá-los.
 
 Nota: o ADR-0006 tem dois arquivos históricos; o canônico é `0006-injecao-scriptada-renderizacao-cega.md` (2026-06-30).

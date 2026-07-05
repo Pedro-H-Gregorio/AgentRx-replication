@@ -48,7 +48,11 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
                 f"Arguments: {dumps(args)}"
             )
             output, usage = agent_message(
-                ctx, prompt, fallback, logger=ctx.logger.child("researcher")
+                ctx,
+                prompt,
+                fallback,
+                label="Researcher",
+                logger=ctx.logger.child("researcher"),
             )
             set_usage(span, usage)
             io(span, f"Plan: {state.get('plan')}", output)

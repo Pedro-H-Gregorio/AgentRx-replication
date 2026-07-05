@@ -118,6 +118,73 @@ reprodutibilidade/observabilidade. Um veredito vazio (juiz sem auth / resposta v
 então `make judge ONLY=errors` o reexecuta. Versionam-se só manifesto, índice e o `run1.json` de cada rep
 (`validate-judge` verifica índice×disco e ausência de vazamento de gabarito).
 
+## Coleta dos CSVs (passo 7)
+
+Transforma os vereditos brutos nos **3 CSVs do PRD-10**, um conjunto por experimento:
+
+```bash
+make collect                    # todos os experimentos em disco
+make collect EXPERIMENT=judge-stub
+```
+
+Saída em `data/experiment/results/<experiment_id>/`: `runs_long.csv` (1 linha por execução do juiz),
+`trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas do artigo). A
+agregação replica o `compute_stats` do AgentRx (pooling achatado das failures); o coletor é **neutro** — nenhuma
+estatística, nenhuma comparação A/B. Reps em `error` reduzem `n_judge_runs`, nunca somem. `validate-csv` (disparado ao
+final) verifica as regras de integridade do PRD-10 §5, incluindo a reconstrução `runs_long → metricas`. O caminho
+inteiro roda offline: `make smoke-judge && make collect`. Fórmulas conferidas à mão em
+[docs/examples/metrics-reference.md](docs/examples/metrics-reference.md).
+
+## Rodando o experimento completo com agente-LLM (matriz final)
+
+O MAS é **agnóstico de modelo**: o agente é escolhido via `.env` e gravado no manifesto de cada run. Com `USE_LLM=true`,
+os 4 nós-agente (Coordinator, Researcher, Executor, Evaluator) narram os passos com o modelo configurado; a injeção de
+falha continua **scriptada** (o ground truth não depende do LLM). Guia completo do zero:
+
+### 1. Pré-requisitos
+
+- Repo clonado com submódulo (`git clone --recurse-submodules`) + `make install`.
+- Um endpoint OpenAI-compatible para o **agente** (ex.: OpenRouter, Ollama local, vLLM).
+- Um backend para o **juiz** (seção "Juiz do AgentRx"). Invariante: **agente ≠ juiz**, e o juiz deve ser um modelo
+  capaz.
+
+### 2. Configurar o `.env` (agente via OpenRouter, exemplo)
+
+```bash
+USE_LLM=true
+USE_LLM_STRICT=true                          # corpus final: falha alto, nunca degrada p/ template
+AGENT_MODEL="qwen/qwen-2.5-72b-instruct"     # qualquer modelo do provedor
+AGENT_BASE_URL="https://openrouter.ai/api/v1/"
+AGENT_API_KEY="sk-or-v1-..."                 # sua chave (nunca commitar o .env)
+AGENT_MAX_RETRIES=5                          # backoff p/ rate-limit (429/5xx/timeout)
+AGENT_RETRY_BASE_SECONDS=5
+AGENT_RETRY_MAX_SECONDS=120
+```
+
+Resiliência (por que a matriz não quebra com tier gratuito): 429/5xx/timeout são re-tentados com espera exponencial,
+respeitando o header `Retry-After`; **conexão recusada não re-tenta** (serviço fora do ar → falha imediata). Com
+`USE_LLM_STRICT=true`, esgotar os retries (ou resposta vazia) **aborta o run** com o nó e a causa — nenhuma trajetória
+mista (prosa LLM + template) entra no corpus. Sem o estrito (dev/smoke), o passo degrada para o template determinístico
+e o manifesto conta em `fallback_steps`.
+
+### 3. Gerar o corpus e rodar a matriz
+
+```bash
+make clean-data                  # zera os artefatos de run anteriores
+make generate                    # benchmark (30 cenários, 6 por categoria)
+make simulate                    # 30 traces OTel + ground truth (com prosa do agente-LLM)
+make derive                      # 2 trajetórias por trace (paridade + não-vazamento validados)
+grep -L '"fallback_steps": 0' data/internal/manifests/*.json   # deve sair VAZIO (corpus puro-LLM)
+make smoke-judge-live            # sanidade do juiz real (5 cenários × 2 braços × 1 rep)
+make judge                       # matriz completa 30 × 2 braços × 3 reps (retomável; ONLY=errors refaz falhas)
+make collect                     # 3 CSVs em data/experiment/results/<experiment_id>/
+```
+
+Notas: cada passo é idempotente e valida a própria saída; `make judge` interrompido retoma de onde parou. O teste
+**forte** de imparcialidade (igualdade byte a byte) roda só com `USE_LLM=false` — com `USE_LLM=true` ele vira skip e o
+teste estático (renderizador cego ao gabarito) segue garantindo R5 (PRD-08 D38). Modelos efetivos de agente e juiz ficam
+registrados nos manifestos (reprodutibilidade).
+
 ## Onde as coisas vivem
 
 - `src/agentrx_otel_poc/` — `benchmark/`, `faults/`, `graph/` (nós + runner), `adapters/` (parser + sanitize + 2

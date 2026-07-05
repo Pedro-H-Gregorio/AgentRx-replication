@@ -28,16 +28,21 @@ from .context import GraphContext
 DATA = Path(__file__).resolve().parents[3] / "data" / "internal"
 
 
-def _write_manifest(settings: Settings, task_id: str, run_id: str) -> None:
+def _write_manifest(
+    settings: Settings, task_id: str, run_id: str, fallback_steps: int
+) -> None:
     """Record the effective run config (reproducibility, PRD-00 §4.1).
 
     Kept in a separate file (never inside the trajectories); it holds config, not
-    the fault ground truth.
+    the fault ground truth. `fallback_steps` makes any LLM→template degradation
+    auditable (0 = pure LLM prose, or USE_LLM=false).
     """
     manifest = {
         "run_id": run_id,
         "task_id": task_id,
         "use_llm": settings.use_llm,
+        "use_llm_strict": settings.use_llm_strict,
+        "fallback_steps": fallback_steps,
         "agent_model": settings.agent_model,
         "agent_base_url": settings.agent_base_url,
         "llm_temperature": settings.llm_temperature,
@@ -108,5 +113,5 @@ def run_scenario(
             DATA / "ground_truth" / f"{rid}.ground_truth.json",
             logger=logger.child("ground_truth"),
         )
-    _write_manifest(settings, spec.task_id, rid)
+    _write_manifest(settings, spec.task_id, rid, ctx.llm_stats.fallback_steps)
     return payload

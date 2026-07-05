@@ -3,7 +3,8 @@ PYTEST ?= uv run pytest -q
 
 .PHONY: install check generate simulate derive smoke clean-data \
         validate-benchmark validate-traces validate-trajectories \
-        judge smoke-judge smoke-judge-live validate-judge clean-data-judge
+        judge smoke-judge smoke-judge-live validate-judge clean-data-judge \
+        collect validate-csv clean-data-csv
 
 # Seleção do passo judge (todos opcionais):
 #   make judge SCENARIOS="q01_... q07_..."   FAULT="System Failure"
@@ -58,6 +59,15 @@ smoke-judge-live:
 	$(PYTHON) scripts/run_judge.py --smoke --force --preflight
 	$(MAKE) validate-judge
 
+# --- Coleta dos CSVs de resultado (C7, PRD-10) ---
+
+# Transforma os vereditos brutos nos 3 CSVs por experimento. Sem args: todos os
+# experimentos em disco. Fatia com EXPERIMENT=<experiment_id>.
+COLLECT_ARGS = $(if $(EXPERIMENT),--experiment $(EXPERIMENT),)
+collect:
+	$(PYTHON) scripts/collect_agentrx.py $(COLLECT_ARGS)
+	$(MAKE) validate-csv
+
 # Reset dos artefatos de run (mantém benchmark + catálogo). Idempotente.
 clean-data:
 	rm -f data/internal/otel/*.otel.json \
@@ -69,6 +79,9 @@ clean-data:
 
 clean-data-judge:
 		find data/internal/agentrx -mindepth 1 -not -name .gitkeep -delete 2>/dev/null || true
+
+clean-data-csv:
+		find data/experiment/results -mindepth 1 -not -name .gitkeep -delete 2>/dev/null || true
 
 # --- Validadores isolados ---
 
@@ -84,3 +97,6 @@ validate-trajectories:
 
 validate-judge:
 	$(PYTEST) tests/test_judge_runs.py
+
+validate-csv:
+	$(PYTEST) tests/test_csv_integrity.py

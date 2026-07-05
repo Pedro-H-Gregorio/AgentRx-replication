@@ -1,0 +1,4 @@
+scenario_id,arm,judge_idx,pred_step,pred_category,pred_category_name,raw_failures_json,agentrx_run_name
+gold01,telemetry,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",telemetry/gold01/rep1
+gold01,telemetry,2,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",telemetry/gold01/rep2
+gold01,telemetry,3,4,3,Invalid Invocation,"[{""case"":3,""step"":3},{""case"":9,""step"":4}]",telemetry/gold01/rep3

@@ -36,31 +36,22 @@ Definir como registrar o domínio próprio no AgentRx, invocar o pipeline com o 
 - `collect_agentrx.py` percorre os `run_name`, lê a saída do juiz e cruza com o `ground_truth.json` do cenário
   correspondente.
 
-## 5. CSVs de saída (`data/outputs/`)
+## 5. CSVs de saída (`data/experiment/results/<experiment_id>/`)
 
-### 5.1 `judgements.csv` (linha por julgamento)
+O esquema **canônico** dos CSVs é o **PRD-10** (dicionário de dados, campo a campo) — implementado pelo coletor do C7
+(`scripts/collect_agentrx.py`; ADR-0012). São **3 CSVs**: `runs_long.csv` (1 linha por execução do juiz),
+`trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas do artigo). O braço
+é **coluna**, nunca arquivo.
 
-Colunas:
-`run_id, scenario_id, user_request, arm, judge_idx, gt_step, gt_category, pred_step, pred_category, step_correct, category_correct, step_distance, judge_model, agentrx_run_name`
-
-- `arm` ∈ {telemetry, agentrx}; `judge_idx` ∈ {1,2,3}.
-- `step_correct` = `pred_step == gt_step`; `category_correct` análogo; `step_distance` = |pred_step − gt_step| no espaço
-  de passos do parser.
-
-### 5.2 `trajectory_index.csv` (linha por trajetória enviada)
-
-`run_id, scenario_id, arm, trajectory_path, otel_path, n_steps, sent_at`
-
-- Liga cada julgamento à trajetória bruta que o originou (rastreabilidade).
-
-### 5.3 `scenarios.csv` (linha por cenário)
-
-`scenario_id, user_request, template_id, target_fault_category, injection_node, expected_answer`
+O esboço antigo (`judgements.csv`/`scenarios.csv`) foi **descartado**: `metricas.csv`+`runs_long.csv` cobrem o
+julgamento com mais fidelidade, e o conteúdo do `scenarios.csv` (pergunta, template, categoria alvo, nó, resposta) já
+está **versionado no `benchmark_30.json`** — não se duplica num 4º CSV.
 
 ## 6. Agregação para as RQs
 
-- A análise (PRD-06) parte de `judgements.csv`; agrega por `arm` × categoria com os 3 julgamentos como repetições,
-  reportando média + IC e testes pareados (telemetry vs agentrx) por cenário.
+- A análise (PRD-07) parte de `metricas.csv` (com `runs_long.csv` como matéria-prima da variância); agrega por `arm` ×
+  categoria com as 3 reps como repetições, reportando média + IC e testes pareados (telemetry vs agentrx) por cenário. É
+  artefato **posterior** ao C7, sobre os CSVs prontos.
 
 ## 7. Critérios de aceite
 

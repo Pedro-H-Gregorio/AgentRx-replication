@@ -8,8 +8,17 @@ load_dotenv()
 @dataclass(frozen=True)
 class Settings:
     use_llm: bool = os.getenv("USE_LLM", "false").lower() == "true"
+    # Corpus-generation guard: with a rate-limited provider, a transport failure
+    # must not silently degrade a step to template prose. Strict aborts the run
+    # instead (default off preserves the tolerant dev/smoke behavior).
+    use_llm_strict: bool = os.getenv("USE_LLM_STRICT", "false").lower() == "true"
     llm_temperature: float = float(os.getenv("LLM_TEMPERATURE", "0"))
     llm_timeout_seconds: float = float(os.getenv("LLM_TIMEOUT_SECONDS", "30"))
+    # Transport backoff for the agent client (mirrors the judge shim, D28): retry
+    # 429/5xx/connection errors, honoring Retry-After, else exponential with a cap.
+    agent_max_retries: int = int(os.getenv("AGENT_MAX_RETRIES", "5"))
+    agent_retry_base_seconds: float = float(os.getenv("AGENT_RETRY_BASE_SECONDS", "5"))
+    agent_retry_max_seconds: float = float(os.getenv("AGENT_RETRY_MAX_SECONDS", "120"))
     # MAS agent model is parametrizable and recorded in each run manifest (PRD-00 §4.1).
     # Used only when USE_LLM=true; otherwise the agent runs deterministically.
     agent_model: str = os.getenv("AGENT_MODEL", "Llama3.1-8B")
