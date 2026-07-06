@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent called ProductCatalogSearch with invalid arguments instead of using the requested item id 1151293680 and the required schema fields.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal matched the user request, but the first actionable failure was a malformed ProductCatalogSearch invocation. The tool call used {\"product_id\": 0}, which both used the wrong type and omitted the required string item_id. The runtime explicitly returned a SchemaError saying catalog.get_details requires string product_id and item_id. This is not a connectivity, access, or guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2697,
+                    "output_tokens": 223,
+                    "total_tokens": 2920
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:21:47.013508",
+                    "end_time": "2026-07-05T16:21:59.088746",
+                    "execution_time_sec": 12.0752
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e2136925-07c5-4b2c-b2c6-3630cdeb4037"
+            }
+        }
+    ]
+}

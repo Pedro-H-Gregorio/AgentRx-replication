@@ -11,10 +11,13 @@ import json
 
 import pytest
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.adapters.derive import derive_arms
 from agentrx_otel_poc.graph import runner
 from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import load_benchmark
+
+TEST_MAS = "__pytest__"  # isolated corpus — never touches a real MAS corpus
 
 FORBIDDEN = {
     "System Failure": ["system failure", "injected fault"],
@@ -34,13 +37,12 @@ def _stub_agent(settings, prompt, *, logger=None):
 
 
 def _cleanup(run_id: str) -> None:
-    for sub, ext in (
-        ("otel", "otel.json"),
-        ("ground_truth", "ground_truth.json"),
-        ("logs", "log"),
-        ("manifests", "json"),
-    ):
-        (runner.DATA / sub / f"{run_id}.{ext}").unlink(missing_ok=True)
+    (paths.otel_dir(TEST_MAS) / f"{run_id}.otel.json").unlink(missing_ok=True)
+    (paths.ground_truth_dir(TEST_MAS) / f"{run_id}.ground_truth.json").unlink(
+        missing_ok=True
+    )
+    (paths.logs_dir(TEST_MAS) / f"{run_id}.log").unlink(missing_ok=True)
+    (paths.manifests_dir(TEST_MAS) / f"{run_id}.json").unlink(missing_ok=True)
 
 
 @pytest.mark.parametrize("category", list(FORBIDDEN), ids=list(FORBIDDEN))
@@ -51,7 +53,10 @@ def test_no_category_markers_with_llm(monkeypatch, category: str) -> None:
     )
     run_id = f"{task_id}__r5w"
     payload = runner.run_scenario(
-        task_id, settings=Settings(use_llm=True), run_id=run_id, inject=True
+        task_id,
+        settings=Settings(use_llm=True, mas_id=TEST_MAS),
+        run_id=run_id,
+        inject=True,
     )
     try:
         arm_a, arm_b = derive_arms(payload)

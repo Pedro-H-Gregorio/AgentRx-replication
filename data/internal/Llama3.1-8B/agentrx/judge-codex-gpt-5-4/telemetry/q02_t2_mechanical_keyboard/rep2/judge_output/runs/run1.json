@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q02_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q02_t2_mechanical_keyboard",
+                    "failure_case": 9,
+                    "description": "The run failed because the required catalog search dependency timed out when the agent made the correct ProductCatalogSearch call, preventing retrieval of the count needed to answer the user\u2019s question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent\u2019s goal and plan were correct through steps 1-2: decompose the task, prepare a ProductCatalogSearch count query, and execute it. At step 3, the agent attempted the required tool call with a well-formed payload: {\"available_only\": true, \"op\": \"count\", \"product_type\": \"Mechanical Keyboard\"}. The runtime explicitly returned an infrastructure/connectivity-style error: \"catalog search dependency timed out after 30000ms\" with type \"CatalogServiceTimeoutError\" and metadata \"infra=catalog-service http POST\". This is not a schema/validation error, not a misunderstanding of user intent, and not a guardrail/access refusal. Looking ahead, the failure was not resolved: steps 4-5 only propagate the inability to complete the task and reject the answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2744,
+                    "output_tokens": 330,
+                    "total_tokens": 3074
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:53:36.394278",
+                    "end_time": "2026-07-05T14:53:45.687014",
+                    "execution_time_sec": 9.2927
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5e8155bb-e011-4bfa-9c33-74ade1a942a0"
+            }
+        }
+    ]
+}

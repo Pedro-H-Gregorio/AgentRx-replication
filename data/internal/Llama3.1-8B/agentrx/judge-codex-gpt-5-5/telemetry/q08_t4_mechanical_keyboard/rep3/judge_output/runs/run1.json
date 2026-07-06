@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent invoked ProductCatalogSearch with an invalid schema: product_id was an integer 0 and item_id was omitted, so the tool rejected the request before any product evidence could be retrieved.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user asked whether item 1151293680 of Mechanical Keyboard has backlight=RGB. The agent had enough information to call the catalog tool with the item identifier, but the Researcher prepared a malformed call using {\"product_id\": 0}: the product_id value is the wrong type/value and the required string item_id is missing. The next step confirms this with a SchemaError from the tool. This is not a connectivity, guardrail, or unsupported-capability issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2697,
+                    "output_tokens": 228,
+                    "total_tokens": 2925
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:22:00.032498",
+                    "end_time": "2026-07-05T16:22:13.688833",
+                    "execution_time_sec": 13.6563
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4ac286d3-49f6-44a7-bca4-bb3fc5cf570d"
+            }
+        }
+    ]
+}

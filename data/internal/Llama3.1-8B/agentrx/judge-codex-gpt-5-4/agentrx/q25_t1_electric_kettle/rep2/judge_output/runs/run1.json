@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 5,
+                    "description": "The agent planned and executed a broader search than the user asked for by not filtering to available products. Even though the returned cheapest item happened to be available, the agent's objective formulation was still misaligned with the user's request.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to identify the cheapest Electric Kettle that is available. At index 1, the agent's plan already relaxed the user's availability constraint by choosing the query `{\\\"available_only\\\": false, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}`. The availability requirement was explicitly present in the user request, so the needed constraint information was already available. This is not a tool schema error, not a misread of tool output, and not invented information. It is a misunderstanding of the user's constraint, so the best match is Intent-Plan Misalignment."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3013,
+                    "output_tokens": 309,
+                    "total_tokens": 3323
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:27:48.907548",
+                    "end_time": "2026-07-05T15:28:05.862690",
+                    "execution_time_sec": 16.9551
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "064eb670-facd-4f73-a2b1-b8585bd1aa14"
+            }
+        }
+    ]
+}

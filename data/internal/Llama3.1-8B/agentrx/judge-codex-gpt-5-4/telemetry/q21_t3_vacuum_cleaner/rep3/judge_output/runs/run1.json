@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 2,
+                    "description": "The agent failed because the Executor fabricated the answer content. Instead of using the tool result showing 2 available bagged vacuum cleaners above $591.59, it invented `9 options` and a nonexistent `record 0000000000`, producing an ungrounded final response.",
+                    "step_number": 4,
+                    "checklist_reasoning": "Step 1 scan: At index 2, the Researcher states it will call ProductCatalogSearch with `bagged/bagless=bagless`, which contradicts the provided tool args (`bagged`) and the user request. However, Step 2 is resolved at index 3 because the actual ProductCatalogSearch call uses the correct grounded query with `bagged`, and the returned evidence matches the user request. Continuing the scan, index 4 is the first unresolved failure: the Executor answers `There are 9 options available, per record 0000000000.` The available evidence at that point is only the catalog result from index 3, which shows exactly 2 matching items and no record `0000000000`. Those answer details are not grounded in any prior input or tool output, and they are used as the final answer. This matches Invention of New Information better than mere tool-output misreading because the agent fabricates specific unsupported values."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2850,
+                    "output_tokens": 391,
+                    "total_tokens": 3242
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:05:43.305448",
+                    "end_time": "2026-07-05T15:05:56.956234",
+                    "execution_time_sec": 13.6508
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "42385f65-9f8f-48f2-8b7c-86b72f181b4e"
+            }
+        }
+    ]
+}

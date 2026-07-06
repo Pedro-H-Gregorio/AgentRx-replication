@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch invocation omitted the required item_id and supplied product_id as an integer 0 instead of the required string identifier, causing a schema validation error and preventing evidence retrieval.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal matched the user request, but the concrete ProductCatalogSearch call was malformed. The tool was invoked with {\"product_id\": 0}, while the tool explicitly required string product_id and item_id. The runtime returned a SchemaError, so this is not a reasoning-only mistake, guardrail issue, or connectivity failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2407,
+                    "output_tokens": 221,
+                    "total_tokens": 2628
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:40:45.921311",
+                    "end_time": "2026-07-05T16:40:56.621288",
+                    "execution_time_sec": 10.7
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6343deb5-91b6-4dc9-82ae-3ea4affaf879"
+            }
+        }
+    ]
+}

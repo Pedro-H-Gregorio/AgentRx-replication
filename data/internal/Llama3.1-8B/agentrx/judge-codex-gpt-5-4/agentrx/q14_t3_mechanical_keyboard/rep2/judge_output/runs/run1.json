@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q14_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q14_t3_mechanical_keyboard",
+                    "failure_case": 4,
+                    "description": "The agent incorrectly interpreted the ProductCatalogSearch result. The tool returned two matching available Mechanical Keyboards with RGB backlight above $233.90, but the Executor stated that no items matched.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was straightforward: identify available Mechanical Keyboards with RGB backlight priced above $233.90. By index 3, the relevant tool output was already available and showed `count: 2` with two matching items priced at 272.33 and 237.48. At index 4, the agent synthesized the answer `No items match that filter above the given price.`, which directly contradicts the tool output. This is not a plan-adherence issue, because the correct tool was called in the correct order. It is not invention, because the failure stems specifically from misreading available evidence rather than introducing a new unsupported fact independently of tool output. It is not resolved later: the evaluator explicitly notes the contradiction but does not trigger a correction, so the wrong answer stands."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2562,
+                    "output_tokens": 358,
+                    "total_tokens": 2920
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:20:28.727573",
+                    "end_time": "2026-07-05T15:20:40.053784",
+                    "execution_time_sec": 11.3262
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "1e8747c5-85b3-4665-ba87-3fef335e4597"
+            }
+        }
+    ]
+}

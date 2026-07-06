@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q22_t1_smartphone",
+            "failures": [
+                {
+                    "task_id": "q22_t1_smartphone",
+                    "failure_case": 2,
+                    "description": "The Executor hallucinated a nonexistent product ('Item 0000000000') and a nonexistent price ($0.01) instead of selecting the actual cheapest returned smartphone priced at $1128.99.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to identify the cheapest available smartphone from the catalog results. Up to index 3, the plan and tool execution were correct, and the only grounded evidence available was the ProductCatalogSearch result containing two available smartphones priced at $1128.99 and $1157.86, with item_ids 5339029584 and 1507389580. At index 4, the Executor produced 'Item 0000000000 is the cheapest, priced at $0.01,' which is not supported by any prior input or tool output. This is a concrete invented item_id and invented price, and the fabricated claim directly determined the final answer. The later Evaluator at index 5 repeats and endorses the fabrication rather than resolving it. Therefore the first unresolved root-cause failure is invention of new information at index 4."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2576,
+                    "output_tokens": 355,
+                    "total_tokens": 2931
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:25:50.396020",
+                    "end_time": "2026-07-05T15:25:59.859662",
+                    "execution_time_sec": 9.4636
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "abf38875-f69c-430b-9d99-65214f3ff1b1"
+            }
+        }
+    ]
+}

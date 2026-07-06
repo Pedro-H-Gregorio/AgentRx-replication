@@ -37,12 +37,13 @@ Regras de dependência:
 | -- | -- | -- | -- |
 | Externo | `data/external/<fonte>/` | sim (+ NOTICE) | dados de terceiros, fixados por commit |
 | Benchmark | `data/benchmark/` | sim | saída do gerador (perguntas) |
-| Bruto | `data/internal/otel/` | sim | trace OTel = fonte de verdade |
-| Derivado | `data/internal/{trajectory_*,agentrx,...}/` | sim | projeções do bruto (regeráveis) |
-| Produto | `data/experiment/results/<experiment_id>/` | sim | CSVs de resultado do experimento (ADR-0012) |
+| Bruto | `data/internal/<mas_id>/otel/` | sim | trace OTel = fonte de verdade |
+| Derivado | `data/internal/<mas_id>/{trajectory_*,agentrx,...}/` | sim | projeções do bruto (regeráveis) |
+| Produto | `data/experiment/results/<mas_id>/<judge_id>/` | sim | CSVs de resultado (ADR-0012/0013) |
 
-Invariante: apagar tudo em `data/internal/{trajectory_*,agentrx}` e `data/experiment` e rodar
-`make simulate derive judge collect` reconstrói os arquivos a partir do OTel + scripts.
+`<mas_id>` = namespace do modelo do MAS (`MAS_ID` ou `AGENT_MODEL` literal; ADR-0013): rodar outro modelo não
+sobrescreve o corpus anterior. Invariante: apagar `data/internal/<mas_id>/{trajectory_*,agentrx}` e
+`data/experiment/results/<mas_id>` e rodar `make simulate derive judge collect` reconstrói a partir do OTel + scripts.
 
 ## 4. Garantias de reprodutibilidade
 
@@ -84,7 +85,7 @@ Invariante: apagar tudo em `data/internal/{trajectory_*,agentrx}` e `data/experi
 1. `git clone --recurse-submodules` + `make install`.
 2. `make generate` → confere `benchmark_30.json` (30 itens, 6/categoria).
 3. `make smoke` → 5 falhas passam.
-4. `make simulate derive judge && make collect` → CSVs em `data/experiment/results/<experiment_id>/`.
+4. `make simulate derive judge && make collect` → CSVs em `data/experiment/results/<mas_id>/<judge_id>/`.
 5. análise sobre os CSVs → tabelas/figuras das RQs.
 
 Se algum passo exigir conhecimento não escrito, é um defeito de reprodutibilidade e deve virar issue.

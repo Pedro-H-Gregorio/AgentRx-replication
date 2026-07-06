@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 4,
+                    "description": "The agent misread or failed to use the tool result correctly, selecting a more expensive available Jigsaw Puzzle instead of the cheapest available one shown in the results.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The relevant tool output was available before the failing decision. At index 3, ProductCatalogSearch returned items sorted by ascending price, and the first item, item_id \"9665100170\", was available=true with price 45.39. At index 4, the Executor synthesized an answer claiming item_id \"1096508426\" at 46.13 was the cheapest available Jigsaw Puzzle. This contradicts the tool output and omits the cheaper available item. The earlier use of available_only=false was suboptimal, but the returned evidence still contained enough information to answer correctly."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3118,
+                    "output_tokens": 271,
+                    "total_tokens": 3389
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:51:04.761998",
+                    "end_time": "2026-07-05T16:51:19.663665",
+                    "execution_time_sec": 14.9017
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "ec984b1e-304b-42c1-9c0b-ff04619d489b"
+            }
+        }
+    ]
+}

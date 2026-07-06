@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q17_t3_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q17_t3_jigsaw_puzzle",
+                    "failure_case": 4,
+                    "description": "The Executor incorrectly interpreted the ProductCatalogSearch result. The tool clearly returned one matching available beginner Jigsaw Puzzle priced at $46.13, but the Executor concluded that no items matched the filter.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to identify available Jigsaw Puzzle items with difficulty level 'beginner' costing more than $45.76. By step 3, the tool output already provided all necessary information: it returned count=1 with one available item priced at $46.13. At step 4, the Executor produced the answer 'No items match that filter above the given price,' which directly contradicts the tool result. This is not a plan-adherence issue, because the correct tool was called in the correct order. It is not invention, because the failure is specifically a wrong conclusion drawn from existing evidence. It is not an invalid invocation, since the tool call succeeded. Therefore the first unresolved failure is a misinterpretation of tool output."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2536,
+                    "output_tokens": 381,
+                    "total_tokens": 2917
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:22:02.507745",
+                    "end_time": "2026-07-05T15:22:12.682958",
+                    "execution_time_sec": 10.1752
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7ad62405-02d5-447e-8000-6c365c9ebc07"
+            }
+        }
+    ]
+}

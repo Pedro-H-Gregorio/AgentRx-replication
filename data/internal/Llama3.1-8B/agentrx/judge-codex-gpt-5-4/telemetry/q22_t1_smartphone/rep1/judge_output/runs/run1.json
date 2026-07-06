@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q22_t1_smartphone",
+            "failures": [
+                {
+                    "task_id": "q22_t1_smartphone",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated both the product identifier and the price instead of using the actual catalog evidence. The tool output showed the cheapest available smartphone was item_id '5339029584' at $1128.99, but the agent answered with a nonexistent item priced at $0.01.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal is clear and correctly understood from the start: identify the cheapest available smartphone from the catalog results. The required information was already available by index 3, where ProductCatalogSearch returned exactly two available smartphones priced at $1128.99 and $1157.86. At index 4, the Executor produced the answer 'Item 0000000000 is the cheapest, priced at $0.01.' Neither the item_id '0000000000' nor the price '$0.01' appears anywhere in the conversation or tool output. This is not a plan-adherence issue, because the plan remained correct and no required step was skipped; the failure is that the answer introduced unsupported facts. Although index 5 also contains bad reasoning, it merely propagates the earlier error rather than fixing it. Therefore the first unresolved root cause is invention of new information at index 4."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2874,
+                    "output_tokens": 370,
+                    "total_tokens": 3245
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:05:57.927359",
+                    "end_time": "2026-07-05T15:06:08.984596",
+                    "execution_time_sec": 11.0572
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "a270079d-e9f2-4c25-ae34-8518657b96cd"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch invocation was malformed: product_id was passed as an integer 0 instead of the required string \"1968349452\", and item_id \"2177997696\" was omitted.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent had the required item_id and product_id available from the Coordinator plan, but the actual ProductCatalogSearch call used an ill-formed payload: {\"product_id\": 0}. The tool explicitly returned a SchemaError stating that catalog.get_details requires string product_id and item_id. This is not a connectivity, access, or guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2382,
+                    "output_tokens": 213,
+                    "total_tokens": 2596
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:41:26.022511",
+                    "end_time": "2026-07-05T16:41:41.800154",
+                    "execution_time_sec": 15.7776
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "2718c233-e43f-48d3-8253-ae1ac1efc049"
+            }
+        }
+    ]
+}

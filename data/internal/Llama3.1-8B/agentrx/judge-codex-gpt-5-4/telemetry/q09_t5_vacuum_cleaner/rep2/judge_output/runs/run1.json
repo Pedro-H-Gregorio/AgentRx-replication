@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent failed because it did not adhere to the required tool-call plan even though the correct arguments were already available. It substituted an incorrect argument set and skipped the required item_id, causing the rest of the run to fail.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user\u2019s goal was to get the price of item 1345513440. The trajectory already contained the needed planned query at step 1: {\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}. At step 2, the agent instead prepared a different call, {\"product_id\": 0}, omitting the required item_id and replacing the known product_id with an unsupported value. This is the first failure in the run. The later schema error at step 3 is a consequence of that earlier deviation, and it was never corrected afterward."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2680,
+                    "output_tokens": 268,
+                    "total_tokens": 2949
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:57:42.925828",
+                    "end_time": "2026-07-05T14:57:56.938576",
+                    "execution_time_sec": 14.0127
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "dbd788f3-17d3-4bda-bfb5-da015eaf53c2"
+            }
+        }
+    ]
+}

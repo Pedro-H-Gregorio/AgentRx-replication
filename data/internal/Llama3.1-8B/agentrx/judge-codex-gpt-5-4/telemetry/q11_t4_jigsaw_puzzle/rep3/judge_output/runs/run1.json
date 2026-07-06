@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 2,
+                    "description": "The agent invented an unsupported tool argument (`product_id: 0`) instead of using the identifiers from the request, which led directly to the failed catalog call and prevented task completion.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was clear: determine whether item `1096508426` of the Jigsaw Puzzle has difficulty level `beginner`. The agent's overall goal matched that task, so this is not intent misalignment. The first concrete failure appears at index 2, where the Researcher planned a tool call with `{\"product_id\": 0}`. That value is not grounded in the user request or any prior tool output, and it also drops the provided item id `1096508426`. The later schema error at index 3 is a downstream consequence of that bad invented argument choice. Because the root-cause algorithm asks for the first unresolved failure, index 2 is earlier than the runtime rejection at index 3."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2705,
+                    "output_tokens": 332,
+                    "total_tokens": 3037
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:59:21.467857",
+                    "end_time": "2026-07-05T14:59:37.429795",
+                    "execution_time_sec": 15.9619
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "067d6380-4159-4780-9901-97c10fde249e"
+            }
+        }
+    ]
+}

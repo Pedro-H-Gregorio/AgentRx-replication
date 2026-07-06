@@ -23,7 +23,7 @@ from agentrx_otel_poc.collect.aggregate import (
     trajectory_index_row,
 )
 from agentrx_otel_poc.collect.csv_writer import TRAJECTORY_INDEX_COLUMNS, write_csv
-from agentrx_otel_poc.collect.reader import load_experiment
+from agentrx_otel_poc.collect.reader import PairData, RepData, load_experiment
 
 GOLDEN = Path(__file__).parent / "fixtures" / "golden"
 EXP = GOLDEN / "experiment"
@@ -70,8 +70,13 @@ def test_golden_trajectory_index_minus_sent_at() -> None:
     assert row["run_id"] == "gold01"
     assert row["scenario_id"] == "gold01"
     assert row["arm"] == "telemetry"
-    assert row["trajectory_path"] == "data/internal/trajectory_telemetry/gold01.json"
-    assert row["otel_path"] == "data/internal/otel/gold01.otel.json"
+    # paths carry the corpus namespace (the fixture's data_internal dir name).
+    mas = DATA_INTERNAL.name
+    assert (
+        row["trajectory_path"]
+        == f"data/internal/{mas}/trajectory_telemetry/gold01.json"
+    )
+    assert row["otel_path"] == f"data/internal/{mas}/otel/gold01.otel.json"
     assert row["n_steps"] == 5
     # sent_at is an mtime (stable per artifact set, not a hand-frozen value)
     assert set(TRAJECTORY_INDEX_COLUMNS) == set(row)
@@ -159,3 +164,24 @@ def test_judge_model_prefers_effective_model(tmp_path) -> None:
     _plant(exp, [(1, "ok", "gpt-5.5"), (2, "ok", "gpt-5.5")], "")
     pairs = load_experiment(exp, DATA_INTERNAL)
     assert metricas_row(pairs[0])["judge_model"] == "gpt-5.5"
+
+
+def test_out_of_scope_prediction_is_named_in_csvs() -> None:
+    # A verdict outside the 5 injectable categories (5 = Intent-Plan Misalignment)
+    # carries its full name in both CSVs instead of a blank, and still counts as a
+    # category miss (int-based comparison).
+    pair = PairData(
+        run_id="q99",
+        arm="telemetry",
+        n_steps=5,
+        ground_truth={"failure_category": "System Failure", "critical_failure_step": 3},
+        judge_model="m",
+    )
+    pair.reps = [RepData(1, "telemetry/q99/rep1", [(5, 2)], None, 0.0)]
+    long = runs_long_rows(pair)[0]
+    assert long["pred_category"] == 5
+    assert long["pred_category_name"] == "Intent-Plan Misalignment"
+    metric = metricas_row(pair)
+    assert metric["most_common_category"] == 5
+    assert metric["most_common_category_name"] == "Intent-Plan Misalignment"
+    assert metric["cat_acc_critical"] == 0  # out of scope → miss

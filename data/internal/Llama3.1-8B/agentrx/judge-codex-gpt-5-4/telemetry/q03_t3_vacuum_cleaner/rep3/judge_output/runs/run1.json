@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q03_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q03_t3_vacuum_cleaner",
+                    "failure_case": 9,
+                    "description": "The run failed because the catalog search dependency timed out during the ProductCatalogSearch call, leaving the agent without the tool evidence needed to answer the query.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal is clear: find available vacuum cleaners that are bagged and cost more than $591.59. The plan and intended tool are correct. At index 2, the Researcher text mentions \"bagless\" in its natural-language output, but the actual tool arguments shown both before and at the next step use the correct value \"bagged\", so that mismatch did not become the operative failure and was effectively not the root cause. At index 3, the agent attempts a valid ProductCatalogSearch call with well-formed arguments, and the runtime returns an explicit timeout: \"catalog search dependency timed out after 30000ms\" with type \"CatalogServiceTimeoutError\" and infra marker \"catalog-service http POST\". This is an infrastructure/connectivity failure, not a malformed invocation, not a guardrail, and not a misunderstanding of user intent. The failure is not resolved later; subsequent steps only surface the inability to complete the task."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2761,
+                    "output_tokens": 365,
+                    "total_tokens": 3126
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:54:21.442749",
+                    "end_time": "2026-07-05T14:54:34.044359",
+                    "execution_time_sec": 12.6016
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4d3d7fb4-d444-4628-af16-1980ef9b6c7a"
+            }
+        }
+    ]
+}

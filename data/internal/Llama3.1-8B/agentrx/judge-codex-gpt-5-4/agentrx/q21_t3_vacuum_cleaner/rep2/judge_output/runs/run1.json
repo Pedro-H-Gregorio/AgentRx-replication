@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated the result summary, claiming there were 9 matching options and citing a nonexistent record, even though the only available evidence showed exactly 2 matching items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "At index 2, the Researcher text says it will call the tool with \"bagless,\" which conflicts with the plan and the listed tool args, but this is resolved at index 3 because the actual ProductCatalogSearch call uses the correct query with \"bagged\" and returns matching results. The first unresolved failure occurs at index 4. By that point, the agent has all required information from the tool output: the search returned 2 matching items. The Executor instead states \"There are 9 options available, per record 0000000000,\" which is not grounded in any prior user input, context, or tool result. This is not a plan-adherence issue, because the plan and objective remain correct; the problem is that the answer introduces unsupported facts. The later Evaluator approval does not resolve this error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2551,
+                    "output_tokens": 323,
+                    "total_tokens": 2874
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:25:23.982449",
+                    "end_time": "2026-07-05T15:25:34.933121",
+                    "execution_time_sec": 10.9507
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e21a5d08-15be-4e04-9a6c-6cea40a2ae03"
+            }
+        }
+    ]
+}

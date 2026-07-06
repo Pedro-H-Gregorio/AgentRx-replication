@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is present in the provided run. The agent searched the catalog with the correct filters, received two matching black available smartphones, correctly applied the price threshold, and returned only item 1507389580 at price 1157.86.",
+                    "step_number": -1,
+                    "checklist_reasoning": "The agent\u2019s goal matches the user\u2019s request throughout the trajectory: find available black smartphones costing more than $1143.42. The plan is appropriate, the tool call is well-formed, the tool output is correctly interpreted, and the final answer matches the returned evidence. There is no sign of hallucination, skipped required action, invalid invocation, misunderstanding of intent, missing information, unsupported capability, guardrail block, or system failure. Because no failure step exists in the provided trajectory, none of categories 1-9 apply."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2561,
+                    "output_tokens": 266,
+                    "total_tokens": 2827
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:30:14.782144",
+                    "end_time": "2026-07-05T15:30:25.006172",
+                    "execution_time_sec": 10.224
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5c1b3ea0-b9d1-4184-9c31-2cd041967b53"
+            }
+        }
+    ]
+}

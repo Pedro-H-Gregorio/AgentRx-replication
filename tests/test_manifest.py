@@ -7,10 +7,12 @@ from pathlib import Path
 
 import pytest
 
+from agentrx_otel_poc import paths
+from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import load_benchmark
 
 ROOT = Path(__file__).resolve().parent.parent
-MAN_DIR = ROOT / "data" / "internal" / "manifests"
+MAN_DIR = paths.manifests_dir(paths.resolve_mas_id(Settings()))
 REQUIRED = {
     "run_id",
     "task_id",

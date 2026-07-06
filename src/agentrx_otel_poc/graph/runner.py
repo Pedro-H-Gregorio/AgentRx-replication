@@ -8,9 +8,9 @@ scenario's own target category (scripted injection, deterministic ground truth).
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from typing import Any
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.faults import CATEGORY_TO_FAULT
 from agentrx_otel_poc.runtime_logging import configure_logging
 from agentrx_otel_poc.settings import Settings
@@ -25,11 +25,9 @@ from agentrx_otel_poc.telemetry import configure_tracer, set_success, write_otel
 from .builder import build_graph
 from .context import GraphContext
 
-DATA = Path(__file__).resolve().parents[3] / "data" / "internal"
-
 
 def _write_manifest(
-    settings: Settings, task_id: str, run_id: str, fallback_steps: int
+    settings: Settings, task_id: str, run_id: str, fallback_steps: int, mas_id: str
 ) -> None:
     """Record the effective run config (reproducibility, PRD-00 §4.1).
 
@@ -40,6 +38,7 @@ def _write_manifest(
     manifest = {
         "run_id": run_id,
         "task_id": task_id,
+        "mas_id": mas_id,
         "use_llm": settings.use_llm,
         "use_llm_strict": settings.use_llm_strict,
         "fallback_steps": fallback_steps,
@@ -48,7 +47,7 @@ def _write_manifest(
         "llm_temperature": settings.llm_temperature,
         "otel_service_name": settings.otel_service_name,
     }
-    path = DATA / "manifests" / f"{run_id}.json"
+    path = paths.manifests_dir(mas_id) / f"{run_id}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -63,10 +62,11 @@ def run_scenario(
     inject: bool = True,
 ) -> dict[str, Any]:
     settings = settings or Settings()
+    mas_id = paths.resolve_mas_id(settings)
     spec = get_task_spec(task_id)
     rid = run_id or task_id
     fault_type = CATEGORY_TO_FAULT[spec.target_fault_category] if inject else None
-    logger = configure_logging(rid, log_dir=DATA / "logs")
+    logger = configure_logging(rid, log_dir=paths.logs_dir(mas_id))
     tracer, exporter, provider = configure_tracer(settings.otel_service_name, rid)
     ctx = GraphContext(settings, spec, tracer, logger, fault_type)
     graph = build_graph(ctx).compile()
@@ -96,7 +96,7 @@ def run_scenario(
     provider.force_flush()
 
     payload = write_otel_json(
-        DATA / "otel" / f"{rid}.otel.json",
+        paths.otel_dir(mas_id) / f"{rid}.otel.json",
         run_id=rid,
         task_id=spec.task_id,
         task=spec.user_request,
@@ -110,8 +110,8 @@ def run_scenario(
         ground_truth = build_ground_truth(spec)
         write_ground_truth_json(
             ground_truth,
-            DATA / "ground_truth" / f"{rid}.ground_truth.json",
+            paths.ground_truth_dir(mas_id) / f"{rid}.ground_truth.json",
             logger=logger.child("ground_truth"),
         )
-    _write_manifest(settings, spec.task_id, rid, ctx.llm_stats.fallback_steps)
+    _write_manifest(settings, spec.task_id, rid, ctx.llm_stats.fallback_steps, mas_id)
     return payload

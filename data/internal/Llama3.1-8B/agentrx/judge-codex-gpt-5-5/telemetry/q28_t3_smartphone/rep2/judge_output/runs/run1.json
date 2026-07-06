@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is evident in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy category clearly applies. The agent understood the user goal, made the appropriate ProductCatalogSearch call with available_only=true, color=black, product_type=Smartphone, correctly interpreted the tool output, filtered prices greater than 1143.42, and returned only item 1507389580 at 1157.86. There is no invalid invocation, hallucinated information, misread tool output, unsupported intent, guardrail block, or system failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2860,
+                    "output_tokens": 177,
+                    "total_tokens": 3038
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:33:19.222967",
+                    "end_time": "2026-07-05T16:33:28.904878",
+                    "execution_time_sec": 9.6819
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c53558e8-911d-4f96-97d7-8d00e87ce31e"
+            }
+        }
+    ]
+}

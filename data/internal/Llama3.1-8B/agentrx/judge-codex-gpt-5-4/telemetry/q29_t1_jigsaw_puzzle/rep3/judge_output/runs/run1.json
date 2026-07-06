@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 5,
+                    "description": "The agent misunderstood the user's constraint `available` and planned a search over all Jigsaw Puzzles, including unavailable ones, instead of restricting the search to available items. That is the first unrecovered failure in the run.",
+                    "step_number": 1,
+                    "checklist_reasoning": "User goal: identify the cheapest Jigsaw Puzzle that is available. At index 1, the agent already had enough information to preserve the availability constraint from the user request, but the Coordinator explicitly planned to query with `available_only: false` and even stated it would include out-of-stock items. That is a misunderstanding of a key user constraint, so the agent began pursuing the wrong plan. This error was not resolved later: the same incorrect query was prepared at index 2 and executed at index 3. Although the returned results still contained enough information to recover, the original constraint violation remained in force and set up the later wrong answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3417,
+                    "output_tokens": 341,
+                    "total_tokens": 3758
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:11:09.168574",
+                    "end_time": "2026-07-05T15:11:24.734000",
+                    "execution_time_sec": 15.5654
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "79cdbac4-9df0-4be5-885c-5dca18f5ff46"
+            }
+        }
+    ]
+}

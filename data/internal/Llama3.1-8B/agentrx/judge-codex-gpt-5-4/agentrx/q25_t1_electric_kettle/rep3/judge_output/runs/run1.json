@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent failed by not adhering to the required action plan implied by the user's constraint. It should have searched only available Electric Kettles, but it searched all Electric Kettles (`available_only: false`) and only afterward selected the cheapest available one. That is an over-broad, unnecessary action rather than a misunderstanding of the final goal.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal is clear: identify the cheapest Electric Kettle that is available. The agent's overall objective matches that goal, and all information needed to issue the correct search was already available before the tool call. The first deviation appears when the agent prepares and executes ProductCatalogSearch with `available_only: false` even though the user asked for an available item. This is a plan/policy deviation in the action sequence: the agent should have constrained the search to available products, but instead searched all products and relied on later reasoning to filter availability. The tool call itself is well-formed, so this is not an invalid invocation. The answer happened to be correct, but the first failure is still the unnecessary/unplanned broader search."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3013,
+                    "output_tokens": 390,
+                    "total_tokens": 3404
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:28:06.817211",
+                    "end_time": "2026-07-05T15:28:27.905170",
+                    "execution_time_sec": 21.088
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "0a2f318b-0b59-43c5-babc-ea99b8d76397"
+            }
+        }
+    ]
+}

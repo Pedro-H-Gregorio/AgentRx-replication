@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent had the correct tool and exact required arguments from the coordinator, but the Researcher ignored that plan and constructed a different tool call, causing the rest of the run to fail.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to get the price of item `1345513440`. By index 1, the required plan and arguments were already available: use `ProductCatalogSearch` with `{\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}`. At index 2, the Researcher deviated from that plan and prepared a different call, `{\"product_id\": 0}`, omitting the required `item_id` and replacing the known `product_id` with an unsupported value. This is the first failure in the trajectory. It was not resolved later: index 3 shows the malformed call being rejected, and the run ends in failure. Because the needed information was already available and the agent failed to follow the required action sequence, this is best classified as Instruction/Plan Adherence Failure rather than the later Invalid Invocation, which is only the downstream manifestation."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2382,
+                    "output_tokens": 367,
+                    "total_tokens": 2750
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:17:25.884450",
+                    "end_time": "2026-07-05T15:17:39.153624",
+                    "execution_time_sec": 13.2692
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f451acf5-f07f-41e5-9e87-9440c5789c8b"
+            }
+        }
+    ]
+}

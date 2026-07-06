@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q23_t2_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q23_t2_jigsaw_puzzle",
+                    "failure_case": 2,
+                    "description": "The agent fabricated the final answer content. After receiving a tool result with a count of 9 available Jigsaw Puzzle items, it answered that there were 16 options available and cited a nonexistent record `0000000000`. This unsupported invented information directly caused the wrong final response.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer how many Jigsaw Puzzle options are available. Up to index 3, the trajectory is aligned with that goal: the Coordinator decomposes correctly, the Researcher plans the correct ProductCatalogSearch call, and the tool returns grounded evidence showing `count: 9` with 9 available items. At index 4, the Executor states `There are 16 options available, per record 0000000000.` Neither `16` nor `record 0000000000` appears anywhere in the user input, prior context, or tool output. This is not a plan-adherence issue because the correct tool call was already made; the failure is the introduction of unsupported answer content during synthesis. The error is not resolved later: at index 5, the Evaluator incorrectly approves the answer instead of correcting it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3046,
+                    "output_tokens": 372,
+                    "total_tokens": 3418
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:06:47.157265",
+                    "end_time": "2026-07-05T15:06:56.979665",
+                    "execution_time_sec": 9.8224
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "8e44a141-65ff-4713-8e53-aebe82407882"
+            }
+        }
+    ]
+}

@@ -2,7 +2,7 @@
 
 Runs the 2-arm trajectories through `AgentRx/run.py --stage judge` by subprocess
 (never importing `agentrx`), selects the judge backend via `JUDGE_*` env, and
-writes results under `data/internal/agentrx/<experiment_id>/` for the CSV step.
+writes results under `data/internal/<mas_id>/agentrx/<judge_id>/` for the CSV step.
 """
 
 from __future__ import annotations

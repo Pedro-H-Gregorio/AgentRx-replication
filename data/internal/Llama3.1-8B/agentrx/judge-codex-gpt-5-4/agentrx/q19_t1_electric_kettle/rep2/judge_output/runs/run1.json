@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q19_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q19_t1_electric_kettle",
+                    "failure_case": 2,
+                    "description": "The Executor hallucinated the final answer, inventing an item_id ('0000000000') and price ('$0.01') that were not present in the catalog results. The correct cheapest available kettle from the tool output was item 1240311797 at 137.17.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was clear: identify the cheapest available Electric Kettle from the catalog results. By index 3, the agent had all required information: the tool returned 11 available kettles sorted by ascending price, with the cheapest item_id 1240311797 at price 137.17. At index 4, the Executor produced 'Item 0000000000 is the cheapest, priced at $0.01.' That item_id and price do not appear anywhere in the user input, prior context, or tool output. This is not a plan-adherence issue because the plan itself was correct and the needed tool call had already been made. It is not a tool-output misinterpretation in the narrow sense of a computation mistake from ambiguous output; the answer introduces entirely fabricated values absent from the evidence. The later Evaluator approval at index 5 compounds the problem, but the first unresolved failure occurs earlier at index 4."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2844,
+                    "output_tokens": 377,
+                    "total_tokens": 3221
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:24:11.394543",
+                    "end_time": "2026-07-05T15:24:22.735449",
+                    "execution_time_sec": 11.3409
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e23726e6-3750-4449-879f-7744e0c0805f"
+            }
+        }
+    ]
+}

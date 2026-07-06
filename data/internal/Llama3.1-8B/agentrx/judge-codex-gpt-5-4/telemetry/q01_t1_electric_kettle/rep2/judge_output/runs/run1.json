@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q01_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q01_t1_electric_kettle",
+                    "failure_case": 9,
+                    "description": "The run failed because the catalog search dependency timed out when the agent made the correct ProductCatalogSearch call, leaving it without the evidence needed to answer the question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal matches the user request: find the cheapest available Electric Kettle. The plan and tool choice are correct in steps 1-2. At step 3, the agent attempts the expected tool call with a well-formed payload: {\"available_only\": true, \"product_type\": \"Electric Kettle\", \"sort\": \"price_asc\"}. The runtime explicitly reports an infrastructure/connectivity-style error: \"catalog search dependency timed out after 30000ms\" with type \"CatalogServiceTimeoutError\" and metadata \"infra=catalog-service http POST\". This is not a malformed invocation, not a misunderstanding of intent, and not an invented fact. The later steps only surface the consequence of the timeout and do not resolve it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2727,
+                    "output_tokens": 315,
+                    "total_tokens": 3042
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:53:05.401009",
+                    "end_time": "2026-07-05T14:53:14.294752",
+                    "execution_time_sec": 8.8937
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e5a53a68-4003-4799-84df-1d3d266f2bd9"
+            }
+        }
+    ]
+}

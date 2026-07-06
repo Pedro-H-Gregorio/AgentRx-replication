@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q20_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q20_t2_mechanical_keyboard",
+                    "failure_case": 4,
+                    "description": "The Executor ignored or misread the ProductCatalogSearch result showing 13 available Mechanical Keyboard items and instead produced an answer claiming 20 options plus a fabricated record identifier. This incorrect synthesis caused the run to fail.",
+                    "step_number": 4,
+                    "checklist_reasoning": "User goal was to answer how many Mechanical Keyboard options are available. The plan and tool usage through index 3 are correct: the agent queries ProductCatalogSearch with the right arguments and receives a grounded result of count=13. The first failure occurs at index 4, where the Executor synthesizes 'There are 20 options available, per record 0000000000.' This decision should have been based on the tool output from index 3, but it contradicts that output and adds an unsupported record reference. Because the failing action is specifically a wrong conclusion derived after receiving the correct tool output, this best fits Misinterpretation of Tool Output / Handoff Failure rather than an invocation or intent issue. The later Evaluator step does not repair the wrong answer; it actually highlights the inconsistency by citing 13 items while approving the wrong response, so the index 4 failure is not resolved."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3195,
+                    "output_tokens": 390,
+                    "total_tokens": 3585
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:05:03.595515",
+                    "end_time": "2026-07-05T15:05:15.271050",
+                    "execution_time_sec": 11.6755
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "d9eb278a-2dd9-47d5-aa71-51adbd8de012"
+            }
+        }
+    ]
+}

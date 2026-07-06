@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 1,
+                    "description": "The agent had the correct tool and correct query from the Coordinator, but it did not follow that plan. It substituted incorrect arguments and dropped a required field, which caused the downstream tool failure and prevented answering the question.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to get the price of item 2177997696. By index 1, the required plan and all needed arguments were already available: use ProductCatalogSearch with {\"item_id\": \"2177997696\", \"product_id\": \"1968349452\"}. At index 2, the Researcher deviated from that plan and instead prepared a different call, {\"product_id\": 0}, omitting item_id and replacing the provided product_id with an unsupported value. This is the first failure. It was not resolved later; index 3 shows the malformed call failing with SchemaError, and the run ends in rejection."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2680,
+                    "output_tokens": 287,
+                    "total_tokens": 2968
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:59:50.975477",
+                    "end_time": "2026-07-05T15:00:02.196649",
+                    "execution_time_sec": 11.2212
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "080a4c26-022c-4eee-b69d-8e51e44ab0f7"
+            }
+        }
+    ]
+}

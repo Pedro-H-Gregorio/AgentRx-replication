@@ -6,14 +6,19 @@ import json
 
 import pytest
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.adapters.derive import derive_arms
-from agentrx_otel_poc.graph.runner import DATA, run_scenario
+from agentrx_otel_poc.graph.runner import run_scenario
+from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import (
     NODE_STEP,
     build_ground_truth,
     get_task_spec,
     load_benchmark,
 )
+
+TEST_MAS = "__pytest__"  # isolated corpus — never touches a real MAS corpus
+SETTINGS = Settings(use_llm=False, mas_id=TEST_MAS)
 
 # (category, expected injection node, expects a FAILED run)
 CASES = [
@@ -57,13 +62,12 @@ def _step_attr(payload: dict, index: int, attr: str) -> str:
 
 
 def _cleanup(run_id: str) -> None:
-    for sub, ext in (
-        ("otel", "otel.json"),
-        ("ground_truth", "ground_truth.json"),
-        ("logs", "log"),
-        ("manifests", "json"),
-    ):
-        (DATA / sub / f"{run_id}.{ext}").unlink(missing_ok=True)
+    (paths.otel_dir(TEST_MAS) / f"{run_id}.otel.json").unlink(missing_ok=True)
+    (paths.ground_truth_dir(TEST_MAS) / f"{run_id}.ground_truth.json").unlink(
+        missing_ok=True
+    )
+    (paths.logs_dir(TEST_MAS) / f"{run_id}.log").unlink(missing_ok=True)
+    (paths.manifests_dir(TEST_MAS) / f"{run_id}.json").unlink(missing_ok=True)
 
 
 @pytest.mark.parametrize(
@@ -72,7 +76,7 @@ def _cleanup(run_id: str) -> None:
 def test_smoke_fault(category: str, node: str, expect_failed: bool) -> None:
     task_id = _first_task(category)
     run_id = f"{task_id}__smoke"
-    payload = run_scenario(task_id, run_id=run_id, inject=True)
+    payload = run_scenario(task_id, settings=SETTINGS, run_id=run_id, inject=True)
     try:
         # fault.injected emitted once, at the expected node
         assert _fault_nodes(payload) == [node]

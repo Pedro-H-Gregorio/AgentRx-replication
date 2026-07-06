@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Collect judge verdicts into the PRD-10 CSVs (C7). Thin CLI.
 
-Without arguments it collects every experiment under `data/internal/agentrx/`;
+Without arguments it collects every experiment under `data/internal/<mas_id>/agentrx/`;
 `--experiment <id>` restricts to one. Output goes to
-`data/experiment/results/<experiment_id>/`.
+`data/experiment/results/<mas_id>/<judge_id>/`.
 
   python scripts/collect_agentrx.py                        # all experiments
   python scripts/collect_agentrx.py --experiment judge-stub

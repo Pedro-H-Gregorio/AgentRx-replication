@@ -11,14 +11,17 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from agentrx_otel_poc import paths
+
 from .config import ROOT
 
-ARM_DIRS = {
-    "telemetry": ROOT / "data" / "internal" / "trajectory_telemetry",
-    "agentrx": ROOT / "data" / "internal" / "trajectory_agentrx",
-}
-GT_DIR = ROOT / "data" / "internal" / "ground_truth"
+ARMS = ("telemetry", "agentrx")
 BENCHMARK = ROOT / "data" / "benchmark" / "benchmark_30.json"
+
+
+def arm_dirs(mas_id: str) -> dict[str, Path]:
+    """Trajectory dir per arm, rooted at the MAS corpus `mas_id` (ADR-0013)."""
+    return {arm: paths.trajectory_dir(mas_id, arm) for arm in ARMS}
 
 
 @dataclass(frozen=True)
@@ -36,8 +39,8 @@ def fault_category_map() -> dict[str, str]:
     return {s["task_id"]: s["target_fault_category"] for s in scenarios}
 
 
-def _run_ids(arm: str) -> list[str]:
-    return sorted(p.stem for p in ARM_DIRS[arm].glob("*.json"))
+def _run_ids(arm_dir: Path) -> list[str]:
+    return sorted(p.stem for p in arm_dir.glob("*.json"))
 
 
 def smoke_scenarios() -> list[str]:
@@ -50,9 +53,9 @@ def smoke_scenarios() -> list[str]:
 
 
 def _selected_run_ids(
-    arm: str, wanted: set[str] | None, fault: str | None, by_fault: dict[str, str]
+    arm_dir: Path, wanted: set[str] | None, fault: str | None, by_fault: dict[str, str]
 ) -> list[str]:
-    run_ids = _run_ids(arm)
+    run_ids = _run_ids(arm_dir)
     if wanted is not None:
         run_ids = [r for r in run_ids if r in wanted]
     if fault:
@@ -61,30 +64,33 @@ def _selected_run_ids(
 
 
 def build_plan(
+    mas_id: str,
     *,
     arms: list[str] | None = None,
     scenarios: list[str] | None = None,
     fault: str | None = None,
     reps: int = 3,
 ) -> list[RepTask]:
-    arms = arms or list(ARM_DIRS)
-    unknown = set(arms) - set(ARM_DIRS)
+    dirs = arm_dirs(mas_id)
+    gt_dir = paths.ground_truth_dir(mas_id)
+    arms = arms or list(dirs)
+    unknown = set(arms) - set(dirs)
     if unknown:
-        raise ValueError(f"unknown arm(s): {sorted(unknown)}; valid: {list(ARM_DIRS)}")
+        raise ValueError(f"unknown arm(s): {sorted(unknown)}; valid: {list(dirs)}")
     wanted = set(scenarios) if scenarios else None
     by_fault = fault_category_map() if fault else {}
 
     tasks: list[RepTask] = []
     for arm in arms:
-        for run_id in _selected_run_ids(arm, wanted, fault, by_fault):
+        for run_id in _selected_run_ids(dirs[arm], wanted, fault, by_fault):
             for rep in range(1, reps + 1):
                 tasks.append(
                     RepTask(
                         arm=arm,
                         run_id=run_id,
                         rep=rep,
-                        traj_path=ARM_DIRS[arm] / f"{run_id}.json",
-                        gt_path=GT_DIR / f"{run_id}.ground_truth.json",
+                        traj_path=dirs[arm] / f"{run_id}.json",
+                        gt_path=gt_dir / f"{run_id}.ground_truth.json",
                     )
                 )
     return tasks

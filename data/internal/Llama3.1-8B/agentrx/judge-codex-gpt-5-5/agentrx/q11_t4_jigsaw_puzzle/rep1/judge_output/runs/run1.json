@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The tool call was malformed, so the catalog lookup failed and no evidence was retrieved to answer the question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal matches the user request, but the concrete ProductCatalogSearch invocation was ill-formed: it used {\"product_id\": 0}, omitted the required item_id, and used a non-string product_id. The runtime explicitly returned SchemaError: catalog.get_details requires string product_id and item_id. This is not a connectivity, access, or reasoning-about-output problem."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2407,
+                    "output_tokens": 184,
+                    "total_tokens": 2591
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:40:20.413611",
+                    "end_time": "2026-07-05T16:40:32.799697",
+                    "execution_time_sec": 12.3861
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "31b11f0a-ffae-40c8-ba27-922cc36cf764"
+            }
+        }
+    ]
+}

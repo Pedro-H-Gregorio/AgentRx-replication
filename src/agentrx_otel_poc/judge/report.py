@@ -13,7 +13,6 @@ from datetime import datetime
 from pathlib import Path
 
 from .config import ROOT, JudgeConfig
-from .planner import GT_DIR
 from .scoring import has_verdict, score
 
 
@@ -58,7 +57,12 @@ def _meta(rep_dir: Path) -> dict:
 
 
 def rebuild_index(exp_dir: Path, session_status: dict) -> list[dict]:
-    """Scan every rep dir under *exp_dir* → sorted index rows (disk is truth)."""
+    """Scan every rep dir under *exp_dir* → sorted index rows (disk is truth).
+
+    Ground truth lives beside the corpus at `<mas_id>/ground_truth/`, i.e.
+    two levels up from `exp_dir` (`<mas_id>/agentrx/<judge_id>/`).
+    """
+    gt_dir = exp_dir.parent.parent / "ground_truth"
     rows: list[dict] = []
     for rep_dir in exp_dir.glob("*/*/rep*"):
         if not rep_dir.is_dir():
@@ -77,7 +81,7 @@ def rebuild_index(exp_dir: Path, session_status: dict) -> list[dict]:
             "effective_model": meta.get("effective_model"),
             "retries": meta.get("retries", 0),
         }
-        gt_path = GT_DIR / f"{run_id}.ground_truth.json"
+        gt_path = gt_dir / f"{run_id}.ground_truth.json"
         if valid and gt_path.exists():
             gt = json.loads(gt_path.read_text(encoding="utf-8"))
             row.update(score(run1, gt, run_id))

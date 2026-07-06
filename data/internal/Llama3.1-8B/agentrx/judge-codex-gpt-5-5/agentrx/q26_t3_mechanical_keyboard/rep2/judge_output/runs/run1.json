@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 4,
+                    "description": "The agent omitted a qualifying product from the answer. It should have returned both item 1151293680 and item 2299424241, but only returned item 1151293680.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The agent's goal matched the user request and the tool invocation was valid. The relevant tool output at index 3 listed five available RGB mechanical keyboards, two of which cost more than $233.90: item 1151293680 at 272.33 and item 2299424241 at 237.48. At index 4, the Executor used that tool output but produced an incomplete filtered answer, omitting item 2299424241. This is a failure to correctly interpret or fully use the tool output, not an underspecified request or unsupported intent."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2670,
+                    "output_tokens": 241,
+                    "total_tokens": 2911
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:49:04.099244",
+                    "end_time": "2026-07-05T16:49:14.497788",
+                    "execution_time_sec": 10.3985
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4dfebcdc-ea75-4271-958b-3629a49fd6bf"
+            }
+        }
+    ]
+}

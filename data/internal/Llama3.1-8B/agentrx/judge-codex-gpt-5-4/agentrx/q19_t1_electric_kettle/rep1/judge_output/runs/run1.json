@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q19_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q19_t1_electric_kettle",
+                    "failure_case": 2,
+                    "description": "The agent fabricated a nonexistent item_id and price instead of using the actual cheapest item returned by the catalog search.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal is clear: identify the cheapest available Electric Kettle from the catalog results. Up through index 3, the plan is correct and the required information is fully available in the ProductCatalogSearch output. The tool result shows 11 available kettles sorted by ascending price, with the cheapest item being item_id 1240311797 at price 137.17. At index 4, the Executor states 'Item 0000000000 is the cheapest, priced at $0.01,' but neither the item_id nor the price appears anywhere in the prior conversation or tool output. This is not a tool invocation error, not a plan deviation, and not a misunderstanding of the user's intent; it is unsupported fabrication. The later Evaluator approval at index 5 does not resolve the error and instead propagates it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2844,
+                    "output_tokens": 323,
+                    "total_tokens": 3167
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:23:07.808669",
+                    "end_time": "2026-07-05T15:24:10.452716",
+                    "execution_time_sec": 62.644
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c6121ef8-486d-46c6-9ee4-a0101f708aae"
+            }
+        }
+    ]
+}

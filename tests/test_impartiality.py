@@ -12,14 +12,18 @@ from pathlib import Path
 
 import pytest
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.adapters.derive import derive_arms
-from agentrx_otel_poc.graph.runner import DATA, run_scenario
+from agentrx_otel_poc.graph.runner import run_scenario
 from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import NODE_STEP, load_benchmark
 
 ROOT = Path(__file__).resolve().parent.parent
 SPANS_SRC = ROOT / "src" / "agentrx_otel_poc" / "graph" / "spans.py"
 NODES_DIR = ROOT / "src" / "agentrx_otel_poc" / "graph" / "nodes"
+# Isolated corpus namespace so the test never touches a real MAS corpus.
+TEST_MAS = "__pytest__"
+SETTINGS = Settings(use_llm=False, mas_id=TEST_MAS)
 
 
 def test_renderer_is_category_blind_static() -> None:
@@ -38,10 +42,12 @@ def _arm_b_by_index(payload: dict) -> dict[int, str]:
 
 
 def _cleanup(run_id: str) -> None:
-    (DATA / "otel" / f"{run_id}.otel.json").unlink(missing_ok=True)
-    (DATA / "ground_truth" / f"{run_id}.ground_truth.json").unlink(missing_ok=True)
-    (DATA / "logs" / f"{run_id}.log").unlink(missing_ok=True)
-    (DATA / "manifests" / f"{run_id}.json").unlink(missing_ok=True)
+    (paths.otel_dir(TEST_MAS) / f"{run_id}.otel.json").unlink(missing_ok=True)
+    (paths.ground_truth_dir(TEST_MAS) / f"{run_id}.ground_truth.json").unlink(
+        missing_ok=True
+    )
+    (paths.logs_dir(TEST_MAS) / f"{run_id}.log").unlink(missing_ok=True)
+    (paths.manifests_dir(TEST_MAS) / f"{run_id}.json").unlink(missing_ok=True)
 
 
 @pytest.mark.skipif(
@@ -57,8 +63,12 @@ def test_unaffected_steps_identical_with_and_without_fault() -> None:
         if s.target_fault_category == "Misinterpretation of Tool Output"
     )
     injection_step = NODE_STEP[benchmark[task_id].injection_node]
-    faulted = run_scenario(task_id, run_id=f"{task_id}__rf", inject=True)
-    clean = run_scenario(task_id, run_id=f"{task_id}__rc", inject=False)
+    faulted = run_scenario(
+        task_id, settings=SETTINGS, run_id=f"{task_id}__rf", inject=True
+    )
+    clean = run_scenario(
+        task_id, settings=SETTINGS, run_id=f"{task_id}__rc", inject=False
+    )
     try:
         with_fault = _arm_b_by_index(faulted)
         without_fault = _arm_b_by_index(clean)

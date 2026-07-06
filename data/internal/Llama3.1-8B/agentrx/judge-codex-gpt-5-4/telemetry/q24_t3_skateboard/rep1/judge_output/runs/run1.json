@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The agent invented unsupported answer content instead of using the catalog results. It changed the grounded count from 4 matching skateboards to 11 and introduced a fake record identifier, causing the final answer to be factually wrong.",
+                    "step_number": 4,
+                    "checklist_reasoning": "User goal is clear: answer which available skateboards with deck material=bamboo cost more than $194.56. Up to index 3, the agent had all required evidence: ProductCatalogSearch returned 4 matching items with concrete item_ids and prices. At index 4, the Executor produced 'There are 11 options available, per record 0000000000.' The claims '11 options' and 'record 0000000000' are not grounded in any prior input or tool output. The tool output explicitly supports 4 items, not 11, and contains no record 0000000000. This is the first failure. Looking ahead, index 5 does not resolve it; the Evaluator incorrectly approves the answer while citing the 4-item tool result, so the bad answer remains unresolved."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2895,
+                    "output_tokens": 331,
+                    "total_tokens": 3226
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:07:17.215397",
+                    "end_time": "2026-07-05T15:07:28.130105",
+                    "execution_time_sec": 10.9147
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "a6666034-aec8-4614-aa3b-8bfe9c04f19b"
+            }
+        }
+    ]
+}

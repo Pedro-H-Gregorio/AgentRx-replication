@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q30_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q30_t3_skateboard",
+                    "failure_case": 4,
+                    "description": "The Executor incorrectly synthesized the search results and omitted a valid matching product (item_id 5312063289, price 195.15) even though it was present in the tool output and satisfied the query condition.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to list all available skateboards with deck material=bamboo priced above $194.56. By step 3, the agent already had all required information from ProductCatalogSearch. The tool output showed four matching items above the threshold: 4293355847 ($200.8), 5312063289 ($195.15), 6956751343 ($217.06), and 8176740019 ($208.6). At step 4, the Executor produced an answer with only three items and omitted item 5312063289. This failure is best categorized as a misinterpretation of tool output because the agent had the correct evidence but synthesized it incorrectly. The later Evaluator approval did not resolve the omission."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3115,
+                    "output_tokens": 313,
+                    "total_tokens": 3428
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:11:56.719010",
+                    "end_time": "2026-07-05T15:12:09.758265",
+                    "execution_time_sec": 13.0393
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4798ffe4-cfd8-4d6c-8c4e-4c2d8913796d"
+            }
+        }
+    ]
+}

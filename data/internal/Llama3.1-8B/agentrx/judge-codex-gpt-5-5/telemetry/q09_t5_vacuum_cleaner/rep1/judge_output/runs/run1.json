@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by passing product_id as 0 and omitting the required string item_id, so the catalog tool rejected the call and no price evidence was retrieved.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal was correct: answer the price of item 1345513440 using ProductCatalogSearch. The required arguments were already available in index 1: {\"item_id\": \"1345513440\", \"product_id\": \"1762337868\"}. At index 2, the agent instead prepared ProductCatalogSearch with {\"product_id\": 0}, omitting item_id and changing product_id to an integer. The next step confirms this malformed invocation with an explicit SchemaError."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2680,
+                    "output_tokens": 234,
+                    "total_tokens": 2914
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:22:14.642818",
+                    "end_time": "2026-07-05T16:22:30.757708",
+                    "execution_time_sec": 16.1149
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "78e2d3cb-ecad-4335-a440-3b733a687acf"
+            }
+        }
+    ]
+}

@@ -72,13 +72,13 @@ métrica de passo independe disso.
 ## 8. Runner e coleta (scripts)
 
 - **Runner**: `scripts/run_judge.py` (C6) — cenário × braço × rep, sequencial e idempotente; grava
-  `data/internal/agentrx/<experiment_id>/` com manifesto + `runs_index.jsonl` (insumo da coleta). Não há `run_matrix.py`
-  (planejado, mas o `run_judge.py` já é a matriz).
+  `data/internal/<mas_id>/agentrx/<judge_id>/` com manifesto + `runs_index.jsonl` (insumo da coleta). Não há
+  `run_matrix.py` (planejado, mas o `run_judge.py` já é a matriz).
 - `scripts/collect_agentrx.py` (C7): agrega os vereditos brutos → os 3 CSVs (§5 / PRD-10) em
-  `data/experiment/results/<experiment_id>/`. A agregação **reimplementa** o critério do `compute_stats`/`analysis()`
-  (pooling achatado das failures das reps `ok`; PRD-08 D32) e **passa no teste de paridade numérica** contra fixtures
-  versionadas geradas uma vez do submódulo — **não importa `agentrx`** (regra 6; PRD-08 D33). O coletor é **neutro**:
-  nenhuma estatística, nenhuma comparação A/B, nenhuma linha descartada.
+  `data/experiment/results/<mas_id>/<judge_id>/`. A agregação **reimplementa** o critério do
+  `compute_stats`/`analysis()` (pooling achatado das failures das reps `ok`; PRD-08 D32) e **passa no teste de paridade
+  numérica** contra fixtures versionadas geradas uma vez do submódulo — **não importa `agentrx`** (regra 6; PRD-08 D33).
+  O coletor é **neutro**: nenhuma estatística, nenhuma comparação A/B, nenhuma linha descartada.
 - **Análise**: consome os CSVs de `data/experiment/results/`; a comparação A vs B / TRAIL é artefato **posterior**,
   sobre estes números (fora do escopo do C7).
 

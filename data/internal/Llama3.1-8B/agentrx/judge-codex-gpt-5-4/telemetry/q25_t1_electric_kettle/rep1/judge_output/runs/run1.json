@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 5,
+                    "description": "The agent misunderstood the user's availability constraint and planned for the wrong search objective: all Electric Kettles sorted by price instead of only available Electric Kettles.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Electric Kettle. The agent's plan diverged from that constraint at the first planning step by deciding to search with `available_only: false`, which targets all kettles rather than only available ones. That is a misunderstanding of the user's constraint, not a tool/schema error, not invented data, and not a misread of tool output. Although the final answer happened to be correct because the cheapest overall item was also available, the incorrect objective was never corrected later in the trajectory."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3313,
+                    "output_tokens": 290,
+                    "total_tokens": 3603
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:07:52.821004",
+                    "end_time": "2026-07-05T15:08:06.018611",
+                    "execution_time_sec": 13.1976
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e7090a3a-167b-45b2-b643-a7d2571f52dc"
+            }
+        }
+    ]
+}

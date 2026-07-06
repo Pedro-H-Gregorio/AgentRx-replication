@@ -22,6 +22,10 @@ class Settings:
     # MAS agent model is parametrizable and recorded in each run manifest (PRD-00 §4.1).
     # Used only when USE_LLM=true; otherwise the agent runs deterministically.
     agent_model: str = os.getenv("AGENT_MODEL", "Llama3.1-8B")
+    # Namespace of the run corpus under data/internal/<mas_id>/ (ADR-0013). Empty
+    # here means "derive from agent_model" — resolved in `paths.resolve_mas_id` from the
+    # effective settings, so a programmatic run with another model lands right.
+    mas_id: str = os.getenv("MAS_ID", "")
     agent_base_url: str | None = os.getenv("AGENT_BASE_URL")
     agent_api_key: str = os.getenv("AGENT_API_KEY", "ollama")
     otel_service_name: str = os.getenv("OTEL_SERVICE_NAME", "agentrx-otel-poc")

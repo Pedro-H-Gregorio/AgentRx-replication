@@ -4,13 +4,16 @@
 
 Definir o significado, o tipo e a origem de **cada campo** dos CSVs de resultado, para validar o esquema antes de codar.
 Três CSVs, granularidades diferentes; o **braço é coluna**, nunca arquivo. Complementa o PRD-05 (coleta) e o PRD-07
-(cálculo). Saída em `data/experiment/results/<experiment_id>/` (ADR-0012); exemplo de mesa em
+(cálculo). Saída em `data/experiment/results/<mas_id>/<judge_id>/` (ADR-0012); exemplo de mesa em
 `docs/examples/metrics-reference.md`.
 
 Convenções de tipo: `int`, `float`, `str`, `bool01` (0/1), `enum`, `json` (string JSON), `iso8601`. "Origem": de onde o
-valor vem (bruto do juiz, agregado, GT, meta). Categorias são **int 1–10** (taxonomia do paper) com uma coluna-espelho
-`*_name` (nome legível, vazio fora das 5 injetáveis), convertidas pela tabela única de `judge/scoring.py`. Nota: no
-nosso desenho `run_id` ≡ `scenario_id` (PRD-INDEX: id de run = id do cenário); ambas as colunas saem com o mesmo valor.
+valor vem (bruto do juiz, agregado, GT, meta). Categorias são **int 0–10** (taxonomia do paper) com uma coluna-espelho
+`*_name` (nome legível). As colunas de **predição** usam a tabela de exibição completa (`FAILURE_CASE_NAMES`, 0–10): um
+veredito fora do escopo do estudo (ex.: 5 Intent-Plan Misalignment, 10 Inconclusive) carrega o **nome completo** — nunca
+vazio — e continua contando como miss. As colunas de **ground truth** usam a tabela de escopo (5 injetáveis, sempre no
+escopo por construção). Ambas vêm da fonte única `judge/scoring.py`. Nota: no nosso desenho `run_id` ≡ `scenario_id`
+(PRD-INDEX: id de run = id do cenário); ambas as colunas saem com o mesmo valor.
 
 ## 2. `runs_long.csv` — granularidade: 1 linha por execução do juiz
 
@@ -23,7 +26,7 @@ Matéria-prima; guarda a variância entre as n execuções. Nada agregado aqui.
 | `judge_idx` | int (1..n) | meta | Índice da execução do juiz (default n=3). |
 | `pred_step` | int | bruto do juiz | Passo crítico previsto (`round(média)` dos `step_number` da rep; D24). |
 | `pred_category` | int (0..10) | bruto do juiz | Categoria prevista da rep (moda dos `failure_case`; 0/10 = miss). |
-| `pred_category_name` | str | bruto do juiz | Espelho legível de `pred_category` (vazio fora das 5 injetáveis). |
+| `pred_category_name` | str | bruto do juiz | Nome completo da taxonomia (0–10) — preenchido também fora do escopo. |
 | `raw_failures_json` | json | bruto do juiz | Failures brutas da rep: `[{case, step}]`. Matéria-prima da reagregação (§5). |
 | `agentrx_run_name` | str | meta | `run_dir` relativo da rep (`<arm>/<run_id>/rep<k>`), para rastreio. |
 

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 5,
+                    "description": "The agent failed because it misunderstood the user's request for the cheapest available Jigsaw Puzzle and planned around a broader search that included unavailable items. That incorrect interpretation propagated through the rest of the trajectory and was never corrected.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user\u2019s goal is to find the cheapest Jigsaw Puzzle that is available. That availability constraint is explicit in the question itself, so the correct plan should preserve it. At index 1, the Coordinator plans to query with `available_only: false` and explicitly says it will retrieve items including those out of stock. This shows the agent misunderstood a key task constraint rather than merely making a later calculation error. All required information was already available from the user request at that point; no missing context was needed. The error is not a tool-schema problem, not an infra block, and not due to missing user information. Although a later step also misreads the returned list, the first unresolved failure is the earlier misunderstanding of intent/constraint at index 1."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3118,
+                    "output_tokens": 364,
+                    "total_tokens": 3482
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:30:39.271412",
+                    "end_time": "2026-07-05T15:30:52.988337",
+                    "execution_time_sec": 13.7169
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9edd7c44-abcc-4f83-ab72-cbd3a438fa04"
+            }
+        }
+    ]
+}

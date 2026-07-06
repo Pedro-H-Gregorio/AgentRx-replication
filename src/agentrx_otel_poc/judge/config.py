@@ -16,11 +16,11 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.settings import Settings
 
 ROOT = Path(__file__).resolve().parents[3]
 SHIM_DIR = ROOT / "scripts" / "judge_shims"
-OUTPUT_ROOT = ROOT / "data" / "internal" / "agentrx"
 # `copilot` = the real CLI (no shim). Any other backend is valid iff a shim
 # executable of that name exists in judge_shims/ (ADR-0011). Ships: stub, openai,
 # codex — dropping in a new shim adds a backend without touching this module.
@@ -38,6 +38,7 @@ class JudgeConfig:
     base_url: str | None
     timeout_seconds: float
     temperature: float
+    mas_id: str  # corpus namespace this judge run reads/writes (ADR-0013)
 
     @classmethod
     def from_settings(cls, settings: Settings | None = None) -> JudgeConfig:
@@ -48,7 +49,12 @@ class JudgeConfig:
             base_url=(s.judge_base_url or None),
             timeout_seconds=s.judge_timeout_seconds,
             temperature=s.judge_temperature,
+            mas_id=paths.resolve_mas_id(s),
         )
+
+    def output_root(self) -> Path:
+        """`data/internal/<mas_id>/agentrx/` — where this run's experiments live."""
+        return paths.agentrx_root(self.mas_id)
 
     def shim_path(self) -> Path | None:
         """Absolute path to the shim binary, or None for the real Copilot CLI."""
@@ -147,6 +153,7 @@ class JudgeConfig:
 
     def manifest_fields(self) -> dict[str, object]:
         return {
+            "mas_id": self.mas_id,
             "judge_backend": self.backend,
             "judge_model": self.model or None,
             "judge_base_url": self.base_url if self.backend == "openai" else None,

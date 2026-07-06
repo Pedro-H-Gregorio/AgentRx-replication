@@ -36,7 +36,7 @@ Definir como registrar o domínio próprio no AgentRx, invocar o pipeline com o 
 - `collect_agentrx.py` percorre os `run_name`, lê a saída do juiz e cruza com o `ground_truth.json` do cenário
   correspondente.
 
-## 5. CSVs de saída (`data/experiment/results/<experiment_id>/`)
+## 5. CSVs de saída (`data/experiment/results/<mas_id>/<judge_id>/`)
 
 O esquema **canônico** dos CSVs é o **PRD-10** (dicionário de dados, campo a campo) — implementado pelo coletor do C7
 (`scripts/collect_agentrx.py`; ADR-0012). São **3 CSVs**: `runs_long.csv` (1 linha por execução do juiz),

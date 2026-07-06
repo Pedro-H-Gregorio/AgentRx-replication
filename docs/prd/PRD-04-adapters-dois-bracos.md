@@ -26,15 +26,15 @@ saída).
 
 - `adapters/trajectory_telemetry.py`: para cada passo, monta o `content` do sub-step incluindo o raciocínio/saída **e**
   as métricas do span (`duration_ms`, tokens, `status`, `span_id`, eventos como `fault.injected`).
-- Saída: `data/internal/trajectory_telemetry/<run_id>.json`, no schema de entrada do AgentRx (ver PRD-05), com as
-  métricas embutidas no campo de conteúdo do passo.
+- Saída: `data/internal/<mas_id>/trajectory_telemetry/<run_id>.json`, no schema de entrada do AgentRx (ver PRD-05), com
+  as métricas embutidas no campo de conteúdo do passo.
 
 ## 5. Braço B — trajetória estilo-AgentRx
 
 - `adapters/trajectory_agentrx.py`: mesmo conjunto de passos, mas o `content` descreve o processo em prosa (papel do
   agente, ação, observação, erro) **sem** os campos de telemetria — semelhante às trajetórias sobre as quais o AgentRx
   foi avaliado.
-- Saída: `data/internal/trajectory_agentrx/<run_id>.json`.
+- Saída: `data/internal/<mas_id>/trajectory_agentrx/<run_id>.json`.
 
 ## 6. Invariante central do experimento
 

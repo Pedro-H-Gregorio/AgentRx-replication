@@ -1,7 +1,7 @@
 """Score a judge verdict against local ground truth (judge-validation spec).
 
 The judge stays blind (no `--ground-truth`); scoring is entirely ours, from
-`data/internal/ground_truth/`. When a report lists several failures the
+`data/internal/<mas_id>/ground_truth/`. When a report lists several failures the
 prediction replicates AgentRx's `compute_stats`/`analysis()` exactly: category =
 mode of the failure cases, step = round(mean of the step numbers). No-error (0)
 and inconclusive (10) count as a category miss; raw values are preserved.
@@ -15,12 +15,27 @@ from pathlib import Path
 from statistics import mean
 
 # AgentRx FailureCase enum value → benchmark fault category (5 injectable ones).
+# This is the SCORING boundary: a modal case outside it is a category miss.
 FAILURE_CASE_TO_CATEGORY = {
     1: "Instruction/Plan Adherence Failure",
     2: "Invention of New Information",
     3: "Invalid Invocation",
     4: "Misinterpretation of Tool Output",
     9: "System Failure",
+}
+
+# Full paper taxonomy (§G), for DISPLAY: every verdict gets a readable name even
+# outside the injectable scope (~11% of real reps), so "out of scope" is never
+# confused with "no prediction". The 5 in-scope names are identical to the
+# scoring table above (tested).
+FAILURE_CASE_NAMES = {
+    0: "No Error Predicted",
+    **FAILURE_CASE_TO_CATEGORY,
+    5: "Intent-Plan Misalignment",
+    6: "Underspecified User Intent",
+    7: "Intent Not Supported",
+    8: "Guardrails Triggered",
+    10: "Inconclusive",
 }
 
 
@@ -70,17 +85,29 @@ def has_verdict(run1_path: Path, run_id: str) -> bool:
 
 
 def score(run1_path: Path, ground_truth: dict, run_id: str) -> dict:
-    """Compare the judge verdict to ground truth → an index-row fragment."""
+    """Compare the judge verdict to ground truth → an index-row fragment.
+
+    `predicted_category` carries the FULL taxonomy name of the modal case, so an
+    out-of-scope verdict (e.g. Intent-Plan Misalignment) is visible instead of
+    null; `predicted_in_scope` distinguishes it from "no prediction". `hit_*`
+    stay on the scoring boundary — out of scope is still a category miss.
+    """
     failures = failures_for(run1_path, run_id)
-    category, step, cases = predict(failures)
+    scope_category, step, cases = predict(failures)
     gt_category = ground_truth["failure_category"]
     gt_step = ground_truth["critical_failure_step"]
+    modal_case = Counter(cases).most_common(1)[0][0] if cases else None
     return {
-        "predicted_category": category,
+        "predicted_category": FAILURE_CASE_NAMES.get(
+            modal_case, f"Unknown ({modal_case})"
+        )
+        if modal_case is not None
+        else None,
+        "predicted_in_scope": modal_case in FAILURE_CASE_TO_CATEGORY,
         "predicted_step": step,
         "raw_failure_cases": cases,
         "gt_category": gt_category,
         "gt_step": gt_step,
-        "hit_category": category == gt_category,
+        "hit_category": scope_category == gt_category,
         "hit_step": step == gt_step,
     }

@@ -33,9 +33,10 @@ se a decisão muda, crie um novo ADR que **supersede** o anterior.
 | 0010 | Decomposição do MAS em pacotes, limite de 200 linhas por arquivo e pipeline segregado | Accepted | PRD-01, PRD-04 |
 | 0011 | Fronteira de integração com o juiz por interposição do binário do Copilot CLI (backend = qualquer shim; submódulo intocado) | Accepted | PRD-05, PRD-08, ADR-0009 |
 | 0012 | Produtos do experimento em `data/experiment/` (separados dos intermediários de `data/internal/`); `data/outputs/` abandonado | Accepted | PRD-01, PRD-05, PRD-07, PRD-10, ADR-0002 |
+| 0013 | Corpus do MAS namespaced por modelo em `data/internal/<mas_id>/` (+ juiz e CSVs); `mas_id` = `MAS_ID`/`AGENT_MODEL` literal | Accepted | PRD-00, PRD-01, ADR-0012 |
 
-ADRs com arquivo completo: 0006, 0009, 0010, 0011, 0012. Os demais estão registrados acima e detalhados no PRD apontado;
-expanda para arquivo próprio ao revisitá-los.
+ADRs com arquivo completo: 0006, 0009, 0010, 0011, 0012, 0013. Os demais estão registrados acima e detalhados no PRD
+apontado; expanda para arquivo próprio ao revisitá-los.
 
 Nota: o ADR-0006 tem dois arquivos históricos; o canônico é `0006-injecao-scriptada-renderizacao-cega.md` (2026-06-30).
 O `0006-injecao-scriptada-log-imparcial.md` (2026-06-27) é o rascunho anterior, marcado como Superseded/consolidado.

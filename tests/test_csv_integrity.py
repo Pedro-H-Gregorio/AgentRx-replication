@@ -20,9 +20,16 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "data" / "experiment" / "results"
+# CSVs live at data/experiment/results/<mas_id>/<judge_id>/metricas.csv (ADR-0013).
 EXPERIMENTS = (
-    [p.parent for p in RESULTS.glob("*/metricas.csv")] if RESULTS.exists() else []
+    [p.parent for p in RESULTS.glob("*/*/metricas.csv")] if RESULTS.exists() else []
 )
+
+
+def _exp_id(exp_dir: Path) -> str:
+    return f"{exp_dir.parent.name}/{exp_dir.name}"  # <mas_id>/<judge_id>
+
+
 BOOL01 = (
     "step_acc_exact",
     "step_acc_tol1",
@@ -45,7 +52,7 @@ def test_experiments_or_skip() -> None:
         pytest.skip("no CSVs yet — run `make collect`")
 
 
-@pytest.mark.parametrize("exp", EXPERIMENTS, ids=lambda p: p.name)
+@pytest.mark.parametrize("exp", EXPERIMENTS, ids=_exp_id)
 def test_join_without_orphans(exp: Path) -> None:
     metric = {(r["scenario_id"], r["arm"]) for r in _read(exp / "metricas.csv")}
     index = {(r["scenario_id"], r["arm"]) for r in _read(exp / "trajectory_index.csv")}
@@ -54,7 +61,7 @@ def test_join_without_orphans(exp: Path) -> None:
     assert longk <= metric, "runs_long has a pair absent from metricas"
 
 
-@pytest.mark.parametrize("exp", EXPERIMENTS, ids=lambda p: p.name)
+@pytest.mark.parametrize("exp", EXPERIMENTS, ids=_exp_id)
 def test_ranges(exp: Path) -> None:
     for row in _read(exp / "metricas.csv"):
         for col in BOOL01:
@@ -64,7 +71,7 @@ def test_ranges(exp: Path) -> None:
         assert 0 <= int(row["most_common_category"]) <= 10
 
 
-@pytest.mark.parametrize("exp", EXPERIMENTS, ids=lambda p: p.name)
+@pytest.mark.parametrize("exp", EXPERIMENTS, ids=_exp_id)
 def test_norm_uses_index_n_steps(exp: Path) -> None:
     n_steps = {
         (r["scenario_id"], r["arm"]): int(r["n_steps"])
@@ -77,7 +84,7 @@ def test_norm_uses_index_n_steps(exp: Path) -> None:
         assert float(row["avg_step_distance_norm"]) == pytest.approx(expected, abs=1e-6)
 
 
-@pytest.mark.parametrize("exp", EXPERIMENTS, ids=lambda p: p.name)
+@pytest.mark.parametrize("exp", EXPERIMENTS, ids=_exp_id)
 def test_metricas_reconstructs_from_runs_long(exp: Path) -> None:
     pools: dict[tuple[str, str], list[tuple[int, int]]] = {}
     for row in _read(exp / "runs_long.csv"):

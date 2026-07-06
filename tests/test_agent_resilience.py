@@ -14,14 +14,16 @@ from pathlib import Path
 
 import pytest
 
+from agentrx_otel_poc import paths
 from agentrx_otel_poc.graph import agent_llm
 from agentrx_otel_poc.graph.agent_llm import AgentLLMError, agent_message
 from agentrx_otel_poc.graph.context import LLMStats
-from agentrx_otel_poc.graph.runner import DATA, run_scenario
+from agentrx_otel_poc.graph.runner import run_scenario
 from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import load_benchmark
 
 UNREACHABLE = "http://127.0.0.1:9/v1"  # port 9 (discard): connection refused, instant
+TEST_MAS = "__pytest__"  # isolated corpus — never touches a real MAS corpus
 
 
 def _ctx(**settings_kw):
@@ -83,22 +85,17 @@ def test_use_llm_false_is_inert(monkeypatch) -> None:
 
 
 def _cleanup(run_id: str) -> None:
-    for sub in ("otel", "ground_truth", "logs", "manifests"):
-        suffix = (
-            ".otel.json"
-            if sub == "otel"
-            else (
-                ".ground_truth.json"
-                if sub == "ground_truth"
-                else (".log" if sub == "logs" else ".json")
-            )
-        )
-        (DATA / sub / f"{run_id}{suffix}").unlink(missing_ok=True)
+    (paths.otel_dir(TEST_MAS) / f"{run_id}.otel.json").unlink(missing_ok=True)
+    (paths.ground_truth_dir(TEST_MAS) / f"{run_id}.ground_truth.json").unlink(
+        missing_ok=True
+    )
+    (paths.logs_dir(TEST_MAS) / f"{run_id}.log").unlink(missing_ok=True)
+    (paths.manifests_dir(TEST_MAS) / f"{run_id}.json").unlink(missing_ok=True)
 
 
 def _manifest(run_id: str) -> dict:
     return json.loads(
-        (DATA / "manifests" / f"{run_id}.json").read_text(encoding="utf-8")
+        (paths.manifests_dir(TEST_MAS) / f"{run_id}.json").read_text(encoding="utf-8")
     )
 
 
@@ -106,7 +103,7 @@ def test_manifest_records_zero_fallback_when_deterministic() -> None:
     task_id = next(iter(load_benchmark()))
     run_id = "test_harden__det"
     # Explicit settings: the test must not depend on the developer's .env.
-    settings = Settings(use_llm=False, use_llm_strict=False)
+    settings = Settings(use_llm=False, use_llm_strict=False, mas_id=TEST_MAS)
     try:
         run_scenario(task_id, settings=settings, run_id=run_id)
         manifest = _manifest(run_id)
@@ -124,6 +121,7 @@ def test_manifest_counts_every_degraded_step_tolerant() -> None:
         use_llm_strict=False,
         agent_base_url=UNREACHABLE,
         agent_max_retries=0,
+        mas_id=TEST_MAS,
     )
     try:
         run_scenario(task_id, settings=settings, run_id=run_id)
@@ -141,10 +139,12 @@ def test_strict_aborts_run_before_writing_trajectory() -> None:
         use_llm_strict=True,
         agent_base_url=UNREACHABLE,
         agent_max_retries=0,
+        mas_id=TEST_MAS,
     )
     try:
         with pytest.raises(AgentLLMError):
             run_scenario(task_id, settings=settings, run_id=run_id)
-        assert not (DATA / "otel" / f"{run_id}.otel.json").exists()  # no mixed corpus
+        otel = paths.otel_dir(TEST_MAS) / f"{run_id}.otel.json"
+        assert not otel.exists()  # no mixed corpus
     finally:
         _cleanup(run_id)

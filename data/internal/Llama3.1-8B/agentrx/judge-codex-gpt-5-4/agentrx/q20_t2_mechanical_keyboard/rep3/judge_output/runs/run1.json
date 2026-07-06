@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q20_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q20_t2_mechanical_keyboard",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated the answer content instead of grounding it in the tool result. The correct grounded answer was 13 available Mechanical Keyboard options, but it stated 20 and cited a nonexistent record.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal is clear: answer how many Mechanical Keyboard options are available. The required information was already available by index 3 from ProductCatalogSearch, which returned count = 13. At index 4, the agent answered 'There are 20 options available, per record 0000000000.' Neither the value 20 nor the record identifier 0000000000 appears anywhere in the prior context or tool output. This is not a tool-schema problem, not missing user information, and not a capability block. Although the answer also contradicts the tool result, the immediate defect is that the agent introduced unsupported facts into the response."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2895,
+                    "output_tokens": 321,
+                    "total_tokens": 3216
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:24:58.341487",
+                    "end_time": "2026-07-05T15:25:08.757592",
+                    "execution_time_sec": 10.4161
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3ab00cf2-d4be-40cb-8bf2-c8bf4a62f8ac"
+            }
+        }
+    ]
+}

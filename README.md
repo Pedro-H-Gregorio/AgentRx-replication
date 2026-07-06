@@ -40,8 +40,8 @@ Cada passo é idempotente e **valida a própria saída**; não há um alvo "run-
 | Passo | Comando | Produz | Validador |
 | -- | -- | -- | -- |
 | 1. Benchmark | `make generate` | `data/benchmark/benchmark_30.json` (6×5 categorias) | `validate-benchmark` |
-| 2. Simular MAS | `make simulate` | `data/internal/otel/<id>.otel.json` + `ground_truth/<id>...` | `validate-traces` |
-| 3. Derivar braços | `make derive` | `data/internal/trajectory_telemetry/` e `trajectory_agentrx/` | `validate-trajectories` |
+| 2. Simular MAS | `make simulate` | `data/internal/<mas_id>/otel/<id>.otel.json` + `ground_truth/<id>...` | `validate-traces` |
+| 3. Derivar braços | `make derive` | `data/internal/<mas_id>/trajectory_telemetry/` e `trajectory_agentrx/` | `validate-trajectories` |
 | 4. Smoke | `make smoke` | — (5 testes, 1 por falha) | — |
 | 5. Qualidade | `make check` | — (format/lint + limite de 200 linhas) | — |
 
@@ -55,17 +55,25 @@ make check      # → ruff + check_file_size OK
 
 Os validadores também rodam isolados: `make validate-benchmark`, `make validate-traces`, `make validate-trajectories`.
 
+### Corpus por modelo do MAS (namespace)
+
+Cada run do MAS grava sob `data/internal/<mas_id>/`, onde `<mas_id>` = `MAS_ID` (env) ou o `AGENT_MODEL` **literal**
+(case/pontos preservados; ex.: `AGENT_MODEL=Llama3.1-8B` → `data/internal/Llama3.1-8B/`). Trocar de modelo **não
+sobrescreve** o corpus anterior — dá para acumular corpora irmãos e comparar. O juiz e a coleta seguem o mesmo `mas_id`
+(saída do juiz em `data/internal/<mas_id>/agentrx/<judge_id>/`; CSVs em `data/experiment/results/<mas_id>/<judge_id>/`).
+Detalhes em [docs/adr/0013-...](docs/adr/0013-corpus-por-modelo-do-mas.md).
+
 ### Reset antes do experimento
 
-Para começar o experimento do zero (limpar traces/trajetórias/ground truth/logs/manifests de runs de teste):
+Para começar o experimento do zero (limpar traces/trajetórias/ground truth/logs/manifests do corpus atual):
 
 ```bash
-make clean-data   # apaga data/internal/{otel,trajectory_*,ground_truth,logs,manifests}
+make clean-data   # apaga data/internal/<mas_id>/{otel,trajectory_*,ground_truth,logs,manifests}
 make generate simulate derive   # regenera a baseline determinística
 ```
 
-`make clean-data` é idempotente e não toca no benchmark nem no catálogo vendorizado. Os artefatos de run seguem
-versionados (commite a baseline nova após regenerar).
+`make clean-data` mira **só** o `<mas_id>` atual (outros corpora ficam intactos), é idempotente e não toca no benchmark
+nem no catálogo vendorizado. Os artefatos de run seguem versionados (commite a baseline nova após regenerar).
 
 ## Juiz do AgentRx (passo 6)
 
@@ -110,13 +118,19 @@ make judge ONLY=errors          # reexecuta só as reps que falharam
 make judge FORCE=1              # rejulga mesmo as já concluídas
 ```
 
-Saída em `data/internal/agentrx/<experiment_id>/`: `manifest.json` (juiz/backend/modelo/git SHAs), `runs_index.jsonl` (1
-linha por rep — insumo dos CSVs) e um resumo hit/miss por categoria no stdout. Cada linha do índice traz
-`effective_model` (o modelo que o backend **de fato** usou — codex/ChatGPT resolve o default server-side, o OpenRouter
-renomeia o `:free`) e `retries` (quantas vezes o shim re-tentou por rate-limit), capturados pelo shim para
+Saída em `data/internal/<mas_id>/agentrx/<judge_id>/`: `manifest.json` (juiz/backend/modelo/git SHAs),
+`runs_index.jsonl` (1 linha por rep — insumo dos CSVs) e um resumo hit/miss por categoria no stdout. Cada linha do
+índice traz `effective_model` (o modelo que o backend **de fato** usou — codex/ChatGPT resolve o default server-side, o
+OpenRouter renomeia o `:free`) e `retries` (quantas vezes o shim re-tentou por rate-limit), capturados pelo shim para
 reprodutibilidade/observabilidade. Um veredito vazio (juiz sem auth / resposta vazia) vira `status=error`, não `ok`,
 então `make judge ONLY=errors` o reexecuta. Versionam-se só manifesto, índice e o `run1.json` de cada rep
 (`validate-judge` verifica índice×disco e ausência de vazamento de gabarito).
+
+Semântica dos artefatos (importante para replicar): o `manifest.json` reflete a **última** invocação — `selection` com
+`null` significa "sem filtro" (matriz completa), não dado faltando; o `runs_index.jsonl` é reconstruído do disco **ao
+final** da sessão, então uma sessão interrompida ainda não tem índice (basta reexecutar `make judge`, que retoma pelo
+disco). Dicionário campo a campo dos manifestos, do índice e dos run dirs em
+[docs/data-artifacts.md](docs/data-artifacts.md).
 
 ## Coleta dos CSVs (passo 7)
 
@@ -127,7 +141,7 @@ make collect                    # todos os experimentos em disco
 make collect EXPERIMENT=judge-stub
 ```
 
-Saída em `data/experiment/results/<experiment_id>/`: `runs_long.csv` (1 linha por execução do juiz),
+Saída em `data/experiment/results/<mas_id>/<judge_id>/`: `runs_long.csv` (1 linha por execução do juiz),
 `trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas do artigo). A
 agregação replica o `compute_stats` do AgentRx (pooling achatado das failures); o coletor é **neutro** — nenhuma
 estatística, nenhuma comparação A/B. Reps em `error` reduzem `n_judge_runs`, nunca somem. `validate-csv` (disparado ao
@@ -174,11 +188,16 @@ make clean-data                  # zera os artefatos de run anteriores
 make generate                    # benchmark (30 cenários, 6 por categoria)
 make simulate                    # 30 traces OTel + ground truth (com prosa do agente-LLM)
 make derive                      # 2 trajetórias por trace (paridade + não-vazamento validados)
-grep -L '"fallback_steps": 0' data/internal/manifests/*.json   # deve sair VAZIO (corpus puro-LLM)
+grep -L '"fallback_steps": 0' data/internal/<mas_id>/manifests/*.json   # deve sair VAZIO (corpus puro-LLM)
 make smoke-judge-live            # sanidade do juiz real (5 cenários × 2 braços × 1 rep)
 make judge                       # matriz completa 30 × 2 braços × 3 reps (retomável; ONLY=errors refaz falhas)
-make collect                     # 3 CSVs em data/experiment/results/<experiment_id>/
+make collect                     # 3 CSVs em data/experiment/results/<mas_id>/<judge_id>/
 ```
+
+**Atalho — tudo em um comando:** `make experiment` encadeia `simulate → derive → judge → collect`, **parando no primeiro
+passo que falhar** e dizendo qual foi (ex.: `✗ experiment: passo 'judge' FALHOU`). Não é um "run-all" mágico — é só a
+composição dos passos segregados, então cada um segue validando a própria saída e sendo idempotente; re-executar
+`make experiment` **retoma** de onde parou. (Continua valendo rodar os passos avulsos para fatiar/depurar.)
 
 Notas: cada passo é idempotente e valida a própria saída; `make judge` interrompido retoma de onde parou. O teste
 **forte** de imparcialidade (igualdade byte a byte) roda só com `USE_LLM=false` — com `USE_LLM=true` ele vira skip e o
@@ -190,5 +209,7 @@ registrados nos manifestos (reprodutibilidade).
 - `src/agentrx_otel_poc/` — `benchmark/`, `faults/`, `graph/` (nós + runner), `adapters/` (parser + sanitize + 2
   braços), `telemetry.py`, `tasks.py`.
 - `scripts/` — `generate_benchmark.py`, `simulate.py`, `derive_trajectories.py`, `check_file_size.py`.
-- `data/external/` (catálogo vendorizado), `data/benchmark/`, `data/internal/` (artefatos por run).
-- `docs/prd/` (specs) · `docs/adr/` (decisões arquiteturais) · `tests/` (+ `tests/smoke/`).
+- `data/external/` (catálogo vendorizado), `data/benchmark/`, `data/internal/` (artefatos por run; dicionário em
+  [docs/data-artifacts.md](docs/data-artifacts.md)), `data/experiment/results/` (CSVs, dicionário no PRD-10).
+- `docs/prd/` (specs) · `docs/adr/` (decisões arquiteturais) · `docs/data-artifacts.md` (manifestos/índice) ·
+  `docs/examples/` (oráculos de mesa) · `tests/` (+ `tests/smoke/`).

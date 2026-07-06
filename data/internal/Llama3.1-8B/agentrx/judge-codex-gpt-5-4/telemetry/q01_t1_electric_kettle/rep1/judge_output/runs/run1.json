@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q01_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q01_t1_electric_kettle",
+                    "failure_case": 9,
+                    "description": "The agent failed because the required ProductCatalogSearch dependency timed out, so it never obtained the catalog evidence needed to answer the question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal is clear: find the cheapest available Electric Kettle. The plan at steps 1-2 is correct and aligned with that goal: call ProductCatalogSearch with available_only=true, product_type='Electric Kettle', sort='price_asc'. The first actual failure appears at step 3, where the tool returns an explicit infrastructure error: 'catalog search dependency timed out after 30000ms' with type 'CatalogServiceTimeoutError' and 'infra=catalog-service http POST'. This is not a malformed invocation, because the arguments are well-formed and consistent with the plan. It is not primarily intent misalignment, invention, or tool-output misinterpretation. Looking ahead, the error is not resolved: step 4 only reports 'Task could not be completed,' and step 5 rejects the answer because tool evidence was unavailable. Therefore the root cause is an unresolved system/connectivity failure at step 3."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2727,
+                    "output_tokens": 348,
+                    "total_tokens": 3075
+                },
+                "time": {
+                    "start_time": "2026-07-05T14:52:54.302785",
+                    "end_time": "2026-07-05T14:53:04.444799",
+                    "execution_time_sec": 10.142
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "46830f46-f834-46a1-8e99-3289f8b7637a"
+            }
+        }
+    ]
+}

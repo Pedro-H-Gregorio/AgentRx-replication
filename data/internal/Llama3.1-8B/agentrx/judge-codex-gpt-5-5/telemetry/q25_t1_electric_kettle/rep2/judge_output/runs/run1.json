@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent failed to adhere to the required plan/tool-call constraint by searching all Electric Kettles rather than available-only Electric Kettles.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to find the cheapest available Electric Kettle. The agent understood the goal, but at the first planning step it chose a tool query with \"available_only\": false instead of filtering to available products. All required information was already available from the user request, and the required action should have constrained the search to available items. Although the final answer happened to be correct because the cheapest item overall was also available, the first deviation from the required tool-call plan was not corrected."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3313,
+                    "output_tokens": 249,
+                    "total_tokens": 3562
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:31:28.933119",
+                    "end_time": "2026-07-05T16:31:39.405277",
+                    "execution_time_sec": 10.4722
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6206434c-060b-47cb-8b10-0f0f797f0ebd"
+            }
+        }
+    ]
+}

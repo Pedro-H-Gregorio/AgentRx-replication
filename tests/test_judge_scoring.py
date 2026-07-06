@@ -13,6 +13,7 @@ import pytest
 from agentrx_otel_poc.judge.config import JudgeConfig, JudgeConfigError
 from agentrx_otel_poc.judge.report import rebuild_index
 from agentrx_otel_poc.judge.scoring import (
+    FAILURE_CASE_NAMES,
     FAILURE_CASE_TO_CATEGORY,
     has_verdict,
     predict,
@@ -79,9 +80,69 @@ def test_score_miss_category(tmp_path) -> None:
     assert result["hit_step"] is True
 
 
+def test_display_table_matches_scope_names() -> None:
+    # The 5 in-scope names must be identical in both tables (no drift).
+    for case, name in FAILURE_CASE_TO_CATEGORY.items():
+        assert FAILURE_CASE_NAMES[case] == name
+    assert set(FAILURE_CASE_NAMES) == set(range(11))  # every case 0–10 nameable
+
+
+def _score_case(tmp_path, case: int, step: int = 3) -> dict:
+    run1 = tmp_path / "run1.json"
+    run1.write_text(
+        json.dumps(
+            {
+                "detailed_results": [
+                    {"task_id": "q01", "failures": _failures((case, step))}
+                ]
+            }
+        )
+    )
+    gt = {"failure_category": "System Failure", "critical_failure_step": 3}
+    return score(run1, gt, "q01")
+
+
+def test_out_of_scope_verdict_is_named_and_flagged(tmp_path) -> None:
+    # failure_case=5 (Intent-Plan Misalignment) → named, out of scope, still a miss.
+    result = _score_case(tmp_path, 5)
+    assert result["predicted_category"] == "Intent-Plan Misalignment"
+    assert result["predicted_in_scope"] is False
+    assert result["hit_category"] is False
+
+
+def test_inconclusive_verdict_is_named(tmp_path) -> None:
+    result = _score_case(tmp_path, 10)
+    assert result["predicted_category"] == "Inconclusive"
+    assert result["predicted_in_scope"] is False
+    assert result["hit_category"] is False
+
+
+def test_in_scope_verdict_names_and_flag_unchanged(tmp_path) -> None:
+    result = _score_case(tmp_path, 9)  # System Failure, matches GT
+    assert result["predicted_category"] == "System Failure"
+    assert result["predicted_in_scope"] is True
+    assert result["hit_category"] is True
+
+
+def test_no_verdict_predicted_category_is_none(tmp_path) -> None:
+    run1 = tmp_path / "run1.json"
+    run1.write_text(
+        json.dumps({"detailed_results": [{"task_id": "q01", "failures": []}]})
+    )
+    gt = {"failure_category": "System Failure", "critical_failure_step": 3}
+    result = score(run1, gt, "q01")
+    assert result["predicted_category"] is None  # None means "no prediction"
+    assert result["predicted_in_scope"] is False
+
+
 def _cfg(**kw) -> JudgeConfig:
     base = dict(
-        backend="stub", model="", base_url=None, timeout_seconds=600, temperature=0
+        backend="stub",
+        model="",
+        base_url=None,
+        timeout_seconds=600,
+        temperature=0,
+        mas_id="__pytest__",
     )
     base.update(kw)
     return JudgeConfig(**base)

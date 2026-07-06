@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 5,
+                    "description": "The agent misread the user's constraint 'available' and issued a search over all vacuum cleaners instead of restricting the search to available items only.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest Vacuum Cleaner that is available. The first clear failure occurs when the agent plans to query with `available_only: false`, which violates the user's availability constraint. This is not a tool error, and it is not caused by missing information: the user already supplied the needed constraint in the original question. The agent therefore pursued a slightly different objective ('cheapest vacuum cleaner overall, then inspect availability') than the requested one ('cheapest available vacuum cleaner'). Although the returned data happened to include an available cheapest item and the final answer was correct, the initial misunderstanding was never actually corrected in the plan or tool call, so the first uncorrected root-cause failure is the intent-level misread."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3273,
+                    "output_tokens": 340,
+                    "total_tokens": 3614
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:09:39.053544",
+                    "end_time": "2026-07-05T15:09:54.529000",
+                    "execution_time_sec": 15.4755
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5d3239e7-dbd4-4783-8984-5ecf46fcd922"
+            }
+        }
+    ]
+}

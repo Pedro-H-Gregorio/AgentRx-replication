@@ -60,7 +60,7 @@ def trajectory_index_row(pair: PairData) -> dict:
     sent_at = datetime.fromtimestamp(sent, tz=timezone.utc).isoformat(
         timespec="seconds"
     )
-    rel = "data/internal"
+    rel = f"data/internal/{pair.mas_id}"  # corpus namespace (ADR-0013)
     return {
         "run_id": pair.run_id,
         "scenario_id": pair.run_id,

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 5,
+                    "description": "The agent misunderstood the user's constraint 'available' and planned the search with `available_only: false`, meaning it optimized for the wrong objective from the start.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal is to identify the cheapest Electric Kettle that is available. At index 1, the Coordinator decomposes the task into a catalog search with `available_only: false`, which contradicts the explicit availability constraint in the user's request. This is not a tool-schema problem, and it is not due to missing information: the word 'available' is already present in the task. The agent therefore pursued a plan that violates a key user constraint. Although the later answer happens to name an available item, there is no evidence that the incorrect plan was recognized and corrected; the rest of the run continues from the wrong query setup."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3313,
+                    "output_tokens": 299,
+                    "total_tokens": 3612
+                },
+                "time": {
+                    "start_time": "2026-07-05T15:08:06.960440",
+                    "end_time": "2026-07-05T15:08:20.287254",
+                    "execution_time_sec": 13.3268
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9645f909-9b3b-4068-991e-d61649f0babc"
+            }
+        }
+    ]
+}

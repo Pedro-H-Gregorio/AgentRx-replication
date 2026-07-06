@@ -12,7 +12,7 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from .config import OUTPUT_ROOT, JudgeConfig
+from .config import JudgeConfig
 from .executor import RepResult, run_rep
 from .planner import RepTask, build_plan
 from .report import rebuild_index, summarize, write_index, write_manifest
@@ -73,10 +73,11 @@ def _echo_log(result: RepResult, tail_lines: int = 15) -> None:
 
 def run_experiment(config: JudgeConfig, selection: Selection) -> dict:
     config.validate()
-    exp_dir = OUTPUT_ROOT / config.experiment_id()
+    exp_dir = config.output_root() / config.experiment_id()
     write_manifest(exp_dir, config, selection.__dict__)
 
     plan = build_plan(
+        config.mas_id,
         arms=selection.arms,
         scenarios=selection.scenarios,
         fault=selection.fault,

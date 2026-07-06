@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent failed by planning and executing the catalog search with available_only=false even though the user explicitly asked for the cheapest available Vacuum Cleaner.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to identify the cheapest available Vacuum Cleaner. The agent understood the product type and price sorting objective, but at index 1 it planned a ProductCatalogSearch call with available_only=false. The required constraint 'available' was already present in the user request, so the correct action should have filtered to available items only. This is a deviation from the required tool-call plan despite having enough information. The later answer happened to select an available item, but the incorrect search constraint was never corrected."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2974,
+                    "output_tokens": 254,
+                    "total_tokens": 3228
+                },
+                "time": {
+                    "start_time": "2026-07-05T16:49:47.556319",
+                    "end_time": "2026-07-05T16:49:58.090134",
+                    "execution_time_sec": 10.5338
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c77ad09a-b825-4b65-a605-c34533e285c4"
+            }
+        }
+    ]
+}

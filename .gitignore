@@ -521,14 +521,3 @@ openspec
 AGENTS.md
 CLAUDE.md
 skills-lock.json
-
-# --- Artefatos de julgamento do AgentRx (C6) ---
-# Versionar só veredito + índice + manifesto; ignorar o resto dos run dirs
-# (trajectory_ir.json é cópia byte-idêntica de arquivo já versionado; state.json
-# e subprodutos do AgentRx são operacionais).
-data/internal/agentrx/**
-!data/internal/agentrx/**/
-!data/internal/agentrx/.gitkeep
-!data/internal/agentrx/**/manifest.json
-!data/internal/agentrx/**/runs_index.jsonl
-!data/internal/agentrx/**/run1.json

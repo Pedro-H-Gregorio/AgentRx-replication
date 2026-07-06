@@ -7,9 +7,14 @@ from pathlib import Path
 
 import pytest
 
+from agentrx_otel_poc import paths
+from agentrx_otel_poc.settings import Settings
+
 ROOT = Path(__file__).resolve().parent.parent
-TELEMETRY_DIR = ROOT / "data" / "internal" / "trajectory_telemetry"
-AGENTRX_DIR = ROOT / "data" / "internal" / "trajectory_agentrx"
+# Validate the 2 arms of the current MAS corpus (data/internal/<mas_id>/).
+_MAS = paths.resolve_mas_id(Settings())
+TELEMETRY_DIR = paths.trajectory_dir(_MAS, "telemetry")
+AGENTRX_DIR = paths.trajectory_dir(_MAS, "agentrx")
 
 LEAK_TOKENS = (
     "fault.injected",
