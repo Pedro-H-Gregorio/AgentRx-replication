@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch invocation by replacing the provided product_id with 0 and omitting the required item_id, causing a schema validation error and preventing retrieval of the product evidence.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal and plan were clear: call ProductCatalogSearch using item_id \"1096508426\" and product_id \"1808611083\". At index 2, the Researcher had the required schema and IDs available, but prepared an invalid tool call with args {\"product_id\": 0}, omitting item_id and using an integer instead of the required string. The tool then explicitly returned a SchemaError for that malformed invocation at index 3. The error was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2496,
+                    "output_tokens": 228,
+                    "total_tokens": 2725
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:57:51.255076",
+                    "end_time": "2026-07-06T22:58:07.666086",
+                    "execution_time_sec": 16.411
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c54e71e5-d3c7-42ab-830f-72a24f053850"
+            }
+        }
+    ]
+}

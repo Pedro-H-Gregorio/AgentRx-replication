@@ -34,9 +34,11 @@ se a decisão muda, crie um novo ADR que **supersede** o anterior.
 | 0011 | Fronteira de integração com o juiz por interposição do binário do Copilot CLI (backend = qualquer shim; submódulo intocado) | Accepted | PRD-05, PRD-08, ADR-0009 |
 | 0012 | Produtos do experimento em `data/experiment/` (separados dos intermediários de `data/internal/`); `data/outputs/` abandonado | Accepted | PRD-01, PRD-05, PRD-07, PRD-10, ADR-0002 |
 | 0013 | Corpus do MAS namespaced por modelo em `data/internal/<mas_id>/` (+ juiz e CSVs); `mas_id` = `MAS_ID`/`AGENT_MODEL` literal | Accepted | PRD-00, PRD-01, ADR-0012 |
+| 0014 | Braço A serializado em JSON estruturado (fatos + `telemetry` enriquecido); braço B fica prosa; paridade vira semântica | Accepted | PRD-06, PRD-08, ADR-0003, ADR-0005 |
+| 0015 | Trace grava contrato/contexto de execução no passo da causa | Accepted | PRD-03, PRD-06, PRD-08, ADR-0002, ADR-0006 |
 
-ADRs com arquivo completo: 0006, 0009, 0010, 0011, 0012, 0013. Os demais estão registrados acima e detalhados no PRD
-apontado; expanda para arquivo próprio ao revisitá-los.
+ADRs com arquivo completo: 0006, 0009, 0010, 0011, 0012, 0013, 0014, 0015. Os demais estão registrados acima e
+detalhados no PRD apontado; expanda para arquivo próprio ao revisitá-los.
 
 Nota: o ADR-0006 tem dois arquivos históricos; o canônico é `0006-injecao-scriptada-renderizacao-cega.md` (2026-06-30).
 O `0006-injecao-scriptada-log-imparcial.md` (2026-06-27) é o rascunho anterior, marcado como Superseded/consolidado.

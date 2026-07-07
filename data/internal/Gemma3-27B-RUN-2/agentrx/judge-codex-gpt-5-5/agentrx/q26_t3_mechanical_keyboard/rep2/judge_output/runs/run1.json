@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No failure detected in the trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy category applies. The agent formed the correct plan, invoked the correct tool with grounded arguments, interpreted the returned prices correctly, and answered with only the two items priced strictly greater than $233.90."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2700,
+                    "output_tokens": 120,
+                    "total_tokens": 2821
+                },
+                "time": {
+                    "start_time": "2026-07-06T23:09:04.807006",
+                    "end_time": "2026-07-06T23:09:19.193548",
+                    "execution_time_sec": 14.3865
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "eb342acb-24e6-4390-92b0-bc41f05af91e"
+            }
+        }
+    ]
+}

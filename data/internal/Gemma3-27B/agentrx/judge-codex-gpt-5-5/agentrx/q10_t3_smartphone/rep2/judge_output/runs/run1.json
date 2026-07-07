@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch call was invalid because it omitted the required product_type field. It should have included product_type='Smartphone' along with available_only=true, color='black', and price_min=1143.42.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user asked for available black Smartphones costing more than $1143.42. The agent's intended goal matched the user request, and the needed product_type was already present in the user query as 'Smartphone'. The agent attempted ProductCatalogSearch with concrete args but omitted the required string field product_type. The runtime explicitly returned a SchemaError: 'catalog.search requires a string product_type'. This is a malformed tool invocation, not a connectivity, access, or reasoning-over-output issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2550,
+                    "output_tokens": 270,
+                    "total_tokens": 2821
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:27:25.283653",
+                    "end_time": "2026-07-06T03:27:34.329928",
+                    "execution_time_sec": 9.0463
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "87ca657b-8f6a-4294-9d18-b6971740ec73"
+            }
+        }
+    ]
+}

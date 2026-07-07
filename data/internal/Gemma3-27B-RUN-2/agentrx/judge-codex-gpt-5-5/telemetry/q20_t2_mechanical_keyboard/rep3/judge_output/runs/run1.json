@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q20_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q20_t2_mechanical_keyboard",
+                    "failure_case": 2,
+                    "description": "The Executor invented/altered the answer by reporting 20 available options instead of the tool-supported count of 13, and fabricated a record ID.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to count available Mechanical Keyboard options. Steps 1-3 followed the correct plan and the ProductCatalogSearch result clearly returned count=13. At step 4, the Executor produced an answer saying there are 20 options and cited record 0000000000. Both the count 20 and that record ID are absent from and contradicted by the available tool evidence. This unsupported altered/fabricated information was used as the final answer and was not corrected later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3658,
+                    "output_tokens": 237,
+                    "total_tokens": 3895
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:41:40.223539",
+                    "end_time": "2026-07-06T22:41:54.045050",
+                    "execution_time_sec": 13.8215
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4c2b3a37-0112-47e1-900d-7eb89937eef2"
+            }
+        }
+    ]
+}

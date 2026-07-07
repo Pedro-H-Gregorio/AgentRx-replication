@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent made a malformed ProductCatalogSearch invocation: it omitted the required item_id and replaced the provided string product_id with integer 0, causing the tool call to fail schema validation.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to check whether item_id 1096508426 for product_id 1808611083 has difficulty level beginner using ProductCatalogSearch. All required IDs and the tool schema were available by step 2. At step 2, the Researcher prepared an invalid tool call with only {\"product_id\": 0}, omitting required item_id and using an integer/incorrect product_id instead of the provided string IDs. Step 3 confirms this with a SchemaError requiring string product_id and item_id. This is not a connectivity, guardrail, or unsupported-intent issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3086,
+                    "output_tokens": 265,
+                    "total_tokens": 3351
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:34:10.388018",
+                    "end_time": "2026-07-06T22:34:27.443431",
+                    "execution_time_sec": 17.0554
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6124dfc7-fde7-48a9-8ef8-9f7d7aaf95f1"
+            }
+        }
+    ]
+}

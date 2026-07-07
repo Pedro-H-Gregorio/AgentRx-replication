@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q30_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q30_t3_skateboard",
+                    "failure_case": 4,
+                    "description": "The agent failed to include item_id 5312063289 despite the tool result showing it is available, has deck material bamboo, is a Skateboard, and costs 195.15, which is above $194.56.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to identify available Skateboards with deck material=bamboo costing more than $194.56. The ProductCatalogSearch output at index 3 contained all required evidence. Four items satisfy the price condition: 4293355847, 5312063289, 6956751343, and 8176740019. At index 4, the Executor synthesized an answer from that tool output but omitted item_id 5312063289, whose price is 195.15 and therefore is greater than 194.56. This is a misreading/partial use of relevant tool output, not a malformed tool call or unsupported intent."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3413,
+                    "output_tokens": 270,
+                    "total_tokens": 3683
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:22:17.441233",
+                    "end_time": "2026-07-06T03:22:28.625405",
+                    "execution_time_sec": 11.1842
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7205f733-72d1-40e0-8614-0db76d74c5a3"
+            }
+        }
+    ]
+}

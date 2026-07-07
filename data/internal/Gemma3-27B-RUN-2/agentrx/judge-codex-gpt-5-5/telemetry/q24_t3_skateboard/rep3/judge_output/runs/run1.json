@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated unsupported information instead of synthesizing the 4 returned catalog items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available bamboo-deck skateboards cost more than $194.56 using ProductCatalogSearch evidence. The tool result at index 3 clearly returned 4 matching items with specific item_ids and prices. At index 4, the Executor produced an answer claiming there are 11 options and citing record 0000000000, neither of which appears in the user request, plan, or tool output. The invented count and record were used as the final answer and were not corrected later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3366,
+                    "output_tokens": 224,
+                    "total_tokens": 3590
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:45:20.860630",
+                    "end_time": "2026-07-06T22:45:30.747927",
+                    "execution_time_sec": 9.8873
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "bb7fe1b8-72df-4d4c-b272-8ce0f5bb5548"
+            }
+        }
+    ]
+}

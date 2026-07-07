@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch call: it used product_id 0 instead of grounded string identifiers and omitted the required item_id 1345513440, causing a SchemaError.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The agent's goal matched the user request: find the price of item 1345513440. The first failing action was the ProductCatalogSearch invocation prepared at index 2 with arguments {\"product_id\": 0}. The tool required string product_id and item_id, but the call omitted item_id and used an integer product_id. The schema error was explicitly reported when the tool executed at index 3, and the agent never corrected or retried the call."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2374,
+                    "output_tokens": 214,
+                    "total_tokens": 2589
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:26:53.160342",
+                    "end_time": "2026-07-06T03:27:13.105724",
+                    "execution_time_sec": 19.9454
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "69cfd76d-e533-4857-9eb5-65ac2b5d0df1"
+            }
+        }
+    ]
+}

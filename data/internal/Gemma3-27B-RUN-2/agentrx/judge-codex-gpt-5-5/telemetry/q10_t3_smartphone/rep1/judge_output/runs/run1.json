@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch invocation omitted the required product_type argument even though the user request and prior plan specified Smartphone.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user asked for available black Smartphones over $1143.42, and the Coordinator preserved product_type=Smartphone in the plan. At index 2, the Researcher had the required context and even listed product_type as a required string parameter, but prepared tool_args without product_type. The next tool step failed with an explicit SchemaError because the invocation was missing that required field. This is not an infrastructure, guardrail, or intent misunderstanding issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3216,
+                    "output_tokens": 239,
+                    "total_tokens": 3456
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:32:49.480356",
+                    "end_time": "2026-07-06T22:33:05.534167",
+                    "execution_time_sec": 16.0538
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "bdce37c3-f6bf-4e55-8c15-fcb85b470eb4"
+            }
+        }
+    ]
+}

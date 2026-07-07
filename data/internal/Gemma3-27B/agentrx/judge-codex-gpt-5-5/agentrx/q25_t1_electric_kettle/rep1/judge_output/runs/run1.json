@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent searched with available_only=false despite the user asking for the cheapest available item. Although the returned cheapest item happened to be available and the final answer was correct, the first deviation from the required action sequence occurred when the tool call was prepared with the wrong availability constraint.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Electric Kettle. The agent understood the general product target, but the required search should have constrained results to available products. At step 2, all necessary information was already present: product type = Electric Kettle and availability must be true. Instead, the agent prepared a tool call with available_only=false, unnecessarily including unavailable products. This is a plan/policy deviation rather than a misunderstanding of the product or a tool-output reasoning error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3036,
+                    "output_tokens": 294,
+                    "total_tokens": 3330
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:35:11.436214",
+                    "end_time": "2026-07-06T03:35:24.759830",
+                    "execution_time_sec": 13.3236
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "940ac8c4-5b04-4782-bcad-061342bd7550"
+            }
+        }
+    ]
+}

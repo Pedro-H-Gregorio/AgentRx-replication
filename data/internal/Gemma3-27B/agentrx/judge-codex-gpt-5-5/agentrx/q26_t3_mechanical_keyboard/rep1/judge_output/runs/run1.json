@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No failure observed in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy category clearly applies because the trajectory follows the correct plan: it searches for available Mechanical Keyboard items with backlight=RGB, then filters the returned prices for values strictly greater than 233.90. The items priced 272.33 and 237.48 qualify; the item priced exactly 233.90 does not."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2640,
+                    "output_tokens": 149,
+                    "total_tokens": 2790
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:35:53.280407",
+                    "end_time": "2026-07-06T03:36:03.761040",
+                    "execution_time_sec": 10.4806
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b6923fbc-ecb4-400d-8694-94bab7dbfdf5"
+            }
+        }
+    ]
+}

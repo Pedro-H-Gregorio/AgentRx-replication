@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q19_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q19_t1_electric_kettle",
+                    "failure_case": 2,
+                    "description": "The agent fabricated a cheapest product and price instead of using the ProductCatalogSearch result.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to identify the cheapest available Electric Kettle. The tool call at index 3 returned sorted available items, with the cheapest item being item_id 1240311797 at $137.17. At index 4, the Executor produced an answer claiming item 0000000000 costs $0.01. That item_id and price are absent from all prior user input and tool output, and the agent relied on the invented values as the final answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2780,
+                    "output_tokens": 206,
+                    "total_tokens": 2987
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:31:48.148364",
+                    "end_time": "2026-07-06T03:31:57.285625",
+                    "execution_time_sec": 9.1373
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f5f3f532-9274-4d12-b434-f11094dd4dcd"
+            }
+        }
+    ]
+}

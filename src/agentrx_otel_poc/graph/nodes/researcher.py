@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import Callable
 
 from agentrx_otel_poc.faults import for_node
+from agentrx_otel_poc.mock_tools import tool_parameters
 from agentrx_otel_poc.state import ExperimentState
 
 from ..agent_llm import agent_message
@@ -32,6 +33,9 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
                 ctx.settings.agent_model,
             )
             span.set_attribute("tool.name", spec.tool_name)
+            span.set_attribute(
+                "gen_ai.tool.parameters", dumps(tool_parameters(spec.tool_operation))
+            )
             state["tool_args"] = dict(state.get("query") or spec.default_tool_args)
             operator = for_node(ctx.fault_type, "Researcher")
             if operator:

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The agent called ProductCatalogSearch with invalid arguments: it supplied only product_id as integer 0 and did not include the required string item_id for 2177997696.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The agent's goal matched the user request: retrieve the price of item 2177997696. The first concrete failure was the ProductCatalogSearch invocation prepared at index 2 with arguments {\"product_id\": 0}. The tool required both string product_id and item_id, and the provided call omitted item_id and used an integer product_id. The runtime confirmed this at index 3 with a SchemaError. This is a malformed tool invocation, not a misunderstanding of tool output, unsupported intent, guardrail block, or infrastructure failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2356,
+                    "output_tokens": 237,
+                    "total_tokens": 2593
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:28:24.936464",
+                    "end_time": "2026-07-06T03:28:33.512456",
+                    "execution_time_sec": 8.576
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "26c9087c-e381-459d-b68b-62eafd5790ee"
+            }
+        }
+    ]
+}

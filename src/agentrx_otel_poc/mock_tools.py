@@ -11,6 +11,16 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+
+class CatalogServiceTimeoutError(TimeoutError):
+    """Timeout the catalog service can raise.
+
+    Domain error type (not fault logic): the System Failure injection sets a
+    state marker and the Tool node raises this at the dependency boundary, so the
+    captured stacktrace names application frames — never the injection module.
+    """
+
+
 _CATALOG = (
     Path(__file__).resolve().parents[2]
     / "data"
@@ -19,6 +29,15 @@ _CATALOG = (
     / "products.json"
 )
 _KNOWN_ARGS = {"product_type", "price_min", "available_only", "sort", "op"}
+_TOOL_PARAMETERS: dict[str, dict[str, dict[str, Any]]] = {
+    "catalog.search": {
+        "product_type": {"type": "string", "required": True},
+    },
+    "catalog.get_details": {
+        "product_id": {"type": "string", "required": True},
+        "item_id": {"type": "string", "required": True},
+    },
+}
 
 
 @lru_cache(maxsize=4)
@@ -115,3 +134,12 @@ def run_tool(
     if operation == "catalog.get_details":
         return catalog_get_details(args, catalog_path=catalog_path)
     return catalog_search(args, catalog_path=catalog_path)
+
+
+def tool_parameters(operation: str) -> dict[str, dict[str, Any]]:
+    """Return the static input contract for a catalog operation."""
+    try:
+        params = _TOOL_PARAMETERS[operation]
+    except KeyError as exc:
+        raise ValueError(f"Unknown tool operation: {operation}") from exc
+    return {name: dict(schema) for name, schema in params.items()}

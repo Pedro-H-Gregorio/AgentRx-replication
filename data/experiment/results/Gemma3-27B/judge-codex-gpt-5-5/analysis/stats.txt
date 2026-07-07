@@ -1,0 +1,9 @@
+Análise: Gemma3-27B / judge-codex-gpt-5-5 (n=30, pareado por cenário)
+
+== Categoria crítica (McNemar, discordâncias A vs B) ==
+  A certo / B errado: 0    A errado / B certo: 1
+  McNemar chi2 = 0.000, p = 1.000
+
+== Distância de passo: delta médio (A - B), IC95% bootstrap ==
+  delta medio = +0.167   IC95% [+0.033, +0.345]  (>0 = telemetria PIOR)
+  IC inclui zero? NAO

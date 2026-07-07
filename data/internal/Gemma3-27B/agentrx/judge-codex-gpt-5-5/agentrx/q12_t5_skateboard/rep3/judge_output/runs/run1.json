@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The agent prepared an invalid ProductCatalogSearch call: it omitted the required item_id and supplied product_id as integer 0 instead of the required string identifiers. The call was rejected, and the agent never recovered.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user asked for the price of item 2177997696. The agent's overall goal matched the user request, but at the tool-call preparation step it invoked ProductCatalogSearch with {\"product_id\": 0}. The later tool output explicitly reports a SchemaError because catalog.get_details requires string product_id and item_id. This is a malformed tool invocation, not a connectivity, guardrail, or unsupported-capability issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2356,
+                    "output_tokens": 236,
+                    "total_tokens": 2592
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:28:46.218205",
+                    "end_time": "2026-07-06T03:28:58.181096",
+                    "execution_time_sec": 11.9629
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "46b1a9e7-dc7f-449f-96cf-921e76fce5dc"
+            }
+        }
+    ]
+}

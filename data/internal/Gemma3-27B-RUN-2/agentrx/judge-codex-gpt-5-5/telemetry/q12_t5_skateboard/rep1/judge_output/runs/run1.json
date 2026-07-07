@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The agent made a malformed ProductCatalogSearch call: it omitted the required item_id and supplied product_id as integer 0 instead of the provided string product_id 1968349452.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The correct goal was to retrieve the price for item 2177997696 using ProductCatalogSearch with the available item_id and product_id. The tool invocation used {\"product_id\": 0}, omitting item_id and using a non-string, wrong product_id. The runtime explicitly rejected this with a SchemaError requiring string product_id and item_id."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3007,
+                    "output_tokens": 212,
+                    "total_tokens": 3219
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:34:46.182577",
+                    "end_time": "2026-07-06T22:35:03.345375",
+                    "execution_time_sec": 17.1628
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7a6cb95f-2b18-4e65-865e-fb825bea2788"
+            }
+        }
+    ]
+}

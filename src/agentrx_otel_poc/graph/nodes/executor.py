@@ -58,7 +58,6 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
             summary = state.get("forced_answer") or text
             state["summary"] = summary
             set_usage(span, usage)
-            span.set_attribute("agent.reasoning_summary", "")
             span.add_event("artifact_created", {"artifact.type": "answer_summary"})
             io(span, f"Synthesize answer for: {state['task']}", summary)
             set_success(span)

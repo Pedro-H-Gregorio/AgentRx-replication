@@ -23,10 +23,6 @@ CATEGORY_TO_FAULT: dict[str, str] = {
 }
 
 
-class CatalogServiceTimeoutError(TimeoutError):
-    """Raised by the System Failure operator to model a dependency timeout."""
-
-
 @dataclass(frozen=True)
 class FaultOperator:
     fault_type: str

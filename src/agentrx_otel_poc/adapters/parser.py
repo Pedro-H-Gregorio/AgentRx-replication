@@ -20,11 +20,13 @@ class ParsedStep:
     input_message: str
     output_message: str
     tool_name: str | None
+    tool_parameters_json: str | None
     tool_args_json: str | None
     tool_result_json: str | None
     error_type: str | None
     error_message: str | None
-    reasoning_summary: str | None
+    plan_query_json: str | None
+    plan_text: str | None
     validation_status: str | None
     validation_reason: str | None
     constraint_violations_json: str | None
@@ -76,11 +78,13 @@ def parse(payload: dict[str, Any]) -> ParsedTrajectory:
                 input_message=str(attrs.get("agent.input_message", "")),
                 output_message=str(attrs.get("agent.output_message", "")),
                 tool_name=attrs.get("tool.name"),
+                tool_parameters_json=attrs.get("gen_ai.tool.parameters"),
                 tool_args_json=attrs.get("tool.args_json"),
                 tool_result_json=attrs.get("tool.result_json"),
                 error_type=attrs.get("error.type"),
                 error_message=attrs.get("error.message"),
-                reasoning_summary=attrs.get("agent.reasoning_summary"),
+                plan_query_json=attrs.get("plan.query_json"),
+                plan_text=attrs.get("plan.text"),
                 validation_status=attrs.get("validation.status"),
                 validation_reason=attrs.get("validation.reason"),
                 constraint_violations_json=attrs.get("constraint.violations_json"),

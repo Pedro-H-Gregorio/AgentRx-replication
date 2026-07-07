@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q01_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q01_t1_electric_kettle",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out, so the agent could not retrieve the catalog evidence needed to answer the cheapest available Electric Kettle.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan were aligned with the user request: search the product catalog for available Electric Kettles sorted by ascending price. The tool invocation was well-formed and matched the planned action. The first failure occurred when ProductCatalogSearch returned an explicit timeout error: CatalogServiceTimeoutError after 30000ms. This is an infrastructure/connectivity-style tool failure, not a malformed invocation, guardrail block, or reasoning error. The failure was not resolved later; the executor simply reported that the task could not be completed."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2496,
+                    "output_tokens": 257,
+                    "total_tokens": 2753
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:50:55.372287",
+                    "end_time": "2026-07-06T22:51:07.059891",
+                    "execution_time_sec": 11.6876
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "2a4da0a8-8b5b-444c-b7c6-467c140b1b04"
+            }
+        }
+    ]
+}

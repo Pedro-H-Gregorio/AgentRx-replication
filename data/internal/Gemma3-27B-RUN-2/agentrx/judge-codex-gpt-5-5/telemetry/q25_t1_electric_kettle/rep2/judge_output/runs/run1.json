@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 10,
+                    "description": "No task failure is evident in the trajectory. The answer is grounded in the tool output and satisfies the user's request.",
+                    "step_number": 5,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Electric Kettle. The agent understood that goal and used the catalog evidence. Although it queried with available_only=false, the returned sorted results still showed the cheapest item overall was also available, and the final answer correctly selected item_id 1240311797 at 137.17. There is no unresolved contradiction, unsupported invention, invalid tool call, misread tool output, missing information, unsupported capability, guardrail, or system failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3865,
+                    "output_tokens": 215,
+                    "total_tokens": 4080
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:45:49.151843",
+                    "end_time": "2026-07-06T22:46:14.775953",
+                    "execution_time_sec": 25.6241
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "67d5fc5f-77c2-4e92-ab19-bf63e7d92ac5"
+            }
+        }
+    ]
+}

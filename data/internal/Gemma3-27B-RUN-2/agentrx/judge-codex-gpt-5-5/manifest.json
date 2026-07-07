@@ -1,0 +1,19 @@
+{
+  "experiment_id": "judge-codex-gpt-5-5",
+  "started_at": "2026-07-06T22:26:21",
+  "repo_git_sha": "9f75c8bac2a20d95b2ba0a93a2b1376771254bc6",
+  "agentrx_git_sha": "f228165bfec60a801fd5fedd9d8ffe0f9de0c69d",
+  "selection": {
+    "arms": null,
+    "scenarios": null,
+    "fault": null,
+    "reps": 3,
+    "only_errors": false,
+    "force": false
+  },
+  "mas_id": "Gemma3-27B-RUN-2",
+  "judge_backend": "codex",
+  "judge_model": "gpt-5.5",
+  "judge_base_url": null,
+  "judge_temperature": "unknown"
+}

@@ -37,6 +37,8 @@ pontual, nunca no conjunto principal, pois suja o ground truth.
 - Mecanismo: o Researcher emite args malformados para uma tool **saudável** (campo obrigatório ausente ou tipo errado).
 - Exemplo: esperado `{"product_id": "4760268021", "item_id": "..."}`; injetado `{"product_id": 4760268021}` (sem
   `item_id`, `product_id` como int) → a tool rejeita com erro de schema.
+- Observabilidade: o span do Researcher registra o contrato da operação em `gen_ai.tool.parameters`, então a invalidade
+  é localizável no passo da causa, antes do erro de schema no passo Tool.
 - Ground truth: passo do Researcher; categoria Invalid Invocation.
 
 ### 4.3 Misinterpretation of Tool Output — nó Executor
@@ -59,6 +61,8 @@ pontual, nunca no conjunto principal, pois suja o ground truth.
 - Mecanismo: o Coordinator planeja violando uma restrição explícita da pergunta.
 - Exemplo: pergunta pede `processor=i7` e `price_min=2508`; o Coordinator planeja a consulta com `processor=i5` (ou
   descarta `price_min`). Tool intacta.
+- Observabilidade: o span do Coordinator registra `plan.query_json` e `plan.text`, então a query violada é visível no
+  passo da causa; em falhas de outras categorias, essa query permanece idêntica ao caminho feliz.
 - Ground truth: passo do Coordinator; categoria Plan Adherence.
 
 ## 5. Estrutura no código

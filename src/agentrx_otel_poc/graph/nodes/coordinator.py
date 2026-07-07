@@ -43,6 +43,8 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
             if operator:
                 emit_fault(span, operator)
                 operator.apply(state)
+            span.set_attribute("plan.query_json", dumps(state["query"]))
+            span.set_attribute("plan.text", state["plan"])
             fallback = f"Plan ready; query {dumps(state['query'])}."
             prompt = (
                 "You are the Coordinator in a multi-agent workflow. In one sentence, "

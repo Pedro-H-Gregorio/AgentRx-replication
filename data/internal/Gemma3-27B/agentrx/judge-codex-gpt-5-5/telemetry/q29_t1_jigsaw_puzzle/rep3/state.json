@@ -1,0 +1,11 @@
+{
+  "completed_stages": [
+    "judge"
+  ],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/Gemma3-27B/trajectory_telemetry/q29_t1_jigsaw_puzzle.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-06T03:21:51.955544"
+  }
+}

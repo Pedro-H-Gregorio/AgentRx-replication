@@ -1,0 +1,8 @@
+{
+  "run_task_id": "q20_t2_mechanical_keyboard",
+  "critical_failure_step": 4,
+  "failure_category": "Invention of New Information",
+  "failed_component": "Executor",
+  "fault_mode": "invention",
+  "reason": "Fault injected at the Executor step (Invention of New Information)."
+}

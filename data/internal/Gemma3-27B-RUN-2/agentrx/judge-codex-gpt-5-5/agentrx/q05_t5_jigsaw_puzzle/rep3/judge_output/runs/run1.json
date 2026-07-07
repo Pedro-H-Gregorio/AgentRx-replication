@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q05_t5_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q05_t5_jigsaw_puzzle",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out, preventing retrieval of the item price evidence needed to answer the user.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent had the correct goal and followed the required plan: it decomposed the task, prepared the ProductCatalogSearch call, and invoked it with the provided item_id and product_id. The first failure occurs when the tool call returns an explicit timeout: CatalogServiceTimeoutError after 30000ms. This is not a malformed invocation, not a guardrail/access block, and not a misunderstanding of the user request. The error is not resolved later; the executor simply reports inability to complete the task."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2450,
+                    "output_tokens": 217,
+                    "total_tokens": 2667
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:53:18.936004",
+                    "end_time": "2026-07-06T22:53:27.947947",
+                    "execution_time_sec": 9.0119
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "49468943-f744-4a71-bf01-ecca92577e63"
+            }
+        }
+    ]
+}

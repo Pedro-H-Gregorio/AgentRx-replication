@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The Researcher constructed an invalid ProductCatalogSearch call by dropping the required item_id and replacing the known string product_id with unsupported value 0, causing the tool to reject the request.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The agent had the correct goal and the required IDs were available at index 1: item_id \"1345513440\" and product_id \"1762337868\". At index 2, it attempted a ProductCatalogSearch call with malformed arguments: {\"product_id\": 0}. This omitted the required item_id and used an integer instead of the required string product_id. The tool then explicitly returned a SchemaError at index 3. This is a malformed tool invocation, not a connectivity, guardrail, or intent issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2439,
+                    "output_tokens": 240,
+                    "total_tokens": 2679
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:55:50.440605",
+                    "end_time": "2026-07-06T22:56:06.772459",
+                    "execution_time_sec": 16.3318
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fb7d9b3f-c1bd-4691-9cb4-6a69a4e35128"
+            }
+        }
+    ]
+}

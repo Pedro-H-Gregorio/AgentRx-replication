@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No unresolved failure can be identified from the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No clear failure is present in the trajectory. The user asked for available black smartphones costing more than $1143.42. The agent searched for available black smartphones, received two results, correctly filtered out the $1128.99 item, and answered with item 1507389580 at $1157.86. There is no invalid tool call, invented fact, tool-output misinterpretation, unsupported intent, guardrail, or system failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3121,
+                    "output_tokens": 178,
+                    "total_tokens": 3299
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:20:57.526994",
+                    "end_time": "2026-07-06T03:21:09.028820",
+                    "execution_time_sec": 11.5018
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6058dad3-307d-4164-81e7-50a2b95441a1"
+            }
+        }
+    ]
+}

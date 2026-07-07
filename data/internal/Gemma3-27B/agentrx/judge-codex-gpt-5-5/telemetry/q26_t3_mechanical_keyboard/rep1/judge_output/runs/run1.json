@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No clear failure is present in the trajectory. The produced answer matches the tool evidence and the user's strict greater-than price condition.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The agent correctly understood the user goal: find available Mechanical Keyboards with RGB backlight costing more than $233.90. The tool call used the correct filters. The tool returned five matching available RGB mechanical keyboards, with prices 272.33, 237.48, 233.90, 232.70, and 230.15. The Executor correctly selected only the two items strictly greater than $233.90, excluding the item priced exactly 233.90. No tool invocation error, invented information, misinterpretation, or plan deviation is evident."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3283,
+                    "output_tokens": 222,
+                    "total_tokens": 3506
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:19:34.549455",
+                    "end_time": "2026-07-06T03:19:43.490362",
+                    "execution_time_sec": 8.9409
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3b6caaf7-2b30-4b54-82eb-ba75ab6d601b"
+            }
+        }
+    ]
+}

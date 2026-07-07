@@ -1,0 +1,267 @@
+{
+  "schema": "otel-json-local-v0",
+  "run_id": "q08_t4_mechanical_keyboard",
+  "task_id": "q08_t4_mechanical_keyboard",
+  "task": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+  "task_metadata": {
+    "task_id": "q08_t4_mechanical_keyboard",
+    "user_request": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+    "domain": "product_catalog",
+    "tool_name": "ProductCatalogSearch",
+    "tool_operation": "catalog.get_details",
+    "default_tool_args": {
+      "product_id": "1656367028",
+      "item_id": "1151293680"
+    },
+    "expected_result": "Item 1151293680 has backlight=RGB.",
+    "expected_answer": {
+      "answer": true
+    },
+    "success_criteria": [
+      "The final answer must be derived from the catalog tool output.",
+      "If the tool fails, the answer must state the task was not completed."
+    ],
+    "target_fault_category": "Invalid Invocation",
+    "injection_node": "Researcher",
+    "template_id": "T4_item_option",
+    "failure_response": "The product catalog search could not be completed."
+  },
+  "created_at_unix_ms": 1783387222597,
+  "status": "FAILED",
+  "spans": [
+    {
+      "name": "agent.coordinator",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "f947e2d72fff1383",
+      "parent_span_id": "0ffe98b3cb9caeb3",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387213843847981,
+      "end_time_unix_ns": 1783387216254013252,
+      "duration_ms": 2410.165271,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 1,
+        "gen_ai.agent.name": "Coordinator",
+        "gen_ai.operation.name": "task_decomposition",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "orchestration",
+        "gen_ai.request.model": "Gemma3-27B",
+        "task.id": "q08_t4_mechanical_keyboard",
+        "task.input": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+        "task.expected_result": "Item 1151293680 has backlight=RGB.",
+        "plan.query_json": "{\"item_id\": \"1151293680\", \"product_id\": \"1656367028\"}",
+        "plan.text": "Use ProductCatalogSearch and answer from the returned evidence.",
+        "gen_ai.usage.input_tokens": 104,
+        "gen_ai.usage.output_tokens": 29,
+        "gen_ai.usage.total_tokens": 133,
+        "agent.input_message": "Task: Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+        "agent.output_message": "I will use the ProductCatalogSearch tool with the provided item and product IDs to retrieve the product details and determine if the backlight is RGB."
+      },
+      "events": [
+        {
+          "name": "task_delegated",
+          "timestamp_unix_ns": 1783387216253972005,
+          "attributes": {
+            "target_agent": "Researcher"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.researcher",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "d158de37ff6c1143",
+      "parent_span_id": "0ffe98b3cb9caeb3",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387216255296076,
+      "end_time_unix_ns": 1783387217617289231,
+      "duration_ms": 1361.993155,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 2,
+        "gen_ai.agent.name": "Researcher",
+        "gen_ai.operation.name": "prepare_tool_call",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "information_retrieval",
+        "gen_ai.request.model": "Gemma3-27B",
+        "tool.name": "ProductCatalogSearch",
+        "gen_ai.tool.parameters": "{\"item_id\": {\"required\": true, \"type\": \"string\"}, \"product_id\": {\"required\": true, \"type\": \"string\"}}",
+        "tool.args_json": "{\"product_id\": 0}",
+        "gen_ai.usage.input_tokens": 61,
+        "gen_ai.usage.output_tokens": 19,
+        "gen_ai.usage.total_tokens": 80,
+        "agent.input_message": "Plan: Use ProductCatalogSearch and answer from the returned evidence.",
+        "agent.output_message": "I will call ProductCatalogSearch with the product ID 0 to retrieve product information."
+      },
+      "events": [
+        {
+          "name": "fault.injected",
+          "timestamp_unix_ns": 1783387216255423066,
+          "attributes": {
+            "category": "Invalid Invocation",
+            "node": "Researcher"
+          }
+        },
+        {
+          "name": "tool_call_planned",
+          "timestamp_unix_ns": 1783387216255465212,
+          "attributes": {
+            "tool.name": "ProductCatalogSearch"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tool.product_catalog_search",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "132c6c9e18913a81",
+      "parent_span_id": "0ffe98b3cb9caeb3",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387217618905089,
+      "end_time_unix_ns": 1783387217619092151,
+      "duration_ms": 0.187062,
+      "status": {
+        "status_code": "ERROR",
+        "description": "catalog.get_details requires string product_id and item_id"
+      },
+      "attributes": {
+        "experiment.step_index": 3,
+        "gen_ai.agent.name": "ProductCatalogSearch",
+        "gen_ai.operation.name": "catalog.get_details",
+        "experiment.operation_type": "tool_call",
+        "agent.role": "dependency",
+        "gen_ai.request.model": "Gemma3-27B",
+        "gen_ai.usage.input_tokens": 0,
+        "gen_ai.usage.output_tokens": 0,
+        "gen_ai.usage.total_tokens": 0,
+        "tool.name": "ProductCatalogSearch",
+        "peer.service": "catalog-service",
+        "server.address": "catalog-service.local",
+        "rpc.system": "http",
+        "http.request.method": "POST",
+        "tool.args_json": "{\"product_id\": 0}",
+        "tool.result_json": "{\"error\": {\"message\": \"catalog.get_details requires string product_id and item_id\", \"type\": \"SchemaError\"}, \"ok\": false}",
+        "error.type": "SchemaError",
+        "error.message": "catalog.get_details requires string product_id and item_id",
+        "agent.input_message": "ProductCatalogSearch input: {\"product_id\": 0}",
+        "agent.output_message": "ProductCatalogSearch rejected the call."
+      },
+      "events": [
+        {
+          "name": "dependency_call_failed",
+          "timestamp_unix_ns": 1783387217619065498,
+          "attributes": {
+            "peer.service": "catalog-service",
+            "exception.type": "SchemaError"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.executor",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "15646403c3f20caa",
+      "parent_span_id": "0ffe98b3cb9caeb3",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387217619943490,
+      "end_time_unix_ns": 1783387219293141532,
+      "duration_ms": 1673.198042,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 4,
+        "gen_ai.agent.name": "Executor",
+        "gen_ai.operation.name": "build_answer",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "response_synthesis",
+        "gen_ai.request.model": "Gemma3-27B",
+        "gen_ai.usage.input_tokens": 104,
+        "gen_ai.usage.output_tokens": 20,
+        "gen_ai.usage.total_tokens": 124,
+        "agent.input_message": "Synthesize answer for: Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+        "agent.output_message": "The task could not be completed. The tool returned an error indicating the input parameters were incorrect."
+      },
+      "events": [
+        {
+          "name": "artifact_created",
+          "timestamp_unix_ns": 1783387219293102507,
+          "attributes": {
+            "artifact.type": "answer_summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "agent.evaluator",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "0e18b766fe0b7075",
+      "parent_span_id": "0ffe98b3cb9caeb3",
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387219294271708,
+      "end_time_unix_ns": 1783387222596087884,
+      "duration_ms": 3301.816176,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.step_index": 5,
+        "gen_ai.agent.name": "Evaluator",
+        "gen_ai.operation.name": "validate_answer",
+        "experiment.operation_type": "agent_llm",
+        "agent.role": "quality_assurance",
+        "gen_ai.request.model": "Gemma3-27B",
+        "validation.criteria_json": "[\"The final answer must be derived from the catalog tool output.\", \"If the tool fails, the answer must state the task was not completed.\"]",
+        "gen_ai.usage.input_tokens": 93,
+        "gen_ai.usage.output_tokens": 48,
+        "gen_ai.usage.total_tokens": 141,
+        "validation.status": "REJECTED",
+        "validation.reason": "REJECTED: The answer accurately reports the tool's error message indicating incorrect input parameters were provided to the `catalog.get_details` function, demonstrating the task failed due to a tool issue, not a lack of attempt.",
+        "constraint.violations_json": "[\"Tool evidence unavailable.\"]",
+        "agent.input_message": "Evaluate answer: The task could not be completed. The tool returned an error indicating the input parameters were incorrect.",
+        "agent.output_message": "REJECTED: The answer accurately reports the tool's error message indicating incorrect input parameters were provided to the `catalog.get_details` function, demonstrating the task failed due to a tool issue, not a lack of attempt."
+      },
+      "events": [
+        {
+          "name": "validation_failed",
+          "timestamp_unix_ns": 1783387219294375218,
+          "attributes": {
+            "reason": "Tool evidence is unavailable."
+          }
+        }
+      ]
+    },
+    {
+      "name": "run.experiment",
+      "trace_id": "a9072da6139fe0258074ea3ad0162964",
+      "span_id": "0ffe98b3cb9caeb3",
+      "parent_span_id": null,
+      "kind": "INTERNAL",
+      "start_time_unix_ns": 1783387213843195825,
+      "end_time_unix_ns": 1783387222596608682,
+      "duration_ms": 8753.412857,
+      "status": {
+        "status_code": "OK",
+        "description": null
+      },
+      "attributes": {
+        "experiment.operation_type": "workflow",
+        "experiment.run_id": "q08_t4_mechanical_keyboard",
+        "task.id": "q08_t4_mechanical_keyboard",
+        "task.domain": "product_catalog",
+        "task.input": "Does item 1151293680 of the Mechanical Keyboard have backlight=RGB?",
+        "gen_ai.agent.framework": "langgraph",
+        "run.status": "FAILED"
+      },
+      "events": []
+    }
+  ]
+}

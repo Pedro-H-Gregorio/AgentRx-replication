@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The agent fabricated the answer instead of using the tool result. It should have reported the 4 matching skateboard items returned by ProductCatalogSearch, but instead claimed there were 11 options and cited a nonexistent record ID.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available bamboo-deck skateboards cost more than $194.56. The required evidence was available by step 3: ProductCatalogSearch returned count=4 with four matching item records. At step 4, the Executor introduced unsupported values: \"11 options\" and \"record 0000000000\", neither of which appears in the tool output or prior context. This fabricated information was used as the final answer. The later Evaluator approval does not resolve the error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2733,
+                    "output_tokens": 273,
+                    "total_tokens": 3007
+                },
+                "time": {
+                    "start_time": "2026-07-06T23:07:05.006892",
+                    "end_time": "2026-07-06T23:07:25.830235",
+                    "execution_time_sec": 20.8233
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "e00da723-ab1b-4ae7-ae26-93f107648098"
+            }
+        }
+    ]
+}

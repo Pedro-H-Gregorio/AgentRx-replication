@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure detected in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy category clearly applies because the agent followed the plan, used the required ProductCatalogSearch tool, interpreted the returned items correctly, and answered with the only available black smartphone priced above $1143.42."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 140,
+                    "total_tokens": 3330
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:48:43.463823",
+                    "end_time": "2026-07-06T22:49:03.276853",
+                    "execution_time_sec": 19.813
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f711293c-0b3b-4e84-a664-646d1b4c69b6"
+            }
+        }
+    ]
+}

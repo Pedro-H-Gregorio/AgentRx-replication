@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from .ir import build_ir
+from .ir import build_prose_ir
 from .parser import ParsedTrajectory
 
 
 def build(trajectory: ParsedTrajectory) -> dict[str, Any]:
-    return build_ir(trajectory, include_telemetry=False)
+    return build_prose_ir(trajectory)

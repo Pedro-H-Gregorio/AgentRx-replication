@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Callable
 
 from agentrx_otel_poc.faults import for_node
-from agentrx_otel_poc.mock_tools import run_tool
+from agentrx_otel_poc.mock_tools import CatalogServiceTimeoutError, run_tool
 from agentrx_otel_poc.state import ExperimentState
 
 from ..context import GraphContext
@@ -38,7 +38,11 @@ def build(ctx: GraphContext) -> Callable[[ExperimentState], ExperimentState]:
             try:
                 if operator:
                     emit_fault(span, operator)
-                    operator.apply(state)  # System Failure raises here
+                    operator.apply(state)
+                if state.get("dependency_timeout"):
+                    raise CatalogServiceTimeoutError(
+                        "catalog search dependency timed out after 30000ms"
+                    )
                 result = run_tool(
                     spec.tool_operation, dict(state.get("tool_args") or args)
                 )

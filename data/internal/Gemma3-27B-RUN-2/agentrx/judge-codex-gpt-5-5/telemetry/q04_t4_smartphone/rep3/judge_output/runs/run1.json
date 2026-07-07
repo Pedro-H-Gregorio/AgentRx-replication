@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q04_t4_smartphone",
+            "failures": [
+                {
+                    "task_id": "q04_t4_smartphone",
+                    "failure_case": 9,
+                    "description": "The run failed because the required catalog-search dependency timed out, leaving the agent without the tool evidence needed to answer whether the smartphone item has RAM=8GB.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan matched the user request: use ProductCatalogSearch with item_id 1507389580 and product_id 1801728040, then answer from evidence. The tool invocation was well-formed and used the required arguments. At index 3, the ProductCatalogSearch dependency returned an explicit timeout: CatalogServiceTimeoutError, with message 'catalog search dependency timed out after 30000ms'. This is an infrastructure/connectivity-style tool failure, not a schema error, guardrail block, or reasoning error. The error was not resolved later; the executor could only return that the task could not be completed."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3193,
+                    "output_tokens": 293,
+                    "total_tokens": 3487
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:28:30.984086",
+                    "end_time": "2026-07-06T22:28:42.971218",
+                    "execution_time_sec": 11.9871
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fde3c526-a62d-4cbb-b6d0-ae631cb5f07a"
+            }
+        }
+    ]
+}

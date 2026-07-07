@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The agent invented unsupported result details instead of using the catalog search output. It should have reported the 4 returned matching skateboards, not 11 options or a fake record id.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available skateboards with deck material bamboo cost more than $194.56. The tool output at index 3 provided all required evidence: count 4 and item_ids 4293355847, 5312063289, 6956751343, and 8176740019 with prices above the threshold. At index 4, the Executor produced an answer claiming '11 options' and 'record 0000000000', neither of which appears in the user request or tool output. This fabricated information was used as the final answer and was not corrected later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3288,
+                    "output_tokens": 249,
+                    "total_tokens": 3538
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:18:17.158741",
+                    "end_time": "2026-07-06T03:18:28.172296",
+                    "execution_time_sec": 11.0136
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5a466d4e-f368-4fe1-93c8-87ba38c6ad1d"
+            }
+        }
+    ]
+}

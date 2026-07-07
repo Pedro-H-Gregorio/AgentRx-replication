@@ -1,0 +1,181 @@
+scenario_id,arm,judge_idx,pred_step,pred_category,pred_category_name,raw_failures_json,agentrx_run_name
+q01_t1_electric_kettle,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q01_t1_electric_kettle/rep1
+q01_t1_electric_kettle,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q01_t1_electric_kettle/rep2
+q01_t1_electric_kettle,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q01_t1_electric_kettle/rep3
+q01_t1_electric_kettle,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q01_t1_electric_kettle/rep1
+q01_t1_electric_kettle,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q01_t1_electric_kettle/rep2
+q01_t1_electric_kettle,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q01_t1_electric_kettle/rep3
+q02_t2_mechanical_keyboard,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q02_t2_mechanical_keyboard/rep1
+q02_t2_mechanical_keyboard,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q02_t2_mechanical_keyboard/rep2
+q02_t2_mechanical_keyboard,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q02_t2_mechanical_keyboard/rep3
+q02_t2_mechanical_keyboard,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q02_t2_mechanical_keyboard/rep1
+q02_t2_mechanical_keyboard,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q02_t2_mechanical_keyboard/rep2
+q02_t2_mechanical_keyboard,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q02_t2_mechanical_keyboard/rep3
+q03_t3_vacuum_cleaner,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q03_t3_vacuum_cleaner/rep1
+q03_t3_vacuum_cleaner,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q03_t3_vacuum_cleaner/rep2
+q03_t3_vacuum_cleaner,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q03_t3_vacuum_cleaner/rep3
+q03_t3_vacuum_cleaner,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q03_t3_vacuum_cleaner/rep1
+q03_t3_vacuum_cleaner,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q03_t3_vacuum_cleaner/rep2
+q03_t3_vacuum_cleaner,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q03_t3_vacuum_cleaner/rep3
+q04_t4_smartphone,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q04_t4_smartphone/rep1
+q04_t4_smartphone,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q04_t4_smartphone/rep2
+q04_t4_smartphone,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q04_t4_smartphone/rep3
+q04_t4_smartphone,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q04_t4_smartphone/rep1
+q04_t4_smartphone,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q04_t4_smartphone/rep2
+q04_t4_smartphone,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q04_t4_smartphone/rep3
+q05_t5_jigsaw_puzzle,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q05_t5_jigsaw_puzzle/rep1
+q05_t5_jigsaw_puzzle,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q05_t5_jigsaw_puzzle/rep2
+q05_t5_jigsaw_puzzle,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q05_t5_jigsaw_puzzle/rep3
+q05_t5_jigsaw_puzzle,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q05_t5_jigsaw_puzzle/rep1
+q05_t5_jigsaw_puzzle,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q05_t5_jigsaw_puzzle/rep2
+q05_t5_jigsaw_puzzle,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q05_t5_jigsaw_puzzle/rep3
+q06_t1_skateboard,agentrx,1,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q06_t1_skateboard/rep1
+q06_t1_skateboard,agentrx,2,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q06_t1_skateboard/rep2
+q06_t1_skateboard,agentrx,3,3,9,System Failure,"[{""case"":9,""step"":3}]",agentrx/q06_t1_skateboard/rep3
+q06_t1_skateboard,telemetry,1,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q06_t1_skateboard/rep1
+q06_t1_skateboard,telemetry,2,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q06_t1_skateboard/rep2
+q06_t1_skateboard,telemetry,3,3,9,System Failure,"[{""case"":9,""step"":3}]",telemetry/q06_t1_skateboard/rep3
+q07_t3_electric_kettle,agentrx,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q07_t3_electric_kettle/rep1
+q07_t3_electric_kettle,agentrx,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q07_t3_electric_kettle/rep2
+q07_t3_electric_kettle,agentrx,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q07_t3_electric_kettle/rep3
+q07_t3_electric_kettle,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q07_t3_electric_kettle/rep1
+q07_t3_electric_kettle,telemetry,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q07_t3_electric_kettle/rep2
+q07_t3_electric_kettle,telemetry,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q07_t3_electric_kettle/rep3
+q08_t4_mechanical_keyboard,agentrx,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q08_t4_mechanical_keyboard/rep1
+q08_t4_mechanical_keyboard,agentrx,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q08_t4_mechanical_keyboard/rep2
+q08_t4_mechanical_keyboard,agentrx,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q08_t4_mechanical_keyboard/rep3
+q08_t4_mechanical_keyboard,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q08_t4_mechanical_keyboard/rep1
+q08_t4_mechanical_keyboard,telemetry,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q08_t4_mechanical_keyboard/rep2
+q08_t4_mechanical_keyboard,telemetry,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q08_t4_mechanical_keyboard/rep3
+q09_t5_vacuum_cleaner,agentrx,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q09_t5_vacuum_cleaner/rep1
+q09_t5_vacuum_cleaner,agentrx,2,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q09_t5_vacuum_cleaner/rep2
+q09_t5_vacuum_cleaner,agentrx,3,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q09_t5_vacuum_cleaner/rep3
+q09_t5_vacuum_cleaner,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q09_t5_vacuum_cleaner/rep1
+q09_t5_vacuum_cleaner,telemetry,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q09_t5_vacuum_cleaner/rep2
+q09_t5_vacuum_cleaner,telemetry,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q09_t5_vacuum_cleaner/rep3
+q10_t3_smartphone,agentrx,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q10_t3_smartphone/rep1
+q10_t3_smartphone,agentrx,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q10_t3_smartphone/rep2
+q10_t3_smartphone,agentrx,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q10_t3_smartphone/rep3
+q10_t3_smartphone,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q10_t3_smartphone/rep1
+q10_t3_smartphone,telemetry,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q10_t3_smartphone/rep2
+q10_t3_smartphone,telemetry,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q10_t3_smartphone/rep3
+q11_t4_jigsaw_puzzle,agentrx,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q11_t4_jigsaw_puzzle/rep1
+q11_t4_jigsaw_puzzle,agentrx,2,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q11_t4_jigsaw_puzzle/rep2
+q11_t4_jigsaw_puzzle,agentrx,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q11_t4_jigsaw_puzzle/rep3
+q11_t4_jigsaw_puzzle,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q11_t4_jigsaw_puzzle/rep1
+q11_t4_jigsaw_puzzle,telemetry,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q11_t4_jigsaw_puzzle/rep2
+q11_t4_jigsaw_puzzle,telemetry,3,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",telemetry/q11_t4_jigsaw_puzzle/rep3
+q12_t5_skateboard,agentrx,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q12_t5_skateboard/rep1
+q12_t5_skateboard,agentrx,2,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",agentrx/q12_t5_skateboard/rep2
+q12_t5_skateboard,agentrx,3,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",agentrx/q12_t5_skateboard/rep3
+q12_t5_skateboard,telemetry,1,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q12_t5_skateboard/rep1
+q12_t5_skateboard,telemetry,2,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",telemetry/q12_t5_skateboard/rep2
+q12_t5_skateboard,telemetry,3,3,3,Invalid Invocation,"[{""case"":3,""step"":3}]",telemetry/q12_t5_skateboard/rep3
+q13_t1_electric_kettle,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q13_t1_electric_kettle/rep1
+q13_t1_electric_kettle,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q13_t1_electric_kettle/rep2
+q13_t1_electric_kettle,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q13_t1_electric_kettle/rep3
+q13_t1_electric_kettle,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q13_t1_electric_kettle/rep1
+q13_t1_electric_kettle,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q13_t1_electric_kettle/rep2
+q13_t1_electric_kettle,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q13_t1_electric_kettle/rep3
+q14_t3_mechanical_keyboard,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q14_t3_mechanical_keyboard/rep1
+q14_t3_mechanical_keyboard,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q14_t3_mechanical_keyboard/rep2
+q14_t3_mechanical_keyboard,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q14_t3_mechanical_keyboard/rep3
+q14_t3_mechanical_keyboard,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q14_t3_mechanical_keyboard/rep1
+q14_t3_mechanical_keyboard,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q14_t3_mechanical_keyboard/rep2
+q14_t3_mechanical_keyboard,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q14_t3_mechanical_keyboard/rep3
+q15_t4_vacuum_cleaner,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q15_t4_vacuum_cleaner/rep1
+q15_t4_vacuum_cleaner,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q15_t4_vacuum_cleaner/rep2
+q15_t4_vacuum_cleaner,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q15_t4_vacuum_cleaner/rep3
+q15_t4_vacuum_cleaner,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q15_t4_vacuum_cleaner/rep1
+q15_t4_vacuum_cleaner,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q15_t4_vacuum_cleaner/rep2
+q15_t4_vacuum_cleaner,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q15_t4_vacuum_cleaner/rep3
+q16_t1_smartphone,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q16_t1_smartphone/rep1
+q16_t1_smartphone,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q16_t1_smartphone/rep2
+q16_t1_smartphone,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q16_t1_smartphone/rep3
+q16_t1_smartphone,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q16_t1_smartphone/rep1
+q16_t1_smartphone,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q16_t1_smartphone/rep2
+q16_t1_smartphone,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q16_t1_smartphone/rep3
+q17_t3_jigsaw_puzzle,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q17_t3_jigsaw_puzzle/rep1
+q17_t3_jigsaw_puzzle,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q17_t3_jigsaw_puzzle/rep2
+q17_t3_jigsaw_puzzle,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q17_t3_jigsaw_puzzle/rep3
+q17_t3_jigsaw_puzzle,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q17_t3_jigsaw_puzzle/rep1
+q17_t3_jigsaw_puzzle,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q17_t3_jigsaw_puzzle/rep2
+q17_t3_jigsaw_puzzle,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q17_t3_jigsaw_puzzle/rep3
+q18_t4_skateboard,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q18_t4_skateboard/rep1
+q18_t4_skateboard,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q18_t4_skateboard/rep2
+q18_t4_skateboard,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q18_t4_skateboard/rep3
+q18_t4_skateboard,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q18_t4_skateboard/rep1
+q18_t4_skateboard,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q18_t4_skateboard/rep2
+q18_t4_skateboard,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q18_t4_skateboard/rep3
+q19_t1_electric_kettle,agentrx,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q19_t1_electric_kettle/rep1
+q19_t1_electric_kettle,agentrx,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q19_t1_electric_kettle/rep2
+q19_t1_electric_kettle,agentrx,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q19_t1_electric_kettle/rep3
+q19_t1_electric_kettle,telemetry,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q19_t1_electric_kettle/rep1
+q19_t1_electric_kettle,telemetry,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q19_t1_electric_kettle/rep2
+q19_t1_electric_kettle,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q19_t1_electric_kettle/rep3
+q20_t2_mechanical_keyboard,agentrx,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q20_t2_mechanical_keyboard/rep1
+q20_t2_mechanical_keyboard,agentrx,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q20_t2_mechanical_keyboard/rep2
+q20_t2_mechanical_keyboard,agentrx,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q20_t2_mechanical_keyboard/rep3
+q20_t2_mechanical_keyboard,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q20_t2_mechanical_keyboard/rep1
+q20_t2_mechanical_keyboard,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q20_t2_mechanical_keyboard/rep2
+q20_t2_mechanical_keyboard,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q20_t2_mechanical_keyboard/rep3
+q21_t3_vacuum_cleaner,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q21_t3_vacuum_cleaner/rep1
+q21_t3_vacuum_cleaner,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q21_t3_vacuum_cleaner/rep2
+q21_t3_vacuum_cleaner,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q21_t3_vacuum_cleaner/rep3
+q21_t3_vacuum_cleaner,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q21_t3_vacuum_cleaner/rep1
+q21_t3_vacuum_cleaner,telemetry,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q21_t3_vacuum_cleaner/rep2
+q21_t3_vacuum_cleaner,telemetry,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q21_t3_vacuum_cleaner/rep3
+q22_t1_smartphone,agentrx,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q22_t1_smartphone/rep1
+q22_t1_smartphone,agentrx,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q22_t1_smartphone/rep2
+q22_t1_smartphone,agentrx,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q22_t1_smartphone/rep3
+q22_t1_smartphone,telemetry,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q22_t1_smartphone/rep1
+q22_t1_smartphone,telemetry,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q22_t1_smartphone/rep2
+q22_t1_smartphone,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q22_t1_smartphone/rep3
+q23_t2_jigsaw_puzzle,agentrx,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q23_t2_jigsaw_puzzle/rep1
+q23_t2_jigsaw_puzzle,agentrx,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q23_t2_jigsaw_puzzle/rep2
+q23_t2_jigsaw_puzzle,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q23_t2_jigsaw_puzzle/rep3
+q23_t2_jigsaw_puzzle,telemetry,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q23_t2_jigsaw_puzzle/rep1
+q23_t2_jigsaw_puzzle,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q23_t2_jigsaw_puzzle/rep2
+q23_t2_jigsaw_puzzle,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q23_t2_jigsaw_puzzle/rep3
+q24_t3_skateboard,agentrx,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q24_t3_skateboard/rep1
+q24_t3_skateboard,agentrx,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q24_t3_skateboard/rep2
+q24_t3_skateboard,agentrx,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",agentrx/q24_t3_skateboard/rep3
+q24_t3_skateboard,telemetry,1,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q24_t3_skateboard/rep1
+q24_t3_skateboard,telemetry,2,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q24_t3_skateboard/rep2
+q24_t3_skateboard,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q24_t3_skateboard/rep3
+q25_t1_electric_kettle,agentrx,1,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",agentrx/q25_t1_electric_kettle/rep1
+q25_t1_electric_kettle,agentrx,2,1,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":1}]",agentrx/q25_t1_electric_kettle/rep2
+q25_t1_electric_kettle,agentrx,3,1,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":1}]",agentrx/q25_t1_electric_kettle/rep3
+q25_t1_electric_kettle,telemetry,1,0,10,Inconclusive,"[{""case"":10,""step"":0}]",telemetry/q25_t1_electric_kettle/rep1
+q25_t1_electric_kettle,telemetry,2,1,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":1}]",telemetry/q25_t1_electric_kettle/rep2
+q25_t1_electric_kettle,telemetry,3,1,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":1}]",telemetry/q25_t1_electric_kettle/rep3
+q26_t3_mechanical_keyboard,agentrx,1,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q26_t3_mechanical_keyboard/rep1
+q26_t3_mechanical_keyboard,agentrx,2,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q26_t3_mechanical_keyboard/rep2
+q26_t3_mechanical_keyboard,agentrx,3,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q26_t3_mechanical_keyboard/rep3
+q26_t3_mechanical_keyboard,telemetry,1,4,10,Inconclusive,"[{""case"":10,""step"":4}]",telemetry/q26_t3_mechanical_keyboard/rep1
+q26_t3_mechanical_keyboard,telemetry,2,5,10,Inconclusive,"[{""case"":10,""step"":5}]",telemetry/q26_t3_mechanical_keyboard/rep2
+q26_t3_mechanical_keyboard,telemetry,3,4,10,Inconclusive,"[{""case"":10,""step"":4}]",telemetry/q26_t3_mechanical_keyboard/rep3
+q27_t1_vacuum_cleaner,agentrx,1,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",agentrx/q27_t1_vacuum_cleaner/rep1
+q27_t1_vacuum_cleaner,agentrx,2,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",agentrx/q27_t1_vacuum_cleaner/rep2
+q27_t1_vacuum_cleaner,agentrx,3,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",agentrx/q27_t1_vacuum_cleaner/rep3
+q27_t1_vacuum_cleaner,telemetry,1,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",telemetry/q27_t1_vacuum_cleaner/rep1
+q27_t1_vacuum_cleaner,telemetry,2,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",telemetry/q27_t1_vacuum_cleaner/rep2
+q27_t1_vacuum_cleaner,telemetry,3,1,5,Intent-Plan Misalignment,"[{""case"":5,""step"":1}]",telemetry/q27_t1_vacuum_cleaner/rep3
+q28_t3_smartphone,agentrx,1,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q28_t3_smartphone/rep1
+q28_t3_smartphone,agentrx,2,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q28_t3_smartphone/rep2
+q28_t3_smartphone,agentrx,3,0,10,Inconclusive,"[{""case"":10,""step"":0}]",agentrx/q28_t3_smartphone/rep3
+q28_t3_smartphone,telemetry,1,-1,10,Inconclusive,"[{""case"":10,""step"":-1}]",telemetry/q28_t3_smartphone/rep1
+q28_t3_smartphone,telemetry,2,0,10,Inconclusive,"[{""case"":10,""step"":0}]",telemetry/q28_t3_smartphone/rep2
+q28_t3_smartphone,telemetry,3,-1,10,Inconclusive,"[{""case"":10,""step"":-1}]",telemetry/q28_t3_smartphone/rep3
+q29_t1_jigsaw_puzzle,agentrx,1,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",agentrx/q29_t1_jigsaw_puzzle/rep1
+q29_t1_jigsaw_puzzle,agentrx,2,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",agentrx/q29_t1_jigsaw_puzzle/rep2
+q29_t1_jigsaw_puzzle,agentrx,3,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",agentrx/q29_t1_jigsaw_puzzle/rep3
+q29_t1_jigsaw_puzzle,telemetry,1,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",telemetry/q29_t1_jigsaw_puzzle/rep1
+q29_t1_jigsaw_puzzle,telemetry,2,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",telemetry/q29_t1_jigsaw_puzzle/rep2
+q29_t1_jigsaw_puzzle,telemetry,3,2,1,Instruction/Plan Adherence Failure,"[{""case"":1,""step"":2}]",telemetry/q29_t1_jigsaw_puzzle/rep3
+q30_t3_skateboard,agentrx,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q30_t3_skateboard/rep1
+q30_t3_skateboard,agentrx,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q30_t3_skateboard/rep2
+q30_t3_skateboard,agentrx,3,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",agentrx/q30_t3_skateboard/rep3
+q30_t3_skateboard,telemetry,1,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q30_t3_skateboard/rep1
+q30_t3_skateboard,telemetry,2,4,4,Misinterpretation of Tool Output,"[{""case"":4,""step"":4}]",telemetry/q30_t3_skateboard/rep2
+q30_t3_skateboard,telemetry,3,4,2,Invention of New Information,"[{""case"":2,""step"":4}]",telemetry/q30_t3_skateboard/rep3

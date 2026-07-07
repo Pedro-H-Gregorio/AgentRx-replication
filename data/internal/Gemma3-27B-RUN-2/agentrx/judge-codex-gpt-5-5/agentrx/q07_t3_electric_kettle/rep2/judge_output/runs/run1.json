@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q07_t3_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q07_t3_electric_kettle",
+                    "failure_case": 3,
+                    "description": "ProductCatalogSearch was called without the required string field product_type, even though the correct value, \"Electric Kettle\", was available.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was clear: search available Electric Kettles with capacity 1.5L and price greater than 147.46. The required product_type value was already available from the user request and the coordinator plan. The Researcher omitted the required product_type argument, and the tool later returned a SchemaError confirming the invocation was malformed."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2612,
+                    "output_tokens": 191,
+                    "total_tokens": 2803
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:54:17.224160",
+                    "end_time": "2026-07-06T22:54:32.439252",
+                    "execution_time_sec": 15.2151
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b4b6fce4-cc64-4406-9220-9dc4879c1d0c"
+            }
+        }
+    ]
+}

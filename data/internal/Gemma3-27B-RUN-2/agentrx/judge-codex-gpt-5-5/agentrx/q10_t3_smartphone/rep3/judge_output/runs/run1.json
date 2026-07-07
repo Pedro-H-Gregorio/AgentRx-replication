@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The agent omitted the required product_type: \"Smartphone\" argument from the ProductCatalogSearch call, causing the tool invocation to fail and preventing retrieval of the requested catalog evidence.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to search for available black Smartphones priced above 1143.42. The required product_type value, Smartphone, was available from the original task and from the Coordinator plan. At index 2, the Researcher prepared ProductCatalogSearch arguments without the required product_type field despite the tool schema explicitly requiring it. The following tool step produced a SchemaError confirming the invocation was malformed. This was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2613,
+                    "output_tokens": 233,
+                    "total_tokens": 2847
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:57:16.290823",
+                    "end_time": "2026-07-06T22:57:33.267181",
+                    "execution_time_sec": 16.9764
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9a365540-0ed3-4a85-8512-2cbbdb0a5c0c"
+            }
+        }
+    ]
+}

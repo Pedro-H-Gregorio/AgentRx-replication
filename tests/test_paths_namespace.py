@@ -12,8 +12,16 @@ from agentrx_otel_poc.settings import Settings
 
 
 def test_default_is_agent_model_literal() -> None:
-    assert paths.resolve_mas_id(Settings(agent_model="Llama3.1-8B")) == "Llama3.1-8B"
-    assert paths.resolve_mas_id(Settings(agent_model="Qwen2.5-14B")) == "Qwen2.5-14B"
+    # mas_id="" isolates the fallback-to-agent_model path from an ambient MAS_ID
+    # (settings.load_dotenv may pin MAS_ID in the environment).
+    assert (
+        paths.resolve_mas_id(Settings(agent_model="Llama3.1-8B", mas_id=""))
+        == "Llama3.1-8B"
+    )
+    assert (
+        paths.resolve_mas_id(Settings(agent_model="Qwen2.5-14B", mas_id=""))
+        == "Qwen2.5-14B"
+    )
 
 
 def test_mas_id_env_overrides_agent_model() -> None:
@@ -23,14 +31,16 @@ def test_mas_id_env_overrides_agent_model() -> None:
 
 def test_path_breaking_chars_are_folded() -> None:
     # OpenRouter-style names with '/' and ':' must become a single dir segment.
-    got = paths.resolve_mas_id(Settings(agent_model="qwen/qwen-2.5-72b:free"))
+    got = paths.resolve_mas_id(
+        Settings(agent_model="qwen/qwen-2.5-72b:free", mas_id="")
+    )
     assert got == "qwen-qwen-2.5-72b-free"
     assert "/" not in got and ":" not in got
 
 
 def test_two_models_do_not_collide() -> None:
-    a = paths.mas_root(paths.resolve_mas_id(Settings(agent_model="llama")))
-    b = paths.mas_root(paths.resolve_mas_id(Settings(agent_model="qwen")))
+    a = paths.mas_root(paths.resolve_mas_id(Settings(agent_model="llama", mas_id="")))
+    b = paths.mas_root(paths.resolve_mas_id(Settings(agent_model="qwen", mas_id="")))
     assert a != b
     assert a.name == "llama" and b.name == "qwen"
     # every subdir of the corpus is disjoint between the two models

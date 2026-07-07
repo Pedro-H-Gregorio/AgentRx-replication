@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation instead of supplying the required string product_id and item_id arguments needed to retrieve the item price.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The first unresolved failure occurs when the tool is invoked with malformed arguments. The ProductCatalogSearch call uses {\"product_id\": 0}, which is missing the required item_id and uses a non-string product_id. The runtime explicitly returns a SchemaError stating that catalog.get_details requires string product_id and item_id. This is not a connectivity, guardrail, or interpretation issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2946,
+                    "output_tokens": 223,
+                    "total_tokens": 3169
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:09:53.584371",
+                    "end_time": "2026-07-06T03:10:05.838889",
+                    "execution_time_sec": 12.2545
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "400c981b-e1de-44fa-b968-a8c9ff750c4b"
+            }
+        }
+    ]
+}

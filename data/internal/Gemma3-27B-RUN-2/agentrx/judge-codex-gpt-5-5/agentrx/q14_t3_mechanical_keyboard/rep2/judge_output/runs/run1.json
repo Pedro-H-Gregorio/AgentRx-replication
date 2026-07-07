@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q14_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q14_t3_mechanical_keyboard",
+                    "failure_case": 4,
+                    "description": "The agent incorrectly concluded that there were no matching items even though the tool returned two available RGB mechanical keyboards priced above $233.90.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to answer from ProductCatalogSearch evidence. The required tool call was made correctly and returned relevant output: count=2 with prices 272.33 and 237.48, both greater than 233.90. At index 4, the Executor produced an answer that contradicts this tool output by saying no items match. This is not an underspecification or invalid invocation; it is a clear misreading of available tool evidence."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2635,
+                    "output_tokens": 232,
+                    "total_tokens": 2867
+                },
+                "time": {
+                    "start_time": "2026-07-06T23:00:10.680335",
+                    "end_time": "2026-07-06T23:00:21.898248",
+                    "execution_time_sec": 11.2179
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b20a58d3-bffd-4567-b802-4f1ac6a82a6d"
+            }
+        }
+    ]
+}

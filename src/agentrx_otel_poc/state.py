@@ -18,6 +18,7 @@ class ExperimentState(TypedDict, total=False):
     forced_answer: str
     fabricated: bool
     plan_violated: bool
+    dependency_timeout: bool
     conversation: list[dict[str, Any]]
     constraint_violations: list[str]
     failure_observations: list[dict[str, Any]]

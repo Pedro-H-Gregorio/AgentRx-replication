@@ -1,0 +1,11 @@
+{
+  "completed_stages": [
+    "judge"
+  ],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/Gemma3-27B/trajectory_agentrx/q15_t4_vacuum_cleaner.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-06T03:30:05.514156"
+  }
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The tool call omitted the required product_type field even though the user requested Smartphone products. Because the invocation was malformed, ProductCatalogSearch rejected it and no catalog evidence was retrieved.",
+                    "step_number": 3,
+                    "checklist_reasoning": "At index 3, the agent attempted a concrete ProductCatalogSearch invocation with arguments {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42}. The tool explicitly returned a SchemaError: \"catalog.search requires a string product_type\". This is a schema/argument validation failure, not a network, access, or guardrail issue. The user had already provided the missing information: the product type was Smartphone."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3140,
+                    "output_tokens": 253,
+                    "total_tokens": 3393
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:10:38.755612",
+                    "end_time": "2026-07-06T03:10:50.239294",
+                    "execution_time_sec": 11.4837
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9040cce8-319e-426f-b042-e3a359880644"
+            }
+        }
+    ]
+}

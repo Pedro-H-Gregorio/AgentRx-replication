@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent called ProductCatalogSearch with invalid arguments: it omitted the required item_id and used product_id as integer 0 instead of the required string identifiers.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The agent's goal matched the user request, but the first concrete failure was the malformed ProductCatalogSearch invocation. The available task included item_id 1096508426 and product name Jigsaw Puzzle, yet the Researcher prepared args {\"product_id\": 0}, omitting item_id and using a non-string placeholder product_id. The tool then explicitly returned a SchemaError requiring string product_id and item_id. This is a schema/argument failure, not a connectivity, guardrail, or unsupported-intent issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2432,
+                    "output_tokens": 232,
+                    "total_tokens": 2664
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:27:44.403569",
+                    "end_time": "2026-07-06T03:27:57.642504",
+                    "execution_time_sec": 13.2389
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "a9928d98-b73c-45b2-a032-89541da3830a"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q02_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q02_t2_mechanical_keyboard",
+                    "failure_case": 9,
+                    "description": "The required catalog search tool timed out, so the agent could not retrieve the evidence needed to answer the count question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent understood the user goal and selected the expected ProductCatalogSearch count query. At step 3, the tool invocation was well-formed, but the tool returned an explicit infrastructure/connectivity error: CatalogServiceTimeoutError, stating the catalog search dependency timed out after 30000ms. This is not a schema error, access restriction, or misunderstanding. The error was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2490,
+                    "output_tokens": 196,
+                    "total_tokens": 2686
+                },
+                "time": {
+                    "start_time": "2026-07-06T22:51:42.627619",
+                    "end_time": "2026-07-06T22:51:53.094259",
+                    "execution_time_sec": 10.4666
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5812ce70-da94-40c9-9317-2bf9ff2fd4bd"
+            }
+        }
+    ]
+}

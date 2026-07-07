@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 4,
+                    "description": "The agent misinterpreted or ignored the ProductCatalogSearch output and produced an answer inconsistent with the returned evidence, fabricating a count of 9 and a nonexistent record ID.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to answer from the ProductCatalogSearch result. The relevant tool output was available before the failure: it returned count=2 with item_ids 1345513440 and 2872451762, priced 655.59 and 622.12. At index 4, the Executor synthesized an answer claiming there are 9 options and citing record 0000000000, which contradicts the tool output and omits the actual returned items. This was not resolved later; the Evaluator incorrectly approved it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2548,
+                    "output_tokens": 248,
+                    "total_tokens": 2797
+                },
+                "time": {
+                    "start_time": "2026-07-06T03:33:18.515237",
+                    "end_time": "2026-07-06T03:33:36.813851",
+                    "execution_time_sec": 18.2986
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7a318c55-18bf-42e5-8888-a74aa3849696"
+            }
+        }
+    ]
+}

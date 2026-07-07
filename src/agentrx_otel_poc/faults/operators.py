@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from agentrx_otel_poc.state import ExperimentState
 
-from .base import CatalogServiceTimeoutError, FaultOperator, register
+from .base import FaultOperator, register
 
 _TOOL_ARG_KEYS = {
     "product_type",
@@ -22,10 +22,13 @@ _TOOL_ARG_KEYS = {
 
 
 def _system_failure(state: ExperimentState) -> None:
-    """Tool dependency times out before returning evidence."""
-    raise CatalogServiceTimeoutError(
-        "catalog search dependency timed out after 30000ms"
-    )
+    """Tool dependency times out before returning evidence.
+
+    Sets a neutral state marker; the Tool node raises the domain timeout at the
+    dependency boundary, so the captured stacktrace names application frames (the
+    Tool node), never this injection module.
+    """
+    state["dependency_timeout"] = True
 
 
 def _invalid_invocation(state: ExperimentState) -> None:
