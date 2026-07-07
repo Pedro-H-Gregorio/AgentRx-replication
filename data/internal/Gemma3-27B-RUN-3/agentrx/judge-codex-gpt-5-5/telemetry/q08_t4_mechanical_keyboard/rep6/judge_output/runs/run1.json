@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by passing only product_id as integer 0 instead of passing both required string arguments: item_id \"1151293680\" and product_id \"1656367028\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal and plan were clear from index 1: call ProductCatalogSearch using item_id \"1151293680\" and product_id \"1656367028\". At index 2, the Researcher had all required information but produced tool_args {\"product_id\": 0}, omitting required item_id and changing product_id from the provided string to an unsupported integer value. The tool then rejected this malformed payload with a SchemaError at index 3. This is not a system/connectivity issue or guardrail block."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 247,
+                    "total_tokens": 3314
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:51:18.726355",
+                    "end_time": "2026-07-07T00:51:35.120092",
+                    "execution_time_sec": 16.3937
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "2c3ee28b-a27f-42db-9144-24fe06fe41fe"
+            }
+        }
+    ]
+}

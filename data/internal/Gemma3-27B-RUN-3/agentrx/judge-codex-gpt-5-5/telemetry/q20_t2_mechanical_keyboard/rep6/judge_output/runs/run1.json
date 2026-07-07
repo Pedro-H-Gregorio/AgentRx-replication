@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q20_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q20_t2_mechanical_keyboard",
+                    "failure_case": 2,
+                    "description": "The Executor invented an unsupported count of 20 and a fabricated record ID despite the tool result showing 13 available Mechanical Keyboard items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to know how many available Mechanical Keyboard options exist. The plan and tool call were correct through index 3, and the ProductCatalogSearch tool returned clear evidence: count = 13. At index 4, the Executor produced 'There are 20 options available, per record 0000000000.' The value 20 and record 0000000000 are absent from the user request, plan, and tool output, and they directly determine the final wrong answer. This is not an invalid invocation or unsupported intent; the tool succeeded. It is also not resolved later, because the Evaluator approves the incorrect answer instead of correcting it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3658,
+                    "output_tokens": 279,
+                    "total_tokens": 3937
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:20:27.534161",
+                    "end_time": "2026-07-07T01:20:36.699422",
+                    "execution_time_sec": 9.1653
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c1c46261-e832-4796-8322-2f4b3c731912"
+            }
+        }
+    ]
+}

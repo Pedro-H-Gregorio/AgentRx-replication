@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by supplying the wrong argument type/value and omitting a required argument.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to check whether item 1096508426 for product 1808611083 has difficulty level beginner. The required tool and required arguments were already available in index 1, including both string IDs. At index 2, the Researcher prepared ProductCatalogSearch with {\"product_id\": 0}, omitting item_id and changing product_id from the provided string to an integer. The tool then rejected this malformed call at index 3 with a SchemaError requiring string product_id and item_id."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3085,
+                    "output_tokens": 217,
+                    "total_tokens": 3303
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:59:58.680429",
+                    "end_time": "2026-07-07T01:00:14.015381",
+                    "execution_time_sec": 15.3349
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3ee48355-9836-4158-be3b-8c2a0f598b9a"
+            }
+        }
+    ]
+}

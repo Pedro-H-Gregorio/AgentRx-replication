@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by using {\"product_id\": 0} instead of string arguments for both item_id=\"1151293680\" and product_id=\"1656367028\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The required item_id and product_id were already available from index 1, and the tool schema required both as strings. At index 2, the Researcher produced tool_args with only product_id set to numeric 0, omitting item_id and replacing the provided product_id 1656367028 with an unsupported value. The subsequent tool output at index 3 confirms this malformed request with a SchemaError."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 213,
+                    "total_tokens": 3279
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:51:36.116320",
+                    "end_time": "2026-07-07T00:51:52.074885",
+                    "execution_time_sec": 15.9586
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f38eefb1-7a54-44e7-9092-41453da34764"
+            }
+        }
+    ]
+}

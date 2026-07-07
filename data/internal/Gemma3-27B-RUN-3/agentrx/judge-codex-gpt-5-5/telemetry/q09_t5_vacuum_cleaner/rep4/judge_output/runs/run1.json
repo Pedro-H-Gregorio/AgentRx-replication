@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by dropping the required item_id and replacing the known product_id with the wrong value and type.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user asked for the price of item 1345513440, and the correct plan was already available at index 1: call ProductCatalogSearch with item_id \"1345513440\" and product_id \"1762337868\". At index 2, the Researcher attempted the tool call with {\"product_id\": 0}, omitting required item_id and using an integer product_id instead of the required string. The tool then explicitly rejected this at index 3 with a SchemaError: \"catalog.get_details requires string product_id and item_id\". This is a malformed tool invocation, not an infrastructure issue, guardrail block, or unsupported intent."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3025,
+                    "output_tokens": 248,
+                    "total_tokens": 3274
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:53:21.800587",
+                    "end_time": "2026-07-07T00:53:32.345019",
+                    "execution_time_sec": 10.5444
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "253072ec-7d8f-4d65-bcf3-871aaf0c586d"
+            }
+        }
+    ]
+}

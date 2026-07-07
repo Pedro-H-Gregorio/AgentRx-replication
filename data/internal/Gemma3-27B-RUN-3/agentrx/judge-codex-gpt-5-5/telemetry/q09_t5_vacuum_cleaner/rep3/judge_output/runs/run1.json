@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent constructed an invalid ProductCatalogSearch call by passing product_id as integer 0 and omitting the required item_id, causing a schema error and preventing retrieval of the price.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to retrieve the price of item 1345513440 using ProductCatalogSearch with the provided item_id and product_id. By index 2, all required information was already available from the coordinator plan_query: item_id \"1345513440\" and product_id \"1762337868\". Instead, the Researcher prepared tool_args as {\"product_id\": 0}, omitting required item_id and using a numeric product_id. The tool then explicitly rejected this at index 3 with a SchemaError: it requires string product_id and item_id. This is a malformed tool invocation, not a connectivity, guardrail, or unsupported-capability issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3025,
+                    "output_tokens": 294,
+                    "total_tokens": 3319
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:53:08.867458",
+                    "end_time": "2026-07-07T00:53:20.809896",
+                    "execution_time_sec": 11.9424
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b8d7a338-84bc-49db-97ab-4bc1503b9988"
+            }
+        }
+    ]
+}

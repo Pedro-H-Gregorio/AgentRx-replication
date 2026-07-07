@@ -1,0 +1,56 @@
+{
+  "trajectory_id": "q01_t1_electric_kettle",
+  "instruction": "What is the cheapest available Electric Kettle?",
+  "steps": [
+    {
+      "index": 1,
+      "substeps": [
+        {
+          "sub_index": 1,
+          "role": "Coordinator",
+          "content": "{\"agent\": \"Coordinator\", \"operation\": \"task_decomposition\", \"role\": \"orchestration\", \"status\": \"OK\", \"plan_query\": \"{\\\"available_only\\\": true, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}\", \"plan\": \"Use ProductCatalogSearch and answer from the returned evidence.\", \"input\": \"Task: What is the cheapest available Electric Kettle?\", \"output\": \"I will use the ProductCatalogSearch tool with a query specifying availability, product type as \\\"Electric Kettle\\\", and sorting by ascending price to identify the cheapest available electric kettle.\", \"telemetry\": {\"duration_ms\": 3123.265716, \"tokens\": {\"input\": 80, \"output\": 36, \"total\": 116}, \"model\": \"Gemma3-27B\", \"span\": {\"span_id\": \"84f46d3f163773c7\", \"parent_span_id\": \"8f247bec357df369\", \"trace_id\": \"1b6e0ca478f2b58dba4dd36e06f571bb\"}, \"otel_status\": \"OK\", \"kind\": \"INTERNAL\", \"events\": [{\"name\": \"task_delegated\", \"attributes\": {\"target_agent\": \"Researcher\"}}]}}"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "substeps": [
+        {
+          "sub_index": 1,
+          "role": "Researcher",
+          "content": "{\"agent\": \"Researcher\", \"operation\": \"prepare_tool_call\", \"role\": \"information_retrieval\", \"status\": \"OK\", \"tool_name\": \"ProductCatalogSearch\", \"tool_parameters\": \"{\\\"product_type\\\": {\\\"required\\\": true, \\\"type\\\": \\\"string\\\"}}\", \"tool_args\": \"{\\\"available_only\\\": true, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}\", \"input\": \"Plan: Use ProductCatalogSearch and answer from the returned evidence.\", \"output\": \"I will call ProductCatalogSearch with the arguments `{\\\"available_only\\\": true, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}` to find available electric kettles sorted by ascending price.\", \"telemetry\": {\"duration_ms\": 3437.156155, \"tokens\": {\"input\": 77, \"output\": 48, \"total\": 125}, \"model\": \"Gemma3-27B\", \"span\": {\"span_id\": \"6246dc985d604ade\", \"parent_span_id\": \"8f247bec357df369\", \"trace_id\": \"1b6e0ca478f2b58dba4dd36e06f571bb\"}, \"otel_status\": \"OK\", \"kind\": \"INTERNAL\", \"events\": [{\"name\": \"tool_call_planned\", \"attributes\": {\"tool.name\": \"ProductCatalogSearch\"}}]}}"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "substeps": [
+        {
+          "sub_index": 1,
+          "role": "ProductCatalogSearch",
+          "content": "{\"agent\": \"ProductCatalogSearch\", \"operation\": \"catalog.search\", \"role\": \"dependency\", \"status\": \"ERROR\", \"tool_name\": \"ProductCatalogSearch\", \"tool_args\": \"{\\\"available_only\\\": true, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}\", \"tool_result\": \"{\\\"error\\\": {\\\"message\\\": \\\"catalog search dependency timed out after 30000ms\\\", \\\"type\\\": \\\"CatalogServiceTimeoutError\\\"}, \\\"ok\\\": false}\", \"error\": {\"type\": \"CatalogServiceTimeoutError\", \"message\": \"catalog search dependency timed out after 30000ms\"}, \"input\": \"ProductCatalogSearch input: {\\\"available_only\\\": true, \\\"product_type\\\": \\\"Electric Kettle\\\", \\\"sort\\\": \\\"price_asc\\\"}\", \"output\": \"ProductCatalogSearch failed.\", \"telemetry\": {\"duration_ms\": 0.939256, \"tokens\": {\"input\": 0, \"output\": 0, \"total\": 0}, \"model\": \"Gemma3-27B\", \"span\": {\"span_id\": \"ce95f2b9a7a4f97f\", \"parent_span_id\": \"8f247bec357df369\", \"trace_id\": \"1b6e0ca478f2b58dba4dd36e06f571bb\"}, \"otel_status\": \"ERROR\", \"kind\": \"INTERNAL\", \"events\": [{\"name\": \"dependency_call_failed\", \"attributes\": {\"peer.service\": \"catalog-service\", \"exception.type\": \"CatalogServiceTimeoutError\"}}, {\"name\": \"exception\", \"attributes\": {\"exception.type\": \"CatalogServiceTimeoutError\", \"exception.message\": \"catalog search dependency timed out after 30000ms\", \"exception.escaped\": \"False\"}}], \"infra\": {\"peer_service\": \"catalog-service\", \"rpc_system\": \"http\", \"http_method\": \"POST\"}, \"stacktrace\": \"Traceback (most recent call last):\\n  File \\\"src/agentrx_otel_poc/graph/nodes/tool.py\\\", line 43, in node\\n    raise CatalogServiceTimeoutError(\\n        \\\"catalog search dependency timed out after 30000ms\\\"\\n    )\\nCatalogServiceTimeoutError: catalog search dependency timed out after 30000ms\\n\"}}"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "substeps": [
+        {
+          "sub_index": 1,
+          "role": "Executor",
+          "content": "{\"agent\": \"Executor\", \"operation\": \"build_answer\", \"role\": \"response_synthesis\", \"status\": \"OK\", \"input\": \"Synthesize answer for: What is the cheapest available Electric Kettle?\", \"output\": \"The task could not be completed.\", \"telemetry\": {\"duration_ms\": 1115.081638, \"tokens\": {\"input\": 91, \"output\": 8, \"total\": 99}, \"model\": \"Gemma3-27B\", \"span\": {\"span_id\": \"6854de4973bac2ad\", \"parent_span_id\": \"8f247bec357df369\", \"trace_id\": \"1b6e0ca478f2b58dba4dd36e06f571bb\"}, \"otel_status\": \"OK\", \"kind\": \"INTERNAL\", \"events\": [{\"name\": \"artifact_created\", \"attributes\": {\"artifact.type\": \"answer_summary\"}}]}}"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "substeps": [
+        {
+          "sub_index": 1,
+          "role": "Evaluator",
+          "content": "{\"agent\": \"Evaluator\", \"operation\": \"validate_answer\", \"role\": \"quality_assurance\", \"status\": \"OK\", \"input\": \"Evaluate answer: The task could not be completed.\", \"output\": \"REJECTED: The answer indicates task failure due to a tool error (CatalogServiceTimeoutError) preventing completion, meaning it didn't fulfill the prompt's request despite attempting to use a tool.\", \"validation\": {\"status\": \"REJECTED\", \"reason\": \"REJECTED: The answer indicates task failure due to a tool error (CatalogServiceTimeoutError) preventing completion, meaning it didn't fulfill the prompt's request despite attempting to use a tool.\"}, \"constraints\": \"[\\\"Tool evidence unavailable.\\\"]\", \"telemetry\": {\"duration_ms\": 3120.544176, \"tokens\": {\"input\": 82, \"output\": 42, \"total\": 124}, \"model\": \"Gemma3-27B\", \"span\": {\"span_id\": \"dd871b0b3f2dd7e9\", \"parent_span_id\": \"8f247bec357df369\", \"trace_id\": \"1b6e0ca478f2b58dba4dd36e06f571bb\"}, \"otel_status\": \"OK\", \"kind\": \"INTERNAL\", \"events\": [{\"name\": \"validation_failed\", \"attributes\": {\"reason\": \"Tool evidence is unavailable.\"}}]}}"
+        }
+      ]
+    }
+  ]
+}

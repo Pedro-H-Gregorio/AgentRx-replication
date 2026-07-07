@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "ProductCatalogSearch was invoked with invalid arguments: {\"product_id\": 0} instead of the required string item_id and product_id. The missing item_id and numeric product_id caused the schema rejection, preventing evidence retrieval and making the final answer fail.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user asked for the price of item 1345513440, and the Coordinator already had the required item_id and product_id as strings. The required action was to call ProductCatalogSearch with both item_id=\"1345513440\" and product_id=\"1762337868\". Instead, the tool request used only product_id=0, omitting item_id and using the wrong type/value. The tool then explicitly returned a SchemaError: it requires string product_id and item_id. This is a malformed tool invocation, not a connectivity issue or guardrail block."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3025,
+                    "output_tokens": 284,
+                    "total_tokens": 3310
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:54:40.539704",
+                    "end_time": "2026-07-07T00:54:57.807626",
+                    "execution_time_sec": 17.2679
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "796eae8a-26f4-4325-bafe-8eb9c2c2c7f9"
+            }
+        }
+    ]
+}

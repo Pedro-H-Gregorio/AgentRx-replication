@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch invocation: it omitted the required item_id and replaced the provided string product_id with numeric 0, causing the tool to reject the call with a schema error.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to check whether item_id 1151293680 for product_id 1656367028 has backlight=RGB using ProductCatalogSearch. At index 2, the agent had all required information from index 1, including both IDs and the tool schema requiring string item_id and product_id. Instead, it prepared tool_args as {\"product_id\": 0}, omitting item_id and using the wrong product_id value/type. The subsequent tool result explicitly reports a SchemaError requiring string product_id and item_id. This is not a connectivity, guardrail, or unsupported-capability issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 261,
+                    "total_tokens": 3328
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:51:05.098574",
+                    "end_time": "2026-07-07T00:51:17.662560",
+                    "execution_time_sec": 12.564
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "648e5183-4e7b-4a27-9cb0-9651781261f4"
+            }
+        }
+    ]
+}

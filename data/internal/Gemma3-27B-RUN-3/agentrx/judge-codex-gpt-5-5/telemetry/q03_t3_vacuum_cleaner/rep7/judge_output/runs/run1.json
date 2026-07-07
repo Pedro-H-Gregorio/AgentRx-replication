@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q03_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q03_t3_vacuum_cleaner",
+                    "failure_case": 9,
+                    "description": "The run failed because the catalog search dependency timed out, preventing the agent from retrieving the evidence needed to answer the user's product query.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan matched the user request: search the product catalog for available bagged vacuum cleaners above $591.59 and answer from evidence. The required tool call was formed with the needed arguments, and there is no schema or validation error. At index 3, the ProductCatalogSearch tool returned an explicit infrastructure/connectivity-style failure: CatalogServiceTimeoutError with message 'catalog search dependency timed out after 30000ms'. The later steps did not resolve the timeout or obtain substitute evidence; the executor reported the task could not be completed and the evaluator rejected the answer because tool evidence was unavailable."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3259,
+                    "output_tokens": 272,
+                    "total_tokens": 3531
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:42:56.251506",
+                    "end_time": "2026-07-07T00:43:03.960589",
+                    "execution_time_sec": 7.7091
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "070fc666-be32-4ace-aef8-456b509a9811"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q07_t3_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q07_t3_electric_kettle",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch call was invalid because it omitted the required product_type field. The correct call should have included product_type: \"Electric Kettle\" along with available_only, capacity, and price_min.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal was to search for available Electric Kettles with capacity 1.5L and price greater than 147.46. The agent understood the goal and planned to use ProductCatalogSearch. However, the actual tool invocation omitted the required product_type string even though the user supplied it as Electric Kettle and the tool schema required it. The tool explicitly returned a SchemaError: catalog.search requires a string product_type. This is a malformed tool invocation, not a connectivity, guardrail, or reasoning-over-output issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3214,
+                    "output_tokens": 281,
+                    "total_tokens": 3495
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:48:16.298447",
+                    "end_time": "2026-07-07T00:48:26.466976",
+                    "execution_time_sec": 10.1685
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "917b257f-e224-421e-b587-43e51534bf2e"
+            }
+        }
+    ]
+}

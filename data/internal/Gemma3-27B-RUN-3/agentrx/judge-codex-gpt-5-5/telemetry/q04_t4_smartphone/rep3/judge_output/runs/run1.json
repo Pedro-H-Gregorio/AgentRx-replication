@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q04_t4_smartphone",
+            "failures": [
+                {
+                    "task_id": "q04_t4_smartphone",
+                    "failure_case": 9,
+                    "description": "The ProductCatalogSearch dependency timed out, so the agent could not retrieve the catalog evidence needed to answer the RAM question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and initial plan matched the user request: use ProductCatalogSearch with item_id 1507389580 and product_id 1801728040, then answer whether RAM=8GB. At index 3, the required tool was invoked with well-formed arguments, but the tool returned an explicit infrastructure error: CatalogServiceTimeoutError, with message 'catalog search dependency timed out after 30000ms'. This is not a schema or invocation error, not a guardrail/access block, and not a reasoning error over returned evidence. The failure was not resolved later; the Executor could only say the task could not be completed and the Evaluator rejected the answer because tool evidence was unavailable."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3193,
+                    "output_tokens": 271,
+                    "total_tokens": 3465
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:43:47.909886",
+                    "end_time": "2026-07-07T00:43:56.352864",
+                    "execution_time_sec": 8.443
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "af5bceb8-11fb-4a08-9cd6-7bb333126dec"
+            }
+        }
+    ]
+}

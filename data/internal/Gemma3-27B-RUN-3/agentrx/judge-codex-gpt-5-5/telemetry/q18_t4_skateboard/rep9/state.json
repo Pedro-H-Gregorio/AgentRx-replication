@@ -1,0 +1,11 @@
+{
+  "completed_stages": [
+    "judge"
+  ],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/Gemma3-27B-RUN-3/trajectory_telemetry/q18_t4_skateboard.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-07T01:17:31.657445"
+  }
+}

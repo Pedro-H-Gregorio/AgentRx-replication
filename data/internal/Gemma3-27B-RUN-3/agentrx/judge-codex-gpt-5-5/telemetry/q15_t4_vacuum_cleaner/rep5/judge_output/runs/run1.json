@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q15_t4_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q15_t4_vacuum_cleaner",
+                    "failure_case": 4,
+                    "description": "The Executor misread or ignored the ProductCatalogSearch result, which showed \"bagged/bagless\": \"bagged\", and produced the incorrect answer \"No, it does not.\"",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user asked whether item 1345513440 has bagged/bagless=bagged. The required tool call was made correctly, and ProductCatalogSearch returned evidence showing options.bagged/bagless is exactly \"bagged\". At index 4, the Executor synthesized the opposite answer, \"No, it does not,\" despite the relevant tool output being available. This is a contradiction of tool evidence, not an invalid invocation, unsupported intent, underspecification, or guardrail/system issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3082,
+                    "output_tokens": 258,
+                    "total_tokens": 3341
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:07:16.930418",
+                    "end_time": "2026-07-07T01:07:25.666113",
+                    "execution_time_sec": 8.7357
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6779f9b2-addd-4c67-be60-3109336cedba"
+            }
+        }
+    ]
+}

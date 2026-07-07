@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch invocation by passing only product_id as integer 0 instead of the required string product_id \"1808611083\" and item_id \"1096508426\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was to query ProductCatalogSearch for item_id \"1096508426\" and product_id \"1808611083\" and answer from returned evidence. By index 2, the required IDs and schema were already available: both item_id and product_id were required strings. The Researcher instead prepared tool_args as {\"product_id\": 0}, omitting item_id and changing product_id to an integer value not grounded in the input. The subsequent tool output at index 3 confirms this malformed request with a SchemaError. The error was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3085,
+                    "output_tokens": 242,
+                    "total_tokens": 3327
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:59:27.870762",
+                    "end_time": "2026-07-07T00:59:44.610587",
+                    "execution_time_sec": 16.7398
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "69defe19-0ab7-4fde-a512-c88884075b21"
+            }
+        }
+    ]
+}

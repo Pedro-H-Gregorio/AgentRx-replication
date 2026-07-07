@@ -38,3 +38,4 @@ class Settings:
     judge_api_key: str = os.getenv("JUDGE_API_KEY", "")
     judge_timeout_seconds: float = float(os.getenv("JUDGE_TIMEOUT_SECONDS", "600"))
     judge_temperature: float = float(os.getenv("JUDGE_TEMPERATURE", "0"))
+    judge_reps: int = int(os.getenv("JUDGE_REPS", "3"))

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by using product_id=0 and omitting item_id, instead of calling with item_id=\"1151293680\" and product_id=\"1656367028\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to check whether item_id 1151293680 for product_id 1656367028 has backlight=RGB using ProductCatalogSearch. By index 2, all required information was available from the Coordinator's plan_query. The Researcher instead prepared ProductCatalogSearch arguments as {\"product_id\": 0}, omitting the required item_id and changing product_id from the provided string to an invalid integer. The next step confirms this malformed invocation with a SchemaError: the tool requires string product_id and item_id. This is not a connectivity, access, or guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 252,
+                    "total_tokens": 3319
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:50:47.231299",
+                    "end_time": "2026-07-07T00:51:04.063922",
+                    "execution_time_sec": 16.8326
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b8b63961-5c8c-46d0-8afc-ee21aee0f341"
+            }
+        }
+    ]
+}

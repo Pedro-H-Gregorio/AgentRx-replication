@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch call was invalid: it used product_id=0 instead of the provided string product_id and omitted the required item_id.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal was to verify whether item_id 1151293680 for product_id 1656367028 has backlight=RGB using ProductCatalogSearch. The required IDs were already available from index 1. The agent then issued a malformed tool request with only product_id set to numeric 0 and omitted item_id. The tool explicitly returned a SchemaError stating that string product_id and item_id are required. This is not a connectivity, access, or reasoning-over-output issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 208,
+                    "total_tokens": 3274
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:50:33.103587",
+                    "end_time": "2026-07-07T00:50:46.229154",
+                    "execution_time_sec": 13.1256
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "092d40b3-40c9-447d-84b8-fcbf80bd9b41"
+            }
+        }
+    ]
+}

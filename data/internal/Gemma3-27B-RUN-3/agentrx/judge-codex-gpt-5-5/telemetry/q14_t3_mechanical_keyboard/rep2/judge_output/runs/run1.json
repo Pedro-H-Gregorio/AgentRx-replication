@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q14_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q14_t3_mechanical_keyboard",
+                    "failure_case": 4,
+                    "description": "The Executor misinterpreted or ignored the ProductCatalogSearch result and produced the incorrect conclusion that there were no matching items, despite the tool returning two valid matches.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to identify available Mechanical Keyboard items with RGB backlight costing more than $233.90. The required tool call was correctly planned and executed, and the tool output at index 3 returned two matching items priced 272.33 and 237.48, both above 233.90. At index 4, the Executor synthesized an answer saying no items match, directly contradicting the relevant tool output. This is not an invalid invocation, unsupported intent, underspecification, or system/guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3251,
+                    "output_tokens": 267,
+                    "total_tokens": 3518
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:05:08.563330",
+                    "end_time": "2026-07-07T01:05:17.238633",
+                    "execution_time_sec": 8.6753
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "8d117826-63ec-4ac1-aa52-1536f85b23a2"
+            }
+        }
+    ]
+}

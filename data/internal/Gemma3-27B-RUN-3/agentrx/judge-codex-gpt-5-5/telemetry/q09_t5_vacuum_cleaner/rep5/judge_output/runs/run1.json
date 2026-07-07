@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent invoked ProductCatalogSearch with malformed arguments: it omitted the required string item_id and used product_id 0 instead of the provided string product_id \"1762337868\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The required information was already available at index 1: item_id \"1345513440\" and product_id \"1762337868\". At index 2, the Researcher prepared ProductCatalogSearch with tool_args {\"product_id\": 0}, omitting the required item_id and using an integer/value not grounded in the task. The tool then explicitly rejected this as a SchemaError at index 3. This is primarily an ill-formed tool invocation, not a system/connectivity issue or guardrail block."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3025,
+                    "output_tokens": 223,
+                    "total_tokens": 3249
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:53:33.348622",
+                    "end_time": "2026-07-07T00:53:49.809050",
+                    "execution_time_sec": 16.4604
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9d005456-4cb8-4c38-942f-82a496167f3d"
+            }
+        }
+    ]
+}

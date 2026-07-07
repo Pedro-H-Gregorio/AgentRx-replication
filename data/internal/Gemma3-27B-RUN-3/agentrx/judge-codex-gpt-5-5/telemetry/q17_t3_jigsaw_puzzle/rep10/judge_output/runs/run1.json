@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q17_t3_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q17_t3_jigsaw_puzzle",
+                    "failure_case": 4,
+                    "description": "The agent misread or ignored the ProductCatalogSearch result and concluded there were no matching items even though the tool returned one valid match priced above $45.76.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user asked for available beginner Jigsaw Puzzles costing more than $45.76. The agent correctly planned and invoked ProductCatalogSearch, and the tool returned one matching item: item_id 1096508426, available=true, difficulty level=beginner, product_type=Jigsaw Puzzle, price=46.13. At index 4, the Executor synthesized the opposite answer, saying no items match. This directly contradicts the relevant tool output available from index 3."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3191,
+                    "output_tokens": 236,
+                    "total_tokens": 3428
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:11:23.457637",
+                    "end_time": "2026-07-07T01:11:32.821749",
+                    "execution_time_sec": 9.3641
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "afa2642b-ac01-4c10-9e0b-b21017e7552b"
+            }
+        }
+    ]
+}

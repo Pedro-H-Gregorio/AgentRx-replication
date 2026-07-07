@@ -1,0 +1,8 @@
+{
+  "run_task_id": "q01_t1_electric_kettle",
+  "critical_failure_step": 3,
+  "failure_category": "System Failure",
+  "failed_component": "ProductCatalogSearch",
+  "fault_mode": "system_failure",
+  "reason": "Fault injected at the Tool step (System Failure)."
+}

@@ -5,7 +5,7 @@ Backend comes from the environment (`JUDGE_BACKEND`, …); the flags only slice
 the matrix. Without slices it judges every trajectory in both arm directories,
 skipping reps that already hold a valid verdict.
 
-  python scripts/run_judge.py                     # all trajectories, 3 reps
+  python scripts/run_judge.py                     # all trajectories, JUDGE_REPS reps
   python scripts/run_judge.py --fault "System Failure" --arms telemetry --reps 1
   python scripts/run_judge.py --only-errors       # redo only failed reps
   python scripts/run_judge.py --smoke             # 1 scenario/category, 1 rep
@@ -27,6 +27,7 @@ from agentrx_otel_poc.judge import (  # noqa: E402
     run_experiment,
     smoke_scenarios,
 )
+from agentrx_otel_poc.settings import Settings  # noqa: E402
 
 
 def _parse_args() -> argparse.Namespace:
@@ -34,7 +35,12 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--arms", nargs="+", choices=["telemetry", "agentrx"])
     parser.add_argument("--scenarios", nargs="+", help="run_ids to judge")
     parser.add_argument("--fault", help="filter by target fault category")
-    parser.add_argument("--reps", type=int, default=3)
+    parser.add_argument(
+        "--reps",
+        type=int,
+        default=None,
+        help="reps per trajectory; default comes from JUDGE_REPS",
+    )
     parser.add_argument("--only-errors", action="store_true")
     parser.add_argument("--force", action="store_true")
     parser.add_argument(
@@ -48,10 +54,23 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _resolve_reps(args: argparse.Namespace, settings: Settings) -> int:
+    if args.smoke:
+        return 1
+    if args.reps is not None:
+        reps = int(args.reps)
+    else:
+        reps = settings.judge_reps
+    if reps < 1:
+        raise SystemExit("reps deve ser >= 1 (veja JUDGE_REPS / --reps)")
+    return reps
+
+
 def main() -> int:
     args = _parse_args()
+    settings = Settings()
     scenarios = smoke_scenarios() if args.smoke else args.scenarios
-    reps = 1 if args.smoke else args.reps
+    reps = _resolve_reps(args, settings)
     selection = Selection(
         arms=args.arms,
         scenarios=scenarios,
@@ -60,7 +79,7 @@ def main() -> int:
         only_errors=args.only_errors,
         force=args.force,
     )
-    config = JudgeConfig.from_settings()
+    config = JudgeConfig.from_settings(settings)
     if args.preflight:
         try:
             config.validate()

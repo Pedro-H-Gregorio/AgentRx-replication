@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q01_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q01_t1_electric_kettle",
+                    "failure_case": 9,
+                    "description": "The required catalog dependency timed out during the ProductCatalogSearch call, preventing retrieval of the evidence needed to answer.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user asked for the cheapest available Electric Kettle. The Coordinator and Researcher followed the correct plan and prepared a valid ProductCatalogSearch call with available_only=true, product_type=\"Electric Kettle\", and sort=\"price_asc\". At index 3, the tool call failed with an explicit infrastructure error: CatalogServiceTimeoutError, message \"catalog search dependency timed out after 30000ms\", with telemetry showing dependency_call_failed for catalog-service. This is not a malformed invocation, guardrail block, or misunderstanding. The failure was not resolved later: the Executor could only say the task could not be completed, and the Evaluator rejected the answer because tool evidence was unavailable."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3230,
+                    "output_tokens": 307,
+                    "total_tokens": 3537
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:34:00.333844",
+                    "end_time": "2026-07-07T00:34:10.640496",
+                    "execution_time_sec": 10.3066
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fa4ed071-64af-4de3-9b23-d7b5dd31dca0"
+            }
+        }
+    ]
+}

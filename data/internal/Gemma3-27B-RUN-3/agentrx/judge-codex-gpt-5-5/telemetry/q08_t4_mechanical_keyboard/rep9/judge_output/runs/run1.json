@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent invoked ProductCatalogSearch with invalid arguments: it omitted the required item_id and replaced the given string product_id with integer 0, causing a schema validation failure and preventing evidence retrieval.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was clear: use ProductCatalogSearch with item_id \"1151293680\" and product_id \"1656367028\" to answer whether the Mechanical Keyboard item has backlight=RGB. At index 2, the Researcher had the required IDs from the Coordinator plan but constructed tool_args as {\"product_id\": 0}, omitting item_id and using an integer/wrong product_id. The tool then explicitly returned a SchemaError requiring string product_id and item_id. This is a malformed tool invocation, not an infrastructure issue, guardrail block, or unsupported task."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3066,
+                    "output_tokens": 265,
+                    "total_tokens": 3332
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:52:10.868308",
+                    "end_time": "2026-07-07T00:52:22.264941",
+                    "execution_time_sec": 11.3966
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7e8f887f-ea77-45be-992e-fa4175d4b8a8"
+            }
+        }
+    ]
+}

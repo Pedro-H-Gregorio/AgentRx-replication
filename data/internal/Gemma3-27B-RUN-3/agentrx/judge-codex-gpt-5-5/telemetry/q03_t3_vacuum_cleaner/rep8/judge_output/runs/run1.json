@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q03_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q03_t3_vacuum_cleaner",
+                    "failure_case": 9,
+                    "description": "The catalog search dependency timed out, preventing the agent from obtaining the product evidence needed to answer the user.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan were aligned with the user request: search the product catalog for available bagged Vacuum Cleaners above $591.59 and answer from evidence. The required tool call was formed with the needed arguments and there is no schema or validation error. At index 3, the ProductCatalogSearch tool explicitly failed with CatalogServiceTimeoutError: 'catalog search dependency timed out after 30000ms'. This is an infrastructure/connectivity style failure while calling a necessary dependency. Later steps did not resolve it; the executor could not complete the answer and the evaluator rejected it because tool evidence was unavailable."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3259,
+                    "output_tokens": 261,
+                    "total_tokens": 3520
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:43:04.941173",
+                    "end_time": "2026-07-07T00:43:11.969435",
+                    "execution_time_sec": 7.0283
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5b0c83ef-357e-4458-96d7-66d7b4d6a11b"
+            }
+        }
+    ]
+}

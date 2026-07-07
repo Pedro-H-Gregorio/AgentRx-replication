@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The agent failed to include the required product_type=\"Smartphone\" argument in the ProductCatalogSearch call, causing the catalog tool to reject the request with a schema error.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal was to search the product catalog for available black Smartphones priced above $1143.42. The required information was available: product_type was explicitly given as Smartphone, and the tool schema required product_type as a string. The agent invoked ProductCatalogSearch without the required product_type field. The tool then returned a SchemaError stating that catalog.search requires a string product_type. This is a malformed tool invocation, not a connectivity, access, or reasoning-over-output issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3216,
+                    "output_tokens": 273,
+                    "total_tokens": 3489
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:55:14.703559",
+                    "end_time": "2026-07-07T00:55:25.081539",
+                    "execution_time_sec": 10.378
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "87e3c2ec-3ba3-4151-a659-f63630093d01"
+            }
+        }
+    ]
+}

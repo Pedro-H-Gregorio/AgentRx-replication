@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q11_t4_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q11_t4_jigsaw_puzzle",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by dropping the provided item_id and replacing the provided product_id with integer 0, causing the catalog tool to reject the call before evidence could be retrieved.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The task goal was clear: use ProductCatalogSearch with item_id \"1096508426\" and product_id \"1808611083\", then answer from returned evidence. At the failing tool call, the request payload was concrete but malformed: it used {\"product_id\": 0}, omitted the required item_id, and used an integer instead of a string. The tool explicitly returned a SchemaError saying it requires string product_id and item_id. This is not a network, access, or guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3085,
+                    "output_tokens": 255,
+                    "total_tokens": 3340
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:58:57.741356",
+                    "end_time": "2026-07-07T00:59:11.929225",
+                    "execution_time_sec": 14.1879
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "346b5e65-fc13-411c-9ece-03442d30c1cd"
+            }
+        }
+    ]
+}

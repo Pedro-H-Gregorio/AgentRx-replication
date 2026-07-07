@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q06_t1_skateboard",
+            "failures": [
+                {
+                    "task_id": "q06_t1_skateboard",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out while calling the catalog-service, so the required product evidence was unavailable and the agent could not answer the cheapest available Skateboard question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user's goal was to identify the cheapest available Skateboard using ProductCatalogSearch evidence. The agent formed the correct plan and invoked the correct tool with well-formed arguments. At index 3, the tool returned an explicit infrastructure/connectivity failure: CatalogServiceTimeoutError, with message 'catalog search dependency timed out after 30000ms' and telemetry showing dependency_call_failed for catalog-service. This was not a malformed invocation, not a guardrail/access block, and not a reasoning or intent error. The failure was not resolved later; the executor could only report task failure and the evaluator rejected the answer because tool evidence was unavailable."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3224,
+                    "output_tokens": 299,
+                    "total_tokens": 3524
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:47:15.890348",
+                    "end_time": "2026-07-07T00:47:27.825242",
+                    "execution_time_sec": 11.9349
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "783ee83b-8867-468a-9981-edeb487783ef"
+            }
+        }
+    ]
+}

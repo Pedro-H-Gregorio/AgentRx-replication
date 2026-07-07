@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q03_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q03_t3_vacuum_cleaner",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch failed with CatalogServiceTimeoutError: catalog search dependency timed out after 30000ms, preventing the agent from obtaining the required catalog evidence.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent understood the user's goal and followed the required plan: decompose the task, prepare a ProductCatalogSearch call, and invoke the catalog search with the available_only, bagged/bagless, price_min, and product_type filters. The first failure occurs when the ProductCatalogSearch dependency returns an explicit timeout error. This is not a malformed invocation or reasoning error; the tool arguments are well formed, and the error is an infrastructure/connectivity-style timeout. The failure is not resolved later: the executor reports the task could not be completed and the evaluator rejects the answer due to unavailable tool evidence."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3259,
+                    "output_tokens": 306,
+                    "total_tokens": 3565
+                },
+                "time": {
+                    "start_time": "2026-07-07T00:38:34.277362",
+                    "end_time": "2026-07-07T00:42:46.627856",
+                    "execution_time_sec": 252.3505
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3b8afaef-8979-4034-8b72-52b1c41d9501"
+            }
+        }
+    ]
+}

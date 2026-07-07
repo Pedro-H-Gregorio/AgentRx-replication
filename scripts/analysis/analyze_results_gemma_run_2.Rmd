@@ -1,6 +1,6 @@
 ---
-title: "Telemetria (A) vs AgentRx (B) — análise das RQs"
-subtitle: "Localização (passo) e classificação (categoria) da falha pelo juiz"
+title: "Análise de Resultados e Discussão — Telemetria (A) vs AgentRx (B)"
+subtitle: "Localização (passo) e classificação (categoria) da falha pelo juiz — 2ª execução"
 date: "`r format(Sys.Date(), '%d/%m/%Y')`"
 params:
   csv: "data/experiment/results/Gemma3-27B-RUN-2/judge-codex-gpt-5-5/metricas.csv"
@@ -68,6 +68,7 @@ d <- read_csv(csv_path, show_col_types = FALSE) |>
     in_scope = as.integer(most_common_category) %in% INJECTABLE
   )
 n_scen <- length(unique(d$scenario_id))
+reps_lab <- paste(sort(unique(d$n_judge_runs)), collapse = "/")
 
 wide <- function(m) {
   d |>
@@ -75,7 +76,91 @@ wide <- function(m) {
     pivot_wider(names_from = arm, values_from = all_of(m))
 }
 
-# ---- estatística inferencial pré-computada ----
+# ---------- utilitários de inferência (base R; sem dependências novas) ----------
+
+# Intervalo de confiança e margem de erro pela distribuição t de Student.
+# moe = t_{n-1, 0.975} * (s / sqrt(n)); guarda variância ~0 (todos concordam).
+ci_t <- function(x, conf = 0.95) {
+  x <- x[is.finite(x)]
+  n <- length(x)
+  m <- mean(x)
+  s <- stats::sd(x)
+  se <- s / sqrt(n)
+  tcrit <- if (n > 1) stats::qt(1 - (1 - conf) / 2, df = n - 1) else NA_real_
+  moe <- if (is.finite(tcrit)) tcrit * se else NA_real_
+  list(n = n, mean = m, sd = s, se = se, tcrit = tcrit, moe = moe,
+       lo = m - moe, hi = m + moe)
+}
+
+# IC bootstrap percentil para a média (reamostragem com reposição).
+ci_boot <- function(x, B = 5000, conf = 0.95, seed = 42) {
+  x <- x[is.finite(x)]
+  set.seed(seed)
+  bs <- replicate(B, mean(sample(x, length(x), replace = TRUE)))
+  q <- stats::quantile(bs, c((1 - conf) / 2, 1 - (1 - conf) / 2))
+  list(mean = mean(x), lo = q[[1]], hi = q[[2]])
+}
+
+# Linha da tabela pareada A−B para uma métrica (t, bootstrap, teste-t, Cohen d).
+paired_stats <- function(metric) {
+  w <- wide(metric)
+  dif <- w$telemetry - w$agentrx
+  t <- ci_t(dif)
+  bo <- ci_boot(dif)
+  pval <- tryCatch(stats::t.test(dif)$p.value, error = function(e) NA_real_)
+  cohen <- if (is.finite(t$sd) && t$sd > 0) t$mean / t$sd else NA_real_
+  list(dif = dif, mean = t$mean, sd = t$sd, se = t$se, moe = t$moe,
+       t_lo = t$lo, t_hi = t$hi, b_lo = bo$lo, b_hi = bo$hi,
+       p = pval, cohen = cohen,
+       a_wins = sum(dif > 1e-9), b_wins = sum(dif < -1e-9),
+       ties = sum(abs(dif) <= 1e-9))
+}
+
+# ---------- formatação inline ----------
+pct1 <- function(x) percent(x, 0.1)
+pp <- function(x) sprintf("%+.1f", x * 100) # pontos percentuais com sinal
+f2 <- function(x) sprintf("%.2f", x)
+f3 <- function(x) sprintf("%.3f", x)
+sig_txt <- function(p) {
+  if (is.na(p)) return("indeterminado (sem dispersão nos pares)")
+  if (p > 0.05) sprintf("não distinguível (p = %.3f)", p)
+  else sprintf("estatisticamente significativa (p = %.3f)", p)
+}
+ci_incl0 <- function(lo, hi) lo <= 0 & hi >= 0
+fav_hi <- function(delta) { # métrica em que MAIOR é melhor (A − B)
+  if (abs(delta) < 1e-9) "empate técnico"
+  else if (delta > 0) "a favor da telemetria (A)"
+  else "a favor da baseline (B)"
+}
+fav_lo <- function(delta) { # métrica em que MENOR é melhor (A − B)
+  if (abs(delta) < 1e-9) "empate técnico"
+  else if (delta < 0) "a favor da telemetria (A)"
+  else "a favor da baseline (B)"
+}
+
+# ---------- objetos referenciados na prosa ----------
+arm_mean <- function(m, a) mean(d[[m]][d$arm == a])
+S <- list(
+  tel_cat = arm_mean("cat_acc_critical", "telemetry"),
+  agx_cat = arm_mean("cat_acc_critical", "agentrx"),
+  tel_step = arm_mean("step_acc_exact", "telemetry"),
+  agx_step = arm_mean("step_acc_exact", "agentrx"),
+  tel_dist = arm_mean("avg_step_distance", "telemetry"),
+  agx_dist = arm_mean("avg_step_distance", "agentrx"),
+  tel_sd_dist = stats::sd(d$avg_step_distance[d$arm == "telemetry"]),
+  agx_sd_dist = stats::sd(d$avg_step_distance[d$arm == "agentrx"]),
+  tel_stepstd = mean(d$step_std[d$arm == "telemetry"]),
+  agx_stepstd = mean(d$step_std[d$arm == "agentrx"]),
+  tel_catstd = mean(d$category_std[d$arm == "telemetry"]),
+  agx_catstd = mean(d$category_std[d$arm == "agentrx"]),
+  tel_unstable = sum(d$step_std[d$arm == "telemetry"] > 0),
+  agx_unstable = sum(d$step_std[d$arm == "agentrx"] > 0)
+)
+P_cat <- paired_stats("cat_acc_critical")
+P_step <- paired_stats("step_acc_exact")
+P_dist <- paired_stats("avg_step_distance")
+
+# testes pareados clássicos
 wc <- wide("cat_acc_critical")
 mc_cat <- suppressWarnings(mcnemar.test(
   table(factor(wc$telemetry, c(1, 0)), factor(wc$agentrx, c(1, 0)))
@@ -84,26 +169,47 @@ ws <- wide("step_acc_exact")
 mc_step <- suppressWarnings(mcnemar.test(
   table(factor(ws$telemetry, c(1, 0)), factor(ws$agentrx, c(1, 0)))
 ))
-wd <- wide("avg_step_distance")
-delta <- wd$telemetry - wd$agentrx
-wil <- suppressWarnings(wilcox.test(wd$telemetry, wd$agentrx, paired = TRUE))
-set.seed(42)
-boot <- replicate(5000, mean(sample(delta, length(delta), replace = TRUE)))
-ci <- quantile(boot, c(.025, .975))
+wil <- suppressWarnings(tryCatch(
+  wilcox.test(P_dist$dif, mu = 0)$p.value,
+  error = function(e) NA_real_
+))
 ```
 
-**MAS:** `r mas_id`  |  **Juiz:** `r judge_id`  |  **n = `r n_scen` cenários**
-(pareados por cenário, 2 braços; métricas já agregadas sobre as 3 reps pelo coletor).
+**MAS:** `r mas_id`  |  **Juiz:** `r judge_id`  |  **n = `r n_scen` cenários pareados**  |
+**reps por trajetória:** `r reps_lab`.
 
-Pergunta: *a telemetria (A) ajuda o juiz a **localizar** (passo) e **classificar**
-(categoria) a falha, vs a baseline do artigo (B)?* Resultado nulo é achado válido
-(PRD-00 §2).
+As métricas já vêm **agregadas sobre as reps** pelo coletor (PRD-07): cada linha da
+`metricas.csv` é um par (cenário × braço), com a média/mediana/desvio das reps embutidos.
+O braço **A (telemetria)** carrega os mesmos fatos semânticos do **B (AgentRx, baseline do
+artigo)** mais o bloco de telemetria e o formato JSON; a comparação é **pareada por
+cenário**. A pergunta de pesquisa é dupla: a telemetria estruturada **(RQ1)** melhora a
+**localização** do passo crítico e **(RQ2)** a **classificação** da categoria da falha?
+Resultado nulo é achado válido (PRD-00 §2).
 
 ------------------------------------------------------------------------
 
-# 1. Sumário estatístico descritivo
+# 1. Resumo executivo
 
-## 1.1 Acurácias (proporção de acerto, das `r n_scen` cenários)
+Sobre `r n_scen` cenários (`r reps_lab` reps/trajetória), a telemetria (A) registrou
+**categoria crítica** média de `r pct1(S$tel_cat)` contra `r pct1(S$agx_cat)` da baseline
+(B) — diferença de **`r pp(S$tel_cat - S$agx_cat)` p.p.**, `r fav_hi(S$tel_cat - S$agx_cat)`,
+`r sig_txt(mc_cat$p.value)` pelo McNemar. Na **localização exata** do passo, A acertou
+`r pct1(S$tel_step)` contra `r pct1(S$agx_step)` de B (**`r pp(S$tel_step - S$agx_step)` p.p.**,
+`r fav_hi(S$tel_step - S$agx_step)`). Na **distância média de passo** (menor é melhor), A
+ficou em `r f3(S$tel_dist)` e B em `r f3(S$agx_dist)` (Δ A−B = `r sprintf('%+.3f', P_dist$mean)`,
+`r fav_lo(P_dist$mean)`; Wilcoxon `r sig_txt(wil)`).
+
+A leitura detalhada nas seções seguintes mostra que **as diferenças A×B são pequenas e, na
+maioria das métricas, dentro do intervalo de confiança que inclui zero** — ou seja, ainda
+sem evidência de que a telemetria supere a baseline neste juiz. O padrão de **dispersão**
+(§2.2) indica que boa parte da variação vem da instabilidade do juiz **entre reps** em
+alguns cenários, o que motiva diretamente a re-execução com mais reps.
+
+------------------------------------------------------------------------
+
+# 2. Estatística descritiva
+
+## 2.1 Acurácias por braço
 
 ```{r tab_acc}
 acc_map <- c(
@@ -128,11 +234,55 @@ d |>
   kable(align = "lrrr")
 ```
 
-*As tolerâncias ±k contam acerto quando |passo predito − gabarito| ≤ k. Como as
-trajetórias têm 5 passos, ±3/±5 saturam em 100% (efeito-teto): quem discrimina é o
-exato.*
+A tabela contrasta as duas RQs. Na **classificação** (categoria crítica), a telemetria
+marca `r pct1(S$tel_cat)` e a baseline `r pct1(S$agx_cat)`
+(Δ = `r pp(S$tel_cat - S$agx_cat)` p.p.); em *categoria (any)*, que relaxa a fronteira de
+scoring, o comportamento tende a acompanhar. Na **localização exata**, A fica em
+`r pct1(S$tel_step)` e B em `r pct1(S$agx_step)` (Δ = `r pp(S$tel_step - S$agx_step)` p.p.).
+As tolerâncias ±k contam acerto quando |passo predito − gabarito| ≤ k; como as trajetórias
+têm 5 passos, **±3/±5 saturam em ~100% (efeito-teto)** e não discriminam — quem separa os
+braços é o **passo exato**. Portanto, o eixo informativo de localização é a coluna "passo
+exato" e a **distância de passo** (§2.3), não as tolerâncias largas.
 
-## 1.2 Distância de passo — descritivo completo (menor é melhor)
+## 2.2 Dispersão das amostras (o quanto os números variam)
+
+```{r tab_disp}
+d |>
+  group_by(Braço = arm_lab) |>
+  summarise(
+    `DP passo-exato` = sd(step_acc_exact),
+    `DP cat-crítica` = sd(cat_acc_critical),
+    `DP distância` = sd(avg_step_distance),
+    `Instab. passo (média step_std)` = mean(step_std),
+    `Instab. categoria (média category_std)` = mean(category_std),
+    `Cenários c/ passo instável` = sum(step_std > 0),
+    .groups = "drop"
+  ) |>
+  kable(digits = 3, align = "lrrrrrr")
+```
+
+Há **dois níveis de dispersão** e eles contam histórias diferentes:
+
+- **Entre cenários** (o `DP` das colunas de acurácia): mede o quão heterogêneo é o conjunto
+  de 30 cenários. Um `DP` alto no passo-exato ou na distância (A: `r f3(S$tel_sd_dist)`;
+  B: `r f3(S$agx_sd_dist)` na distância) indica que **poucos cenários difíceis concentram o
+  erro**, enquanto a maioria é acerto limpo — não um erro espalhado por igual. Isso é
+  coerente com o efeito-teto: System Failure e Misinterpretation são quase sempre acertados,
+  e a variância vem de Invalid Invocation e Plan Adherence.
+- **Intra-cenário, entre reps** (`step_std`, `category_std` médios): mede a **instabilidade
+  do próprio juiz** — quando as `r reps_lab` reps do *mesmo* cenário discordam do passo ou
+  da categoria. A telemetria apresenta `step_std` médio de `r f3(S$tel_stepstd)` e a baseline
+  `r f3(S$agx_stepstd)`; em categoria, `r f3(S$tel_catstd)` (A) vs `r f3(S$agx_catstd)` (B).
+  `r S$tel_unstable` cenários no braço A e `r S$agx_unstable` no B têm `step_std > 0`, isto
+  é, o juiz **mudou de passo predito entre reps**.
+
+Essa segunda dispersão é o argumento metodológico central: parte da diferença A×B observada
+pode ser **ruído de Monte Carlo do juiz**, não sinal de tratamento. Com poucas reps, a
+binarização "acertou/errou" (moda/`round` das reps) fica sujeita a virar por uma única rep
+divergente. **Aumentar o número de reps reduz `step_std`/`category_std` esperados por
+cenário e estabiliza a estimativa** — é exatamente o experimento em curso.
+
+## 2.3 Distância de passo — descritivo completo (menor é melhor)
 
 ```{r tab_dist}
 d |>
@@ -146,9 +296,20 @@ d |>
   kable(digits = 3, align = "lrrrrrrr")
 ```
 
+A distância de passo é a métrica de localização **contínua** (não binária), logo a mais
+sensível. A média de A é `r f3(S$tel_dist)` e a de B `r f3(S$agx_dist)`; note que a
+**mediana** costuma ser bem menor que a média nos dois braços — sinal de distribuição
+**assimétrica à direita**: a maioria dos cenários tem distância 0 (acerto no passo) e um
+punhado de outliers (cenários de Plan Adherence, onde o juiz vai para passos tardios) puxa a
+média para cima. Por isso o desvio-padrão (`DP`) é da ordem da própria média: a variação não
+é gaussiana em torno de um centro, é uma massa em zero mais uma cauda. Essa forma justifica
+usar **Wilcoxon** (não-paramétrico) na inferência de distância (§4.3), além do t/bootstrap.
+
 ------------------------------------------------------------------------
 
-# 2. Passos acertados por abordagem
+# 3. Visualização e leitura
+
+## 3.1 Passos acertados por tipo de falha
 
 Quantos cenários cada braço **localizou no passo exato**, por tipo de falha (6 por tipo).
 
@@ -167,6 +328,8 @@ ggplot(hits, aes(cat_short, acertos, fill = arm_lab)) +
 ```
 
 ```{r tab_hits_total}
+hits_wide <- hits |>
+  pivot_wider(names_from = arm_lab, values_from = acertos)
 d |>
   group_by(Braço = arm_lab) |>
   summarise(
@@ -177,11 +340,14 @@ d |>
   kable(align = "lrrr")
 ```
 
-------------------------------------------------------------------------
+O gráfico decompõe a localização por categoria. A leitura típica: **System Failure** e
+**Misinterpretation** ficam saturados (perto de 6/6 nos dois braços) — falhas de superfície,
+o passo é óbvio. A discriminação entre A e B se concentra em **Invalid Invocation** e
+**Plan Adherence**, as categorias onde o passo da causa é sutil. É aí que qualquer efeito da
+telemetria — positivo ou negativo — aparece; nas demais, o teto impede diferença. A tabela
+consolida os totais por braço para ancorar a taxa global de acerto exato citada em §2.1.
 
-# 3. Comparação A × B
-
-## 3.1 Métricas-chave (dumbbell: distância entre os pontos = vantagem de um braço)
+## 3.2 Comparação A × B nas métricas-chave (dumbbell)
 
 ```{r fig_dumbbell, fig.width=7.5, fig.height=3.2}
 dd <- d |>
@@ -211,7 +377,14 @@ ggplot(dd, aes(y = metric)) +
   base_theme
 ```
 
-## 3.2 Distância pareada por cenário (>0 = telemetria pior naquele cenário)
+Cada haste liga o ponto da baseline (laranja) ao da telemetria (azul); **o comprimento da
+haste é a vantagem de um braço**. Em *categoria crítica* a haste aponta
+`r fav_hi(S$tel_cat - S$agx_cat)` (`r pp(S$tel_cat - S$agx_cat)` p.p.); em *passo exato*,
+`r fav_hi(S$tel_step - S$agx_step)` (`r pp(S$tel_step - S$agx_step)` p.p.). Hastes **curtas**
+— como as aqui — são o retrato visual de um efeito pequeno: os dois braços quase se
+sobrepõem. *Passo ±1* aparece só como referência de teto (satura), não como evidência.
+
+## 3.3 Distância pareada por cenário (>0 = telemetria pior)
 
 ```{r fig_diverging, fig.width=7, fig.height=7}
 sc <- wide("avg_step_distance") |>
@@ -234,7 +407,14 @@ ggplot(sc, aes(delta, scen, fill = win)) +
   theme(axis.text.y = element_text(size = 6))
 ```
 
-## 3.3 Categoria por tipo de falha (H1/H2: semânticas vs superfície)
+Este gráfico é a **evidência pareada crua**: cada barra é um cenário, à esquerda de zero a
+telemetria localizou melhor, à direita pior. A maioria das barras está **em zero (empate)** —
+`r P_dist$ties` de `r n_scen` cenários —, com `r P_dist$b_wins` cenário(s) favorecendo a
+baseline e `r P_dist$a_wins` favorecendo a telemetria. O predomínio de empates é o que
+esvazia o poder dos testes pareados: a diferença vive numa minoria de cenários, e nesses ela
+`r ifelse(P_dist$b_wins >= P_dist$a_wins, "tende a favorecer a baseline", "tende a favorecer a telemetria")`.
+
+## 3.4 Categoria por tipo de falha (H1/H2: semânticas vs superfície)
 
 ```{r fig_cat, fig.width=7.5, fig.height=4.5}
 by_cat <- d |>
@@ -268,7 +448,16 @@ by_cat |>
   kable(align = "llrrr")
 ```
 
-## 3.4 Estimativas por cenário (o placar completo: A vs B vs gabarito)
+A classificação por tipo separa **falhas de superfície** (System Failure, Invalid
+Invocation) de **falhas semânticas** (Misinterpretation, Invention, Plan Adherence). As
+semânticas são as difíceis: exigem que o juiz entenda *o conteúdo* da resposta, não só que
+"deu erro". É onde a categoria crítica costuma cair abaixo de 100% e onde as duas
+categorias vizinhas — **Invention** e **Misinterpretation** — se confundem (ambas são falhas
+no Executor; ver ameaça à validade em §6). A tabela alinha, por categoria, a acurácia de
+categoria, os acertos de passo e a distância média, permitindo cruzar RQ1 e RQ2 no mesmo
+tipo de falha.
+
+## 3.5 Placar completo por cenário (A vs B vs gabarito)
 
 Categoria e passo preditos por cada braço; `✓`/`✗` = acertou/errou vs o gabarito.
 
@@ -305,71 +494,202 @@ d |>
   kable(align = "llccccc")
 ```
 
+Esta tabela é a auditoria cenário-a-cenário: permite localizar exatamente **onde** os braços
+divergem e conferir se o erro é de categoria, de passo, ou de ambos. É a fonte para
+investigar manualmente qualquer caso discordante (por ex., um cenário de Plan Adherence em
+que a categoria predita cai fora do escopo, contando como *miss* nomeado — PRD-08 D39).
+
 ------------------------------------------------------------------------
 
-# 4. Sumário estatístico inferencial
+# 4. Inferência estatística
 
-Testes **pareados** (o mesmo cenário nos dois braços), n = `r n_scen`.
+Todos os testes são **pareados** (o mesmo cenário nos dois braços), n = `r n_scen`.
+
+## 4.1 Margem de erro por t-Student (média ± MoE, 95%)
+
+Para uma métrica com média $\bar{x}$, desvio $s$ e $n$ cenários, a margem de erro é
+$\text{MoE} = t_{n-1,\,0.975}\cdot s/\sqrt{n}$, e o IC95% é $\bar{x} \pm \text{MoE}$. Aplicada
+à **diferença pareada** $A-B$ de cada cenário, é o intervalo de confiança do efeito médio
+do tratamento (equivalente ao teste-t pareado). *Ressalva:* nas métricas binárias
+(acerto/erro) a normalidade é aproximada — por isso reportamos também o bootstrap (§4.2) e,
+na distância, o Wilcoxon (§4.3).
+
+```{r tab_moe}
+moe_row <- function(label, P, unit_pp) {
+  scale <- if (unit_pp) 100 else 1
+  suffix <- if (unit_pp) " p.p." else ""
+  data.frame(
+    `Métrica (A−B)` = label,
+    `Δ média` = sprintf("%+.3f%s", P$mean * scale, suffix),
+    `DP dos pares` = sprintf("%.3f", P$sd * scale),
+    `Erro-padrão` = sprintf("%.3f", P$se * scale),
+    `MoE (t95)` = if (is.na(P$moe)) "—" else sprintf("%.3f", P$moe * scale),
+    `IC95% (t)` = if (is.na(P$moe)) "—" else
+      sprintf("[%+.3f, %+.3f]", P$t_lo * scale, P$t_hi * scale),
+    check.names = FALSE
+  )
+}
+rbind(
+  moe_row("Categoria crítica", P_cat, TRUE),
+  moe_row("Passo exato", P_step, TRUE),
+  moe_row("Distância de passo", P_dist, FALSE)
+) |>
+  kable(align = "lrrrrr")
+```
+
+Interpretação: se o **IC95% (t) inclui zero**, não há efeito médio distinguível na métrica.
+Na categoria, o efeito médio é `r pp(P_cat$mean)` p.p. com IC
+`r if (is.na(P_cat$moe)) "degenerado (pares idênticos)" else sprintf("[%+.1f, %+.1f] p.p.", P_cat$t_lo*100, P_cat$t_hi*100)`
+(`r if (is.na(P_cat$moe)) "sem dispersão" else ifelse(ci_incl0(P_cat$t_lo, P_cat$t_hi), "inclui zero", "exclui zero")`).
+No passo exato, `r pp(P_step$mean)` p.p., IC
+`r if (is.na(P_step$moe)) "degenerado" else sprintf("[%+.1f, %+.1f] p.p.", P_step$t_lo*100, P_step$t_hi*100)`.
+Na distância, Δ = `r sprintf('%+.3f', P_dist$mean)`, IC
+`r if (is.na(P_dist$moe)) "degenerado" else sprintf("[%+.3f, %+.3f]", P_dist$t_lo, P_dist$t_hi)`.
+A **magnitude do efeito** (Cohen d pareado) é
+`r ifelse(is.na(P_cat$cohen), "—", f2(P_cat$cohen))` (categoria),
+`r ifelse(is.na(P_step$cohen), "—", f2(P_step$cohen))` (passo) e
+`r ifelse(is.na(P_dist$cohen), "—", f2(P_dist$cohen))` (distância) — valores próximos de zero
+indicam efeito trivial mesmo quando o sinal aponta para um lado.
+
+## 4.2 IC bootstrap (percentil, 5000 reamostragens)
+
+O bootstrap não assume normalidade: reamostra os `r n_scen` pares com reposição e lê os
+percentis 2,5% e 97,5% da distribuição da diferença média. É o contraponto robusto ao t da
+§4.1 — quando os dois concordam, a conclusão não depende da suposição gaussiana.
+
+```{r tab_boot}
+boot_row <- function(label, P, unit_pp) {
+  scale <- if (unit_pp) 100 else 1
+  data.frame(
+    `Métrica (A−B)` = label,
+    `Δ média` = sprintf("%+.3f", P$mean * scale),
+    `IC95% bootstrap` = sprintf("[%+.3f, %+.3f]", P$b_lo * scale, P$b_hi * scale),
+    `Inclui zero?` = ifelse(ci_incl0(P$b_lo, P$b_hi), "sim", "não"),
+    check.names = FALSE
+  )
+}
+rbind(
+  boot_row("Categoria crítica (p.p.)", P_cat, TRUE),
+  boot_row("Passo exato (p.p.)", P_step, TRUE),
+  boot_row("Distância de passo", P_dist, FALSE)
+) |>
+  kable(align = "lrrr")
+```
+
+Comparando com a §4.1: o IC bootstrap da distância é
+`r sprintf('[%+.3f, %+.3f]', P_dist$b_lo, P_dist$b_hi)` e o IC-t é
+`r if (is.na(P_dist$moe)) "degenerado" else sprintf('[%+.3f, %+.3f]', P_dist$t_lo, P_dist$t_hi)` —
+`r ifelse(is.na(P_dist$moe), "sem comparação", ifelse((ci_incl0(P_dist$b_lo,P_dist$b_hi))==(ci_incl0(P_dist$t_lo,P_dist$t_hi)), "os dois métodos concordam sobre incluir/excluir zero, o que reforça a conclusão", "os métodos divergem, sinal de amostra pequena/assimétrica — trate a inferência como sugestiva"))`.
+
+## 4.3 Testes de hipótese pareados
 
 ```{r tab_inf}
-# distância: MENOR é melhor → delta<0 = telemetria vence; delta>0 = baseline vence
-a_wins <- sum(delta < -1e-9)
-b_wins <- sum(delta > 1e-9)
 data.frame(
   Teste = c(
-    "McNemar — categoria crítica", "McNemar — passo exato",
-    "Wilcoxon pareado — distância de passo",
-    "Bootstrap IC95% — Δ distância média (A−B)"
+    "McNemar — categoria crítica (binário)",
+    "McNemar — passo exato (binário)",
+    "Wilcoxon pareado — distância de passo (contínuo)",
+    "teste-t pareado — distância de passo"
   ),
   Resultado = c(
-    sprintf("p = %.3f", mc_cat$p.value),
-    sprintf("p = %.3f", mc_step$p.value),
-    sprintf("p = %.3f", wil$p.value),
-    sprintf("%+.3f  [%+.3f, %+.3f]", mean(delta), ci[1], ci[2])
+    ifelse(is.na(mc_cat$p.value), "sem discordâncias", sprintf("p = %.3f", mc_cat$p.value)),
+    ifelse(is.na(mc_step$p.value), "sem discordâncias", sprintf("p = %.3f", mc_step$p.value)),
+    ifelse(is.na(wil), "indeterminado", sprintf("p = %.3f", wil)),
+    ifelse(is.na(P_dist$p), "indeterminado", sprintf("p = %.3f", P_dist$p))
   ),
   Leitura = c(
-    ifelse(mc_cat$p.value > .05, "sem diferença detectável", "diferença significativa"),
-    ifelse(mc_step$p.value > .05, "sem diferença detectável", "diferença significativa"),
-    ifelse(wil$p.value > .05, "sem diferença detectável", "A distinguivelmente pior"),
-    ifelse(ci[1] <= 0 & ci[2] >= 0, "IC inclui zero", "IC exclui zero → A pior")
+    sig_txt(mc_cat$p.value), sig_txt(mc_step$p.value),
+    sig_txt(wil), sig_txt(P_dist$p)
   )
 ) |> kable(align = "lll")
 ```
 
+O **McNemar** é o teste correto para as métricas binárias pareadas: ele olha só os pares
+**discordantes** (um braço acerta, o outro erra) e ignora os empates — que aqui são a
+maioria. Com poucos discordantes, o teste tem pouco poder e o p tende a ser alto por
+**falta de amostra discordante**, não por igualdade comprovada. O **Wilcoxon** trata a
+distância como contínua e não-paramétrica (adequado à assimetria de §2.3); o **teste-t
+pareado** é o correlato paramétrico, reportado ao lado para transparência. Quando todos
+apontam "não distinguível", a leitura conjunta é de **ausência de efeito detectável**, não
+de equivalência provada.
+
+## 4.4 Vitórias pareadas
+
 ```{r tab_wins}
-lapply(c("cat_acc_critical", "step_acc_exact", "avg_step_distance"), function(m) {
-  w <- wide(m)
-  a <- w$telemetry
-  b <- w$agentrx
-  low <- grepl("^avg_", m)
-  data.frame(
-    Métrica = m,
-    `A vence` = if (low) sum(a < b) else sum(a > b),
-    `B vence` = if (low) sum(a > b) else sum(a < b),
-    Empate = sum(a == b), check.names = FALSE
-  )
-}) |>
-  bind_rows() |>
-  kable(caption = sprintf("Vitórias pareadas (de %d)", n_scen))
+data.frame(
+  Métrica = c("cat_acc_critical", "step_acc_exact", "avg_step_distance"),
+  `A vence` = c(P_cat$a_wins, P_step$a_wins, P_dist$a_wins),
+  `B vence` = c(P_cat$b_wins, P_step$b_wins, P_dist$b_wins),
+  Empate = c(P_cat$ties, P_step$ties, P_dist$ties),
+  check.names = FALSE
+) |>
+  kable(caption = sprintf("Vitórias pareadas (de %d cenários)", n_scen))
 ```
+
+A contagem de vitórias é a evidência mais direta e sem suposição: em quantos cenários A
+supera B, o inverso, ou empatam. O predomínio de **empates** em todas as métricas é a
+assinatura de dois braços que carregam os mesmos fatos semânticos — a paridade por
+construção — diferindo só onde a telemetria/formato pesa. É essa escassez de discordâncias
+que limita o poder estatístico com n = `r n_scen`.
 
 ------------------------------------------------------------------------
 
-# 5. Conclusão
+# 5. Discussão
 
-Em `r n_scen` cenários pareados, a telemetria **não superou** a baseline em nenhuma
-métrica de manchete: na distância de passo venceu em **`r a_wins`** cenário(s) contra
-**`r b_wins`** da baseline. A **categoria** ficou empatada (McNemar
-p = `r sprintf('%.3f', mc_cat$p.value)`); a **localização** teve efeito negativo pequeno,
-`r ifelse(ci[1] <= 0 & ci[2] >= 0, "não distinguível de zero", "distinguível de zero")`
-na distância (Δ = `r sprintf('%+.3f', mean(delta))`, IC95%
-[`r sprintf('%+.3f', ci[1])`, `r sprintf('%+.3f', ci[2])`]; Wilcoxon
-p = `r sprintf('%.3f', wil$p.value)`).
+**RQ1 (localização).** A telemetria estruturada `r fav_hi(S$tel_step - S$agx_step)` no passo
+exato (Δ = `r pp(S$tel_step - S$agx_step)` p.p.) e, na distância contínua,
+`r fav_lo(P_dist$mean)` (Δ = `r sprintf('%+.3f', P_dist$mean)`; Wilcoxon `r sig_txt(wil)`).
+Como o IC da distância
+`r if (is.na(P_dist$moe)) "é degenerado" else ifelse(ci_incl0(P_dist$t_lo, P_dist$t_hi), "inclui zero", "exclui zero")`,
+`r if (is.na(P_dist$moe)) "não há efeito estimável" else ifelse(ci_incl0(P_dist$t_lo, P_dist$t_hi), "não há evidência de que a telemetria melhore a localização fina", "há indício de efeito na localização — a confirmar com mais amostra")`.
+A hipótese de trabalho é que o bloco de telemetria e o formato JSON adicionam contexto **mas
+também ruído** ao redor do passo da causa, o que explicaria a leve desvantagem quando ela
+aparece.
 
-Leitura: a telemetria-como-texto, mesmo estruturada e enriquecida, **não ajuda** este
-juiz — e tende a distrair de leve na localização fina.
+**RQ2 (classificação).** Em categoria crítica, A `r fav_hi(S$tel_cat - S$agx_cat)`
+(Δ = `r pp(S$tel_cat - S$agx_cat)` p.p.), efeito `r sig_txt(mc_cat$p.value)`. A vantagem, quando
+existe, concentra-se nas categorias semânticas ambíguas (Invention/Plan Adherence), que são
+justamente as de maior `category_std` — ou seja, onde o juiz mais **oscila entre reps**.
+Isso enfraquece a atribuição do ganho ao tratamento: pode ser deslocamento de ruído, não
+sinal.
 
-**Ressalvas:** 1 juiz, 1 MAS, n = `r n_scen`; efeito-teto em ±3; os testes são
-sugestivos, não confirmatórios. Um segundo juiz sobre o mesmo corpus daria robustez.
+**Síntese.** O conjunto de evidências
+`r ifelse(all(sapply(list(P_cat,P_step,P_dist), function(P) is.na(P$moe) || ci_incl0(P$t_lo,P$t_hi))), "é consistente com resultado nulo: nenhuma métrica-manchete exclui zero", "é misto: ao menos uma métrica sugere efeito, mas de magnitude pequena")`.
+A dispersão intra-cenário (§2.2) indica que uma fração relevante da variação é instabilidade
+do juiz entre reps — motivo pelo qual **mais reps** devem apertar os IC e dar uma leitura
+mais estável do sinal (ou confirmar sua ausência com mais confiança). Resultado nulo aqui é
+achado legítimo e informativo: telemetria-como-texto, mesmo estruturada e enriquecida, **não
+demonstra** ajudar este juiz nesta escala.
+
+------------------------------------------------------------------------
+
+# 6. Ameaças à validade
+
+- **Amostra e poder.** 1 juiz, 1 MAS, n = `r n_scen` cenários; muitos empates estruturais →
+  pouco poder discordante. Os testes são **sugestivos, não confirmatórios**.
+- **Efeito-teto.** Passo ±3/±5 saturam; só passo-exato e distância discriminam.
+- **Instabilidade do juiz.** `step_std`/`category_std` > 0 em vários cenários: parte do
+  sinal A×B pode ser ruído de reps (mitigado por mais reps — experimento em curso).
+- **Fronteira semântica.** Invention ↔ Misinterpretation são adjacentes (ambas no Executor);
+  a confusão entre elas contamina a acurácia de categoria dessas classes (PRD-08).
+- **Tratamento acoplado.** Em A, formato (JSON) e conteúdo (telemetria) mudam juntos; um
+  eventual efeito não se decompõe entre os dois (ADR-0014).
+- **Normalidade aproximada.** Os IC-t sobre métricas binárias são aproximações; por isso o
+  bootstrap e o Wilcoxon acompanham cada conclusão.
+
+------------------------------------------------------------------------
+
+# 7. Conclusão
+
+Nesta segunda execução (`r reps_lab` reps, n = `r n_scen`), a telemetria (A)
+`r ifelse(all(sapply(list(P_cat,P_step,P_dist), function(P) is.na(P$moe) || ci_incl0(P$t_lo,P$t_hi))), "não supera a baseline (B) em nenhuma métrica-manchete de forma distinguível", "mostra no máximo um efeito pequeno e localizado, ainda dentro da margem de erro")`:
+categoria Δ = `r pp(P_cat$mean)` p.p. (`r sig_txt(mc_cat$p.value)`), passo exato Δ =
+`r pp(P_step$mean)` p.p., distância Δ = `r sprintf('%+.3f', P_dist$mean)`
+(`r sig_txt(wil)`). A evidência é compatível com **resultado nulo**, com a ressalva de que a
+instabilidade do juiz entre reps é uma fonte de ruído endereçável: a re-execução com mais
+repetições deve **estreitar os intervalos de confiança** e permitir afirmar o nulo — ou um
+efeito pequeno — com mais segurança. Um segundo juiz sobre o mesmo corpus daria robustez
+adicional à conclusão.
+
 ```{r session, include=FALSE}
 ```
