@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q07_t3_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q07_t3_electric_kettle",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by omitting the required product_type argument, even though the value \"Electric Kettle\" was already available.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal and plan were clear: search available Electric Kettles with capacity 1.5L and price greater than 147.46. The required product_type value, \"Electric Kettle\", was available from the original task and the Coordinator's plan query. At index 2, the Researcher prepared ProductCatalogSearch args but omitted the required string field product_type. The next step confirms this was a schema error, not a network, access, or guardrail issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2612,
+                    "output_tokens": 242,
+                    "total_tokens": 2854
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:02:04.286004",
+                    "end_time": "2026-07-07T02:02:16.533791",
+                    "execution_time_sec": 12.2478
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f04b6ae3-8e79-4a2a-bcc9-1736dcc6c998"
+            }
+        }
+    ]
+}

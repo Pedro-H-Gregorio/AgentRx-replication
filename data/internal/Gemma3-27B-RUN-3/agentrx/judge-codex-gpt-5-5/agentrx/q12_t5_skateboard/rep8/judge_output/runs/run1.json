@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The Researcher made an invalid tool call by omitting the required item_id and replacing the provided product_id string with integer 0.",
+                    "step_number": 2,
+                    "checklist_reasoning": "At index 2, the agent attempted a concrete ProductCatalogSearch invocation with args {\"product_id\": 0}. This was malformed because the available plan query contained both required string values: item_id \"2177997696\" and product_id \"1968349452\". The tool then explicitly returned a SchemaError at index 3 stating that both string product_id and item_id are required. This is a schema/argument error, not a connectivity, guardrail, or unsupported-capability issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2420,
+                    "output_tokens": 212,
+                    "total_tokens": 2633
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:13:38.663234",
+                    "end_time": "2026-07-07T02:13:47.733198",
+                    "execution_time_sec": 9.07
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "988aff76-aa7d-4a76-ab88-351c94154173"
+            }
+        }
+    ]
+}

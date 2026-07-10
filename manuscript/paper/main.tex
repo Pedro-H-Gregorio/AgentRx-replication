@@ -37,13 +37,17 @@
 }
 
 \begin{abstract}
-	A depuração de Sistemas Multiagentes (MAS) baseados em Grandes Modelos de Linguagem (LLMs) é um problema relevante em \textit{AgentOps},
-	pois esses sistemas operam de forma autônoma, não determinística e com múltiplos artefatos de execução ao longo da trajetória.
-	O artigo AgentRx propõe um framework para diagnosticar falhas a partir dessas trajetórias, localizando a etapa crítica irrecuperável
-	e classificando sua causa raiz a partir de restrições, evidências e julgamento via LLM. Entretanto, o estudo original depende de logs
-	textuais heterogêneos, o que exige normalização complexa para uma representação intermediária. Neste trabalho, propomos uma replicação
-	do AgentRx baseada em um MAS simulado e instrumentado com telemetria baseada no OpenTelemetry, comparando logs textuais simplificados
-	e traces estruturados para avaliar a precisão do diagnóstico e da classificação de falhas.
+
+	A depuração de sistemas multiagentes baseados em LLMs é desafiadora devido à natureza não determinística das execuções
+	e à diversidade de artefatos gerados ao longo das trajetórias \textit{AgentOps}. O AgentRx propõe um framework para
+	diagnosticar falhas a partir dessas trajetórias, localizando a etapa crítica e classificando a causa raiz. Este
+	trabalho realiza uma replicação controlada do AgentRx em um sistema multiagente simulado, comparando duas
+	representações da mesma trajetória: logs textuais simplificados e telemetria estruturada inspirada em OpenTelemetry.
+	Foram avaliados 30 cenários pareados com falhas injetadas em cinco categorias. Os resultados indicam que a telemetria
+	estruturada não produziu ganho consistente na localização exata da etapa crítica, mas apresentou vantagem descritiva na
+	classificação da categoria da falha. Esses achados sugerem que a estruturação da trajetória pode ser mais útil para
+	reduzir ambiguidades semânticas em algumas categorias do que para localizar com maior precisão o passo crítico da
+	falha.
 \end{abstract}
 
 % \begin{CCSXML}
@@ -86,7 +90,7 @@
 
 \section{Introdução}
 
-Sistemas Multiagentes (do inglês \textit{Mult Agent systems}, MAS) baseados em Grandes Modelos de Linguagem (LLMs) vêm
+Sistemas Multiagentes (\textit{Multi Agent systems}, MAS) baseados em Grandes Modelos de Linguagem (LLMs) vêm
 sendo empregados em tarefas cada vez mais complexas, combinando planejamento, uso de ferramentas e coordenação entre
 agentes. Essa autonomia, embora benéfica do ponto de vista funcional, amplia a dificuldade de observação e depuração,
 pois as execuções são probabilísticas, os fluxos são longos e os artefatos gerados ao longo da trajetória são variados
@@ -351,12 +355,25 @@ conforme a dimensão avaliada.
 \subsection{Localização da etapa crítica}
 \label{subsec:localizacao}
 
-Considerando os cenários individualmente, o log textual localizou corretamente a etapa crítica em 26 dos 30 cenários e
-a telemetria em 25. As tolerâncias maiores atingiram 100\% em ambos os braços (Passo~$\pm 3$ e Passo~$\pm 5$), o que
-caracteriza um efeito-teto associado ao tamanho das trajetórias, compostas por cinco passos. A
-Tabela~\ref{tab:distancia-passo-mas-sim} detalha a distância de passo: em ambos os braços a mediana foi zero,
-confirmando que a maioria dos cenários foi localizada com exatidão, e a distância média foi ligeiramente menor no log
-textual (0,210 contra 0,263), o que indica uma vantagem descritiva pequena na localização.
+Considerando os cenários individualmente de acordo com a Tabela ~\ref{tab:resultados-por-categoria-mas-sim}, o log
+textual localizou corretamente a etapa crítica em \textbf{26} dos 30 cenários e a telemetria em \textbf{25}, e as
+tolerâncias maiores saturaram em 100\% em ambos os braços (Passo~$\pm 3$ e Passo~$\pm 5$), caracterizando um
+efeito-teto associado às trajetórias de apenas cinco passos. Esse desempenho global, contudo, oculta uma forte
+concentração dos erros. Como detalha a Tabela~\ref{tab:resultados-por-categoria-mas-sim}, três das cinco categorias:
+\textit{System Failure}, \textit{Misinterpretation of Tool Output} e \textit{Invention of New Information}, foram
+localizadas com exatidão em todos os seis cenários (6/6) pelos dois braços, de modo que a totalidade do erro de
+localização se restringe a \textit{Invalid Invocation} e \textit{Instruction/Plan Adherence Failure}.
+
+A leitura no nível das repetições individuais (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}; 60 julgamentos por
+categoria em cada braço) quantifica essa concentração e a divergência entre os braços. É em \textit{Invalid Invocation}
+que eles mais se distanciam: o log textual acertou a etapa em \textbf{47 de 60} julgamentos, contra \textbf{35 de 60}
+da telemetria; já \textit{Plan Adherence} colapsa para cerca de metade dos julgamentos em ambos os braços (30 e 29
+acertos em 60), enquanto as três categorias restantes permanecem em 60/60. Coerentemente, a distância média de passo,
+ligeiramente menor no log textual (\textbf{0,210} contra \textbf{0,263}; Tabela~\ref{tab:distancia-passo-mas-sim}), é
+produzida quase inteiramente por essas duas categorias (0,417 e 0,217 em \textit{Invalid Invocation}; 0,900 e 0,833 em
+\textit{Plan Adherence}), enquanto as demais contribuem com distância nula. A mediana zero e o máximo de três passos em
+ambos os braços, somados a um desvio-padrão da ordem da própria média (0,629 e 0,596), confirmam uma distribuição
+fortemente assimétrica.
 
 \begin{table}[t]
 	\centering
@@ -377,14 +394,26 @@ textual (0,210 contra 0,263), o que indica uma vantagem descritiva pequena na lo
 \subsection{Classificação da categoria da causa raiz}
 \label{subsec:categoria}
 
-Na classificação da categoria, a telemetria acertou 26 dos 30 cenários e o log textual 24. A
-Tabela~\ref{tab:resultados-por-categoria-mas-sim} desagrega esse resultado por categoria de falha. Ambos os braços
-tiveram desempenho perfeito em \textit{System Failure}, \textit{Invalid Invocation} e \textit{Misinterpretation of Tool
-	Output}. A diferença agregada origina-se de uma única categoria, \textit{Invention of New Information}, na qual a
-telemetria obteve 100,0\% e o log textual 66,7\%. A categoria \textit{Instruction/Plan Adherence Failure} foi a mais
-difícil, com 33,3\% de acurácia em ambos os braços. A Tabela~\ref{tab:frequencia-mae-categoria-mas-sim} apresenta a
-mesma leitura no nível das repetições individuais do juiz (60 julgamentos por categoria em cada braço), evidenciando
-que os erros de categoria se concentram em \textit{Invention} e, sobretudo, em \textit{Plan Adherence}.
+Na classificação da categoria da causa raiz, a telemetria acertou \textbf{26} dos 30 cenários e o log textual
+\textbf{24}. A Tabela~\ref{tab:resultados-por-categoria-mas-sim} desagrega o resultado por tipo de falha: ambos os
+braços foram perfeitos (100,0\%) em \textit{System Failure}, \textit{Invalid Invocation} e \textit{Misinterpretation of
+	Tool Output}, de modo que toda a diferença agregada provém de duas categorias semânticas. A primeira é
+\textit{Invention of New Information}, na qual a telemetria obteve \textbf{100,0\%} contra \textbf{66,7\%} do log
+textual; a segunda é \textit{Instruction/Plan Adherence Failure}, a mais difícil do conjunto, com apenas
+\textbf{33,3\%} de acurácia em ambos os braços.
+
+A Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}, que reporta a frequência de acertos nas 60 repetições por
+categoria, matiza essa leitura e mostra que a distância entre os braços é menor do que a acurácia por cenário sugere.
+Em \textit{Invention}, a telemetria classificou corretamente \textbf{51 de 60} julgamentos e o log textual \textbf{47
+	de 60}; a diferença de 100,0\% para 66,7\% na acurácia por cenário não resulta, portanto, de uma falha sistemática do
+log textual, mas de a moda das dez repetições tombar para a categoria vizinha \textit{Misinterpretation of Tool Output}
+em apenas dois cenários, ainda que a maioria das repetições continue a apontar \textit{Invention}. Em \textit{Plan
+	Adherence}, ao contrário, a fragilidade é estrutural: ambos os braços acertam a categoria em menos da metade dos
+julgamentos (\textbf{23 de 60} e \textbf{21 de 60}), a única categoria cuja frequência de acerto por repetição fica
+abaixo de 50\%. O contraste entre as duas granularidades, a moda por cenário
+(Tabela~\ref{tab:resultados-por-categoria-mas-sim}) e a frequência por repetição
+(Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}), indica que os erros se concentram em \textit{Invention} e,
+sobretudo, em \textit{Plan Adherence}, e que parte deles reflete a instabilidade do juiz entre repetições.
 
 \begin{table*}[t]
 	\centering
@@ -397,17 +426,17 @@ que os erros de categoria se concentram em \textit{Invention} e, sobretudo, em \
 		System Failure                     & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
 		System Failure                     & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
 		\midrule
-		Invalid Invocation                 & Telemetria (A)  & 100,0\%                            & 4/6                             & 0,417                          \\
-		Invalid Invocation                 & Log textual (B) & 100,0\%                            & 5/6                             & 0,217                          \\
+		Invalid Invocation                 & Telemetria (A)  & 100,0\%                            & \textbf{4/6}                    & 0,417                          \\
+		Invalid Invocation                 & Log textual (B) & 100,0\%                            & \textbf{5/6}                    & 0,217                          \\
 		\midrule
 		Misinterpretation of Tool Output   & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
 		Misinterpretation of Tool Output   & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
 		\midrule
 		Invention of New Information       & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
-		Invention of New Information       & Log textual (B) & 66,7\%                             & 6/6                             & 0,000                          \\
+		Invention of New Information       & Log textual (B) & \textbf{66,7\%}                    & 6/6                             & 0,000                          \\
 		\midrule
-		Instruction/Plan Adherence Failure & Telemetria (A)  & 33,3\%                             & 3/6                             & 0,900                          \\
-		Instruction/Plan Adherence Failure & Log textual (B) & 33,3\%                             & 3/6                             & 0,833                          \\
+		Instruction/Plan Adherence Failure & Telemetria (A)  & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,900                          \\
+		Instruction/Plan Adherence Failure & Log textual (B) & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,833                          \\
 		\bottomrule
 	\end{tabular}
 \end{table*}
@@ -421,10 +450,10 @@ que os erros de categoria se concentram em \textit{Invention} e, sobretudo, em \
 		\textbf{Categoria}                 & \textbf{Cat. A} & \textbf{Cat. B} & \textbf{Passo A} & \textbf{Passo B} & \textbf{MAE A} & \textbf{MAE B} \\
 		\midrule
 		System Failure                     & 60/0            & 60/0            & 60/0             & 60/0             & 0,000          & 0,000          \\
-		Invalid Invocation                 & 60/0            & 60/0            & 35/25            & 47/13            & 0,417          & 0,217          \\
+		Invalid Invocation                 & 60/0            & 60/0            & \textbf{35/25}   & \textbf{47/13}   & 0,417          & 0,217          \\
 		Misinterpretation of Tool Output   & 60/0            & 60/0            & 60/0             & 60/0             & 0,000          & 0,000          \\
-		Invention of New Information       & 51/9            & 47/13           & 60/0             & 60/0             & 0,000          & 0,000          \\
-		Instruction/Plan Adherence Failure & 23/37           & 21/39           & 30/30            & 29/31            & 0,900          & 0,967          \\
+		Invention of New Information       & \textbf{51/9}   & \textbf{47/13}  & 60/0             & 60/0             & 0,000          & 0,000          \\
+		Instruction/Plan Adherence Failure & \textbf{23/37}  & \textbf{21/39}  & \textbf{30/30}   & \textbf{29/31}   & 0,900          & 0,967          \\
 		\bottomrule
 	\end{tabular}
 \end{table*}
@@ -462,22 +491,39 @@ tendências, não vantagens estabelecidas.
 \subsection{RQ1: a telemetria estruturada melhora a identificação da etapa crítica?}
 
 Os resultados não sustentam uma resposta afirmativa. O log textual simplificado foi ligeiramente superior à telemetria
-na localização exata (86,7\% contra 83,3\%; distância média 0,210 contra 0,263), e os dois braços empataram sob
-tolerância de um passo (96,7\%). Como a diferença não foi estatisticamente detectável ($p = 1{,}000$) e as trajetórias
-têm apenas cinco passos, o mais adequado é concluir que, no formato avaliado, a telemetria estruturada \textbf{não}
-melhorou a identificação da etapa crítica em relação ao log textual.
+na localização exata (86,7\% contra 83,3\%) e na distância média de passo (0,210 contra 0,263;
+Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob tolerância de um passo (96,7\%). Essa pequena vantagem,
+contudo, não é uniforme entre as categorias: como mostra a Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}, ela se
+origina quase inteiramente de \textit{Invalid Invocation}, na qual o log textual acertou a etapa em 47 das 60
+repetições contra 35 da telemetria, enquanto nas demais categorias os braços são idênticos ou saturam no teto. A
+divergência decorre de uma ambiguidade entre causa e sintoma (detalhada na Seção~\ref{subsec:posthoc}): ao anexar ao
+passo do erro (o \textit{SchemaError}, no passo~3) atributos como \textit{status} \textit{ERROR}, tipo de exceção e
+\textit{stack trace}, a telemetria torna o passo do \textit{sintoma} mais saliente e desloca o juiz do passo da
+\textit{causa} (a chamada malformada, no passo~2). Como a diferença não foi estatisticamente detectável ($p = 1{,}000$;
+Seção~\ref{subsec:pareada}) e as trajetórias de cinco passos impõem um efeito-teto que limita a discriminação,
+conclui-se que, no formato avaliado, a telemetria estruturada \textbf{não} melhorou a identificação da etapa crítica;
+onde os braços divergiram, o detalhamento operacional do erro atuou, paradoxalmente, como distrator na localização
+fina.
 
 \subsection{RQ2: a telemetria estruturada reduz ambiguidades na categorização da causa raiz?}
 
 Há indício descritivo nesse sentido, porém fraco. A telemetria obteve maior acurácia de categoria (86,7\% contra
-80,0\%), mas a diferença não foi estatisticamente detectável ($p = 0{,}617$) e decorre inteiramente de uma única
-categoria, \textit{Invention of New Information}, na qual a telemetria acertou 100,0\% contra 66,7\% do log textual
-(Tabela~\ref{tab:resultados-por-categoria-mas-sim}); nas demais categorias em que ambos foram bem, o desempenho foi
-idêntico. Uma leitura plausível é que a telemetria tornou mais explícita a ausência de evidência da ferramenta no passo
-em que a resposta foi sintetizada, reduzindo a ambiguidade nesse caso específico. Por depender de uma só categoria e de
-poucos cenários, o achado é frágil e requer replicação.
+80,0\%; Tabela~\ref{tab:metricas-principais-mas-sim}), mas a diferença não foi estatisticamente detectável ($p =
+		0{,}617$) e decorre inteiramente de uma única categoria, \textit{Invention of New Information}, na qual a telemetria
+acertou 100,0\% contra 66,7\% do log textual (Tabela~\ref{tab:resultados-por-categoria-mas-sim}); nas demais categorias
+em que ambos foram bem, o desempenho foi idêntico. A origem dessa divergência, contudo, precisa ser qualificada: no
+nível das repetições individuais (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}) os braços estão próximos --- 51 de
+60 julgamentos corretos na telemetria contra 47 no log textual ---, de modo que o salto de 66,7\% para 100,0\% na
+acurácia por cenário resulta de a moda de apenas dois cenários tombar entre \textit{Invention} e a categoria
+semanticamente vizinha \textit{Misinterpretation of Tool Output}, ambas falhas do Executor. Uma leitura plausível para
+a pequena vantagem da telemetria é que o registro estruturado do passo de síntese torna mais explícito que a resposta
+cita um item ausente da evidência da ferramenta --- uma fabricação \textit{ungrounded} ---, inclinando algumas
+repetições adicionais para \textit{Invention}. Por depender de uma só categoria, de dois cenários e de uma margem de
+uma a duas repetições, e por incidir sobre uma fronteira de alta instabilidade entre as reps, o achado é frágil e
+requer replicação.
 
 \subsection{Análise post-hoc dos erros}
+\label{subsec:posthoc}
 
 Além da comparação planejada, inspecionaram-se os cenários em que os braços divergiram, a fim de compreender
 \textit{por que} o diagnóstico falhou. Essa análise é exploratória e post-hoc.
@@ -507,42 +553,50 @@ Essa é a direção mais promissora aberta pelo estudo.
 
 Este trabalho apresentou uma replicação controlada do AgentRx em um sistema multiagente simulado, com o objetivo de
 investigar se a forma de representação da trajetória de execução afeta o diagnóstico de falhas. Para isso,
-compararam-se duas representações da mesma trajetória controlada --- telemetria estruturada (braço~A) e log textual
-simplificado (braço~B) ---, ambas processadas pelo componente de julgamento do AgentRx, sobre 30 cenários pareados com
-falhas injetadas em cinco categorias.
+compararam-se duas representações da mesma trajetória controlada, sendo elas a telemetria estruturada (braço~A) e log
+textual simplificado (braço~B), ambas processadas pelo componente de julgamento do AgentRx, sobre 30 cenários pareados
+com falhas injetadas em cinco categorias.
 
 Os resultados são preliminares e devem ser lidos como evidência descritiva, uma vez que o teste de McNemar não detectou
 diferença estatisticamente significativa entre os braços em nenhuma das métricas ($p = 0{,}617$ para a categoria e $p =
-		1{,}000$ para a localização). Quanto à \textbf{RQ1}, a telemetria estruturada não melhorou a identificação da etapa
-crítica: o log textual simplificado foi ligeiramente superior na localização exata e na distância média, com empate sob
-tolerância de um passo. Quanto à \textbf{RQ2}, observou-se um indício descritivo, porém fraco, de que a telemetria
-reduz ambiguidades na categorização da causa raiz; a vantagem, contudo, decorreu inteiramente de uma única categoria,
-\textit{Invention of New Information}, e não foi estatisticamente detectável. O principal achado, portanto, é que a
-telemetria estruturada, no formato avaliado, não produziu ganho robusto e generalizado sobre a representação textual,
-mas pode contribuir para reduzir ambiguidades em categorias específicas de falha.
+		1{,}000$ para a localização; Tabela~\ref{tab:mcnemar-mas-sim}). Quanto à \textbf{RQ1}, a telemetria estruturada não
+melhorou a identificação da etapa crítica: o log textual simplificado foi ligeiramente superior na localização exata e
+na distância média (Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob tolerância de um passo. Quanto à
+\textbf{RQ2}, observou-se um indício descritivo, porém fraco, de que a telemetria reduz ambiguidades na categorização
+da causa raiz; a vantagem, contudo, decorreu inteiramente de \textit{Invention of New Information}
+(Tabela~\ref{tab:resultados-por-categoria-mas-sim}) e não foi estatisticamente detectável.
+
+Um padrão informativo emerge da leitura conjunta das duas dimensões: os braços divergiram em \textit{sentidos opostos},
+o log textual à frente na localização fina e a telemetria à frente em uma categoria de classificação, e ambas as
+divergências, pequenas e restritas a categorias específicas, remontam à \textit{mesma} origem: a carga adicional de
+telemetria presente apenas no braço~A. Como evidenciam as Tabelas~\ref{tab:resultados-por-categoria-mas-sim}
+e~\ref{tab:frequencia-mae-categoria-mas-sim}, esse detalhamento operacional do erro tornou marginalmente mais explícita
+a natureza fabricada da resposta em \textit{Invention}, mas, ao mesmo tempo, amplificou o passo do sintoma em
+\textit{Invalid Invocation}, atuando como distrator na localização. O principal achado, portanto, é que a telemetria
+estruturada, no formato avaliado, não produziu ganho robusto e generalizado sobre a representação textual: conforme a
+natureza da falha e a dimensão avaliada, o mesmo detalhamento pode tanto auxiliar quanto prejudicar o diagnóstico.
 
 A análise post-hoc dos erros trouxe as contribuições mais informativas do estudo. A categoria \textit{Instruction/Plan
 	Adherence Failure} foi a mais difícil para ambos os braços, e a inspeção dos cenários sugere que falhas de aderência ao
 plano, por não se manifestarem como anomalia operacional, são mal capturadas pela telemetria operacional comum. Esse
 achado indica que sinais como \textit{spans}, status, erros, duração e chamadas de ferramenta podem ser insuficientes
-para esse tipo de falha, apontando a necessidade de uma camada de telemetria \textit{semântica} --- que registre, por
-exemplo, o plano esperado, as restrições da tarefa e a ação esperada \textit{versus} a executada.
+para esse tipo de falha, apontando a necessidade de uma camada de telemetria \textit{semântica}, que registre, o plano
+esperado, as restrições da tarefa e a ação esperada \textit{versus} a executada.
 
-Como trabalho futuro, pretende-se ampliar o número de cenários e empregar trajetórias mais longas e complexas --- com
-\textit{retries}, múltiplas chamadas de ferramenta e falhas encadeadas ---, capazes de mitigar o efeito-teto observado
-nas trajetórias curtas. Pretende-se, ainda, avaliar o método sobre \textit{logs} naturais de sistemas multiagentes
-reais, em contraste com as representações derivadas de uma mesma fonte controlada, e investigar quais sinais
-específicos de telemetria --- operacionais ou semânticos --- contribuem para diagnósticos mais precisos.
+Como trabalho futuro, pretende-se ampliar o número de cenários e empregar trajetórias mais longas e complexas, capazes
+de mitigar o efeito-teto observado nas trajetórias curtas. Pretende-se, ainda, avaliar o método sobre \textit{logs}
+naturais de sistemas multiagentes reais, em contraste com as representações derivadas de uma mesma fonte controlada, e
+investigar quais sinais específicos de telemetria contribuem para diagnósticos mais precisos.
 
 \section{Ameaças à Validade}
 
-\paragraph{Validade interna.}
+\subsection{Validade interna}
 O processo de geração das trajetórias, o adaptador para a IR, a agregação dos julgamentos e a configuração do modelo
 juiz podem influenciar os resultados. Para reduzir esse risco, a injeção foi \textit{scriptada} e determinística, o
 evento \texttt{fault.injected} e os atributos que revelam a falha foram removidos das trajetórias, o juiz não recebeu o
 \textit{ground truth} e os dois braços foram derivados do mesmo \textit{trace} bruto.
 
-\paragraph{Validade de construto.}
+\subsection{Validade de construto}
 Duas limitações merecem destaque. Primeiro, os dois braços são \textbf{duas representações de uma mesma fonte
 	controlada}: o log textual simplificado é derivado da telemetria, e não coletado de um sistema real. Portanto, o estudo
 compara representações alternativas da mesma trajetória, uma com telemetria estruturada e outra textual, e \textbf{não}
@@ -551,14 +605,14 @@ papel e conteúdo textual; assim, a telemetria do braço A entra como texto, e n
 subaproveitar seu potencial. Além disso, o \textit{ground truth} adota o ponto de injeção como causa, que pode não
 coincidir com o passo em que a execução se torna irrecuperável.
 
-\paragraph{Validade externa.}
+\subsection{Validade externa}
 O estudo usa um MAS simulado, tarefas sintéticas, ferramentas \textit{mockadas} e apenas 30 cenários, com trajetórias
 curtas (cinco passos). As trajetórias curtas produzem efeito-teto nas tolerâncias Passo~$\pm 3$ e $\pm 5$ (100\% em
 ambos os braços), que deixam de diferenciar os métodos. Os resultados, portanto, não se generalizam diretamente para
 sistemas reais. Trabalhos futuros devem empregar trajetórias mais longas e complexas, múltiplas chamadas de ferramenta,
 falhas recuperáveis anteriores à falha principal e erros que emergem por encadeamento.
 
-\paragraph{Validade de conclusão.}
+\subsection{Validade de conclusão}
 A amostra é pequena e os testes têm baixo poder estatístico; o teste de McNemar não detectou diferença significativa em
 nenhuma métrica ($p = 0{,}617$ e $p = 1{,}000$). Os resultados devem ser interpretados como \textbf{preliminares e
 	exploratórios}, indicando tendências a confirmar em estudos maiores.

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The ProductCatalogSearch call was made without the required product_type argument, so the tool rejected the request and no catalog evidence was retrieved.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user asked for available black Smartphones priced above $1143.42. The required product_type value, \"Smartphone\", was available from the user request and even appeared in the Coordinator's plan query. The Researcher/tool call omitted the required string field product_type, and the tool explicitly returned a SchemaError: \"catalog.search requires a string product_type.\" This is a malformed tool invocation, not an unsupported intent, guardrail, or connectivity issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2613,
+                    "output_tokens": 247,
+                    "total_tokens": 2860
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:08:32.936805",
+                    "end_time": "2026-07-07T02:08:44.906061",
+                    "execution_time_sec": 11.9693
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "cb62a390-f891-4f7d-8aae-6743b59c0216"
+            }
+        }
+    ]
+}

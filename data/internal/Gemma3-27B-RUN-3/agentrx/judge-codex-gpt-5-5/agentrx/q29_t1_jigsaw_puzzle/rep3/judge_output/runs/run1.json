@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent deviated from the required action plan by searching all Jigsaw Puzzles instead of restricting the catalog search to available items.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Jigsaw Puzzle. The agent's stated goal matched, but at index 1 it created a plan query with available_only=false even though the user explicitly required availability and the tool supported that filter. The required information was already available from the user request. This incorrect plan propagated to the tool call at index 2 and was never corrected, even though the final answer happened to be correct because the cheapest returned item was available."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3192,
+                    "output_tokens": 239,
+                    "total_tokens": 3432
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:49:29.248264",
+                    "end_time": "2026-07-07T02:49:53.672804",
+                    "execution_time_sec": 24.4245
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "758d16b9-41e1-4040-be02-36fa5a2bd071"
+            }
+        }
+    ]
+}

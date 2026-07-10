@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch call by dropping the provided item_id and replacing the provided string product_id with numeric 0.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to determine whether item 1151293680 for product 1656367028 has backlight=RGB using ProductCatalogSearch. All required information was available from index 1. At index 2, the agent constructed an invalid tool payload: {\"product_id\": 0}, omitting required item_id and using an integer instead of the required string product_id. The tool then explicitly returned a SchemaError at index 3 confirming the invocation was malformed."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2479,
+                    "output_tokens": 213,
+                    "total_tokens": 2692
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:05:43.439185",
+                    "end_time": "2026-07-07T02:05:54.426792",
+                    "execution_time_sec": 10.9876
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "707771fe-4b69-4201-aa36-36c2977a9c15"
+            }
+        }
+    ]
+}

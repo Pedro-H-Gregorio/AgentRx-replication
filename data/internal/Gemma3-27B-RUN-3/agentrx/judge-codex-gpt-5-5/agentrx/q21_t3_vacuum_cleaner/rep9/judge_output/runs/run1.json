@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 4,
+                    "description": "The Executor synthesized an incorrect answer from the ProductCatalogSearch output. The tool result showed exactly 2 matching available items, but the Executor answered 'There are 9 options available, per record 0000000000,' which is unsupported and contradicts the tool output.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal and plan were correct: search the product catalog for available bagged Vacuum Cleaners costing more than $591.59 and answer from returned evidence. The required information was available by index 3: the tool returned count=2 with item_ids 1345513440 and 2872451762. At index 4, the Executor produced an answer that contradicts this tool output, claiming there are 9 options and citing record 0000000000. This is based on misreading or ignoring the relevant tool result rather than an invalid tool call or underspecified intent."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2615,
+                    "output_tokens": 286,
+                    "total_tokens": 2901
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:34:05.051737",
+                    "end_time": "2026-07-07T02:34:14.089540",
+                    "execution_time_sec": 9.0378
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "baf020f7-9799-43ae-bfe6-19995ccc88e5"
+            }
+        }
+    ]
+}

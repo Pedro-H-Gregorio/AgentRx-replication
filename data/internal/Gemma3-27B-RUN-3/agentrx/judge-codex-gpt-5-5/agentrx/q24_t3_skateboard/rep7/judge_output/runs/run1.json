@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The Executor invented unsupported answer content: '11 options available' and 'record 0000000000' instead of using the 4 returned catalog items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to answer from ProductCatalogSearch evidence which available bamboo skateboards cost more than $194.56. The correct tool call was made and returned 4 matching items. At index 4, the Executor produced an answer claiming there are 11 options and citing record 0000000000. Those values are absent from the user request and tool result, contradict the returned count of 4, and are used as the final answer. The later Evaluator does not resolve the error; it incorrectly approves it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2733,
+                    "output_tokens": 247,
+                    "total_tokens": 2981
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:38:51.104124",
+                    "end_time": "2026-07-07T02:38:59.456463",
+                    "execution_time_sec": 8.3523
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6e73e846-7133-448e-a203-a624b65252b5"
+            }
+        }
+    ]
+}

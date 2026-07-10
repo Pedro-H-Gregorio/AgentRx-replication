@@ -1,0 +1,6 @@
+Categoria,Cat. A,Cat. B,Passo A,Passo B,MAE A,MAE B
+System Failure,60/0,60/0,60/0,60/0,0.000,0.000
+Invalid Invocation,60/0,60/0,35/25,47/13,0.417,0.217
+Misinterpretation of Tool Output,60/0,60/0,60/0,60/0,0.000,0.000
+Invention of New Information,51/9,47/13,60/0,60/0,0.000,0.000
+Instruction/Plan Adherence Failure,23/37,21/39,30/30,29/31,0.900,0.967

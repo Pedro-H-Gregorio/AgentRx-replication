@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent failed to enforce the user's `available` constraint in the planned tool query, using `available_only: false` instead of filtering to available products.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user asked for the cheapest available Jigsaw Puzzle. The agent's overall goal matched the user goal, but the required catalog query should have constrained results to available items. At index 1, the Coordinator planned `available_only: false`, even though the availability constraint was already present in the user request. This caused the subsequent tool call to follow an overbroad query. The final answer happened to be correct because the cheapest returned item was available, but the first plan/action deviation was not corrected by issuing the proper filtered query."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3192,
+                    "output_tokens": 272,
+                    "total_tokens": 3465
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:51:05.811770",
+                    "end_time": "2026-07-07T02:51:22.363272",
+                    "execution_time_sec": 16.5515
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "679ce9a6-55b2-4ec2-86f7-77d225b68004"
+            }
+        }
+    ]
+}

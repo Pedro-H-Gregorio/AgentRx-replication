@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent should have searched only available Electric Kettles, but it planned the catalog search with available_only=false, unnecessarily including unavailable products despite the user's availability constraint.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal is to find the cheapest available Electric Kettle. The agent's end goal remains aligned with that goal, but at index 1 it creates a plan_query with \"available_only\": false and explicitly plans to include unavailable products. The required constraint, availability, was already present in the user request, so the agent had enough information to filter for available items. This is a plan/action deviation rather than a tool-output reasoning error or malformed invocation."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 250,
+                    "total_tokens": 4115
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:34:48.545131",
+                    "end_time": "2026-07-07T01:35:05.173744",
+                    "execution_time_sec": 16.6286
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c295a56c-f079-4287-89e1-a9fa0f8a844c"
+            }
+        }
+    ]
+}

@@ -31,7 +31,9 @@ data/
   que rodar um segundo juiz cria um diretório irmão sem quebra nem colisão de chave.
 - Os CSVs são **versionados** (são pequenos e são o resultado auditável).
 - `data/outputs/` é **abandonado** e removido da documentação (PRD-01, PRD-05, ARCHITECTURE, AGENTS/CLAUDE).
-- Espaço reservado para `data/experiment/analysis/<experiment_id>/` quando a análise (fora do escopo do C7) existir.
+- Espaço reservado para `data/experiment/analysis/<mas_id>/<judge_id>/` (namespaceado como `results/`, ADR-0013, para
+  não colidir entre MASes de mesmo juiz). Realizado pelo C8 (`make analyze`): tabelas `.csv` da análise A/B, sem figuras
+  por ora.
 
 ## Consequências
 

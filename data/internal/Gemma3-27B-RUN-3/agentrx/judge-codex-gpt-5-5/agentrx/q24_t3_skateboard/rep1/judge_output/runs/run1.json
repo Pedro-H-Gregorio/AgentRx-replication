@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The agent invented an unsupported count and record id instead of using the tool result showing 4 matching items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer from ProductCatalogSearch results. The tool output at index 3 clearly returned count=4 with four matching available bamboo skateboards priced above 194.56. At index 4, the Executor produced 'There are 11 options available, per record 0000000000,' which is absent from the tool result and contradicts the returned count/items. This is not an invalid tool invocation, underspecification, or unsupported intent; the needed evidence was already available."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2733,
+                    "output_tokens": 234,
+                    "total_tokens": 2967
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:37:54.608565",
+                    "end_time": "2026-07-07T02:38:02.371235",
+                    "execution_time_sec": 7.7627
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "1f6d3739-3f3c-47ad-aa3c-ce8fa99b6b9d"
+            }
+        }
+    ]
+}

@@ -33,6 +33,9 @@ repos:
         additional_dependencies:
           - mdformat-gfm>=0.3.8
         files: \.md$
+        # Relatórios .md renderizados do RMarkdown (gfm com <img>/tabelas que o
+        # mdformat não round-trippa) são artefatos gerados, não docs autorais.
+        exclude: '^scripts/analysis/.*\.md$'
         stages: [pre-commit]
 
   - repo: local

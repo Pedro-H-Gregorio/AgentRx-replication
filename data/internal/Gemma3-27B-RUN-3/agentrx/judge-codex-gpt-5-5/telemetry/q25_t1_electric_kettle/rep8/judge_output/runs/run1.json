@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent violated the availability constraint in the initial plan by searching across unavailable products as well. The final answer happened to select an available item, but the required action sequence was already wrong and the mistake was not resolved.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Electric Kettle. All required information was available at step 1. The expected tool query should restrict results to available products, but the Coordinator planned `available_only: false`, explicitly including unavailable products. This incorrect plan propagated to the Researcher and tool call and was never corrected with a proper available-only search."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 242,
+                    "total_tokens": 4106
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:36:36.173343",
+                    "end_time": "2026-07-07T01:36:52.392092",
+                    "execution_time_sec": 16.2187
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9328db32-8f37-4115-8f8d-bed6fd415957"
+            }
+        }
+    ]
+}

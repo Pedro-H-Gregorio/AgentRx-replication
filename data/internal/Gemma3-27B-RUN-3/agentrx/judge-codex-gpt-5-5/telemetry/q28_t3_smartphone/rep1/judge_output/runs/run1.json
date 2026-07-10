@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure detected in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No unresolved failure is evident. The agent understood the goal, planned the required ProductCatalogSearch call, invoked it with the needed filters, used the returned tool evidence, correctly filtered prices greater than 1143.42, and produced the only qualifying item. No malformed tool call, invented fact, misread output, missing information, unsupported intent, guardrail, or system failure appears in the trajectory."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 183,
+                    "total_tokens": 3374
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:42:20.778959",
+                    "end_time": "2026-07-07T01:42:31.803798",
+                    "execution_time_sec": 11.0248
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "99ce0833-b897-497d-b94b-6f8ec2fbb654"
+            }
+        }
+    ]
+}

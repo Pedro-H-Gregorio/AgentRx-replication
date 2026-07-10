@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent should have restricted the catalog search to available vacuum cleaners, but planned and executed ProductCatalogSearch with available_only=false.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to find the cheapest available Vacuum Cleaner. The agent understood the product type and need to use ProductCatalogSearch, but at step 1 it planned a query with available_only=false and explicitly framed this as searching regardless of availability. The required constraint, availability, was already present in the user request. This is a plan/instruction adherence failure: the end goal was correct, but the planned tool arguments deviated from the required constraint. The later answer happened to select an available item, but the incorrect query plan was never corrected."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3054,
+                    "output_tokens": 262,
+                    "total_tokens": 3317
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:44:14.488907",
+                    "end_time": "2026-07-07T02:44:31.566769",
+                    "execution_time_sec": 17.0779
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "7278fc35-a953-49a2-a679-958ff342aa87"
+            }
+        }
+    ]
+}

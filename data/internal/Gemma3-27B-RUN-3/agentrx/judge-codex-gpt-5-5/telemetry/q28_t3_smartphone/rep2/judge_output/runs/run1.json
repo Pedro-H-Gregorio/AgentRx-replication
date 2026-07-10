@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is observable in the provided trajectory; the agent completed the task correctly from the returned catalog evidence.",
+                    "step_number": 0,
+                    "checklist_reasoning": "The agent's goal matches the user request: find available black smartphones costing more than $1143.42. It followed the expected plan: prepare ProductCatalogSearch call, invoke it with available_only=true, color=black, product_type=Smartphone, then filter returned evidence by price. The tool returned two items, and only item 1507389580 at $1157.86 exceeds $1143.42. The final answer is grounded in the tool output. No invalid invocation, invented information, misread tool output, underspecification, guardrail, or system failure is present."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 225,
+                    "total_tokens": 3416
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:42:32.773787",
+                    "end_time": "2026-07-07T01:42:41.798141",
+                    "execution_time_sec": 9.0243
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "756b197d-7593-4f58-9d2e-59f759f30a25"
+            }
+        }
+    ]
+}

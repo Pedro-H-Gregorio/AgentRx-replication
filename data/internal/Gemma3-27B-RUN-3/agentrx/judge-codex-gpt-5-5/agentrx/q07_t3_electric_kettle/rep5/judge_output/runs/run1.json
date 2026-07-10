@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q07_t3_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q07_t3_electric_kettle",
+                    "failure_case": 3,
+                    "description": "The agent omitted the required product_type argument from the ProductCatalogSearch call even though it was available in the user request and Coordinator plan, causing the tool invocation to be rejected.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was clear: search for available Electric Kettles with capacity 1.5L and price greater than 147.46. The Coordinator correctly included product_type=\"Electric Kettle\" in the planned query, and the Researcher had enough information to make the required ProductCatalogSearch call. At index 2, the Researcher constructed tool args missing the required string field product_type. The tool then explicitly returned a SchemaError at index 3 confirming the malformed invocation. This is not a misunderstanding of the user goal, not unsupported intent, and not a system/access failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2612,
+                    "output_tokens": 273,
+                    "total_tokens": 2885
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:02:40.107133",
+                    "end_time": "2026-07-07T02:02:54.236597",
+                    "execution_time_sec": 14.1295
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fdaf21a1-8105-45ac-8caf-0a1b1b3aac67"
+            }
+        }
+    ]
+}

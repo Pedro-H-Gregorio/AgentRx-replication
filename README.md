@@ -149,6 +149,25 @@ final) verifica as regras de integridade do PRD-10 §5, incluindo a reconstruç�
 inteiro roda offline: `make smoke-judge && make collect`. Fórmulas conferidas à mão em
 [docs/examples/metrics-reference.md](docs/examples/metrics-reference.md).
 
+## Análise A/B (passo 8)
+
+Gera, como CSV, as **6 tabelas** da seção de Resultados do artigo a partir dos CSVs de resultado (consome `metricas.csv`
+**e** `runs_long.csv`). Só tabelas por ora — figuras ficam para depois.
+
+```bash
+make analyze                                   # resolve mas_id/judge_id do .env
+make analyze METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
+```
+
+Saída em `data/experiment/analysis/<mas_id>/<judge_id>/`: `tab_acuracias`, `tab_distancia_passo`, `tab_por_categoria`,
+`tab_frequencia_mae_categoria` (por-rep, de `runs_long.csv`), `tab_inferencial` (McNemar/Wilcoxon/bootstrap) e
+`tab_estimativas_por_cenario`. A análise é **leitura pura**: não importa `agentrx` e não recomputa as métricas do
+PRD-07. Rótulos seguem o artigo (braço B = "Log textual (B)", métricas canônicas, experimento "MAS-SIM"). Idempotente e
+byte-estável.
+
+**Requer R** (fora do `make check`; passo pós-experimento offline): `Rscript` + os pacotes base `readr`, `dplyr`,
+`tidyr`, `scales` (auto-instalados na primeira execução se faltarem).
+
 ## Rodando o experimento completo com agente-LLM (matriz final)
 
 O MAS é **agnóstico de modelo**: o agente é escolhido via `.env` e gravado no manifesto de cada run. Com `USE_LLM=true`,

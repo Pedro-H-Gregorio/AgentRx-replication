@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure found in the provided trajectory.",
+                    "step_number": -1,
+                    "checklist_reasoning": "No unresolved failure is evident. The agent understood the goal, used the required ProductCatalogSearch tool with the correct filters, interpreted the returned prices correctly, selected the only item above $1143.42, and the evaluator approved the answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 126,
+                    "total_tokens": 3316
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:42:42.765509",
+                    "end_time": "2026-07-07T01:42:53.411402",
+                    "execution_time_sec": 10.6459
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "ab460970-dc1d-40d3-af11-f30a78ab9c3c"
+            }
+        }
+    ]
+}

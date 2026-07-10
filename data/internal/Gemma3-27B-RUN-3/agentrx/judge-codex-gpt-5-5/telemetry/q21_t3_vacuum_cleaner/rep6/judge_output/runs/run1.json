@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 2,
+                    "description": "The Executor invented unsupported answer details: it changed the count from the tool-supported 2 items to 9 options and fabricated record 0000000000 instead of using the returned item IDs and prices.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to identify available bagged Vacuum Cleaners costing more than $591.59. The tool call at step 3 succeeded and returned exactly 2 matching items with item_ids 1345513440 and 2872451762, priced at 655.59 and 622.12. At step 4, the Executor produced an answer claiming there are 9 options and citing record 0000000000. Those values are absent from the user request, plan, and tool output, and they directly determine the incorrect final answer. This is not an invalid invocation, system failure, guardrail issue, or underspecification."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3226,
+                    "output_tokens": 283,
+                    "total_tokens": 3510
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:22:17.932157",
+                    "end_time": "2026-07-07T01:22:28.251200",
+                    "execution_time_sec": 10.319
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "bc09e3c8-df04-491a-827c-84b819b39ed5"
+            }
+        }
+    ]
+}

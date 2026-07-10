@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the provided trajectory.",
+                    "step_number": -1,
+                    "checklist_reasoning": "No unresolved failure is identifiable. The user's goal was to find available Mechanical Keyboard items with RGB backlight costing more than $233.90. The agent planned the correct ProductCatalogSearch query, invoked it with the required filters, received five matching available RGB mechanical keyboards, and correctly selected only the two items with prices strictly greater than 233.90: 272.33 and 237.48. The item priced exactly 233.90 was correctly excluded."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3355,
+                    "output_tokens": 183,
+                    "total_tokens": 3538
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:39:01.474689",
+                    "end_time": "2026-07-07T01:39:11.568898",
+                    "execution_time_sec": 10.0942
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3dcbe5cf-e5f7-4890-86d7-804f17b10ee8"
+            }
+        }
+    ]
+}

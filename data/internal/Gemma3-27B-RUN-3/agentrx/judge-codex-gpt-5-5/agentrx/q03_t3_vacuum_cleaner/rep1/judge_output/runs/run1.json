@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q03_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q03_t3_vacuum_cleaner",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out, so the agent could not retrieve the catalog evidence required to answer the question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan matched the user's request: search the product catalog for available bagged Vacuum Cleaners above $591.59. At index 3, the required ProductCatalogSearch tool was invoked with coherent arguments, but the tool returned an explicit timeout: CatalogServiceTimeoutError after 30000ms. This is an infrastructure/connectivity-style failure, not a malformed invocation, misunderstanding, unsupported intent, or guardrail block. The later steps did not resolve the timeout or obtain the needed evidence."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2526,
+                    "output_tokens": 216,
+                    "total_tokens": 2742
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:51:41.772727",
+                    "end_time": "2026-07-07T01:51:49.360367",
+                    "execution_time_sec": 7.5876
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6dbb1708-1751-4fde-ba7e-6754093521e6"
+            }
+        }
+    ]
+}

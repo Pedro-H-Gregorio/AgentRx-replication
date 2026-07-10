@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 5,
+                    "description": "The agent misunderstood or violated the user's 'available' constraint by planning to include unavailable products in the catalog search.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user asked for the cheapest available Electric Kettle. At index 1, the agent planned a query with available_only=false and explicitly said it would include unavailable products. The required constraint was already present in the user request, and the tool supported filtering by availability. This was not a tool/schema issue. Although the final answer happened to select an available item, the plan and subsequent tool call violated the availability constraint."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3095,
+                    "output_tokens": 226,
+                    "total_tokens": 3322
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:39:48.206698",
+                    "end_time": "2026-07-07T02:40:04.796087",
+                    "execution_time_sec": 16.5894
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b95e88d4-ab49-48e9-888d-3b6f7019f4fd"
+            }
+        }
+    ]
+}

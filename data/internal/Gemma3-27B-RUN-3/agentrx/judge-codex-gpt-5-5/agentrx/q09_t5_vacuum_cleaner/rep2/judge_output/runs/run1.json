@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent invoked ProductCatalogSearch with invalid arguments: it omitted the required item_id and changed product_id from the provided string \"1762337868\" to integer 0.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to get the price of item 1345513440 using ProductCatalogSearch with the provided item_id and product_id. At index 2, the agent had the required identifiers from the Coordinator plan: item_id \"1345513440\" and product_id \"1762337868\". Instead, it prepared Tool args {\"product_id\": 0}, omitting item_id and using an integer product_id. The tool then explicitly rejected this as a SchemaError at index 3. This is a malformed tool invocation, not a misunderstanding of the goal or unsupported capability."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2439,
+                    "output_tokens": 232,
+                    "total_tokens": 2671
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:06:19.866704",
+                    "end_time": "2026-07-07T02:06:30.586311",
+                    "execution_time_sec": 10.7196
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "6ae76ba0-dd6e-475e-97a8-7e90aad3ca67"
+            }
+        }
+    ]
+}

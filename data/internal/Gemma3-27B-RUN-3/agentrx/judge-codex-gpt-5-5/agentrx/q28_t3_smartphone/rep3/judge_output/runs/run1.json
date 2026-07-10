@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is evident in the provided trajectory. The trajectory appears successful.",
+                    "step_number": -1,
+                    "checklist_reasoning": "No step shows a clear failure under categories 1-9. The agent formed the correct plan, invoked ProductCatalogSearch with the required filters, interpreted the returned items correctly, filtered by price > 1143.42, and returned only item 1507389580 because item 5339029584 costs 1128.99 and does not meet the threshold."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2577,
+                    "output_tokens": 160,
+                    "total_tokens": 2737
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:47:08.756272",
+                    "end_time": "2026-07-07T02:47:18.801760",
+                    "execution_time_sec": 10.0455
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "67f5da46-6920-4377-83b6-a20068688f8c"
+            }
+        }
+    ]
+}

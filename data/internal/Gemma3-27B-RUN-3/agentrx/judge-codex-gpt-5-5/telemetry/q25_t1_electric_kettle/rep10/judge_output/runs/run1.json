@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 10,
+                    "description": "No clear unresolved failure is present. The only questionable behavior is querying both available and unavailable kettles instead of restricting the search to available items, but the returned cheapest item was available and the final answer was correct.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The agent's tool call used available_only=false even though the user asked for the cheapest available Electric Kettle. That is not an invalid invocation, and the tool returned usable results. The final answer selected an available item and appears factually supported by the returned list, so there is no unresolved answer failure visible in the trajectory. If strict ground truth required filtering at the tool-call level, the first deviation is at index 1, but the trajectory itself does not show an unresolved task failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 289,
+                    "total_tokens": 4154
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:37:05.181575",
+                    "end_time": "2026-07-07T01:37:21.940517",
+                    "execution_time_sec": 16.7589
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "664dcc1e-3ef2-4184-a24e-42793d272d13"
+            }
+        }
+    ]
+}

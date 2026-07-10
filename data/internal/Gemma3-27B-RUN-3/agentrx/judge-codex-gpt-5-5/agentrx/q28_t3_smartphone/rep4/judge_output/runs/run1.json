@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No unresolved failure is evident. The agent understood the task, called ProductCatalogSearch with the correct query, received two available black smartphones, filtered them against the price threshold, and returned only item 1507389580 because 1157.86 > 1143.42 while 1128.99 is not. The evaluator correctly approved the answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2577,
+                    "output_tokens": 154,
+                    "total_tokens": 2732
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:47:19.775904",
+                    "end_time": "2026-07-07T02:47:34.444252",
+                    "execution_time_sec": 14.6683
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "062f72a1-b61e-4d7f-b6cd-3416e6ed6957"
+            }
+        }
+    ]
+}

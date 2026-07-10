@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation by omitting the required string field product_type, even though the value Smartphone was available from the task and plan.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user's goal was to search for available black Smartphones priced above $1143.42. The required product_type value, \"Smartphone\", was already present in the Coordinator's plan query at index 1. At index 2, the Researcher prepared ProductCatalogSearch arguments but omitted the required product_type field despite the tool schema stating it was required. The subsequent tool result at index 3 explicitly reports a SchemaError for the malformed invocation. This was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2613,
+                    "output_tokens": 249,
+                    "total_tokens": 2863
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:08:18.176857",
+                    "end_time": "2026-07-07T02:08:31.968017",
+                    "execution_time_sec": 13.7912
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "8eff0a17-b1e9-4658-98a9-4490f2ab97e6"
+            }
+        }
+    ]
+}

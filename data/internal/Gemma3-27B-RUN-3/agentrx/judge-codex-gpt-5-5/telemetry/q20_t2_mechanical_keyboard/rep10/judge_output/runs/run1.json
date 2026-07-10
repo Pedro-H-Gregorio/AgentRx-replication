@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q20_t2_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q20_t2_mechanical_keyboard",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated/altered the answer by replacing the tool-supported count of 13 with 20 and adding an unsupported record ID 0000000000.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer how many available Mechanical Keyboard options exist. The agent correctly planned and invoked ProductCatalogSearch, and the tool returned explicit evidence: count = 13. At step 4, the Executor produced 'There are 20 options available, per record 0000000000.' The value 20 and record 0000000000 are absent from the user request, prior context, and tool output. The agent relied on this invented/altered information to answer the user. This was not resolved later; the Evaluator approved the incorrect answer rather than correcting it."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3658,
+                    "output_tokens": 256,
+                    "total_tokens": 3915
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:21:09.661176",
+                    "end_time": "2026-07-07T01:21:21.256461",
+                    "execution_time_sec": 11.5953
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "1f6cec48-e5a8-409c-958c-3091fcf62355"
+            }
+        }
+    ]
+}

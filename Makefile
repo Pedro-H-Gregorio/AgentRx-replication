@@ -1,10 +1,12 @@
 PYTHON ?= uv run python
 PYTEST ?= uv run pytest -q
+LATEX_MAIN ?= manuscript/paper/main.tex
 
 .PHONY: install check generate simulate derive smoke clean-data \
         validate-benchmark validate-traces validate-trajectories \
         judge smoke-judge smoke-judge-live validate-judge clean-data-judge \
-        collect validate-csv clean-data-csv experiment
+        collect validate-csv clean-data-csv experiment analyze \
+        latex-wrap latex-check-wrap latex-lint
 
 # Seleção do passo judge (todos opcionais):
 #   make judge SCENARIOS="q01_... q07_..."   FAULT="System Failure"
@@ -68,6 +70,23 @@ collect:
 	$(PYTHON) scripts/collect_agentrx.py $(COLLECT_ARGS)
 	$(MAKE) validate-csv
 
+# --- Análise A/B posterior ao C7 (C8): tabelas .csv, sem figuras ---
+
+# Resolve o judge_id efetivo (experiment_id derivado do .env), como o collect.
+RESOLVE_JUDGE = $(PYTHON) -c "import sys;sys.path.insert(0,'src');from agentrx_otel_poc.judge.config import JudgeConfig;print(JudgeConfig.from_settings().experiment_id())"
+
+# Gera as 6 tabelas de análise (só CSV; nenhuma figura) a partir do metricas.csv
+# de um experimento, em data/experiment/analysis/<mas_id>/<judge_id>/. Idempotente.
+# Sem args resolve mas_id/judge_id do .env; fatie com METRICS=<caminho/metricas.csv>.
+analyze:
+	@metrics="$(METRICS)"; \
+	if [ -z "$$metrics" ]; then \
+	  mas=$$($(RESOLVE_MAS)); judge=$$($(RESOLVE_JUDGE)); \
+	  metrics="data/experiment/results/$$mas/$$judge/metricas.csv"; \
+	fi; \
+	echo "analyze: $$metrics"; \
+	Rscript scripts/analysis/c8_run.R "$$metrics"
+
 # --- Orquestração do experimento (composição dos passos segregados) ---
 
 # Encadeia simulate → derive → judge → collect num só comando. NÃO é um "run-all"
@@ -125,3 +144,17 @@ validate-judge:
 
 validate-csv:
 	$(PYTEST) tests/test_csv_integrity.py
+
+# --- Manuscrito LaTeX ---
+
+# Reflui parágrafos longos para 120 colunas, como o wrap de Markdown do repo.
+latex-wrap:
+	latexindent -m -l=.latexindent.yaml -wd $(LATEX_MAIN)
+
+# Falha se o LaTeX precisaria ser reformatado por latex-wrap.
+latex-check-wrap:
+	latexindent -m -l=.latexindent.yaml -k $(LATEX_MAIN)
+
+# Lint sem reescrever o manuscrito.
+latex-lint:
+	chktex -q $(LATEX_MAIN)

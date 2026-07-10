@@ -79,8 +79,11 @@ métrica de passo independe disso.
   `compute_stats`/`analysis()` (pooling achatado das failures das reps `ok`; PRD-08 D32) e **passa no teste de paridade
   numérica** contra fixtures versionadas geradas uma vez do submódulo — **não importa `agentrx`** (regra 6; PRD-08 D33).
   O coletor é **neutro**: nenhuma estatística, nenhuma comparação A/B, nenhuma linha descartada.
-- **Análise**: consome os CSVs de `data/experiment/results/`; a comparação A vs B / TRAIL é artefato **posterior**,
-  sobre estes números (fora do escopo do C7).
+- **Análise (C8)**: consome os CSVs de `data/experiment/results/` — o agregado `metricas.csv` **e** a matéria-prima
+  por-rep `runs_long.csv` (a tabela de frequência/MAE por categoria exige o por-rep) — e emite as **tabelas** da seção
+  de Resultados do artigo em `data/experiment/analysis/<mas_id>/<judge_id>/` (`make analyze`). É leitura pura: não
+  recomputa a métrica (é do C7) nem importa `agentrx`. Por ora **só tabelas**; figuras ficam para change futura. A
+  comparação A vs B / TRAIL é artefato **posterior**, sobre estes números (fora do escopo do C7).
 
 ### 8.1 Auditoria de higiene (manual, pareada) — PRD-08 D35
 

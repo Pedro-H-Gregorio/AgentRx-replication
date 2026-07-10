@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure observed in the trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No unresolved failure is present. The agent understood the task, called ProductCatalogSearch with the required filters, used the returned evidence, filtered by price > $1143.42, and returned only item 1507389580 because the other returned black smartphone cost $1128.99."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2577,
+                    "output_tokens": 136,
+                    "total_tokens": 2713
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:48:29.066873",
+                    "end_time": "2026-07-07T02:48:37.939075",
+                    "execution_time_sec": 8.8722
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4a2095ee-0d89-4adc-85bd-86cd769f2a34"
+            }
+        }
+    ]
+}

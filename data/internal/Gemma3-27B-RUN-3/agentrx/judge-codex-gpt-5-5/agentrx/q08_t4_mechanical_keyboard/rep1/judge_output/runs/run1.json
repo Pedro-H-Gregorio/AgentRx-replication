@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an ill-formed ProductCatalogSearch call by omitting item_id and using product_id=0 instead of the provided string product_id \"1656367028\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was clear: call ProductCatalogSearch using item_id \"1151293680\" and product_id \"1656367028\", then answer whether backlight=RGB. At index 2, the agent had all required information from the Coordinator plan, but invoked/prepared the tool with malformed arguments: {\"product_id\": 0}. This omitted the required item_id and changed product_id from a string ID to integer 0. The tool then explicitly returned a SchemaError at index 3, confirming the invocation was invalid."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2479,
+                    "output_tokens": 225,
+                    "total_tokens": 2705
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:04:05.923931",
+                    "end_time": "2026-07-07T02:04:22.427160",
+                    "execution_time_sec": 16.5032
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "1d3209f6-e7d2-4791-90b8-150660f6380e"
+            }
+        }
+    ]
+}

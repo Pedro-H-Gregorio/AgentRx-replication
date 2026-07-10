@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent should have queried ProductCatalogSearch with available_only=true, but it planned and prepared the call with available_only=false. The final answer happened to be correct because the cheapest returned item was available, but the required action sequence was still violated and the error was never corrected.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Jigsaw Puzzle. The agent pursued the right overall goal, but the plan/query used available_only=false even though the required constraint was availability. All needed information was present in the user request at the start: the word \"available\" explicitly required filtering to available products. This is a plan/tool-argument deviation, not a misunderstanding of the goal, hallucination, invalid schema, or tool-output reasoning error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3192,
+                    "output_tokens": 277,
+                    "total_tokens": 3470
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:50:35.626133",
+                    "end_time": "2026-07-07T02:50:51.066290",
+                    "execution_time_sec": 15.4402
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "3a763d54-78bc-469b-b25d-fe74b57146dc"
+            }
+        }
+    ]
+}

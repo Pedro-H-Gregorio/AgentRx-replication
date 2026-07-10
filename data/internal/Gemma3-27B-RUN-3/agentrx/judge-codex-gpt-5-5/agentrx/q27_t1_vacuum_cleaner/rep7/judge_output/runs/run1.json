@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent planned and executed a ProductCatalogSearch with `available_only: false` despite the user asking for the cheapest available vacuum cleaner.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Vacuum Cleaner. The agent understood the overall goal, but at the first planning step it set `available_only` to `false`, explicitly deciding to retrieve unavailable products too. The required constraint was already present in the user request (`available`), so no clarification or extra context was needed. This is a plan/policy deviation: the tool query should have filtered to available products rather than including unavailable ones. Although the final answer happened to be correct because the cheapest returned item was available, the incorrect plan/tool constraint was never corrected."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3054,
+                    "output_tokens": 276,
+                    "total_tokens": 3331
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:45:43.326176",
+                    "end_time": "2026-07-07T02:45:53.812710",
+                    "execution_time_sec": 10.4865
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "4ed792c3-6baa-4723-a1c6-39b3b0405807"
+            }
+        }
+    ]
+}

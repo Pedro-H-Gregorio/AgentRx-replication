@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated or altered the answer instead of grounding it in the catalog result. It should have reported the 2 returned matching vacuum cleaners, not 9 options or a nonexistent record.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available bagged Vacuum Cleaners cost more than $591.59 using the ProductCatalogSearch result. The tool output at index 3 returned exactly 2 matching items, with item_ids 1345513440 and 2872451762 and prices 655.59 and 622.12. At index 4, the Executor introduced unsupported facts: it claimed there are 9 options and cited record 0000000000. Those values are absent from the user request, plan, and tool output, and they directly determine the incorrect final answer. This error is not an invalid tool invocation, unsupported intent, guardrail, or system failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3226,
+                    "output_tokens": 283,
+                    "total_tokens": 3510
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:22:40.858388",
+                    "end_time": "2026-07-07T01:22:53.744192",
+                    "execution_time_sec": 12.8858
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "521f072c-1107-4df7-946f-e911f62840ea"
+            }
+        }
+    ]
+}

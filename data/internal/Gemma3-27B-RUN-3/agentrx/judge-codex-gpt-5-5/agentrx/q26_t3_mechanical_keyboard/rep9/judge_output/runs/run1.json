@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No failure detected in the trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy checklist is satisfied. The agent understood the user goal, called the required ProductCatalogSearch tool with the correct filters, interpreted the returned prices correctly, excluded the item priced exactly 233.90 because the request was for more than 233.90, and produced the correct matching item_id/price pairs."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2700,
+                    "output_tokens": 146,
+                    "total_tokens": 2847
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:43:39.763670",
+                    "end_time": "2026-07-07T02:43:48.452276",
+                    "execution_time_sec": 8.6886
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fbc638de-6aad-4155-9340-6716e98ada54"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q18_t4_skateboard",
+            "failures": [
+                {
+                    "task_id": "q18_t4_skateboard",
+                    "failure_case": 4,
+                    "description": "The agent incorrectly answered that the item does not have plastic deck material even though the ProductCatalogSearch result showed deck material was plastic.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user asked whether item 2177997696 has deck material=plastic. The tool output at index 3 explicitly returned one matching item with options containing \"deck material\": \"plastic\". At index 4, the Executor synthesized the answer \"No, it does not,\" which directly contradicts the relevant tool output. This is not an invalid tool call, unsupported intent, underspecification, or guardrail/system issue; the required evidence was available and was misread or ignored."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2503,
+                    "output_tokens": 240,
+                    "total_tokens": 2743
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:23:13.155815",
+                    "end_time": "2026-07-07T02:23:20.862853",
+                    "execution_time_sec": 7.707
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "f5cf5e01-79fd-4a8e-9000-e7d9d500b930"
+            }
+        }
+    ]
+}

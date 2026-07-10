@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q23_t2_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q23_t2_jigsaw_puzzle",
+                    "failure_case": 2,
+                    "description": "The Executor replaced the tool-supported count of 9 with an unsupported count of 16 and added an unsupported record number.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user asked for the count of available Jigsaw Puzzle options. The plan and tool call were correct, and by index 3 the required evidence was available: ProductCatalogSearch returned count 9. At index 4, the Executor produced an answer saying there are 16 options and cited record 0000000000. Both the value 16 and the record identifier are absent from the tool output and contradict the available evidence. This invented/altered information directly caused the final answer to be wrong."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2809,
+                    "output_tokens": 229,
+                    "total_tokens": 3039
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:37:25.739701",
+                    "end_time": "2026-07-07T02:37:36.419766",
+                    "execution_time_sec": 10.6801
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9bd6728c-3ff9-4366-b372-541ce3e960c0"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent searched both available and unavailable Jigsaw Puzzles instead of restricting the search to available items. The final answer happened to select an available cheapest item, but the tool-call/action sequence was still wrong because it failed to apply the availability constraint.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to identify the cheapest available Jigsaw Puzzle. The agent understood the broad goal, but at index 1 it planned a ProductCatalogSearch query with \"available_only\": false despite the user explicitly requiring an available item. All required information was already present in the user request, and the correct action sequence should have filtered to available products. This is not an invalid tool invocation, tool-output misread, or underspecification; it is a deviation from the required plan/tool-call constraints."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3980,
+                    "output_tokens": 296,
+                    "total_tokens": 4277
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:44:31.653278",
+                    "end_time": "2026-07-07T01:44:42.171915",
+                    "execution_time_sec": 10.5186
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "5c295716-10dc-472d-8f71-f64d2e6a8e6c"
+            }
+        }
+    ]
+}

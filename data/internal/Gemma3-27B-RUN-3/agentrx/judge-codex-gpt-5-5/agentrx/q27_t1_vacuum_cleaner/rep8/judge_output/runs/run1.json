@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent failed by planning and executing the catalog search with `available_only: false` even though the user asked for the cheapest available vacuum cleaner.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Vacuum Cleaner. The agent understood the broad product-search goal, but at the first planning step it set `available_only` to `false` and explicitly said it would search regardless of availability. The required plan/tool query should have constrained the search to available items. All needed information was already present in the user request, so this was not underspecification. The later answer happened to be correct because the cheapest overall item was also available, but the required action sequence was already violated."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3054,
+                    "output_tokens": 259,
+                    "total_tokens": 3313
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:45:54.776103",
+                    "end_time": "2026-07-07T02:46:15.582339",
+                    "execution_time_sec": 20.8062
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "d1ea0590-3447-4313-a755-d92b5a061d74"
+            }
+        }
+    ]
+}

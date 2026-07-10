@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent searched across both available and unavailable Electric Kettles by setting \"available_only\": false instead of restricting the catalog search to available products. The final answer happened to be correct because the cheapest returned item was available, but the first procedural failure was the incorrect search plan.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to find the cheapest available Electric Kettle. The agent understood the broad goal, but at index 1 it planned a ProductCatalogSearch with \"available_only\": false, even though the required query for cheapest available items should restrict results to available products. All required information was already present in the user request. This is a deviation from the required action sequence, not a misunderstanding of the overall goal and not a tool-output reasoning error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 288,
+                    "total_tokens": 4152
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:35:06.166840",
+                    "end_time": "2026-07-07T01:35:16.294088",
+                    "execution_time_sec": 10.1272
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "8a71bbfd-952e-4fc3-80cb-0779ee3e00ca"
+            }
+        }
+    ]
+}

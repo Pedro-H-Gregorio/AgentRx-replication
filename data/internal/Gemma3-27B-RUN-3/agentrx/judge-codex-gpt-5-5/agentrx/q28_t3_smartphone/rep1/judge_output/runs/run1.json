@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is evident in the provided trajectory. The final answer is supported by the tool result: item 1507389580 costs $1157.86, which is greater than $1143.42; item 5339029584 costs $1128.99 and is correctly excluded.",
+                    "step_number": 5,
+                    "checklist_reasoning": "Scanning the trajectory step by step, the agent followed the required plan: it decomposed the task, called ProductCatalogSearch with the correct constraints, used the returned evidence, filtered by price > 1143.42, and produced the only qualifying item. No tool invocation error, hallucination, output misinterpretation, unsupported intent, guardrail, or system failure is present."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2577,
+                    "output_tokens": 220,
+                    "total_tokens": 2797
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:46:49.479183",
+                    "end_time": "2026-07-07T02:46:58.285015",
+                    "execution_time_sec": 8.8058
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "89a10dbc-1c0d-4d76-b7ed-259adabd8bf1"
+            }
+        }
+    ]
+}

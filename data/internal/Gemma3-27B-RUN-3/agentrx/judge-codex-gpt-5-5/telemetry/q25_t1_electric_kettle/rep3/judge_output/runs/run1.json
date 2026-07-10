@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent searched across both available and unavailable products instead of restricting the catalog search to available Electric Kettles.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal was to find the cheapest available Electric Kettle. At index 1, the Coordinator planned a search with available_only=false and explicitly stated it would include unavailable products, despite the user asking for an available item and the tool supporting availability filtering. The required information was already present in the user request. This is a deviation from the expected tool-call plan, not a malformed tool invocation or tool-output misread."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 222,
+                    "total_tokens": 4087
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:35:17.284472",
+                    "end_time": "2026-07-07T01:35:33.997623",
+                    "execution_time_sec": 16.7131
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "90fb4b14-154b-43b7-86a0-090c042d799d"
+            }
+        }
+    ]
+}

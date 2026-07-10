@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q08_t4_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q08_t4_mechanical_keyboard",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid tool invocation by dropping the required item_id and replacing the known string product_id with integer 0.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user goal was clear: use ProductCatalogSearch with item_id \"1151293680\" and product_id \"1656367028\" to answer whether the Mechanical Keyboard has backlight=RGB. At index 2, the agent had all required information from the Coordinator plan, but invoked the tool with malformed arguments: {\"product_id\": 0}. This omitted required item_id and used an integer instead of a string product_id. The tool then explicitly returned a SchemaError at index 3. The failure was not resolved later."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2479,
+                    "output_tokens": 222,
+                    "total_tokens": 2702
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:05:55.390328",
+                    "end_time": "2026-07-07T02:06:05.975251",
+                    "execution_time_sec": 10.5849
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "d6f3f2b5-249f-4419-8d68-21ecdf8691c0"
+            }
+        }
+    ]
+}

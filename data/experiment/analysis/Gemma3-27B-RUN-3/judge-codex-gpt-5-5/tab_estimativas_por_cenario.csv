@@ -1,0 +1,31 @@
+Cenário,GT categoria,GT passo,A categoria,A passo,B categoria,B passo
+q01_t1_electric_kettle,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q02_t2_mechanical_keyboard,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q03_t3_vacuum_cleaner,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q04_t4_smartphone,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q05_t5_jigsaw_puzzle,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q06_t1_skateboard,System Failure,3,System Failure ✓,3 ✓,System Failure ✓,3 ✓
+q07_t3_electric_kettle,Invalid Invocation,2,Invalid Invocation ✓,3 ✗,Invalid Invocation ✓,2 ✓
+q08_t4_mechanical_keyboard,Invalid Invocation,2,Invalid Invocation ✓,2 ✓,Invalid Invocation ✓,2 ✓
+q09_t5_vacuum_cleaner,Invalid Invocation,2,Invalid Invocation ✓,2 ✓,Invalid Invocation ✓,2 ✓
+q10_t3_smartphone,Invalid Invocation,2,Invalid Invocation ✓,3 ✗,Invalid Invocation ✓,3 ✗
+q11_t4_jigsaw_puzzle,Invalid Invocation,2,Invalid Invocation ✓,2 ✓,Invalid Invocation ✓,2 ✓
+q12_t5_skateboard,Invalid Invocation,2,Invalid Invocation ✓,2 ✓,Invalid Invocation ✓,2 ✓
+q13_t1_electric_kettle,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q14_t3_mechanical_keyboard,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q15_t4_vacuum_cleaner,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q16_t1_smartphone,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q17_t3_jigsaw_puzzle,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q18_t4_skateboard,Misinterpretation of Tool Output,4,Misinterpretation of Tool Output ✓,4 ✓,Misinterpretation of Tool Output ✓,4 ✓
+q19_t1_electric_kettle,Invention of New Information,4,Invention of New Information ✓,4 ✓,Invention of New Information ✓,4 ✓
+q20_t2_mechanical_keyboard,Invention of New Information,4,Invention of New Information ✓,4 ✓,Invention of New Information ✓,4 ✓
+q21_t3_vacuum_cleaner,Invention of New Information,4,Invention of New Information ✓,4 ✓,Misinterpretation of Tool Output ✗,4 ✓
+q22_t1_smartphone,Invention of New Information,4,Invention of New Information ✓,4 ✓,Invention of New Information ✓,4 ✓
+q23_t2_jigsaw_puzzle,Invention of New Information,4,Invention of New Information ✓,4 ✓,Misinterpretation of Tool Output ✗,4 ✓
+q24_t3_skateboard,Invention of New Information,4,Invention of New Information ✓,4 ✓,Invention of New Information ✓,4 ✓
+q25_t1_electric_kettle,Instruction/Plan Adherence Failure,1,Instruction/Plan Adherence Failure ✓,1 ✓,Intent-Plan Misalignment ✗,1 ✓
+q26_t3_mechanical_keyboard,Instruction/Plan Adherence Failure,1,Inconclusive ✗,0 ✗,Inconclusive ✗,0 ✗
+q27_t1_vacuum_cleaner,Instruction/Plan Adherence Failure,1,Intent-Plan Misalignment ✗,1 ✓,Instruction/Plan Adherence Failure ✓,1 ✓
+q28_t3_smartphone,Instruction/Plan Adherence Failure,1,Inconclusive ✗,0 ✗,Inconclusive ✗,0 ✗
+q29_t1_jigsaw_puzzle,Instruction/Plan Adherence Failure,1,Instruction/Plan Adherence Failure ✓,1 ✓,Instruction/Plan Adherence Failure ✓,1 ✓
+q30_t3_skateboard,Instruction/Plan Adherence Failure,1,Misinterpretation of Tool Output ✗,4 ✗,Misinterpretation of Tool Output ✗,4 ✗

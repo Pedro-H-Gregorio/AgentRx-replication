@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the provided trajectory.",
+                    "step_number": -1,
+                    "checklist_reasoning": "No unresolved failure is evident. The agent's goal matches the user request, it called ProductCatalogSearch with the required query, correctly interpreted the returned two items, filtered by price > $1143.42, and returned only item 1507389580 priced at $1157.86. No tool invocation error, hallucinated information, tool-output misinterpretation, underspecification, or unsupported intent appears in the trajectory."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2577,
+                    "output_tokens": 168,
+                    "total_tokens": 2745
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:48:05.219088",
+                    "end_time": "2026-07-07T02:48:28.074543",
+                    "execution_time_sec": 22.8554
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "af91701f-54a6-4808-b51f-542476444522"
+            }
+        }
+    ]
+}

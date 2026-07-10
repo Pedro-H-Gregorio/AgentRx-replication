@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure is present in the trajectory. The agent followed the required tool-use path and produced the correct answer from the returned evidence.",
+                    "step_number": 0,
+                    "checklist_reasoning": "The agent's goal matches the user request: find available black smartphones costing more than $1143.42. It correctly planned to use ProductCatalogSearch, invoked it with the needed filters, received two matching available black smartphones, and correctly filtered by price. Only item 1507389580 at $1157.86 exceeds $1143.42; item 5339029584 at $1128.99 does not. No tool invocation error, misinterpretation, hallucination, unsupported intent, or guardrail/system failure is evident."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 218,
+                    "total_tokens": 3409
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:43:29.361543",
+                    "end_time": "2026-07-07T01:43:39.139555",
+                    "execution_time_sec": 9.778
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c5cecbb7-ce8d-42cb-8654-eefba1b8b3dc"
+            }
+        }
+    ]
+}

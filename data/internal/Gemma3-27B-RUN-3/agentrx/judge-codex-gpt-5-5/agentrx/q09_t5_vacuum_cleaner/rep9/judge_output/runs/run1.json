@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q09_t5_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q09_t5_vacuum_cleaner",
+                    "failure_case": 3,
+                    "description": "The agent made an invalid ProductCatalogSearch invocation: it omitted the required item_id and supplied product_id as integer 0 instead of the provided string product_id.",
+                    "step_number": 2,
+                    "checklist_reasoning": "The user asked for the price of item 1345513440, and the coordinator had the required item_id and product_id as strings. The required next action was to call ProductCatalogSearch with both item_id=\"1345513440\" and product_id=\"1762337868\". Instead, the agent prepared/called the tool with {\"product_id\": 0}, omitting item_id and using the wrong type for product_id. The tool then explicitly returned a SchemaError confirming the invocation was malformed."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2439,
+                    "output_tokens": 231,
+                    "total_tokens": 2670
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:07:40.028250",
+                    "end_time": "2026-07-07T02:07:51.988799",
+                    "execution_time_sec": 11.9605
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9b6d3361-f7db-4279-8dec-f39fb9d0d946"
+            }
+        }
+    ]
+}

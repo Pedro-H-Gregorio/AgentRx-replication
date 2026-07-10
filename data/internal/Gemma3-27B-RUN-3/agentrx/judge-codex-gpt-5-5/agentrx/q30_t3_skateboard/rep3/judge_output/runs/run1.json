@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q30_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q30_t3_skateboard",
+                    "failure_case": 4,
+                    "description": "The agent incorrectly filtered the ProductCatalogSearch result and left out item_id 5312063289, which costs $195.15 and therefore should have been included.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The tool output at index 3 is complete and relevant. It lists four available bamboo Skateboards priced above $194.56: 4293355847 ($200.80), 5312063289 ($195.15), 6956751343 ($217.06), and 8176740019 ($208.60). At index 4, the Executor synthesizes the answer from that tool output but omits item_id 5312063289 despite its price being above the threshold. This is a clear reasoning/filtering error over the tool output, not an invalid invocation, unsupported intent, or missing user information."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2808,
+                    "output_tokens": 234,
+                    "total_tokens": 3043
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:51:55.893889",
+                    "end_time": "2026-07-07T02:52:05.210890",
+                    "execution_time_sec": 9.317
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "d870749e-81e0-4f82-9faa-f62494be9913"
+            }
+        }
+    ]
+}

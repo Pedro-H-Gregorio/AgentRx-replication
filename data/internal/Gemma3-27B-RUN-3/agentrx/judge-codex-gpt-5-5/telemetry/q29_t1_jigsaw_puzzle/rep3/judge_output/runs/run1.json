@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent failed by planning to search all Jigsaw Puzzles, including unavailable ones, instead of restricting the ProductCatalogSearch query to available items.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user's goal is clear: find the cheapest available Jigsaw Puzzle. The agent's overall intent matches that goal, but at index 1 it constructs the plan_query with \"available_only\": false even though the request explicitly requires available items. The required information was already present in the user task, and the ground-truth tool/action sequence should filter for available products. This is a deviation from the required plan/tool-call constraints, not a tool schema error or unsupported intent."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3980,
+                    "output_tokens": 263,
+                    "total_tokens": 4243
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:44:43.145736",
+                    "end_time": "2026-07-07T01:44:55.537432",
+                    "execution_time_sec": 12.3917
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "bdc56809-aef9-41d4-a1ec-63b0c373e363"
+            }
+        }
+    ]
+}

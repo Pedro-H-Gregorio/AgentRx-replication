@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q12_t5_skateboard",
+            "failures": [
+                {
+                    "task_id": "q12_t5_skateboard",
+                    "failure_case": 3,
+                    "description": "The Researcher made an invalid ProductCatalogSearch call by passing only product_id as integer 0 and omitting the required item_id, instead of calling with item_id \"2177997696\" and product_id \"1968349452\".",
+                    "step_number": 2,
+                    "checklist_reasoning": "At index 2, the agent attempted a concrete ProductCatalogSearch invocation with Tool args {\"product_id\": 0}. The required parameters were already available from index 1: item_id \"2177997696\" and product_id \"1968349452\", both as strings. The invocation omitted required item_id and used an integer 0 instead of the required string product_id. At index 3, the tool explicitly returned SchemaError: \"catalog.get_details requires string product_id and item_id\". This is a malformed tool invocation, not a connectivity, guardrail, or unsupported-intent issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2420,
+                    "output_tokens": 265,
+                    "total_tokens": 2686
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:13:16.519684",
+                    "end_time": "2026-07-07T02:13:26.265032",
+                    "execution_time_sec": 9.7453
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "187eb67c-727f-457e-87bc-b6b6caef74ec"
+            }
+        }
+    ]
+}

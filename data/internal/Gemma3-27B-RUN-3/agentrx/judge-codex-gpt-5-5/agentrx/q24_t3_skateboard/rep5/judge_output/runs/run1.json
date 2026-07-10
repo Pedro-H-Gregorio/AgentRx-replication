@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The Executor fabricated an answer, changing the result count from 4 to 11 and adding an unsupported record id 0000000000 instead of synthesizing the four returned catalog items.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available Skateboard items with deck material=bamboo cost more than $194.56, using ProductCatalogSearch evidence. The tool output at step 3 clearly returned count=4 with four matching item_ids and prices. At step 4, the Executor produced 'There are 11 options available, per record 0000000000,' which is not grounded in the tool output or prior context. The invented count and record id directly determine the final answer. This is not an invocation issue, unsupported intent, underspecification, or guardrail/system failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2733,
+                    "output_tokens": 269,
+                    "total_tokens": 3002
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:38:32.683501",
+                    "end_time": "2026-07-07T02:38:40.750520",
+                    "execution_time_sec": 8.067
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "d8aa983e-d67f-4dfd-ace2-a639ad30b14a"
+            }
+        }
+    ]
+}

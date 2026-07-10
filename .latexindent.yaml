@@ -1,0 +1,32 @@
+# Wrap LaTeX prose similarly to Markdown formatting in this repo.
+onlyOneBackUp: 1
+
+modifyLineBreaks:
+  preserveBlankLines: 1
+  condenseMultipleBlankLinesInto: 1
+  textWrapOptions:
+    columns: 120
+    multipleSpacesToSingle: 1
+    removeBlockLineBreaks: 1
+    when: before
+    comments:
+      wrap: 0
+      inheritLeadingSpace: 1
+    blocksFollow:
+      headings: 1
+      commentOnPreviousLine: 1
+      par: 1
+      blankLine: 1
+      verbatim: 1
+      other: \\\]|\\item(?:\h|\[)
+    blocksBeginWith:
+      A-Z: 1
+      a-z: 1
+      0-9: 1
+      other: 0
+    blocksEndBefore:
+      commentOnOwnLine: 1
+      verbatim: 1
+      other: \\begin\{|\\\[|\\end\{
+    huge: overflow
+    separator: ""

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 5,
+                    "description": "The agent should have searched only available vacuum cleaners, but it planned and then executed a search that included unavailable items.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user asked for the cheapest available Vacuum Cleaner, so availability is a key constraint. At index 1, the Coordinator planned a query with \"available_only\": false and explicitly described this as identifying the option \"regardless of current availability.\" That contradicts the user's constraint before any tool output was available. This is not a malformed invocation or tool-output reasoning error; it is a misunderstanding/violation of the requested constraint."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3054,
+                    "output_tokens": 230,
+                    "total_tokens": 3284
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:46:16.569205",
+                    "end_time": "2026-07-07T02:46:36.184889",
+                    "execution_time_sec": 19.6157
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "650b3878-2777-434d-8054-f6de21b81655"
+            }
+        }
+    ]
+}

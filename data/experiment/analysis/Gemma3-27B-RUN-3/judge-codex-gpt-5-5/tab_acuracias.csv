@@ -1,0 +1,6 @@
+Métrica,Telemetria (A),Log textual (B),Δ (A−B) p.p.
+Critical Step Accuracy,83.3%,86.7%,-3.3
+Passo ±1,96.7%,96.7%,+0.0
+Passo ±3,100.0%,100.0%,+0.0
+Passo ±5,100.0%,100.0%,+0.0
+Failure Category Accuracy,86.7%,80.0%,+6.7

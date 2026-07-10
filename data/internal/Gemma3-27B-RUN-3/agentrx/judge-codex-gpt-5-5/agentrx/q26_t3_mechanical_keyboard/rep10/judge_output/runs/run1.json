@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q26_t3_mechanical_keyboard",
+            "failures": [
+                {
+                    "task_id": "q26_t3_mechanical_keyboard",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No taxonomy category clearly applies. The agent followed the required plan: it decomposed the task, called ProductCatalogSearch with available_only=true, backlight=RGB, and product_type=Mechanical Keyboard, then filtered the returned evidence for prices strictly greater than $233.90. The tool returned five items; only item_id 1151293680 at 272.33 and item_id 2299424241 at 237.48 satisfy the condition. The item priced exactly 233.90 was correctly excluded."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2700,
+                    "output_tokens": 178,
+                    "total_tokens": 2879
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:43:49.446923",
+                    "end_time": "2026-07-07T02:43:57.565120",
+                    "execution_time_sec": 8.1182
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b2f44c15-61da-4376-b0eb-c0383a7e0ba5"
+            }
+        }
+    ]
+}

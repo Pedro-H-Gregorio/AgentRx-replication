@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q21_t3_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q21_t3_vacuum_cleaner",
+                    "failure_case": 2,
+                    "description": "The agent fabricated/altered key answer facts: it changed the count from 2 to 9 and invented record 0000000000 instead of using the returned item IDs and prices.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer using ProductCatalogSearch evidence. The required tool call was made correctly and returned 2 matching available bagged Vacuum Cleaner items, with item_ids 1345513440 and 2872451762. At step 4, the Executor produced an answer claiming there are 9 options and citing record 0000000000, neither of which appears in the tool output or prior context. This unsupported alteration directly caused the wrong final answer and was not resolved later; the Evaluator approved it despite noticing the mismatch."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2615,
+                    "output_tokens": 249,
+                    "total_tokens": 2864
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:32:46.092264",
+                    "end_time": "2026-07-07T02:32:56.911460",
+                    "execution_time_sec": 10.8192
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c35da649-8ddd-4d62-a89b-4495eccd065b"
+            }
+        }
+    ]
+}

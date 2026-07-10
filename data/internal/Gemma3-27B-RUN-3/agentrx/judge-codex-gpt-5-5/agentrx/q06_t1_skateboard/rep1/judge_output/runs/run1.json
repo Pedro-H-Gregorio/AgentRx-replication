@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q06_t1_skateboard",
+            "failures": [
+                {
+                    "task_id": "q06_t1_skateboard",
+                    "failure_case": 9,
+                    "description": "The run failed because the catalog search dependency timed out, preventing the agent from obtaining the product evidence needed to answer the user's question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "At index 3, the agent attempted the required ProductCatalogSearch tool call with well-formed arguments. The tool returned an explicit infrastructure/connectivity-style error: \"catalog search dependency timed out after 30000ms\" with type CatalogServiceTimeoutError. This is not a schema or argument validation issue, and there is no later evidence that the timeout was resolved."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2490,
+                    "output_tokens": 211,
+                    "total_tokens": 2701
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:00:09.445734",
+                    "end_time": "2026-07-07T02:00:16.775428",
+                    "execution_time_sec": 7.3297
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "b27ca025-55d6-4131-9ae0-742b0fa3f4ab"
+            }
+        }
+    ]
+}

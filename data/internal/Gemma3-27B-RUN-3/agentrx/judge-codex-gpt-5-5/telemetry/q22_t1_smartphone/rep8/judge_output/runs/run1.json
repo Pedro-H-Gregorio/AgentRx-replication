@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q22_t1_smartphone",
+            "failures": [
+                {
+                    "task_id": "q22_t1_smartphone",
+                    "failure_case": 2,
+                    "description": "The agent fabricated the cheapest product instead of using the catalog evidence. The correct answer should have identified item 5339029584 at $1128.99.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user asked for the cheapest available Smartphone. The tool call was correct and returned two available Smartphones sorted by ascending price: item 5339029584 at $1128.99 and item 1507389580 at $1157.86. At index 4, the Executor produced an answer naming item 0000000000 priced at $0.01. That item ID and price are absent from all prior user input, plan context, and tool output, and the answer relies on this fabricated value as the final result. This is not an invalid tool invocation, underspecification, or system/access issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3191,
+                    "output_tokens": 268,
+                    "total_tokens": 3459
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:30:46.319920",
+                    "end_time": "2026-07-07T01:30:55.466322",
+                    "execution_time_sec": 9.1464
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "70ad1eb0-c388-4dea-9688-ca210d62480e"
+            }
+        }
+    ]
+}

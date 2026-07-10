@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q23_t2_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q23_t2_jigsaw_puzzle",
+                    "failure_case": 4,
+                    "description": "The Executor contradicted the ProductCatalogSearch output by answering 16 instead of 9 and added an unsupported record ID.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user goal was to count available Jigsaw Puzzle options. The agent correctly planned and invoked ProductCatalogSearch, and the tool returned a clear result: count = 9. At index 4, the Executor synthesized an answer saying there are 16 options and cited record 0000000000, which contradicts the relevant tool output. This is not an invalid invocation, underspecification, unsupported intent, guardrail, or system failure. The failure stems from incorrectly using the tool result when producing the answer."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2809,
+                    "output_tokens": 244,
+                    "total_tokens": 3054
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:36:20.121766",
+                    "end_time": "2026-07-07T02:36:30.117567",
+                    "execution_time_sec": 9.9958
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "9861dbbf-0c5c-4f84-b555-dcd2935c9206"
+            }
+        }
+    ]
+}

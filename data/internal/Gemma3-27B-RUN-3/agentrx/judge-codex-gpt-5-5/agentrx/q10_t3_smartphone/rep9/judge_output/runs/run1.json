@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q10_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q10_t3_smartphone",
+                    "failure_case": 3,
+                    "description": "ProductCatalogSearch was called with {\"available_only\": true, \"color\": \"black\", \"price_min\": 1143.42} but omitted the required \"product_type\": \"Smartphone\" argument, so the tool rejected the call and the agent never recovered by retrying with the correct argument.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal was clear: search for available black Smartphones priced above $1143.42. The required product_type value, \"Smartphone\", was available from the user prompt and from the Coordinator's plan query. The agent then invoked ProductCatalogSearch without the required string field product_type. The tool explicitly returned a SchemaError saying catalog.search requires a string product_type. This is a malformed tool invocation, not a misunderstanding of the user's goal or an infrastructure/access issue."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2613,
+                    "output_tokens": 287,
+                    "total_tokens": 2901
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:09:53.397636",
+                    "end_time": "2026-07-07T02:10:09.010797",
+                    "execution_time_sec": 15.6132
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "fb620239-5823-4bbf-a181-780849b67fb8"
+            }
+        }
+    ]
+}

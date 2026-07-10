@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q27_t1_vacuum_cleaner",
+            "failures": [
+                {
+                    "task_id": "q27_t1_vacuum_cleaner",
+                    "failure_case": 1,
+                    "description": "The agent failed to adhere to the required plan by preparing a search that did not enforce the user's availability constraint (`available_only: false`) even though the user specifically asked for an available item.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user asked for the cheapest available Vacuum Cleaner, so the required constraint was availability. At index 1 the Coordinator had all required information from the user but set `available_only` to `false` and explicitly described the plan as finding results regardless of current availability. This deviates from the required tool-call/action sequence for an available-only query. The issue is not a malformed tool call, tool-output misunderstanding, or missing information."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3789,
+                    "output_tokens": 247,
+                    "total_tokens": 4037
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:39:40.656356",
+                    "end_time": "2026-07-07T01:39:53.008888",
+                    "execution_time_sec": 12.3525
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "efafbd0c-da3c-4725-b0b6-bc3438fa041e"
+            }
+        }
+    ]
+}

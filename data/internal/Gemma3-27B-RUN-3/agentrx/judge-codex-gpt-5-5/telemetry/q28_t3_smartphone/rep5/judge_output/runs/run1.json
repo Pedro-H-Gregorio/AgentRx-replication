@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the provided trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "No root-cause failure is identifiable. The agent followed the required plan: it prepared the ProductCatalogSearch call, invoked it with available_only=true, color=black, product_type=Smartphone, then used the returned evidence to filter by price > 1143.42. The tool returned two available black smartphones, and only item 1507389580 at $1157.86 exceeded $1143.42. The final answer matches that evidence."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 174,
+                    "total_tokens": 3364
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:43:04.877003",
+                    "end_time": "2026-07-07T01:43:18.087584",
+                    "execution_time_sec": 13.2106
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "851207fd-f341-4211-935c-1994458ad008"
+            }
+        }
+    ]
+}

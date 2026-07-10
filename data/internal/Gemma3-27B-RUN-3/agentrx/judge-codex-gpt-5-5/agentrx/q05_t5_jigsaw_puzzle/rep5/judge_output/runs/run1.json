@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q05_t5_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q05_t5_jigsaw_puzzle",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out, leaving the agent without the catalog evidence needed to answer the price question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan were correct: it needed to use ProductCatalogSearch to answer the item's price. At index 3, the required tool was invoked with well-formed arguments, but the tool returned an explicit infrastructure/connectivity-style error: a dependency timeout after 30000ms. This is not a malformed invocation, guardrail block, or misinterpretation of output. The failure was not resolved later; the agent only reported inability to complete."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2450,
+                    "output_tokens": 216,
+                    "total_tokens": 2667
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:55:19.039016",
+                    "end_time": "2026-07-07T01:55:26.328339",
+                    "execution_time_sec": 7.2893
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "71c3dc9a-3a83-4490-8dc5-1e898acfa1b7"
+            }
+        }
+    ]
+}

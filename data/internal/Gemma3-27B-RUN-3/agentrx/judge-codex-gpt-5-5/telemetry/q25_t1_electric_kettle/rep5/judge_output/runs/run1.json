@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q25_t1_electric_kettle",
+            "failures": [
+                {
+                    "task_id": "q25_t1_electric_kettle",
+                    "failure_case": 1,
+                    "description": "The agent failed by planning and executing a catalog search with available_only=false despite the user asking for the cheapest available item. This included unavailable products in the evidence set and violated the required availability constraint.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to find the cheapest available Electric Kettle. The agent understood the product type and price sorting goal, but at index 1 it set available_only to false and explicitly planned to include unavailable products. For this task, the required action sequence should restrict the catalog search to available products. All required information was already present in the user request, so no clarification was needed. This is not an invalid tool call or tool-output issue; the tool call succeeded, but the plan deviated from the required constraint."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3864,
+                    "output_tokens": 287,
+                    "total_tokens": 4151
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:35:50.615321",
+                    "end_time": "2026-07-07T01:36:01.999807",
+                    "execution_time_sec": 11.3845
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "a1b8cb5c-7c7a-48f9-82e3-8f79d34f3b97"
+            }
+        }
+    ]
+}

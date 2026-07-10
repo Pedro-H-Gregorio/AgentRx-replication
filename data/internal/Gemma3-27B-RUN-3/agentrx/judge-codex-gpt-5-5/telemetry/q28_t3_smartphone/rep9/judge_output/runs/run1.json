@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q28_t3_smartphone",
+            "failures": [
+                {
+                    "task_id": "q28_t3_smartphone",
+                    "failure_case": 10,
+                    "description": "No failure occurred in the trajectory.",
+                    "step_number": 0,
+                    "checklist_reasoning": "The agent followed the required plan: it decomposed the task, called ProductCatalogSearch with available_only=true, color=black, product_type=Smartphone, received two matching products, and correctly filtered for price greater than 1143.42. Item 1507389580 costs 1157.86 and qualifies; item 5339029584 costs 1128.99 and does not. No tool invocation error, hallucination, misinterpretation, missing information, or plan deviation is evident."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3190,
+                    "output_tokens": 184,
+                    "total_tokens": 3375
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:43:49.944509",
+                    "end_time": "2026-07-07T01:44:00.545845",
+                    "execution_time_sec": 10.6013
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c278b320-8ec0-480e-8e2f-a8500a0b5698"
+            }
+        }
+    ]
+}

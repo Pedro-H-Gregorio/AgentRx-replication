@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q05_t5_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q05_t5_jigsaw_puzzle",
+                    "failure_case": 9,
+                    "description": "The required catalog lookup failed because the ProductCatalogSearch dependency timed out, leaving the agent without evidence needed to answer the price question.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The user goal was to retrieve the price of item 1096508426 using the product catalog evidence. The agent correctly planned and invoked ProductCatalogSearch with the available item_id and product_id. At index 3, the tool returned an explicit infrastructure/connectivity-style error: CatalogServiceTimeoutError, with the message that the catalog search dependency timed out after 30000ms. This is not a malformed invocation, guardrail block, or misunderstanding of intent. The later steps did not resolve the timeout; the agent simply reported task failure."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2450,
+                    "output_tokens": 243,
+                    "total_tokens": 2693
+                },
+                "time": {
+                    "start_time": "2026-07-07T02:00:01.234005",
+                    "end_time": "2026-07-07T02:00:08.478739",
+                    "execution_time_sec": 7.2447
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "a046660b-e8dc-4071-88b6-8f250c02a81d"
+            }
+        }
+    ]
+}

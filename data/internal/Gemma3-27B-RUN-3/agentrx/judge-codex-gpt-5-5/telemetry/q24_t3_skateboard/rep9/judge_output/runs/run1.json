@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q24_t3_skateboard",
+            "failures": [
+                {
+                    "task_id": "q24_t3_skateboard",
+                    "failure_case": 2,
+                    "description": "The Executor invented unsupported information: '11 options available' and 'record 0000000000' despite the tool result showing 4 matching items and no such record.",
+                    "step_number": 4,
+                    "checklist_reasoning": "The user's goal was to answer which available Skateboard items with deck material=bamboo cost more than $194.56. The plan was correct and the ProductCatalogSearch call at index 3 succeeded, returning exactly 4 matching items with item_ids 4293355847, 5312063289, 6956751343, and 8176740019. At index 4, the Executor produced an answer claiming there are 11 options and citing record 0000000000, neither of which appears in the user request, plan, or tool output. This fabricated count and record were used as the final answer. The later Evaluator approved the bad answer but did not resolve the original error."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3366,
+                    "output_tokens": 264,
+                    "total_tokens": 3630
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:34:26.974590",
+                    "end_time": "2026-07-07T01:34:37.944484",
+                    "execution_time_sec": 10.9699
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "047f16b3-a5a2-40e9-8b17-8564b7c961cb"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q29_t1_jigsaw_puzzle",
+            "failures": [
+                {
+                    "task_id": "q29_t1_jigsaw_puzzle",
+                    "failure_case": 1,
+                    "description": "The agent failed to adhere to the required plan/tool-call constraints by searching all Jigsaw Puzzles instead of only available Jigsaw Puzzles.",
+                    "step_number": 1,
+                    "checklist_reasoning": "The user goal was to find the cheapest available Jigsaw Puzzle. The agent's end goal matched that intent, but the required tool query should have constrained results to available items. At index 1, the Coordinator formed a plan_query with \"available_only\": false despite having all necessary information from the user request. This deviation propagated into the Researcher tool call at index 2. Although the final answer happened to be correct because the lowest-priced item was available, the initial required action was still wrong."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 3980,
+                    "output_tokens": 248,
+                    "total_tokens": 4228
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:45:37.987361",
+                    "end_time": "2026-07-07T01:45:48.564047",
+                    "execution_time_sec": 10.5767
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "84c46fa3-8cbc-491a-8115-f122b4736f47"
+            }
+        }
+    ]
+}

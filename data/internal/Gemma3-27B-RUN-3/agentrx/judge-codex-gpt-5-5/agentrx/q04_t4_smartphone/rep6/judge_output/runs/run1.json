@@ -1,0 +1,38 @@
+{
+    "summary": {
+        "model_name": "",
+        "api_version": "2024-12-01-preview",
+        "note": "No ground truth comparison available"
+    },
+    "detailed_results": [
+        {
+            "task_id": "q04_t4_smartphone",
+            "failures": [
+                {
+                    "task_id": "q04_t4_smartphone",
+                    "failure_case": 9,
+                    "description": "ProductCatalogSearch timed out, so the agent could not retrieve the catalog evidence needed to determine whether item 1507389580 has RAM=8GB.",
+                    "step_number": 3,
+                    "checklist_reasoning": "The agent's goal and plan were correct: use ProductCatalogSearch with the provided item_id and product_id, then answer from returned evidence. The tool invocation at index 3 was well-formed and used the correct arguments. The tool explicitly returned an infrastructure/connectivity-style error: a dependency timeout after 30000ms. This prevented evidence retrieval and was not resolved later in the trajectory."
+                }
+            ],
+            "num_judges": 1,
+            "trajectory_length": 5,
+            "llm_call_telemetry": {
+                "tokens": {
+                    "prompt_tokens": 2465,
+                    "output_tokens": 208,
+                    "total_tokens": 2673
+                },
+                "time": {
+                    "start_time": "2026-07-07T01:53:52.648620",
+                    "end_time": "2026-07-07T01:54:00.100970",
+                    "execution_time_sec": 7.4523
+                },
+                "model_name": "copilot-cli",
+                "instance": "copilot-cli",
+                "llm_call_id": "c0f69925-85a1-4681-bb2f-1072d5eae5cd"
+            }
+        }
+    ]
+}
