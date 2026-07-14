@@ -2,7 +2,7 @@
 
 The aggregation replicates AgentRx's `compute_stats`/`analysis()`: the failures
 of every ok rep of a (scenario, arm) are pooled flat, then category = mode and
-step = round(mean) over the pool. Formulas follow PRD-10 §4.3–4.4. This module
+step = round(mean) over the pool. Formulas follow the PRD-10 result dictionary. This module
 makes no analytical choice — no test, no ranking, no row dropped.
 """
 
@@ -60,7 +60,7 @@ def trajectory_index_row(pair: PairData) -> dict:
     sent_at = datetime.fromtimestamp(sent, tz=timezone.utc).isoformat(
         timespec="seconds"
     )
-    rel = f"data/internal/{pair.mas_id}"  # corpus namespace (ADR-0013)
+    rel = f"data/internal/{pair.mas_id}"
     return {
         "run_id": pair.run_id,
         "scenario_id": pair.run_id,

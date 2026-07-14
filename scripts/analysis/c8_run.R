@@ -1,14 +1,4 @@
 #!/usr/bin/env Rscript
-# c8_run.R — orquestra a análise A/B posterior ao C7 (C8).
-#
-# Uso:
-#   Rscript scripts/analysis/c8_run.R [caminho/para/metricas.csv]
-# Default:
-#   data/experiment/results/Gemma3-27B-RUN-3/judge-codex-gpt-5-5/metricas.csv
-#
-# Lê metricas.csv + runs_long.csv de um experimento e escreve as 6 tabelas .csv
-# em data/experiment/analysis/<mas_id>/<judge_id>/. SÓ tabelas — nenhuma figura
-# é produzida (D3). Idempotente: reescreve as mesmas saídas a cada execução.
 
 here <- dirname(normalizePath(sub(
   "^--file=", "",
@@ -42,10 +32,7 @@ cat(sprintf(
 ))
 for (nm in names(tables)) {
   path <- file.path(ctx$out_dir, paste0(nm, ".csv"))
-  # na = "" deixa em branco as células sem valor (ex.: contingência de McNemar
-  # nas linhas de Wilcoxon/bootstrap), em vez do "NA" default do readr.
-  # num_threads = 1: a escrita paralela do vroom rasga strings multibyte (ver
-  # c8_lib.R); serializar garante saída byte-estável.
+  # Single-thread writing prevents vroom from corrupting multibyte cells.
   readr::write_csv(tables[[nm]], path, na = "", num_threads = 1)
   cat(sprintf("  ✓ %s\n", path))
 }

@@ -23,10 +23,10 @@ AGENTRX_RUN = ROOT / "AgentRx" / "run.py"
 
 @dataclass(frozen=True)
 class RepResult:
-    status: str  # "ok" | "error" | "skipped"
+    status: str
     run1_path: Path
     detail: str = ""
-    log_path: Path | None = None  # <run_dir>/agentrx.log (stdout+stderr of run.py)
+    log_path: Path | None = None
 
 
 def _run1_path(run_dir: Path) -> Path:

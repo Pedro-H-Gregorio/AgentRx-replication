@@ -1,234 +1,68 @@
-# Replicação AgentRx + OpenTelemetry — MAS simulado
+# Replicação AgentRx + OpenTelemetry
 
-Replicação parcial do **AgentRx** (diagnóstico de falhas em sistemas multiagente) estendida com **telemetria
-OpenTelemetry**. Um MAS simulado em LangGraph (Coordinator → Researcher → Tool → Executor → Evaluator) roda perguntas de
-catálogo somente-leitura com **injeção scriptada de falha**, gerando um trace OTel bruto por execução. De cada trace
-derivam duas trajetórias — uma **com telemetria** (braço A) e outra **estilo-AgentRx** (braço B, prosa fiel) — para
-perguntar: a telemetria ajuda o juiz a localizar/classificar a falha?
+Experimento para avaliar se telemetria OpenTelemetry ajuda o juiz do AgentRx a localizar e classificar falhas em um
+sistema multiagente simulado. O MAS executa perguntas de catálogo somente-leitura com injeção de falha scriptada e gera
+um trace OTel bruto; dele surgem duas trajetórias semanticamente equivalentes: telemetria (A) e log textual (B).
 
-Leia `AGENTS.md` primeiro, depois `docs/prd/PRD-INDEX.md` e `docs/adr/README.md`.
+```text
+benchmark → simulação MAS → trace OTel → duas trajetórias → juiz → CSVs → análise
+```
 
-## Invariantes (não-negociáveis)
+O trace OTel é a fonte de verdade. Trajetórias não recebem ground truth, e os dois braços só diferem pela telemetria e
+pelo formato de apresentação.
 
-- O `.otel.json` bruto é a **única fonte de verdade**; todo o resto é derivado.
-- As trajetórias **nunca** vazam o ground truth (`fault.injected`, `experiment.fault*`, caminhos de `faults.py`).
-- Os dois braços carregam a **mesma semântica**; diferem só nos campos de telemetria.
-- A injeção é **scriptada/determinística**; o renderizador de log é **cego ao gabarito**.
+## Primeira execução
 
-## Instalação
+Pré-requisitos: Git, Make, Python 3.13 e `uv`. Clone com o submódulo:
 
 ```bash
-make install        # ou: uv sync
+git clone --recurse-submodules <url-do-repo>
+cd replicacao-agentrx
+make install
 cp example.env .env
 ```
 
-Determinismo é o default: `USE_LLM=false`, temperatura 0, sem rede no caminho de geração de dados. O modelo do agente é
-parametrizável via `.env` (`AGENT_MODEL`).
+`example.env` inicia no modo determinístico e offline (`USE_LLM=false`, juiz `stub`). Execute o pipeline básico nesta
+ordem:
 
-Com `USE_LLM=true`, os nós-agente (Coordinator, Researcher, Executor, Evaluator) chamam o modelo do agente em
-`AGENT_BASE_URL` (ex.: Ollama em `http://localhost:11434/v1`, com o modelo já baixado). O agente usa **só** as vars
-`AGENT_MODEL`/`AGENT_BASE_URL`/`AGENT_API_KEY` — setar `AGENT_BASE_URL` explicitamente (não confiar em `OPENAI_*`, que o
-SDK da openai poderia ler do ambiente sem registrar no manifesto). A **injeção de falha continua scriptada** — o LLM só
-gera a prosa do passo e a telemetria de tokens. Se o endpoint não responder, o passo cai em fallback determinístico e
-registra `agent.llm.failed` no log. **Checagem prática:** `total_tokens > 0` no manifesto/telemetria confirma que o LLM
-real foi usado; tokens 0 com `USE_LLM=true` = fallback silencioso por config errada.
-
-## Tutorial — pipeline segregado
-
-Cada passo é idempotente e **valida a própria saída**; não há um alvo "run-all".
-
-| Passo | Comando | Produz | Validador |
-| -- | -- | -- | -- |
-| 1. Benchmark | `make generate` | `data/benchmark/benchmark_30.json` (6×5 categorias) | `validate-benchmark` |
-| 2. Simular MAS | `make simulate` | `data/internal/<mas_id>/otel/<id>.otel.json` + `ground_truth/<id>...` | `validate-traces` |
-| 3. Derivar braços | `make derive` | `data/internal/<mas_id>/trajectory_telemetry/` e `trajectory_agentrx/` | `validate-trajectories` |
-| 4. Smoke | `make smoke` | — (5 testes, 1 por falha) | — |
-| 5. Qualidade | `make check` | — (format/lint + limite de 200 linhas) | — |
+| Comando | Produz ou verifica |
+| -- | -- |
+| `make generate` | 30 cenários determinísticos em `data/benchmark/` |
+| `make simulate` | traces OTel, labels e manifestos em `data/internal/<mas_id>/` |
+| `make derive` | trajetórias A e B, com paridade e não-vazamento validados |
+| `make smoke` | uma execução por categoria de falha |
+| `make check` | formatação, lint e limite de tamanho dos arquivos de código |
 
 ```bash
-make generate   # → wrote 30 scenarios
-make simulate   # → 30 traces (6 spans cada) + ground truth
-make derive     # → 2 trajetórias por trace, sem vazamento, em paridade
-make smoke      # → 5 passed (System/Invalid/Misinterpretation/Invention/Plan)
-make check      # → ruff + check_file_size OK
+make generate
+make simulate
+make derive
+make smoke
+make check
 ```
 
-Os validadores também rodam isolados: `make validate-benchmark`, `make validate-traces`, `make validate-trajectories`.
+## Próximos comandos
 
-### Corpus por modelo do MAS (namespace)
+| Objetivo | Comando |
+| -- | -- |
+| Smoke offline do juiz | `make smoke-judge` |
+| Matriz completa do juiz | `make judge` |
+| Coletar resultados | `make collect` |
+| Gerar seis tabelas de análise | `make analyze` |
+| Compor simulação, derivação, juiz e coleta | `make experiment` |
 
-Cada run do MAS grava sob `data/internal/<mas_id>/`, onde `<mas_id>` = `MAS_ID` (env) ou o `AGENT_MODEL` **literal**
-(case/pontos preservados; ex.: `AGENT_MODEL=Llama3.1-8B` → `data/internal/Llama3.1-8B/`). Trocar de modelo **não
-sobrescreve** o corpus anterior — dá para acumular corpora irmãos e comparar. O juiz e a coleta seguem o mesmo `mas_id`
-(saída do juiz em `data/internal/<mas_id>/agentrx/<judge_id>/`; CSVs em `data/experiment/results/<mas_id>/<judge_id>/`).
-Detalhes em [docs/adr/0013-...](docs/adr/0013-corpus-por-modelo-do-mas.md).
+Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [guia operacional](docs/operacao.md).
 
-### Reset antes do experimento
+## Onde encontrar cada coisa
 
-Para começar o experimento do zero (limpar traces/trajetórias/ground truth/logs/manifests do corpus atual):
+- [Guia operacional](docs/operacao.md): configuração, matriz completa e análise.
+- [Testes](tests/README.md): escopo de cada suíte e comandos de validação.
+- [Artefatos internos](data/internal/README.md): traces, trajetórias, manifestos e vereditos.
+- [Resultados CSV](data/experiment/results/README.md): dicionário completo de `runs_long`, `trajectory_index` e
+  `metricas`.
+- [Tabelas de análise](data/experiment/analysis/README.md): dicionário das seis saídas de `make analyze`.
+- [Arquitetura](docs/architecture/architecture.md), [PRDs](docs/prd/PRD-INDEX.md) e [ADRs](docs/adr/README.md): contrato
+  experimental e decisões duráveis.
 
-```bash
-make clean-data   # apaga data/internal/<mas_id>/{otel,trajectory_*,ground_truth,logs,manifests}
-make generate simulate derive   # regenera a baseline determinística
-```
-
-`make clean-data` mira **só** o `<mas_id>` atual (outros corpora ficam intactos), é idempotente e não toca no benchmark
-nem no catálogo vendorizado. Os artefatos de run seguem versionados (commite a baseline nova após regenerar).
-
-## Juiz do AgentRx (passo 6)
-
-Julga as trajetórias dos 2 braços em modo **judge-only** sobre a IR canônica, tratando o AgentRx como **caixa preta**
-(submódulo intocado; integração por subprocess + arquivos, ver `docs/adr/0009-...` e `docs/adr/0011-...`). O backend do
-juiz é escolhido por `JUDGE_BACKEND` no `.env`:
-
-| Backend | Alcança o modelo por | Uso |
-| -- | -- | -- |
-| `stub` | veredito fixo, sem rede | smoke offline determinístico (default) |
-| `openai` | `JUDGE_BASE_URL` (Ollama/vLLM/OpenRouter) | juiz via API OpenAI-compatible |
-| `copilot` | CLI do GitHub Copilot no PATH | juiz via Copilot |
-| `codex` | `codex exec` (Codex CLI autenticado) | juiz via Codex/ChatGPT |
-
-Backend = qualquer shim em `scripts/judge_shims/`; soltar um novo shim adiciona um backend sem tocar no orquestrador
-(ADR-0011). No `codex`, deixe `JUDGE_MODEL` vazio para o modelo default do plano (conta ChatGPT rejeita `gpt-5-codex`).
-
-**Auth do backend `copilot`**: autentique a própria CLI com **`copilot login`** (não usar `gh`). E use um `JUDGE_MODEL`
-que o Copilot ofereça (ex.: `gpt-5`, `claude-opus-4.6`, `claude-sonnet-4.5`) ou **deixe vazio** para o default — um
-modelo inexistente (ex.: `gpt-5.4`) faz o Copilot sair com erro e o juiz recebe resposta vazia.
-
-Cada rep grava a saída do AgentRx em `<run_dir>/agentrx.log`; o terminal mostra o caminho, a cauda em erros e as linhas
-WARN/ERROR sempre. `JUDGE_VERBOSE=1` despeja o log inteiro por rep.
-
-**Rate limit (backoff)**: no backend `openai`, o shim re-tenta em HTTP 429/5xx com backoff (respeita `Retry-After`),
-controlado por `JUDGE_MAX_RETRIES`/`JUDGE_RETRY_BASE_SECONDS`/`JUDGE_RETRY_MAX_SECONDS` — para a matriz atravessar tiers
-grátis (ex.: OpenRouter `:free`) sem babá. Cota **diária** ainda esgota: a rep erra e você retoma depois com
-`make judge ONLY=errors`, ou usa um servidor local (Ollama) sem limite.
-
-```bash
-make smoke-judge        # stub: 1 cenário/categoria × 2 braços × 1 rep (offline)
-make smoke-judge-live   # mesmo recorte, com o juiz real do .env
-make judge              # matriz completa (30 × 2 × 3), pulando reps já julgadas
-```
-
-Fatias do passo `judge` (todas opcionais e combináveis):
-
-```bash
-make judge FAULT="System Failure" ARM=telemetry REPS=1
-make judge SCENARIOS="q01_t1_electric_kettle q07_t3_electric_kettle"
-make judge ONLY=errors          # reexecuta só as reps que falharam
-make judge FORCE=1              # rejulga mesmo as já concluídas
-```
-
-Saída em `data/internal/<mas_id>/agentrx/<judge_id>/`: `manifest.json` (juiz/backend/modelo/git SHAs),
-`runs_index.jsonl` (1 linha por rep — insumo dos CSVs) e um resumo hit/miss por categoria no stdout. Cada linha do
-índice traz `effective_model` (o modelo que o backend **de fato** usou — codex/ChatGPT resolve o default server-side, o
-OpenRouter renomeia o `:free`) e `retries` (quantas vezes o shim re-tentou por rate-limit), capturados pelo shim para
-reprodutibilidade/observabilidade. Um veredito vazio (juiz sem auth / resposta vazia) vira `status=error`, não `ok`,
-então `make judge ONLY=errors` o reexecuta. Versionam-se só manifesto, índice e o `run1.json` de cada rep
-(`validate-judge` verifica índice×disco e ausência de vazamento de gabarito).
-
-Semântica dos artefatos (importante para replicar): o `manifest.json` reflete a **última** invocação — `selection` com
-`null` significa "sem filtro" (matriz completa), não dado faltando; o `runs_index.jsonl` é reconstruído do disco **ao
-final** da sessão, então uma sessão interrompida ainda não tem índice (basta reexecutar `make judge`, que retoma pelo
-disco). Dicionário campo a campo dos manifestos, do índice e dos run dirs em
-[docs/data-artifacts.md](docs/data-artifacts.md).
-
-## Coleta dos CSVs (passo 7)
-
-Transforma os vereditos brutos nos **3 CSVs do PRD-10**, um conjunto por experimento:
-
-```bash
-make collect                    # todos os experimentos em disco
-make collect EXPERIMENT=judge-stub
-```
-
-Saída em `data/experiment/results/<mas_id>/<judge_id>/`: `runs_long.csv` (1 linha por execução do juiz),
-`trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas do artigo). A
-agregação replica o `compute_stats` do AgentRx (pooling achatado das failures); o coletor é **neutro** — nenhuma
-estatística, nenhuma comparação A/B. Reps em `error` reduzem `n_judge_runs`, nunca somem. `validate-csv` (disparado ao
-final) verifica as regras de integridade do PRD-10 §5, incluindo a reconstrução `runs_long → metricas`. O caminho
-inteiro roda offline: `make smoke-judge && make collect`. Fórmulas conferidas à mão em
-[docs/examples/metrics-reference.md](docs/examples/metrics-reference.md).
-
-## Análise A/B (passo 8)
-
-Gera, como CSV, as **6 tabelas** da seção de Resultados do artigo a partir dos CSVs de resultado (consome `metricas.csv`
-**e** `runs_long.csv`). Só tabelas por ora — figuras ficam para depois.
-
-```bash
-make analyze                                   # resolve mas_id/judge_id do .env
-make analyze METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
-```
-
-Saída em `data/experiment/analysis/<mas_id>/<judge_id>/`: `tab_acuracias`, `tab_distancia_passo`, `tab_por_categoria`,
-`tab_frequencia_mae_categoria` (por-rep, de `runs_long.csv`), `tab_inferencial` (McNemar/Wilcoxon/bootstrap) e
-`tab_estimativas_por_cenario`. A análise é **leitura pura**: não importa `agentrx` e não recomputa as métricas do
-PRD-07. Rótulos seguem o artigo (braço B = "Log textual (B)", métricas canônicas, experimento "MAS-SIM"). Idempotente e
-byte-estável.
-
-**Requer R** (fora do `make check`; passo pós-experimento offline): `Rscript` + os pacotes base `readr`, `dplyr`,
-`tidyr`, `scales` (auto-instalados na primeira execução se faltarem).
-
-## Rodando o experimento completo com agente-LLM (matriz final)
-
-O MAS é **agnóstico de modelo**: o agente é escolhido via `.env` e gravado no manifesto de cada run. Com `USE_LLM=true`,
-os 4 nós-agente (Coordinator, Researcher, Executor, Evaluator) narram os passos com o modelo configurado; a injeção de
-falha continua **scriptada** (o ground truth não depende do LLM). Guia completo do zero:
-
-### 1. Pré-requisitos
-
-- Repo clonado com submódulo (`git clone --recurse-submodules`) + `make install`.
-- Um endpoint OpenAI-compatible para o **agente** (ex.: OpenRouter, Ollama local, vLLM).
-- Um backend para o **juiz** (seção "Juiz do AgentRx"). Invariante: **agente ≠ juiz**, e o juiz deve ser um modelo
-  capaz.
-
-### 2. Configurar o `.env` (agente via OpenRouter, exemplo)
-
-```bash
-USE_LLM=true
-USE_LLM_STRICT=true                          # corpus final: falha alto, nunca degrada p/ template
-AGENT_MODEL="qwen/qwen-2.5-72b-instruct"     # qualquer modelo do provedor
-AGENT_BASE_URL="https://openrouter.ai/api/v1/"
-AGENT_API_KEY="sk-or-v1-..."                 # sua chave (nunca commitar o .env)
-AGENT_MAX_RETRIES=5                          # backoff p/ rate-limit (429/5xx/timeout)
-AGENT_RETRY_BASE_SECONDS=5
-AGENT_RETRY_MAX_SECONDS=120
-```
-
-Resiliência (por que a matriz não quebra com tier gratuito): 429/5xx/timeout são re-tentados com espera exponencial,
-respeitando o header `Retry-After`; **conexão recusada não re-tenta** (serviço fora do ar → falha imediata). Com
-`USE_LLM_STRICT=true`, esgotar os retries (ou resposta vazia) **aborta o run** com o nó e a causa — nenhuma trajetória
-mista (prosa LLM + template) entra no corpus. Sem o estrito (dev/smoke), o passo degrada para o template determinístico
-e o manifesto conta em `fallback_steps`.
-
-### 3. Gerar o corpus e rodar a matriz
-
-```bash
-make clean-data                  # zera os artefatos de run anteriores
-make generate                    # benchmark (30 cenários, 6 por categoria)
-make simulate                    # 30 traces OTel + ground truth (com prosa do agente-LLM)
-make derive                      # 2 trajetórias por trace (paridade + não-vazamento validados)
-grep -L '"fallback_steps": 0' data/internal/<mas_id>/manifests/*.json   # deve sair VAZIO (corpus puro-LLM)
-make smoke-judge-live            # sanidade do juiz real (5 cenários × 2 braços × 1 rep)
-make judge                       # matriz completa 30 × 2 braços × 3 reps (retomável; ONLY=errors refaz falhas)
-make collect                     # 3 CSVs em data/experiment/results/<mas_id>/<judge_id>/
-```
-
-**Atalho — tudo em um comando:** `make experiment` encadeia `simulate → derive → judge → collect`, **parando no primeiro
-passo que falhar** e dizendo qual foi (ex.: `✗ experiment: passo 'judge' FALHOU`). Não é um "run-all" mágico — é só a
-composição dos passos segregados, então cada um segue validando a própria saída e sendo idempotente; re-executar
-`make experiment` **retoma** de onde parou. (Continua valendo rodar os passos avulsos para fatiar/depurar.)
-
-Notas: cada passo é idempotente e valida a própria saída; `make judge` interrompido retoma de onde parou. O teste
-**forte** de imparcialidade (igualdade byte a byte) roda só com `USE_LLM=false` — com `USE_LLM=true` ele vira skip e o
-teste estático (renderizador cego ao gabarito) segue garantindo R5 (PRD-08 D38). Modelos efetivos de agente e juiz ficam
-registrados nos manifestos (reprodutibilidade).
-
-## Onde as coisas vivem
-
-- `src/agentrx_otel_poc/` — `benchmark/`, `faults/`, `graph/` (nós + runner), `adapters/` (parser + sanitize + 2
-  braços), `telemetry.py`, `tasks.py`.
-- `scripts/` — `generate_benchmark.py`, `simulate.py`, `derive_trajectories.py`, `check_file_size.py`.
-- `data/external/` (catálogo vendorizado), `data/benchmark/`, `data/internal/` (artefatos por run; dicionário em
-  [docs/data-artifacts.md](docs/data-artifacts.md)), `data/experiment/results/` (CSVs, dicionário no PRD-10).
-- `docs/prd/` (specs) · `docs/adr/` (decisões arquiteturais) · `docs/data-artifacts.md` (manifestos/índice) ·
-  `docs/examples/` (oráculos de mesa) · `tests/` (+ `tests/smoke/`).
+Para contribuir, leia também [AGENTS.md](AGENTS.md). Ele define os invariantes que não podem ser quebrados pelo
+experimento.

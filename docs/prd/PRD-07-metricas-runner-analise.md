@@ -43,8 +43,9 @@ estendido).
 
 ## 5. Esquema do CSV (uma linha por trajetória)
 
-O significado, tipo e origem de cada campo são **canônicos no PRD-10 (dicionário de dados)**; exemplo de mesa em
-`docs/examples/metrics-reference.md`. Resumo das colunas (ver PRD-10 para tipos/faixas e as colunas-espelho `*_name`):
+O significado, tipo e origem de cada campo são canônicos em `data/experiment/results/README.md`, como exige o PRD-10;
+exemplo de mesa em `docs/examples/metrics-reference.md`. Resumo das colunas (ver o dicionário para tipos/faixas e as
+colunas-espelho `*_name`):
 
 `scenario_id, arm, n_judge_runs, trajectory_length, gt_step, gt_category,`
 `gt_failures_json, gt_earliest_category, gt_terminal_category,` `most_common_category, step_mean, step_median,`

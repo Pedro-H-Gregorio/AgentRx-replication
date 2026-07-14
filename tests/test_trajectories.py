@@ -17,7 +17,6 @@ from agentrx_otel_poc.adapters.content_lines import render_prose
 from agentrx_otel_poc.settings import Settings
 
 ROOT = Path(__file__).resolve().parent.parent
-# Validate the 2 arms of the current MAS corpus (data/internal/<mas_id>/).
 _MAS = paths.resolve_mas_id(Settings())
 TELEMETRY_DIR = paths.trajectory_dir(_MAS, "telemetry")
 AGENTRX_DIR = paths.trajectory_dir(_MAS, "agentrx")
@@ -84,7 +83,6 @@ def test_semantic_parity(run_id: str) -> None:
         facts = json.loads(_content(step_a))
         assert "telemetry" in facts, f"{run_id}: arm A step lost its telemetry block"
         facts.pop("telemetry")
-        # arm A facts, rendered as prose, must reproduce arm B exactly.
         assert "\n".join(render_prose(facts)) == _content(step_b), (
             f"{run_id}: semantic facts diverge between arms"
         )

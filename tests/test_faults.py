@@ -24,7 +24,7 @@ def test_every_category_has_an_operator() -> None:
 
 
 def test_operator_is_no_op_outside_target_node() -> None:
-    operator = select("plan_adherence")  # targets Coordinator
+    operator = select("plan_adherence")
     assert for_node("plan_adherence", "Coordinator") is operator
     assert for_node("plan_adherence", "Tool") is None
     assert select("") is None

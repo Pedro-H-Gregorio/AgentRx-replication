@@ -16,7 +16,7 @@ incrementais; cada arquivo é mantido **abaixo de 200 linhas** para facilitar a 
 | 6 | `PRD-06-contrato-dados-otel-ir.md` | Campos da versão OTel e mapeamento OTel→IR dos 2 braços (telemetria e AgentRx puro) | base |
 | 7 | `PRD-07-metricas-runner-analise.md` | Métricas fiéis ao AgentRx, runner de matriz, scripts de análise | base |
 | 9 | `PRD-09-experimento-trail.md` | Experimento TRAIL (segregado): campos do dataset, extração, adapters, avaliação | base |
-| 10 | `PRD-10-dicionario-de-dados-csv.md` | Dicionário de dados dos 3 CSVs (campo a campo: tipo, origem, significado) | base |
+| 10 | `PRD-10-dicionario-de-dados-csv.md` | Contrato dos 3 CSVs; dicionário campo a campo em `data/experiment/results/README.md` | base |
 
 ## Dois experimentos segregados
 

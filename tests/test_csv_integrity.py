@@ -1,4 +1,4 @@
-"""CSV integrity = `make validate-csv` (metrics-collection spec, PRD-10 §5).
+"""CSV integrity = `make validate-csv` (metrics-collection spec, PRD-10).
 
 Runs over whatever experiments exist under `data/experiment/results/`; skips
 when none (collecting is opt-in). For each experiment: the three CSVs join on
@@ -20,14 +20,13 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "data" / "experiment" / "results"
-# CSVs live at data/experiment/results/<mas_id>/<judge_id>/metricas.csv (ADR-0013).
 EXPERIMENTS = (
     [p.parent for p in RESULTS.glob("*/*/metricas.csv")] if RESULTS.exists() else []
 )
 
 
 def _exp_id(exp_dir: Path) -> str:
-    return f"{exp_dir.parent.name}/{exp_dir.name}"  # <mas_id>/<judge_id>
+    return f"{exp_dir.parent.name}/{exp_dir.name}"
 
 
 BOOL01 = (

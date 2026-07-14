@@ -8,30 +8,22 @@ load_dotenv()
 @dataclass(frozen=True)
 class Settings:
     use_llm: bool = os.getenv("USE_LLM", "false").lower() == "true"
-    # Corpus-generation guard: with a rate-limited provider, a transport failure
-    # must not silently degrade a step to template prose. Strict aborts the run
-    # instead (default off preserves the tolerant dev/smoke behavior).
+    # Strict mode prevents a mixed LLM/template corpus after a transport failure.
     use_llm_strict: bool = os.getenv("USE_LLM_STRICT", "false").lower() == "true"
     llm_temperature: float = float(os.getenv("LLM_TEMPERATURE", "0"))
     llm_timeout_seconds: float = float(os.getenv("LLM_TIMEOUT_SECONDS", "30"))
-    # Transport backoff for the agent client (mirrors the judge shim, D28): retry
-    # 429/5xx/connection errors, honoring Retry-After, else exponential with a cap.
+    # Transport retries honor Retry-After, then capped exponential backoff.
     agent_max_retries: int = int(os.getenv("AGENT_MAX_RETRIES", "5"))
     agent_retry_base_seconds: float = float(os.getenv("AGENT_RETRY_BASE_SECONDS", "5"))
     agent_retry_max_seconds: float = float(os.getenv("AGENT_RETRY_MAX_SECONDS", "120"))
-    # MAS agent model is parametrizable and recorded in each run manifest (PRD-00 §4.1).
-    # Used only when USE_LLM=true; otherwise the agent runs deterministically.
+    # Used only with USE_LLM=true and recorded in the run manifest.
     agent_model: str = os.getenv("AGENT_MODEL", "Llama3.1-8B")
-    # Namespace of the run corpus under data/internal/<mas_id>/ (ADR-0013). Empty
-    # here means "derive from agent_model" — resolved in `paths.resolve_mas_id` from the
-    # effective settings, so a programmatic run with another model lands right.
+    # Empty resolves from effective agent_model, including programmatic runs.
     mas_id: str = os.getenv("MAS_ID", "")
     agent_base_url: str | None = os.getenv("AGENT_BASE_URL")
     agent_api_key: str = os.getenv("AGENT_API_KEY", "ollama")
     otel_service_name: str = os.getenv("OTEL_SERVICE_NAME", "agentrx-otel-poc")
-    # AgentRx judge (C6). backend picks how the judge model is reached:
-    #   copilot -> real Copilot CLI; openai -> OpenAI-compatible base_url via shim;
-    #   stub -> deterministic offline verdict (smoke). Recorded per run manifest.
+    # Backend and model are recorded in the judge manifest.
     judge_backend: str = os.getenv("JUDGE_BACKEND", "stub")
     judge_model: str = os.getenv("JUDGE_MODEL", "")
     judge_base_url: str | None = os.getenv("JUDGE_BASE_URL")

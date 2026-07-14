@@ -1,7 +1,8 @@
 # Exemplo de referência — cálculo dos CSVs (PRD-07/PRD-10)
 
-Oráculo de mesa do coletor (C7): um cenário fictício **`gold01`**, com as fórmulas do PRD-10 §4 aplicadas à mão. As
-linhas esperadas aqui são exatamente as que o coletor produz sobre o fixture `tests/fixtures/golden/` — o teste golden
+Oráculo de mesa do coletor (C7): um cenário fictício **`gold01`**, com as fórmulas do
+[dicionário de resultados](../../data/experiment/results/README.md) aplicadas à mão. As linhas esperadas aqui são
+exatamente as que o coletor produz sobre o fixture `tests/fixtures/golden/` — o teste golden
 (`tests/test_collect_csv.py`) trava essa igualdade. Se uma fórmula divergir, o golden falha exibindo o campo.
 
 ## Cenário
@@ -20,7 +21,7 @@ linhas esperadas aqui são exatamente as que o coletor produz sobre o fixture `t
 ## `runs_long.csv` (1 linha por rep)
 
 Cada linha = uma execução do juiz; `raw_failures_json` guarda as failures brutas da rep (matéria-prima da reagregação do
-PRD-10 §5).
+dicionário de resultados, seção "Regras de integridade").
 
 ```
 gold01,telemetry,1,2,3,Invalid Invocation,"[{""case"":3,""step"":2}]",telemetry/gold01/rep1

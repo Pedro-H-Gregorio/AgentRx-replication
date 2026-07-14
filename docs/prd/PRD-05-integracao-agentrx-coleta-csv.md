@@ -38,10 +38,10 @@ Definir como registrar o domínio próprio no AgentRx, invocar o pipeline com o 
 
 ## 5. CSVs de saída (`data/experiment/results/<mas_id>/<judge_id>/`)
 
-O esquema **canônico** dos CSVs é o **PRD-10** (dicionário de dados, campo a campo) — implementado pelo coletor do C7
-(`scripts/collect_agentrx.py`; ADR-0012). São **3 CSVs**: `runs_long.csv` (1 linha por execução do juiz),
-`trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas do artigo). O braço
-é **coluna**, nunca arquivo.
+O contrato dos CSVs é o **PRD-10**; o dicionário campo a campo co-localizado está em `data/experiment/results/README.md`
+— implementado pelo coletor do C7 (`scripts/collect_agentrx.py`; ADR-0012). São **3 CSVs**: `runs_long.csv` (1 linha por
+execução do juiz), `trajectory_index.csv` (1 por trajetória×braço) e `metricas.csv` (agregado das reps, com as métricas
+do artigo). O braço é **coluna**, nunca arquivo.
 
 O esboço antigo (`judgements.csv`/`scenarios.csv`) foi **descartado**: `metricas.csv`+`runs_long.csv` cobrem o
 julgamento com mais fidelidade, e o conteúdo do `scenarios.csv` (pergunta, template, categoria alvo, nó, resposta) já

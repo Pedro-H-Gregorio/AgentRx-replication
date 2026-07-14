@@ -1,11 +1,3 @@
-# c8_tables.R — as 6 tabelas de análise (C8), uma função por CSV.
-#
-# Cada função recebe o contexto de c8_context() e devolve um data.frame pronto
-# para virar CSV; a escrita fica em c8_run.R. Rótulos/títulos seguem o artigo
-# (D7): braço B = "Log textual (B)", métricas canônicas do AgentRx, categorias
-# com nome completo. Espelha os chunks do Rmd de referência, sem apresentação.
-
-# 2.1 — Acurácias por braço + diferença A−B (chunk `tab_acc`).
 tab_acuracias <- function(ctx) {
   acc_map <- c(
     step_acc_exact = "Critical Step Accuracy",
@@ -34,7 +26,6 @@ tab_acuracias <- function(ctx) {
   out
 }
 
-# 2.2 — Descritivo do Average Step Distance por braço (chunk `tab_dist`).
 tab_distancia_passo <- function(ctx) {
   ctx$d |>
     dplyr::group_by(`Braço` = arm_lab) |>
@@ -50,7 +41,6 @@ tab_distancia_passo <- function(ctx) {
     )
 }
 
-# 2.3 — Por categoria × braço (chunk `tab_cat`).
 tab_por_categoria <- function(ctx) {
   ctx$d |>
     dplyr::group_by(Categoria = cat_full, `Braço` = arm_lab) |>
@@ -63,8 +53,6 @@ tab_por_categoria <- function(ctx) {
     dplyr::arrange(Categoria, `Braço`)
 }
 
-# 2.4 — Frequência de acertos/erros e MAE por categoria nas repetições do juiz,
-# derivada de rep_d/runs_long.csv (chunk `tab_rep_category_mae`).
 tab_frequencia_mae_categoria <- function(ctx) {
   ctx$rep_d |>
     dplyr::group_by(cat_full, arm) |>
@@ -97,10 +85,6 @@ tab_frequencia_mae_categoria <- function(ctx) {
     )
 }
 
-# 2.5 — Tabela inferencial: McNemar no layout do artigo (Ambos/Só A/Só B/Nenhum)
-# para as 2 métricas categóricas, mais Wilcoxon e bootstrap IC95% da distância
-# como linhas adicionais (chunk `tab_inf`). A coluna Resultado carrega o p das
-# 3 primeiras e o IC do bootstrap; Leitura traz a interpretação.
 tab_inferencial <- function(ctx) {
   ci <- ctx$ci
   delta <- ctx$delta
@@ -131,9 +115,6 @@ tab_inferencial <- function(ctx) {
   )
 }
 
-# 2.6 — Placar por cenário: gabarito × predição de A e de B (chunk
-# `tab_estimativas`). `✓`/`✗` = acertou/errou vs o gabarito; nomes de categoria
-# completos (D7). O braço B é o log textual.
 tab_estimativas_por_cenario <- function(ctx) {
   mark <- function(hit) ifelse(hit == 1, "✓", "✗")
   arm_est <- function(a) {

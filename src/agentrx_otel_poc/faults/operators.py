@@ -35,11 +35,11 @@ def _invalid_invocation(state: ExperimentState) -> None:
     """Researcher emits malformed args for an otherwise healthy tool."""
     args = dict(state.get("tool_args") or {})
     if "item_id" in args:
-        args.pop("item_id")  # drop a required field
+        args.pop("item_id")
     if "product_id" in args:
-        args["product_id"] = 0  # wrong type (int instead of str)
+        args["product_id"] = 0
     else:
-        args.pop("product_type", None)  # missing required field for search
+        args.pop("product_type", None)
     state["tool_args"] = args
 
 
@@ -47,13 +47,13 @@ def _misinterpretation(state: ExperimentState) -> None:
     """Executor misreads a valid tool output — wrong but plausible for the question."""
     answer = state.get("expected_answer") or {}
     items = state.get("products") or []
-    if "answer" in answer:  # T4 yes/no → flip the verdict
+    if "answer" in answer:
         state["forced_answer"] = (
             "No, it does not." if answer["answer"] else "Yes, it does."
         )
-    elif "item_ids" in answer:  # T3 filter → misread as an empty match set
+    elif "item_ids" in answer:
         state["forced_answer"] = "No items match that filter above the given price."
-    elif items:  # T1 cheapest → name the most expensive as the cheapest
+    elif items:
         wrong = max(items, key=lambda i: (i["price"], i["item_id"]))
         state["forced_answer"] = (
             f"The cheapest available item is {wrong['item_id']} "
@@ -70,13 +70,13 @@ def _invention(state: ExperimentState) -> None:
     # Every fabrication cites a non-existent record (item 0000000000) so the answer
     # provably does not derive from the tool evidence — the hallmark of Invention,
     # distinct from Misinterpretation (which mis-selects a real evidence item).
-    if "count" in answer:  # T2 → a count not derived from the evidence
+    if "count" in answer:
         state["forced_answer"] = (
             f"There are {len(items) + 7} options available, per record 0000000000."
         )
-    elif "item_ids" in answer:  # T3 → non-existent items
+    elif "item_ids" in answer:
         state["forced_answer"] = "Items 0000000000 and 1111111111 match the filter."
-    else:  # T1 → a non-existent cheapest item
+    else:
         state["forced_answer"] = "Item 0000000000 is the cheapest, priced at $0.01."
     state["fabricated"] = True
 
@@ -91,15 +91,15 @@ def _plan_adherence(state: ExperimentState) -> None:
     query = dict(state.get("query") or {})
     altered = False
     if "price_min" in query:
-        query.pop("price_min")  # drop a numeric threshold the question demanded
+        query.pop("price_min")
         altered = True
     else:
         for key in query:
             if key not in _TOOL_ARG_KEYS:
-                query[key] = f"{query[key]}_violated"  # alter the asked option
+                query[key] = f"{query[key]}_violated"
                 altered = True
                 break
-    if not altered:  # e.g. T1 "cheapest available": ignore the availability filter
+    if not altered:
         query["available_only"] = not bool(query.get("available_only", True))
     state["query"] = query
     state["plan_violated"] = True

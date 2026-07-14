@@ -27,7 +27,6 @@ from agentrx_otel_poc.judge.config import ROOT
 from agentrx_otel_poc.judge.scoring import failures_for
 
 DATA_INTERNAL = ROOT / "data" / "internal"
-# Statuses that mean "this rep has a usable verdict on disk" (GAP-1).
 VERDICT_STATUS = {"ok", "skipped"}
 
 
@@ -38,8 +37,8 @@ class CollectError(RuntimeError):
 @dataclass(frozen=True)
 class RepData:
     rep: int
-    run_dir: str  # relative to the experiment dir
-    failures: list[tuple[int, int]]  # (failure_case, step_number), pooling material
+    run_dir: str
+    failures: list[tuple[int, int]]
     effective_model: str | None
     run1_mtime: float
 
@@ -54,8 +53,8 @@ class PairData:
     n_error_reps: int = 0
     ground_truth: dict = field(default_factory=dict)
     n_steps: int = 0
-    judge_model: str = ""  # effective_model of the reps, else the manifest's
-    mas_id: str = ""  # corpus namespace (for the trajectory_index.csv paths)
+    judge_model: str = ""
+    mas_id: str = ""
 
 
 def _rows(exp_dir: Path) -> list[dict]:
@@ -115,7 +114,7 @@ def load_experiment(
         )
     with_verdict = [p for p in pairs.values() if p.reps]
     gt_dir = data_internal / "ground_truth"
-    mas_id = data_internal.name  # the <mas_id> corpus dir
+    mas_id = data_internal.name
     for pair in with_verdict:
         pair.reps.sort(key=lambda r: r.rep)
         pair.judge_model = _resolve_model(pair, manifest_model)

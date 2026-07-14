@@ -12,7 +12,6 @@ from agentrx_otel_poc.settings import Settings
 from agentrx_otel_poc.tasks import NODE_STEP, load_benchmark
 
 ROOT = Path(__file__).resolve().parent.parent
-# Validate the corpus of the current MAS (data/internal/<mas_id>/), per the .env.
 _MAS = paths.resolve_mas_id(Settings())
 OTEL_DIR = paths.otel_dir(_MAS)
 GT_DIR = paths.ground_truth_dir(_MAS)
