@@ -1,8 +1,0 @@
-{
-  "run_task_id": "q02_t2_mechanical_keyboard",
-  "critical_failure_step": 3,
-  "failure_category": "System Failure",
-  "failed_component": "ProductCatalogSearch",
-  "fault_mode": "system_failure",
-  "reason": "Fault injected at the Tool step (System Failure)."
-}

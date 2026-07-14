@@ -1,8 +1,0 @@
-{
-  "run_task_id": "q26_t3_mechanical_keyboard",
-  "critical_failure_step": 1,
-  "failure_category": "Instruction/Plan Adherence Failure",
-  "failed_component": "Coordinator",
-  "fault_mode": "plan_adherence",
-  "reason": "Fault injected at the Coordinator step (Instruction/Plan Adherence Failure)."
-}

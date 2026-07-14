@@ -1,8 +1,0 @@
-{
-  "run_task_id": "q15_t4_vacuum_cleaner",
-  "critical_failure_step": 4,
-  "failure_category": "Misinterpretation of Tool Output",
-  "failed_component": "Executor",
-  "fault_mode": "misinterpretation",
-  "reason": "Fault injected at the Executor step (Misinterpretation of Tool Output)."
-}

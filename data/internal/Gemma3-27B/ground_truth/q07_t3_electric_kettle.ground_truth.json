@@ -1,8 +1,0 @@
-{
-  "run_task_id": "q07_t3_electric_kettle",
-  "critical_failure_step": 2,
-  "failure_category": "Invalid Invocation",
-  "failed_component": "Researcher",
-  "fault_mode": "invalid_invocation",
-  "reason": "Fault injected at the Researcher step (Invalid Invocation)."
-}
