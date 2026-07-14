@@ -442,26 +442,28 @@ sobretudo, em \textit{Plan Adherence}, e que parte deles reflete a instabilidade
 	\centering
 	\caption{Resultados por categoria de falha no experimento MAS-SIM.}
 	\label{tab:resultados-por-categoria-mas-sim}
-	\begin{tabular}{llrrr}
-		\toprule
-		\textbf{Categoria}                 & \textbf{Braço}  & \textbf{Failure Category Accuracy} & \textbf{Critical Step Accuracy} & \textbf{Average Step Distance} \\
-		\midrule
-		System Failure                     & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
-		System Failure                     & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
-		\midrule
-		Invalid Invocation                 & Telemetria (A)  & 100,0\%                            & \textbf{4/6}                    & 0,417                          \\
-		Invalid Invocation                 & Log textual (B) & 100,0\%                            & \textbf{5/6}                    & 0,217                          \\
-		\midrule
-		Misinterpretation of Tool Output   & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
-		Misinterpretation of Tool Output   & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
-		\midrule
-		Invention of New Information       & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
-		Invention of New Information       & Log textual (B) & \textbf{66,7\%}                    & 6/6                             & 0,000                          \\
-		\midrule
-		Instruction/Plan Adherence Failure & Telemetria (A)  & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,900                          \\
-		Instruction/Plan Adherence Failure & Log textual (B) & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,833                          \\
-		\bottomrule
-	\end{tabular}
+	\resizebox{0.98\textwidth}{!}{%
+		\begin{tabular}{llrrr}
+			\toprule
+			\textbf{Categoria}                 & \textbf{Braço}  & \textbf{Failure Category Accuracy} & \textbf{Critical Step Accuracy} & \textbf{Average Step Distance} \\
+			\midrule
+			System Failure                     & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
+			System Failure                     & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
+			\midrule
+			Invalid Invocation                 & Telemetria (A)  & 100,0\%                            & \textbf{4/6}                    & 0,417                          \\
+			Invalid Invocation                 & Log textual (B) & 100,0\%                            & \textbf{5/6}                    & 0,217                          \\
+			\midrule
+			Misinterpretation of Tool Output   & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
+			Misinterpretation of Tool Output   & Log textual (B) & 100,0\%                            & 6/6                             & 0,000                          \\
+			\midrule
+			Invention of New Information       & Telemetria (A)  & 100,0\%                            & 6/6                             & 0,000                          \\
+			Invention of New Information       & Log textual (B) & \textbf{66,7\%}                    & 6/6                             & 0,000                          \\
+			\midrule
+			Instruction/Plan Adherence Failure & Telemetria (A)  & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,900                          \\
+			Instruction/Plan Adherence Failure & Log textual (B) & \textbf{33,3\%}                    & \textbf{3/6}                    & 0,833                          \\
+			\bottomrule
+		\end{tabular}%
+	}
 \end{table*}
 
 \subsection{Comparação pareada}
@@ -569,7 +571,7 @@ Os resultados são preliminares e devem ser lidos como evidência descritiva, um
 diferença estatisticamente significativa entre os braços em nenhuma das métricas ($p = 0{,}617$ para a categoria e $p =
 		1{,}000$ para a localização; Tabela~\ref{tab:mcnemar-mas-sim}). Quanto à \textbf{RQ1}, a telemetria estruturada não
 melhorou a identificação da etapa crítica: o log textual simplificado foi ligeiramente superior na localização exata e
-na distância média (Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob tolerância de um passo. Quanto à
+na distância média (Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob o intervalo de um passo. Quanto à
 \textbf{RQ2}, observou-se um indício descritivo, porém fraco, de que a telemetria reduz ambiguidades na categorização
 da causa raiz; a vantagem, contudo, decorreu inteiramente de \textit{Invention of New Information}
 (Tabela~\ref{tab:resultados-por-categoria-mas-sim}) e não foi estatisticamente detectável.
