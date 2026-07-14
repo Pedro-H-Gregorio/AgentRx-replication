@@ -15,7 +15,7 @@ pelo formato de apresentação.
 
 - [Primeira execução](#primeira-execu%C3%A7%C3%A3o)
 - [Próximos comandos](#pr%C3%B3ximos-comandos)
-- [Onde encontrar cada coisa](#onde-encontrar-cada-coisa)
+- [Documentações](#documenta%C3%A7%C3%B5es)
 
 ## Primeira execução
 
@@ -59,7 +59,7 @@ make check
 
 Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [guia operacional](docs/operacao.md).
 
-## Onde encontrar as documentações
+## Documentações
 
 - [Guia operacional](docs/operacao.md): configuração, matriz completa e análise.
 - [Testes](tests/README.md): escopo de cada suíte e comandos de validação.
@@ -69,6 +69,3 @@ Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [
 - [Tabelas de análise](data/experiment/analysis/README.md): dicionário das seis saídas de `make analyze`.
 - [Arquitetura](docs/architecture/architecture.md), [PRDs](docs/prd/PRD-INDEX.md) e [ADRs](docs/adr/README.md): contrato
   experimental e decisões duráveis.
-
-Para contribuir, leia também [AGENTS.md](AGENTS.md). Ele define os invariantes que não podem ser quebrados pelo
-experimento.
