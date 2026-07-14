@@ -11,6 +11,12 @@ benchmark → simulação MAS → trace OTel → duas trajetórias → juiz → 
 O trace OTel é a fonte de verdade. Trajetórias não recebem ground truth, e os dois braços só diferem pela telemetria e
 pelo formato de apresentação.
 
+## Sumário
+
+- [Primeira execução](#primeira-execu%C3%A7%C3%A3o)
+- [Próximos comandos](#pr%C3%B3ximos-comandos)
+- [Onde encontrar cada coisa](#onde-encontrar-cada-coisa)
+
 ## Primeira execução
 
 Pré-requisitos: Git, Make, Python 3.13 e `uv`. Clone com o submódulo:
@@ -53,7 +59,7 @@ make check
 
 Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [guia operacional](docs/operacao.md).
 
-## Onde encontrar cada coisa
+## Onde encontrar as documentações
 
 - [Guia operacional](docs/operacao.md): configuração, matriz completa e análise.
 - [Testes](tests/README.md): escopo de cada suíte e comandos de validação.

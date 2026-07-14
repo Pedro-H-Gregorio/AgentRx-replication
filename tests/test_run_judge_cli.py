@@ -64,10 +64,20 @@ def test_settings_reads_judge_reps_from_environment(monkeypatch) -> None:
         importlib.reload(settings_module)
 
 
-def test_default_reps_remains_three() -> None:
-    run_judge = _load_run_judge()
+def test_default_reps_remains_three(monkeypatch) -> None:
+    """Shipped default is 3 reps when nothing in the environment overrides it."""
+    import dotenv
 
-    assert run_judge._resolve_reps(_args(), Settings()) == 3
+    monkeypatch.delenv("JUDGE_REPS", raising=False)
+    original_load = dotenv.load_dotenv
+    dotenv.load_dotenv = lambda *args, **kwargs: None
+    try:
+        reloaded = importlib.reload(settings_module)
+        run_judge = _load_run_judge()
+        assert run_judge._resolve_reps(_args(), reloaded.Settings()) == 3
+    finally:
+        dotenv.load_dotenv = original_load
+        importlib.reload(settings_module)
 
 
 @pytest.mark.parametrize("value", [0, -1])

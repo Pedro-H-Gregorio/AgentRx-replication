@@ -27,25 +27,31 @@ fora de escopo mantém código e nome, mas conta como erro de categoria.
 
 Granularidade: uma linha por execução do juiz. É a matéria-prima por repetição; não agrega julgamentos.
 
-| Campo | Tipo | Origem | Significado | | -- | -- | -- | | `scenario_id` | `str` | meta | Identificador do cenário e
-chave de junção. | | `arm` | `enum{telemetry,agentrx}` | meta | Representação enviada ao juiz. | | `judge_idx` | `int` |
-meta | Índice da repetição do juiz, começando em 1. | | `pred_step` | `int` | veredito | Passo previsto na repetição:
-média dos steps das failures, arredondada. | | `pred_category` | `int (0..10)` | veredito | Categoria prevista na
-repetição; 0 e 10 continuam sendo miss. | | `pred_category_name` | `str` | veredito | Nome completo correspondente a
-`pred_category`. | | `raw_failures_json` | `json` | veredito | Lista bruta `[{case,step}]` usada para reconstruir a
-agregação. | | `agentrx_run_name` | `str` | meta | Caminho relativo `<arm>/<run_id>/rep<k>` para rastrear a repetição. |
+| Campo | Tipo | Origem | Significado |
+| -- | -- | -- | -- |
+| `scenario_id` | `str` | meta | Identificador do cenário e chave de junção. |
+| `arm` | `enum{telemetry,agentrx}` | meta | Representação enviada ao juiz. |
+| `judge_idx` | `int` | meta | Índice da repetição do juiz, começando em 1. |
+| `pred_step` | `int` | veredito | Passo previsto na repetição: média dos steps das failures, arredondada. |
+| `pred_category` | `int (0..10)` | veredito | Categoria prevista na repetição; 0 e 10 continuam sendo miss. |
+| `pred_category_name` | `str` | veredito | Nome completo correspondente a `pred_category`. |
+| `raw_failures_json` | `json` | veredito | Lista bruta `[{case,step}]` usada para reconstruir a agregação. |
+| `agentrx_run_name` | `str` | meta | Caminho relativo `<arm>/<run_id>/rep<k>` para rastrear a repetição. |
 
 ## `trajectory_index.csv`
 
 Granularidade: uma linha por trajetória e braço. Liga a trajetória enviada ao trace OTel que a originou; o trace não é
 copiado para os CSVs.
 
-| Campo | Tipo | Origem | Significado | | -- | -- | -- | | `run_id` | `str` | meta | Execução do MAS que originou o
-trace. | | `scenario_id` | `str` | meta | Chave de junção com os outros CSVs. | | `arm` | `enum{telemetry,agentrx}` |
-meta | Braço da trajetória. | | `trajectory_path` | `str (path)` | meta | Caminho da IR enviada ao AgentRx. | |
-`otel_path` | `str (path)` | meta | Caminho do trace OTel bruto, fonte de verdade. | | `n_steps` | `int` | meta | Número
-de passos da trajetória; denominador da distância normalizada. | | `sent_at` | `iso8601` | meta | Mtime do `run1.json`
-da repetição mais antiga do par. |
+| Campo | Tipo | Origem | Significado |
+| -- | -- | -- | -- |
+| `run_id` | `str` | meta | Execução do MAS que originou o trace. |
+| `scenario_id` | `str` | meta | Chave de junção com os outros CSVs. |
+| `arm` | `enum{telemetry,agentrx}` | meta | Braço da trajetória. |
+| `trajectory_path` | `str (path)` | meta | Caminho da IR enviada ao AgentRx. |
+| `otel_path` | `str (path)` | meta | Caminho do trace OTel bruto, fonte de verdade. |
+| `n_steps` | `int` | meta | Número de passos da trajetória; denominador da distância normalizada. |
+| `sent_at` | `iso8601` | meta | Mtime do `run1.json` da repetição mais antiga do par. |
 
 ## `metricas.csv`
 
@@ -54,23 +60,31 @@ Granularidade: uma linha por trajetória e braço. Cada linha agrega todas as re
 
 ### Identificação e ground truth
 
-| Campo | Tipo | Origem | Significado | | -- | -- | -- | | `scenario_id` | `str` | meta | Chave de junção. | | `arm` |
-`enum{telemetry,agentrx}` | meta | Braço; os dois valores do cenário formam o par A/B. | | `n_judge_runs` | `int` | meta
-| Número de reps com veredito usadas no pool. | | `trajectory_length` | `int` | meta | Passos da trajetória; normaliza a
-distância. | | `gt_step` | `int` | GT | Passo crítico verdadeiro. | | `gt_category` | `int (1..10)` | GT | Categoria
-crítica verdadeira. | | `gt_category_name` | `str` | GT | Nome legível de `gt_category`. | | `gt_failures_json` | `json`
-| GT | Lista `[{step,category}]` de todas as falhas anotadas. | | `gt_earliest_category` | `int` | GT | Categoria da
-falha de menor passo. | | `gt_terminal_category` | `int` | GT | Categoria da falha de maior passo. |
+| Campo | Tipo | Origem | Significado |
+| -- | -- | -- | -- |
+| `scenario_id` | `str` | meta | Chave de junção. |
+| `arm` | `enum{telemetry,agentrx}` | meta | Braço; os dois valores do cenário formam o par A/B. |
+| `n_judge_runs` | `int` | meta | Número de reps com veredito usadas no pool. |
+| `trajectory_length` | `int` | meta | Passos da trajetória; normaliza a distância. |
+| `gt_step` | `int` | GT | Passo crítico verdadeiro. |
+| `gt_category` | `int (1..10)` | GT | Categoria crítica verdadeira. |
+| `gt_category_name` | `str` | GT | Nome legível de `gt_category`. |
+| `gt_failures_json` | `json` | GT | Lista `[{step,category}]` de todas as falhas anotadas. |
+| `gt_earliest_category` | `int` | GT | Categoria da falha de menor passo. |
+| `gt_terminal_category` | `int` | GT | Categoria da falha de maior passo. |
 
 ### Agregados das repetições
 
-| Campo | Tipo | Origem | Significado | | -- | -- | -- | | `most_common_category` | `int (0..10)` | agregado | Moda das
-categorias no pool de failures. | | `most_common_category_name` | `str` | agregado | Nome legível da moda. | |
-`step_mean` | `float` | agregado | Média dos steps no pool. | | `step_median` | `float` | agregado | Mediana dos steps
-no pool. | | `category_std` | `float` | agregado | Desvio-padrão dos inteiros de categoria no pool. | | `step_std` |
-`float` | agregado | Desvio-padrão dos steps no pool. | | `failure_case_accuracy_perrun` | `float [0,1]` | agregado × GT
-| Fração das failures do pool cuja categoria bate com o GT. | | `step_mae` | `float` | agregado × GT | Média de
-`abs(step - gt_step)` no pool. |
+| Campo | Tipo | Origem | Significado |
+| -- | -- | -- | -- |
+| `most_common_category` | `int (0..10)` | agregado | Moda das categorias no pool de failures. |
+| `most_common_category_name` | `str` | agregado | Nome legível da moda. |
+| `step_mean` | `float` | agregado | Média dos steps no pool. |
+| `step_median` | `float` | agregado | Mediana dos steps no pool. |
+| `category_std` | `float` | agregado | Desvio-padrão dos inteiros de categoria no pool. |
+| `step_std` | `float` | agregado | Desvio-padrão dos steps no pool. |
+| `failure_case_accuracy_perrun` | `float [0,1]` | agregado × GT | Fração das failures do pool cuja categoria bate com o GT. |
+| `step_mae` | `float` | agregado × GT | Média de `abs(step - gt_step)` no pool. |
 
 ### Métricas de localização e categoria
 
@@ -92,8 +106,10 @@ podem diferenciá-las.
 
 ### Metadados
 
-| Campo | Tipo | Origem | Significado | | -- | -- | -- | | `judge_model` | `str` | meta | `effective_model` uniforme das
-reps, ou fallback do manifesto. | | `agentrx_run_name` | `str` | meta | Base dos diretórios de rep, `<arm>/<run_id>`. |
+| Campo | Tipo | Origem | Significado |
+| -- | -- | -- | -- |
+| `judge_model` | `str` | meta | `effective_model` uniforme das reps, ou fallback do manifesto. |
+| `agentrx_run_name` | `str` | meta | Base dos diretórios de rep, `<arm>/<run_id>`. |
 
 ## Regras de integridade
 
