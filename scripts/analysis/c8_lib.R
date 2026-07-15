@@ -1,5 +1,5 @@
 suppressPackageStartupMessages({
-  for (p in c("readr", "dplyr", "tidyr", "scales")) {
+  for (p in c("readr", "dplyr", "tidyr", "scales", "boot", "broom")) {
     if (!requireNamespace(p, quietly = TRUE)) {
       install.packages(p, repos = "https://cloud.r-project.org")
     }
@@ -114,9 +114,19 @@ c8_context <- function(csv_path) {
   wd <- c8_wide(d, "avg_step_distance")
   delta <- wd$telemetry - wd$agentrx
   wil <- suppressWarnings(wilcox.test(wd$telemetry, wd$agentrx, paired = TRUE))
+  # IC BCa da diferença pareada média A−B: cada linha de wd é um cenário, então
+  # reamostrar as linhas equivale ao bootstrap pareado (mantém o par A/B junto).
+  theta_delta <- function(dat, i) {
+    s <- dat[i, , drop = FALSE]
+    mean(s$telemetry - s$agentrx)
+  }
   set.seed(42)
-  boot <- replicate(5000, mean(sample(delta, length(delta), replace = TRUE)))
-  ci <- quantile(boot, c(.025, .975))
+  booted <- boot::boot(data = wd, statistic = theta_delta, R = 5000)
+  ci_bca <- broom::tidy(
+    booted,
+    conf.level = .95, conf.method = "bca", conf.int = TRUE
+  )
+  ci <- c(ci_bca$conf.low, ci_bca$conf.high)
 
   list(
     d = d, runs = runs, rep_d = rep_d,

@@ -2,4 +2,4 @@ Teste,Ambos,Só A,Só B,Nenhum,Resultado,Leitura
 McNemar — Failure Category Accuracy,23,3,1,3,p = 0.617,sem diferença detectável
 McNemar — Critical Step Accuracy,25,0,1,4,p = 1.000,sem diferença detectável
 Wilcoxon pareado — Average Step Distance,,,,,p = 0.025,A distinguivelmente pior
-Bootstrap IC95% — Δ Average Step Distance (A−B),,,,,"+0.053 [+0.013, +0.100]",IC exclui zero → A pior
+Bootstrap BCa IC95% — Δ Average Step Distance (A−B),,,,,"+0.053 [+0.020, +0.103]",IC exclui zero → A pior

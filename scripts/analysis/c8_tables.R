@@ -93,7 +93,7 @@ tab_inferencial <- function(ctx) {
       "McNemar — Failure Category Accuracy",
       "McNemar — Critical Step Accuracy",
       "Wilcoxon pareado — Average Step Distance",
-      "Bootstrap IC95% — Δ Average Step Distance (A−B)"
+      "Bootstrap BCa IC95% — Δ Average Step Distance (A−B)"
     ),
     Ambos = c(ctx$ct_cat[["ambos"]], ctx$ct_step[["ambos"]], NA, NA),
     `Só A` = c(ctx$ct_cat[["so_a"]], ctx$ct_step[["so_a"]], NA, NA),
