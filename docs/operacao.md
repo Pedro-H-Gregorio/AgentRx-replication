@@ -78,9 +78,12 @@ make collect
 make analyze
 ```
 
-`make collect` escreve três CSVs e executa `make validate-csv`. `make analyze` precisa de `Rscript` e dos pacotes
-`readr`, `dplyr`, `tidyr` e `scales`; ele só lê CSVs, não importa AgentRx nem recalcula as métricas. Veja os dicionários
-de [resultados](../data/experiment/results/README.md) e [análise](../data/experiment/analysis/README.md).
+`make collect` escreve três CSVs e executa `make validate-csv`. `make analyze` precisa de `Rscript`, Pandoc e dos
+pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`; ele só lê CSVs, não
+importa AgentRx nem recalcula as métricas. Além das seis tabelas, produz `analysis_report.md` e PNGs relativos em
+`analysis_report_files/figure-gfm/`, sob `data/experiment/analysis/<mas_id>/<judge_id>/`. A saída é Markdown GFM; o
+fluxo não gera HTML. Veja os dicionários de [resultados](../data/experiment/results/README.md) e
+[análise](../data/experiment/analysis/README.md).
 
 ### Fatiar ou retomar a matriz
 

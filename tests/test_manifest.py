@@ -28,7 +28,6 @@ RUN_IDS = sorted(p.stem for p in MAN_DIR.glob("*.json")) if MAN_DIR.exists() els
 
 def test_manifests_exist() -> None:
     assert RUN_IDS, "no manifests — run `make simulate` first"
-    # one manifest per benchmark scenario
     assert set(RUN_IDS) >= set(load_benchmark())
 
 

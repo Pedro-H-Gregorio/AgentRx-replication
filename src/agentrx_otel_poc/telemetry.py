@@ -125,7 +125,7 @@ def write_otel_json(
     run_status: str,
     logger: RunLogger | None = None,
 ) -> dict[str, Any]:
-    # Exporter recebe spans quando cada contexto `with span` fecha. Ordena por step_index.
+    # Serialize closed spans in step order for deterministic trace output.
     serialized = [serialize_span(s) for s in exporter.spans]
     serialized.sort(
         key=lambda s: int(s["attributes"].get("experiment.step_index", 9999))

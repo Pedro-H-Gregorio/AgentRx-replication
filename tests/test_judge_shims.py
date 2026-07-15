@@ -41,7 +41,6 @@ def test_stub_emits_valid_verdict() -> None:
     proc = _run("stub", *CLI_FLAGS, "--model", "whatever", stdin="a trajectory")
     assert proc.returncode == 0
     verdict = json.loads(proc.stdout)
-    # Keys the single-pass judge parser needs.
     assert isinstance(verdict["failure_case"], int)
     assert isinstance(verdict["index"], int)
 
@@ -110,5 +109,4 @@ def test_openai_retries_on_429_then_succeeds(tmp_path) -> None:
         server.shutdown()
     assert proc.returncode == 0
     assert proc.stdout.strip() == "VERDICT-OK"
-    # The rep recovered after exactly 2 retries — recorded for observability.
     assert json.loads(meta.read_text())["retries"] == 2

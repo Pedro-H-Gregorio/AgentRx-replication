@@ -35,7 +35,7 @@ repos:
         files: \.md$
         # Relatórios .md renderizados do RMarkdown (gfm com <img>/tabelas que o
         # mdformat não round-trippa) são artefatos gerados, não docs autorais.
-        exclude: '^scripts/analysis/.*\.md$'
+        exclude: '^(scripts/analysis/.*\.md$|data/experiment/analysis/.*/analysis_report\.md$)'
         stages: [pre-commit]
 
   - repo: local

@@ -1,0 +1,176 @@
+---
+title: "MAS-SIM — Telemetria (A) vs Log textual (B)"
+subtitle: "Análise pareada de localização e classificação da falha"
+params:
+  csv: null
+output:
+  github_document:
+    toc: true
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  dpi = 150
+)
+
+if (is.null(params$csv) || !nzchar(params$csv)) {
+  stop("Informe params$csv com o caminho de metricas.csv.", call. = FALSE)
+}
+
+source("c8_lib.R")
+source("c8_tables.R")
+ctx <- c8_context(params$csv)
+
+tables <- list(
+  acuracias = tab_acuracias(ctx),
+  distancia = tab_distancia_passo(ctx),
+  categorias = tab_por_categoria(ctx),
+  frequencias = tab_frequencia_mae_categoria(ctx),
+  inferencial = tab_inferencial(ctx),
+  estimativas = tab_estimativas_por_cenario(ctx)
+)
+
+arm_colors <- c("Telemetria (A)" = "#0072B2", "Log textual (B)" = "#E69F00")
+report_theme <- ggplot2::theme_minimal(base_size = 11) +
+  ggplot2::theme(legend.title = ggplot2::element_blank(), legend.position = "top")
+```
+
+**MAS:** `r ctx$mas_id` | **Juiz:** `r ctx$judge_id` |
+**Cenários:** `r ctx$n_scen` | **Repetições por cenário:** `r ctx$n_judge_reps`
+
+Este relatório é derivado de `metricas.csv` e do `runs_long.csv` do mesmo par
+MAS/juiz. Todos os testes e intervalos usam o contexto C8; a diferença de
+distância é Telemetria menos Log textual, portanto valor positivo favorece B.
+
+# Resumo descritivo
+
+## Acurácias
+
+```{r table-accuracies}
+knitr::kable(tables$acuracias, align = "lrrr")
+```
+
+## Distância de passo
+
+```{r table-distance}
+knitr::kable(tables$distancia, align = "lrrrrrrr")
+```
+
+# Localização da etapa crítica
+
+Acurácia de passo exato por categoria e braço. A quantidade de cenários em cada
+barra é derivada da execução selecionada.
+
+```{r figure-step-accuracy, fig.width=8, fig.height=4.8}
+step_hits <- ctx$d |>
+  dplyr::group_by(cat_full, arm_lab) |>
+  dplyr::summarise(
+    acertos = sum(step_acc_exact),
+    cenarios = dplyr::n(),
+    .groups = "drop"
+  )
+
+ggplot2::ggplot(step_hits, ggplot2::aes(acertos, cat_full, fill = arm_lab)) +
+  ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.7), width = 0.6) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = sprintf("%d/%d", acertos, cenarios)),
+    position = ggplot2::position_dodge(width = 0.7),
+    hjust = -0.15,
+    size = 3
+  ) +
+  ggplot2::scale_fill_manual(values = arm_colors) +
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.12))) +
+  ggplot2::labs(x = "Cenários com passo exato", y = NULL) +
+  report_theme
+```
+
+## Resultados por categoria
+
+```{r table-categories}
+knitr::kable(tables$categorias, align = "llrrr")
+```
+
+# Classificação da causa raiz
+
+As frequências abaixo usam as predições individuais em `runs_long.csv`; por isso
+podem diferir das acurácias agregadas por cenário.
+
+```{r table-repetition-frequencies}
+knitr::kable(tables$frequencias, align = "lrrrrrr")
+```
+
+## Acurácia de categoria por cenário
+
+```{r figure-category-accuracy, fig.width=8, fig.height=4.8}
+category_accuracy <- ctx$d |>
+  dplyr::group_by(cat_full, arm_lab) |>
+  dplyr::summarise(acuracia = mean(cat_acc_critical), .groups = "drop")
+
+ggplot2::ggplot(
+  category_accuracy,
+  ggplot2::aes(acuracia, cat_full, fill = arm_lab)
+) +
+  ggplot2::geom_col(position = ggplot2::position_dodge(width = 0.7), width = 0.6) +
+  ggplot2::geom_text(
+    ggplot2::aes(label = scales::percent(acuracia, accuracy = 1)),
+    position = ggplot2::position_dodge(width = 0.7),
+    hjust = -0.15,
+    size = 3
+  ) +
+  ggplot2::scale_fill_manual(values = arm_colors) +
+  ggplot2::scale_x_continuous(
+    labels = scales::percent,
+    limits = c(0, 1),
+    expand = ggplot2::expansion(mult = c(0, 0.12))
+  ) +
+  ggplot2::labs(x = "Failure Category Accuracy", y = NULL) +
+  report_theme
+```
+
+# Comparação pareada
+
+## Distância por cenário
+
+```{r figure-paired-distance, fig.width=8, fig.height=7}
+distance_delta <- c8_wide(ctx$d, "avg_step_distance") |>
+  dplyr::mutate(
+    delta = telemetry - agentrx,
+    resultado = dplyr::case_when(
+      delta < 0 ~ "Telemetria menor",
+      delta > 0 ~ "Log textual menor",
+      TRUE ~ "Empate"
+    ),
+    scenario_id = stats::reorder(scenario_id, delta)
+  )
+
+ggplot2::ggplot(distance_delta, ggplot2::aes(delta, scenario_id, fill = resultado)) +
+  ggplot2::geom_col() +
+  ggplot2::geom_vline(xintercept = 0, color = "grey40") +
+  ggplot2::scale_fill_manual(values = c(
+    "Telemetria menor" = arm_colors[["Telemetria (A)"]],
+    "Empate" = "grey80",
+    "Log textual menor" = arm_colors[["Log textual (B)"]]
+  )) +
+  ggplot2::labs(x = "Δ Average Step Distance (A − B)", y = NULL) +
+  report_theme
+```
+
+## Testes inferenciais
+
+O intervalo da última linha é bootstrap BCa pareado, com seed 42 e 5.000
+reamostragens de cenários completos.
+
+```{r table-inference}
+knitr::kable(tables$inferencial, align = "lrrrrll", na = "")
+```
+
+# Placar por cenário
+
+```{r table-scorecard}
+knitr::kable(tables$estimativas, align = "llccccc")
+```

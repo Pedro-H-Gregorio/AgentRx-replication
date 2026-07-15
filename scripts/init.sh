@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Prints a message in a given color.
 log() {
     local color_name="$1"
     local message="$2"
@@ -14,7 +13,6 @@ log() {
         *)      color_code="\e[0m" ;;
     esac
     
-    # Print the colored message, followed by a reset to default color
     echo -e "${color_code}${message}\e[0m"
 }
 

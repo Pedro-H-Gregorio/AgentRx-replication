@@ -63,7 +63,8 @@ analyze:
 	  metrics="data/experiment/results/$$mas/$$judge/metricas.csv"; \
 	fi; \
 	echo "analyze: $$metrics"; \
-	Rscript scripts/analysis/c8_run.R "$$metrics"
+	Rscript scripts/analysis/c8_run.R "$$metrics" && \
+	Rscript scripts/analysis/c8_render_report.R "$$metrics"
 
 # Composition only: each target retains validation and idempotence.
 experiment:

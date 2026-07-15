@@ -1,11 +1,17 @@
-suppressPackageStartupMessages({
-  for (p in c("readr", "dplyr", "tidyr", "scales", "boot", "broom")) {
-    if (!requireNamespace(p, quietly = TRUE)) {
-      install.packages(p, repos = "https://cloud.r-project.org")
-    }
-    library(p, character.only = TRUE)
-  }
-})
+ANALYSIS_PACKAGES <- c("readr", "dplyr", "tidyr", "scales", "boot", "broom")
+
+c8_require_packages <- function(packages) {
+  missing <- packages[!vapply(packages, requireNamespace, logical(1), quietly = TRUE)]
+  if (length(missing) == 0) return(invisible())
+
+  stop(
+    "Pacotes R ausentes: ", paste(missing, collapse = ", "),
+    ". Instale-os antes de executar a análise.",
+    call. = FALSE
+  )
+}
+
+c8_require_packages(ANALYSIS_PACKAGES)
 
 # Parallel vroom writing corrupts multibyte ✓/✗ cells; keep outputs byte-stable.
 options(readr.num_threads = 1)
@@ -55,6 +61,11 @@ c8_contingency <- function(w) {
     so_b = sum(w$telemetry == 0 & w$agentrx == 1),
     nenhum = sum(w$telemetry == 0 & w$agentrx == 0)
   )
+}
+
+mean_paired_distance_delta <- function(data, indices) {
+  pairs <- data[indices, , drop = FALSE]
+  mean(pairs$telemetry - pairs$agentrx)
 }
 
 c8_context <- function(csv_path) {
@@ -114,14 +125,8 @@ c8_context <- function(csv_path) {
   wd <- c8_wide(d, "avg_step_distance")
   delta <- wd$telemetry - wd$agentrx
   wil <- suppressWarnings(wilcox.test(wd$telemetry, wd$agentrx, paired = TRUE))
-  # IC BCa da diferença pareada média A−B: cada linha de wd é um cenário, então
-  # reamostrar as linhas equivale ao bootstrap pareado (mantém o par A/B junto).
-  theta_delta <- function(dat, i) {
-    s <- dat[i, , drop = FALSE]
-    mean(s$telemetry - s$agentrx)
-  }
   set.seed(42)
-  booted <- boot::boot(data = wd, statistic = theta_delta, R = 5000)
+  booted <- boot::boot(data = wd, statistic = mean_paired_distance_delta, R = 5000)
   ci_bca <- broom::tidy(
     booted,
     conf.level = .95, conf.method = "bca", conf.int = TRUE
@@ -130,6 +135,7 @@ c8_context <- function(csv_path) {
 
   list(
     d = d, runs = runs, rep_d = rep_d,
+    csv_path = csv_path,
     mas_id = mas_id, judge_id = judge_id, out_dir = out_dir,
     n_scen = n_scen, n_judge_reps = n_judge_reps,
     mc_cat = mc_cat, mc_step = mc_step, wil = wil,

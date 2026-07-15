@@ -1,12 +1,21 @@
-# Dicionário das tabelas de análise
+# Dicionário dos artefatos de análise
 
-`make analyze` executa `scripts/analysis/c8_run.R` sobre `data/experiment/results/<mas_id>/<judge_id>/metricas.csv` e o
-`runs_long.csv` vizinho. Ele escreve seis CSVs em `data/experiment/analysis/<mas_id>/<judge_id>/`. A análise é leitura
-pura: não importa AgentRx nem recalcula métricas do coletor.
+`make analyze` executa `scripts/analysis/c8_run.R` e `scripts/analysis/c8_render_report.R` sobre
+`data/experiment/results/<mas_id>/<judge_id>/metricas.csv` e o `runs_long.csv` vizinho. Ele escreve seis CSVs, um
+relatório Markdown GFM e figuras PNG em `data/experiment/analysis/<mas_id>/<judge_id>/`. A análise é leitura pura: não
+importa AgentRx nem recalcula métricas do coletor.
 
 As células são valores de apresentação para as tabelas do artigo. Percentuais, contagens e estatísticas são serializados
 como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript` e os
-pacotes `readr`, `dplyr`, `tidyr` e `scales`.
+pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`, além de Pandoc. A
+geração não instala dependências nem acessa a rede.
+
+## Relatório Markdown e figuras
+
+`analysis_report.md` é renderizado a partir do template canônico `scripts/analysis/analysis_report.Rmd`, consumindo o
+mesmo contexto C8 das tabelas. As três figuras vivem em `analysis_report_files/figure-gfm/`, com links relativos no
+Markdown. O relatório traz o resumo descritivo, resultados por categoria, frequências por repetição, comparação pareada,
+IC bootstrap BCa e placar por cenário. O fluxo não gera HTML, PDF, dashboard ou visualização interativa.
 
 ## `tab_acuracias.csv`
 
@@ -75,8 +84,8 @@ Entrada: `metricas.csv`. Uma linha por teste pareado.
 | `Resultado` | `str` | Valor-p ou intervalo bootstrap. |
 | `Leitura` | `str` | Interpretação textual do resultado. |
 
-Bootstrap usa seed 42 e 5.000 reamostragens. A diferença de distância é A menos B; intervalo positivo indica A pior
-nessa métrica.
+O IC bootstrap BCa usa seed 42 e 5.000 reamostragens de linhas da tabela larga, preservando juntos os dois braços de
+cada cenário. A diferença de distância é A menos B; intervalo positivo indica A pior nessa métrica.
 
 ## `tab_estimativas_por_cenario.csv`
 

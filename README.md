@@ -55,7 +55,7 @@ make check
 | Smoke offline do juiz | `make smoke-judge` |
 | Matriz completa do juiz | `make judge` |
 | Coletar resultados | `make collect` |
-| Gerar seis tabelas de análise | `make analyze` |
+| Gerar seis tabelas, relatório Markdown e figuras PNG com R | `make analyze` |
 | Compor simulação, derivação, juiz e coleta | `make experiment` |
 
 Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [guia operacional](docs/operacao.md).
@@ -80,7 +80,7 @@ replicacao-agentrx/
 │   └── collect/             #   coletor neutro que agrega os vereditos em CSV (nunca importa o agentrx)
 ├── scripts/                 # Entradas de linha de comando de cada estágio (chamadas pelo Makefile)
 │   ├── generate_benchmark.py · simulate.py · derive_trajectories.py · run_judge.py · collect_agentrx.py
-│   ├── analysis/            #   scripts R da análise estatística (c8_*.R geram as 6 tabelas)
+│   ├── analysis/            #   scripts R: tabelas C8 e relatório GFM (`analysis_report.md`)
 │   └── judge_shims/         #   shims dos backends do juiz (stub offline, openai, codex)
 │
 ├── data/                    # Todos os dados, do externo ao experimento final
@@ -95,7 +95,7 @@ replicacao-agentrx/
 │   │                        #     e agentrx/<judge_id>/ com os vereditos brutos por repetição
 │   └── experiment/          #   PRODUTOS FINAIS do experimento (`<mas_id>/<judge_id>/`)
 │       ├── results/         #     CSVs: runs_long (600 julgamentos brutos), metricas, trajectory_index
-│       └── analysis/        #     as 6 tabelas de `make analyze`
+│       └── analysis/        #     6 tabelas, relatório Markdown e PNGs de `make analyze`
 │
 ├── manuscript/paper/        # Artigo (LaTeX ACM): main.tex, refs.bib, figures/
 ├── docs/                    # Contrato experimental e decisões duráveis
@@ -119,7 +119,8 @@ regenerado. Nunca editar à mão um arquivo derivado. A procedência dos insumos
 - [Artefatos internos](data/internal/README.md): traces, trajetórias, manifestos e vereditos.
 - [Resultados CSV](data/experiment/results/README.md): dicionário completo de `runs_long`, `trajectory_index` e
   `metricas`.
-- [Tabelas de análise](data/experiment/analysis/README.md): dicionário das seis saídas de `make analyze`.
+- [Artefatos de análise](data/experiment/analysis/README.md): dicionário das seis tabelas, do relatório Markdown e das
+  figuras PNG de `make analyze`.
 - [Arquitetura](docs/architecture/architecture.md), [PRDs](docs/prd/PRD-INDEX.md) e [ADRs](docs/adr/README.md): contrato
   experimental e decisões duráveis.
 - [Artigo do experimento](manuscript/paper/build/main.pdf): Replicação AgentRx: Diagnóstico em Falhas de Sistemas

@@ -17,6 +17,9 @@ TESTS_GUIDE = ROOT / "tests" / "README.md"
 INTERNAL_GUIDE = ROOT / "data" / "internal" / "README.md"
 RESULTS_GUIDE = ROOT / "data" / "experiment" / "results" / "README.md"
 ANALYSIS_GUIDE = ROOT / "data" / "experiment" / "analysis" / "README.md"
+ANALYSIS_LIBRARY = ROOT / "scripts" / "analysis" / "c8_lib.R"
+ANALYSIS_REPORT_TEMPLATE = ROOT / "scripts" / "analysis" / "analysis_report.Rmd"
+ANALYSIS_REPORT_RENDERER = ROOT / "scripts" / "analysis" / "c8_render_report.R"
 ANALYSIS_COLUMNS = {
     "tab_acuracias.csv": (
         "Métrica",
@@ -119,6 +122,46 @@ def test_analysis_dictionary_covers_every_output_column() -> None:
         assert f"`{table}`" in dictionary
         for column in columns:
             assert f"`{column}`" in dictionary
+
+
+def test_paired_bca_interval_is_implemented_and_documented() -> None:
+    analysis_library = _content(ANALYSIS_LIBRARY)
+    for token in (
+        "mean_paired_distance_delta <- function",
+        "boot::boot",
+        'conf.method = "bca"',
+        "set.seed(42)",
+        "R = 5000",
+    ):
+        assert token in analysis_library
+
+    analysis_guide = _content(ANALYSIS_GUIDE)
+    assert "bootstrap BCa" in analysis_guide
+    assert "5.000 reamostragens" in analysis_guide
+
+
+def test_analysis_report_contract_is_markdown_only() -> None:
+    template = _content(ANALYSIS_REPORT_TEMPLATE)
+    renderer = _content(ANALYSIS_REPORT_RENDERER)
+    makefile = _content(ROOT / "Makefile")
+
+    assert "github_document" in template
+    assert "html_document" not in template
+    assert "Sys.Date" not in template
+    assert "install.packages" not in template
+    assert "c8_context(params$csv)" in template
+    assert 'output_file = "analysis_report.md"' in renderer
+    assert 'output_format = "github_document"' in renderer
+    assert "analysis_report_files" in renderer
+    assert "report_relativize_paths" in renderer
+    assert "c8_render_report.R" in makefile
+
+
+def test_analysis_guide_describes_the_markdown_report() -> None:
+    guide = _content(ANALYSIS_GUIDE)
+    assert "`analysis_report.md`" in guide
+    assert "`analysis_report_files/figure-gfm/`" in guide
+    assert "não gera HTML" in guide
 
 
 def test_internal_dictionary_replaces_legacy_document() -> None:

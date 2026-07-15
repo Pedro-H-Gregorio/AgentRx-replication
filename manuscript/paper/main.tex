@@ -88,27 +88,22 @@
 \maketitle
 
 \section{Introdução}
+\label{sec:introducao}
 
-Sistemas Multiagentes (\textit{Multi Agent systems}, MAS) baseados em Grandes Modelos de Linguagem (LLMs) vêm sendo
-empregados em tarefas cada vez mais complexas, combinando planejamento, uso de ferramentas e coordenação entre agentes.
-Essa autonomia, embora benéfica do ponto de vista funcional, amplia a dificuldade de observação e depuração, pois as
-execuções são probabilísticas, os fluxos são longos e os artefatos gerados ao longo da trajetória são variados
-\cite{dong2024agentops}. Nesse contexto, AgentOps surge como um paradigma de observabilidade voltado a rastrear,
-correlacionar e analisar os artefatos produzidos por agentes ao longo de seu ciclo de vida, incluindo agente, plano,
-workflow, tarefa, ferramenta, avaliação e guardrails \cite{dong2024agentops}.
-
-Os artigos recentes tem mostrado que a observabilidade de agentes não deve se limitar ao resultado final da tarefa, mas
-também ao processo de execução que leva a esse resultado. O estudo de Dong et al. \cite{dong2024agentops} destaca que
-agentes de IA produzem artefatos complexos em diferentes camadas, e que esses artefatos devem ser rastreados por meio
-de traces, spans, eventos e métricas para permitir diagnóstico e responsabilização.
+Sistemas Multiagentes (\textit{Multi-Agent Systems}, MAS) baseados em Grandes Modelos de Linguagem (LLMs) vêm sendo
+empregados em tarefas que combinam planejamento, uso de ferramentas e coordenação entre agentes. Entretanto, a natureza
+probabilística das execuções, a extensão dos fluxos e a diversidade dos artefatos produzidos dificultam sua observação
+e depuração. Nesse contexto, AgentOps propõe rastrear não apenas o resultado final, mas também o processo que o
+produziu, correlacionando agentes, planos, tarefas, ferramentas e avaliações por meio de \textit{traces},
+\textit{spans}, eventos e métricas \cite{dong2024agentops}
 
 Dentro desse cenário, o AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em
 trajetórias de agentes e atribuir sua causa raiz. Em sua formulação original, o método foi avaliado sobre 115
 trajetórias falhas coletadas em três domínios reais e heterogêneos (\textit{tau-bench}, \textit{Flash} e
-\textit{Magentic-One}), anotadas manualmente com a etapa crítica e a categoria da falha \cite{barke2026agentrx}. O
-fluxo do framework normaliza os rastros em uma Representação Intermediária (IR), sintetiza restrições globais e
-dinâmicas, produz um log de validação auditável e utiliza um juiz baseado em LLM para inferir a etapa crítica e a
-categoria da falha \cite{barke2026agentrx}.
+\textit{Magentic-One}), anotadas manualmente com a etapa crítica e a categoria da falha. O fluxo do framework normaliza
+os rastros em uma Representação Intermediária (IR), sintetiza restrições globais e dinâmicas, produz um log de
+validação auditável e utiliza um juiz baseado em LLM para inferir a etapa crítica e a categoria da falha
+\cite{barke2026agentrx}.
 
 Ainda conforme o estudo, os autores apontam que o AgentRx pode ser induzido ao erro quando os sinais de validação são
 fracos ou contêm falsos positivos, e indicam como trabalho futuro a identificação de conjuntos de sinais de maior
@@ -122,17 +117,13 @@ operações.
 
 Nesse ponto, o OpenTelemetry se apresenta como um candidato a fonte de sinais estruturados, por fornecer um vocabulário
 padronizado para representar execuções observáveis, incluindo atributos de spans, relações hierárquicas entre
-operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}. Não
-está claro, entretanto, se essa estruturação de fato melhora o diagnóstico produzido pelo AgentRx frente a
-representações textuais mais simples: é possível que os sinais estruturados reduzam a ambiguidade, mas também que
-apenas acrescentem informação que o juiz não aproveita. Investigar essa questão de forma controlada é o objetivo deste
-trabalho.
+operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}.
 
-Para isso, este estudo realiza uma replicação controlada do AgentRx em um ambiente simulado de Sistemas Multiagentes,
-no qual as trajetórias são geradas experimentalmente e representadas de duas formas alternativas: logs textuais
-simplificados e telemetria estruturada inspirada em OpenTelemetry. Sobre os mesmos cenários pareados, com falhas
-injetadas de categorias conhecidas, comparam-se as duas representações para examinar tanto a replicabilidade do
-diagnóstico em um novo contexto quanto o efeito da estruturação dos registros sobre a atribuição de falhas.
+Embora o OpenTelemetry forneça sinais estruturados sobre agentes, ferramentas, eventos, estados e relações
+hierárquicas, não está claro se esses sinais melhoram o diagnóstico do AgentRx em relação a representações textuais
+mais simples. Para investigar essa questão, este trabalho realiza uma replicação controlada em um MAS simulado,
+comparando, sobre os mesmos cenários pareados e com falhas injetadas, uma representação textual simplificada e uma
+representação com telemetria estruturada.
 
 As questões de pesquisa que guiam este estudo são:
 \begin{itemize}
@@ -152,13 +143,10 @@ exploratória do efeito da representação da trajetória sobre a localização 
 categoria da causa raiz; e (iv) uma discussão sobre limitações e sobre quais sinais de telemetria podem apoiar
 diagnósticos futuros.
 
-Neste contexto, o restante deste trabalho está organizado da seguinte forma: a Seção~2 apresenta a fundamentação
-teórica, detalhando o funcionamento do AgentRx, sua taxonomia de falhas e o uso de telemetria estruturada baseada em
-OpenTelemetry. A Seção~3 descreve o desenho experimental, incluindo o sistema multiagente simulado, a geração dos
-cenários, a injeção de falhas, as representações comparadas e as métricas adotadas. A Seção~4 apresenta os resultados e
-a análise estatística das comparações entre os tratamentos. A Seção~5 discute os resultados à luz das questões de
-pesquisa e analisa os principais padrões de erro observados. A Seção~6 reúne as conclusões, os trabalhos futuros e as
-informações sobre os artefatos de reprodução. Por fim, a Seção~7 discute as ameaças à validade do estudo.
+O restante deste trabalho está organizado da seguinte forma: a Seção~2 apresenta o AgentRx e os conceitos de telemetria
+estruturada; a Seção~3 descreve o desenho experimental; a Seção~4 apresenta os resultados; a Seção~5 discute os achados
+e os padrões de erro; a Seção~6 reúne as conclusões e os artefatos de reprodução; e a Seção~7 apresenta as ameaças à
+validade.
 
 \section{Fundamentação Teórica}
 
@@ -177,10 +165,9 @@ restrições dinâmicas, construídas para cada etapa com base na instrução da
 Cada restrição contém uma guarda, que determina sua aplicabilidade, e uma asserção, avaliada por verificações
 programáticas ou semânticas baseadas em LLM \cite{barke2026agentrx}.
 
-A avaliação dessas restrições produz um log de validação indexado por etapa, contendo as violações identificadas e suas
-respectivas evidências. Esse log é fornecido, juntamente com a instrução da tarefa, a trajetória e uma lista de
-verificação derivada da taxonomia de falhas, a um juiz baseado em LLM. O juiz utiliza essas informações para inferir a
-etapa crítica e atribuir a categoria da causa raiz \cite{barke2026agentrx}.
+A avaliação das restrições produz um log de validação indexado por etapa, contendo as violações e suas evidências. Esse
+log, juntamente com a instrução, a trajetória e uma lista de verificação derivada da taxonomia, é fornecido a um juiz
+baseado em LLM, responsável por inferir a etapa crítica e a categoria da causa raiz \cite{barke2026agentrx}.
 
 Uma das contribuições do AgentRx é uma taxonomia de falhas multidomínio, obtida por um processo de codificação por
 \textit{grounded theory}, no qual as categorias emergiram de padrões recorrentes de falha em vez de serem impostas a
@@ -216,15 +203,13 @@ inferido pelo juiz do framework \cite{barke2026agentrx}.
 
 \subsection{Telemetria estruturada e OpenTelemetry}
 
-A qualidade do diagnóstico produzido pelo AgentRx depende dos sinais disponíveis na trajetória, e os próprios autores
-apontam como trabalho futuro a busca por sinais de maior qualidade, capazes de separar verdadeiros positivos de
-sinalizações ruidosas \cite{barke2026agentrx}. Grande parte dos sistemas de agentes registra sua execução por meio de
-logs textuais, que tendem a ser heterogêneos e a exigir normalização antes de qualquer análise. A observabilidade de
-agentes, por sua vez, propõe que a execução seja registrada de forma estruturada, por meio de \textit{traces},
-\textit{spans}, eventos e métricas, de modo a viabilizar diagnóstico e responsabilização \cite{dong2024agentops}. Nesse
-cenário, o OpenTelemetry oferece um vocabulário padronizado para representar execuções observáveis, incluindo atributos
-de \textit{spans}, relações hierárquicas entre operações, eventos e métricas quantitativas associadas a custo, duração
-e uso de \textit{tokens} \cite{ibm_opentelemetry}.
+O OpenTelemetry é um padrão aberto e independente de fornecedor para instrumentação, coleta e exportação de dados de
+observabilidade em sistemas computacionais. Seu modelo organiza a execução por meio de \textit{traces}, que representam
+o fluxo completo de uma operação, e de \textit{spans}, que descrevem suas etapas individuais e as relações hierárquicas
+entre elas. Cada \textit{span} pode registrar atributos, eventos, estados, duração e informações sobre erros, enquanto
+métricas e logs complementam a caracterização do comportamento do sistema. Essa estrutura permite correlacionar
+operações distribuídas e reconstruir o caminho percorrido por uma requisição ou tarefa durante sua execução
+\cite{ibm2024opentelemetry, dong2024agentops}.
 
 Neste trabalho, esse vocabulário é empregado para representar cada trajetória do sistema multiagente simulado como uma
 árvore de \textit{spans}: um \textit{span} raiz envolve a execução completa do \textit{workflow}, e cada agente ou
@@ -252,8 +237,10 @@ e representação foi submetida a dez julgamentos independentes, totalizando 600
 repetições, superior às três execuções empregadas no estudo original do AgentRx, foi adotado para caracterizar melhor a
 variabilidade decorrente do comportamento não determinístico do juiz e produzir estimativas agregadas mais estáveis. As
 variáveis dependentes consideradas foram \textit{Critical Step Accuracy}, \textit{Critical Step-index Accuracy},
-\textit{Average Step Distance} e \textit{Failure Category Accuracy}, que avaliam, respectivamente, a capacidade de
-localizar a etapa crítica e de classificar corretamente a causa raiz da falha.
+\textit{Average Step Distance} e \textit{Failure Category Accuracy} (ver Seção \ref{sebsec:agentrx-metricas})
+
+\subsection{Sistema multiagente simulado}
+\label{subsec:sistema-multi-agente-simlulado}
 
 O ambiente foi implementado com LangGraph como um MAS de quatro agentes: \textbf{Coordenador}, \textbf{Pesquisador},
 \textbf{Executor} e \textbf{Avaliador}, que acessam uma ferramenta de catálogo \textit{mockada} e controlada
@@ -278,12 +265,12 @@ de API usado no estudo original. As tarefas transacionais do \textit{tau-bench} 
 e alteram estado, ao passo que o MAS opera em turno único e apenas sobre leitura do catálogo. Reaproveitou-se, então, o
 catálogo de produtos como insumo de um gerador determinístico, que instanciou consultas de leitura e computou, a partir
 do próprio catálogo, a resposta correta de cada uma. Foram gerados 30 cenários, distribuídos igualmente (seis por cada
-categoria) entre as cinco categorias de falha consideradas (ver Seção \ref{sebsec:injecao-falhas-e-ground-truth}). Cada
+categoria) entre as cinco categorias de falha consideradas (ver Seção \ref{subsec:injecao-falhas-e-ground-truth}). Cada
 cenário originou um par de trajetórias que representa a mesma tarefa e a mesma falha, diferindo apenas na
 representação.
 
 \subsection{Injeção de falhas e \textit{ground truth}}
-\label{sebsec:injecao-falhas-e-ground-truth}
+\label{subsec:injecao-falhas-e-ground-truth}
 
 O AgentRx define uma taxonomia composta por nove categorias de falha. Neste estudo foram consideradas apenas cinco
 categorias, selecionadas por serem compatíveis com o sistema multiagente simulado e por permitirem injeção
@@ -318,25 +305,32 @@ De cada execução coletou-se um \textit{trace} bruto em formato OpenTelemetry (
 representações comparadas, ambas julgadas pelo AgentRx. O \textbf{braço A (telemetria estruturada)} preserva, em cada
 passo, papel do agente, operação, mensagens de entrada e saída, ferramenta e argumentos quando aplicável, resultado da
 ferramenta, métricas de \textit{tokens} e duração, estado de conclusão e relações hierárquicas entre \textit{spans}. O
-\textbf{braço B (log textual simplificado)} descreve a mesma trajetória descritiva, sem os campos de telemetria. Como
-os dois braços carregam o mesmo conteúdo semântico e diferem apenas na telemetria, a comparação isola o efeito da
-representação. Um adaptador converteu ambos para a IR do AgentRx; como essa IR representa cada passo por um papel e um
-conteúdo textual, os elementos de telemetria do braço A foram inseridos no próprio conteúdo do passo, de forma textual.
+\textbf{braço B (log textual simplificado)} descreve a mesma trajetória descritiva, sem os campos de telemetria.
+
+Como as duas representações são derivadas do mesmo \textit{trace}, a comparação controla a tarefa e a falha
+subjacentes. O contraste avalia o efeito conjunto da estruturação e dos sinais adicionais preservados no braço de
+telemetria sobre o diagnóstico do AgentRx.
+
+A derivação a partir de uma fonte comum garante que ambos os braços representem a mesma tarefa e a mesma falha, embora
+o braço de telemetria preserve atributos adicionais ausentes no log textual. Um adaptador converteu ambos para a IR do
+AgentRx; como essa IR representa cada passo por um papel e um conteúdo textual, os elementos de telemetria do braço A
+foram inseridos no próprio conteúdo do passo, de forma textual.
 
 \subsection{Execução do AgentRx e métricas}
+\label{sebsec:agentrx-metricas}
 
 Utilizou-se o modelo \textit{GPT-5.5} como juiz, listado como modelo padrão na configuração (\texttt{.env}) do
 repositório do AgentRx\footnote{\url{https://github.com/microsoft/AgentRx}} via Copilot CLI. Cada trajetória foi
 julgada dez vezes, agregando-se por cenário a categoria pela moda e o passo pela média, conforme o estudo original
-\cite{barke2026agentrx}. As métricas reproduzidas do estudo original do AgentRx para localização, utilizou-se
-\textbf{Critical Step Accuracy}, que mede a fração de trajetórias em que o passo crítico predito coincide exatamente
-com o passo anotado; \textbf{Critical Step-index Accuracy@$\pm r$}, que considera correta a predição situada até $r$
-passos do passo anotado, para $r \in \{1,3,5\}$; e \textbf{Average Step Distance}, que mede a distância média absoluta
-entre o passo predito e o passo anotado, sendo menor melhor. Para classificação, utilizou-se \textbf{Failure Category
-	Accuracy}, isto é, a fração de trajetórias em que a categoria de falha predita coincide com a categoria anotada. No
-estudo original, essa métrica é reportada nas variantes crítica e \textit{any-failure}; neste experimento, como cada
-cenário possui uma única falha anotada, as duas definições coincidem. Todas as comparações entre os braços A e B foram
-pareadas por cenário.
+\cite{barke2026agentrx}. Para avaliar a localização da falha, foram reproduzidas três métricas do estudo original do
+AgentRx para localização, utilizou-se \textbf{Critical Step Accuracy}, que mede a fração de trajetórias em que o passo
+crítico predito coincide exatamente com o passo anotado; \textbf{Critical Step-index Accuracy@$\pm r$}, que considera
+correta a predição situada até $r$ passos do passo anotado, para $r \in \{1,3,5\}$; e \textbf{Average Step Distance},
+que mede a distância média absoluta entre o passo predito e o passo anotado, sendo menor melhor. Para classificação,
+utilizou-se \textbf{Failure Category Accuracy}, isto é, a fração de trajetórias em que a categoria de falha predita
+coincide com a categoria anotada. No estudo original, essa métrica é reportada nas variantes crítica e
+\textit{any-failure}; neste experimento, como cada cenário possui uma única falha anotada, as duas definições
+coincidem. Todas as comparações entre os braços A e B foram pareadas por cenário.
 
 \section{Resultados}
 
@@ -385,10 +379,10 @@ comportamento distinto conforme a dimensão avaliada.
 	\resizebox{\columnwidth}{!}{%
 		\begin{tabular}{lrrrrrrr}
 			\toprule
-			\textbf{Braço}  & \textbf{Média} & \textbf{DP} & \textbf{Med.} & \textbf{Mín.} & \textbf{Máx.} & \textbf{Norm.} & \textbf{MAE} \\
+			\textbf{Braço}  & \textbf{Média} & \textbf{DP} & \textbf{Med.} & \textbf{Mín.} & \textbf{Máx.} & \textbf{Norm.} \\
 			\midrule
-			Telemetria (A)  & 0,263          & 0,629       & 0             & 0             & 3             & 0,053          & 0,263        \\
-			Log textual (B) & 0,210          & 0,596       & 0             & 0             & 3             & 0,042          & 0,237        \\
+			Telemetria (A)  & 0,263          & 0,629       & 0             & 0             & 3             & 0,053          \\
+			Log textual (B) & 0,210          & 0,596       & 0             & 0             & 3             & 0,042          \\
 			\bottomrule
 		\end{tabular}%
 	}
@@ -516,19 +510,17 @@ a localização exata da etapa crítica ($p = 1{,}000$). Portanto, as diferença
 interpretadas com cautela, especialmente em razão do número reduzido de cenários e de pares discordantes.
 \section{Discussão}
 
-A discussão retoma as questões de pesquisa formuladas na introdução. Reitera-se que os achados são preliminares: como
-nenhuma diferença foi estatisticamente detectável (Seção~\ref{subsec:pareada}), as respostas a seguir descrevem
-tendências, não vantagens estabelecidas.
+Esta seção responde às questões de pesquisa a partir de tendências descritivas, pois os achados são preliminares e
+nenhuma diferença entre os braços foi estatisticamente detectável.
 
 \subsection{RQ1: a telemetria estruturada melhora a identificação da etapa crítica?}
 
 Os resultados não sustentam uma resposta afirmativa. O log textual simplificado foi ligeiramente superior à telemetria
-na localização exata (86,7\% contra 83,3\%) e na distância média de passo (0,210 contra 0,263;
-Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob tolerância de um passo (96,7\%). Essa pequena vantagem,
-contudo, não é uniforme entre as categorias: como mostra a Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}, ela se
-origina quase inteiramente de \textit{Invalid Invocation}, na qual o log textual acertou a etapa em 47 das 60
-repetições contra 35 da telemetria, enquanto nas demais categorias os braços são idênticos. A divergência decorre de
-uma ambiguidade entre causa e sintoma (detalhada na Seção~\ref{subsec:posthoc}): ao anexar ao passo do erro (o
+na localização exata (86,7\% contra 83,3\%) e na distância média de passo, com empate sob a métrica de \textit{Critical
+	step-index accuracy $\pm 1$}. Essa vantagem se concentra inteiramente de \textit{Invalid Invocation}
+(Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}), na qual o log textual acertou a etapa em 47 das 60 repetições
+contra 35 da telemetria, nas demais categorias, o desempenho foi semelhante ou idêntico. A divergência decorre de uma
+ambiguidade entre causa e sintoma (detalhada na Seção~\ref{subsec:posthoc}): ao anexar ao passo do erro (o
 \textit{SchemaError}, no passo~3) atributos como \textit{status} \textit{ERROR}, tipo de exceção e \textit{stack
 	trace}, a telemetria torna o passo do \textit{sintoma} mais saliente e desloca o juiz do passo da \textit{causa} (a
 chamada malformada, no passo~2). Como a diferença não foi estatisticamente detectável ($p = 1{,}000$;
@@ -539,14 +531,12 @@ fina.
 
 \subsection{RQ2: a telemetria estruturada reduz ambiguidades na categorização da causa raiz?}
 
-Há indício descritivo nesse sentido, porém fraco. A telemetria obteve maior acurácia de categoria (86,7\% contra
-80,0\%; Tabela~\ref{tab:metricas-principais-mas-sim}), mas a diferença não foi estatisticamente detectável ($p =
-		0{,}617$) e decorre inteiramente de uma única categoria, \textit{Invention of New Information}, na qual a telemetria
-acertou 100,0\% contra 66,7\% do log textual (Tabela~\ref{tab:resultados-por-categoria-mas-sim}); nas demais categorias
-em que ambos foram bem, o desempenho foi igual. A origem dessa divergência, contudo, precisa ser qualificada: no nível
-das repetições individuais (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}) os braços estão próximos, 51 de 60
-julgamentos corretos na telemetria contra 47 no log textual, de modo que o salto de 66,7\% para 100,0\% na acurácia por
-cenário resulta de a moda de apenas dois cenários tombar entre \textit{Invention} e a categoria semanticamente vizinha
+Há um indício descritivo, porém fraco, nesse sentido. A telemetria obteve maior acurácia de categoria, mas a diferença
+não foi estatisticamente detectável e concentrou-se em \textit{Invention of New Information}
+(Tabela~\ref{tab:resultados-por-categoria-mas-sim}). A análise das repetições
+(Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}) mostra que os os braços estão próximos, 51 de 60 julgamentos
+corretos na telemetria contra 47 no log textual, de modo que o salto de 66,7\% para 100,0\% na acurácia por cenário
+resulta de a moda de apenas dois cenários tombar entre \textit{Invention} e a categoria semanticamente vizinha
 \textit{Misinterpretation of Tool Output}, ambas falhas do Executor. Uma leitura plausível para a pequena vantagem da
 telemetria é que o registro estruturado do passo de síntese torna mais explícito que a resposta cita um item ausente da
 evidência da ferramenta, inclinando algumas repetições adicionais para \textit{Invention}. Por depender de uma só
@@ -570,50 +560,37 @@ não de erro grosseiro.
 A categoria \textit{Instruction/Plan Adherence Failure} teve o pior desempenho em ambos os braços (33,3\% de categoria;
 3 de 6 na localização), sem que a telemetria a atenuasse. A falha é injetada no Coordenador (passo~1) como uma consulta
 que viola silenciosamente uma restrição da tarefa, \textbf{sem} gerar erro ou status anômalo em nenhum passo. Os erros
-refletem esse caráter silencioso: os 3 cenários em que não conseguiu capturar a falha critica, em dois deles o juiz não
-detectou falha alguma (veredito \textit{Inconclusive}, passo~0, em 10 de 10 repetições); em um deles detectou a
-resposta incorreta, mas a atribuiu ao Executor como \textit{Misinterpretation} (passo~4); e, mesmo quando o passo~1 foi
-corretamente localizado (q25 e q27), a categoria oscilou entre \textit{Instruction/Plan Adherence Failure} e a
-categoria vizinha \textit{Intent-Plan Misalignment}. Esse padrão sugere um limite da telemetria operacional: sinais
-como \textit{spans}, status, erro, duração, \textit{tokens} e chamadas de ferramenta capturam mal falhas de aderência
-ao plano, pois estas não se manifestam como anomalia operacional, mas como divergência entre o plano e a intenção da
-tarefa. Diagnosticá-las poderia exigir uma camada de telemetria \textit{semântica} registrando, por exemplo, o plano
-esperado, o subobjetivo ativo, as restrições da tarefa, a ação esperada \textit{versus} a executada e a justificativa
-do agente. Essa é a direção mais promissora aberta pelo estudo.
+refletem esse caráter silencioso. Nos três cenários em que a etapa crítica não foi localizada, o juiz não detectou
+qualquer falha em dois deles, produzindo o veredito \textit{Inconclusive} no passo 0 em todas as repetições. No
+terceiro, identificou uma resposta incorreta, mas atribuiu a falha ao Executor como \textit{Misinterpretation of Tool
+	Output}, no passo 4; e, mesmo quando o passo~1 foi corretamente localizado (q25 e q27), a categoria oscilou entre
+\textit{Instruction/Plan Adherence Failure} e a categoria vizinha \textit{Intent-Plan Misalignment}. Esse padrão sugere
+que a telemetria operacional captura mal falhas que não produzem anomalias de execução, mas apenas divergências entre a
+intenção e o plano. Seu diagnóstico pode exigir sinais semânticos adicionais, como restrições da tarefa, sub-objetivos
+ativos e a relação entre as ações esperada e executada.
 
 \section{Conclusão}
 
-Este trabalho apresentou uma replicação controlada do AgentRx em um sistema multiagente simulado, com o objetivo de
-investigar se a forma de representação da trajetória de execução afeta o diagnóstico de falhas. Para isso,
-compararam-se duas representações da mesma trajetória controlada, sendo elas a telemetria estruturada (braço~A) e log
-textual simplificado (braço~B), ambas processadas pelo componente de julgamento do AgentRx, sobre 30 cenários pareados
-com falhas injetadas em cinco categorias.
+Este trabalho investigou, por meio de uma replicação controlada do AgentRx, se a representação de trajetórias como
+telemetria estruturada altera o diagnóstico de falhas em comparação com logs textuais simplificados. A avaliação
+utilizou 30 cenários pareados, com falhas injetadas em cinco categorias.
 
 Os resultados são preliminares e devem ser lidos como evidência descritiva, uma vez que o teste de McNemar não detectou
-diferença estatisticamente significativa entre os braços em nenhuma das métricas ($p = 0{,}617$ para a categoria e $p =
-		1{,}000$ para a localização; Tabela~\ref{tab:mcnemar-mas-sim}). Quanto à \textbf{RQ1}, a telemetria estruturada não
-melhorou a identificação da etapa crítica: o log textual simplificado foi ligeiramente superior na localização exata e
-na distância média (Tabela~\ref{tab:distancia-passo-mas-sim}), com empate sob o intervalo de um passo. Quanto à
-\textbf{RQ2}, observou-se um indício descritivo, porém fraco, de que a telemetria reduz ambiguidades na categorização
-da causa raiz; a vantagem, contudo, decorreu inteiramente de \textit{Invention of New Information}
-(Tabela~\ref{tab:resultados-por-categoria-mas-sim}) e não foi estatisticamente detectável.
+diferença estatisticamente significativa entre os braços em nenhuma das métricas. Quanto à \textbf{RQ1}, a telemetria
+estruturada não melhorou a identificação da etapa crítica, com o log textual simplificado ligeiramente superior na
+localização exata e na distância média. Quanto à \textbf{RQ2}, observou-se um indício descritivo, porém fraco, de que a
+telemetria reduz ambiguidades na categorização da causa raiz, mas não foi estatisticamente detectável.
 
-Um padrão informativo emerge da leitura conjunta das duas dimensões: os braços divergiram em \textit{sentidos opostos},
-o log textual à frente na localização fina e a telemetria à frente em uma categoria de classificação, e ambas as
-divergências, pequenas e restritas a categorias específicas, remontam à \textit{mesma} origem: a carga adicional de
-telemetria presente apenas no braço~A. Como evidenciam as Tabelas~\ref{tab:resultados-por-categoria-mas-sim}
-e~\ref{tab:frequencia-mae-categoria-mas-sim}, esse detalhamento operacional do erro tornou marginalmente mais explícita
-a natureza fabricada da resposta em \textit{Invention}, mas, ao mesmo tempo, amplificou o passo do sintoma em
-\textit{Invalid Invocation}, atuando como distrator na localização. O principal achado, portanto, é que a telemetria
-estruturada, no formato avaliado, não produziu ganho robusto e generalizado sobre a representação textual: conforme a
-natureza da falha e a dimensão avaliada, o mesmo detalhamento pode tanto auxiliar quanto prejudicar o diagnóstico.
+Além disso, estes resultados indicam que os sinais adicionais da telemetria podem produzir efeitos distintos conforme a
+natureza da falha: em alguns casos, tornam a categoria mais explícita; em outros, aumentam a saliência do sintoma e
+dificultam a identificação da causa. Assim, a utilidade da telemetria depende não apenas de sua quantidade, mas também
+da relação entre os sinais registrados e o alvo do diagnóstico. Sendo assim, a telemetria estruturada, no formato
+avaliado, não produziu ganho robusto e generalizado sobre a representação textual.
 
-A análise post-hoc dos erros trouxe as contribuições mais informativas do estudo. A categoria \textit{Instruction/Plan
-	Adherence Failure} foi a mais difícil para ambos os braços, e a inspeção dos cenários sugere que falhas de aderência ao
-plano, por não se manifestarem como anomalia operacional, são mal capturadas pela telemetria operacional comum. Esse
-achado indica que sinais como \textit{spans}, status, erros, duração e chamadas de ferramenta podem ser insuficientes
-para esse tipo de falha, apontando a necessidade de uma camada de telemetria \textit{semântica}, que registre, o plano
-esperado, as restrições da tarefa e a ação esperada \textit{versus} a executada.
+A principal implicação do estudo é que sinais operacionais, como estados, erros, duração e chamadas de ferramentas,
+podem ser insuficientes para falhas semânticas de \textit{Instruction/Plan Adherence Failure}. Esse resultado motiva a
+investigação de uma camada de telemetria semântica que represente explicitamente objetivos, restrições e ações
+esperadas.
 
 Como trabalho futuro, pretende-se ampliar o número de cenários e empregar trajetórias mais longas e complexas, capazes
 de mitigar o efeito-teto observado nas trajetórias curtas. Pretende-se, ainda, avaliar o método sobre \textit{logs}
@@ -634,10 +611,9 @@ experimento.
 \section{Ameaças à Validade}
 
 \subsection{Validade interna}
-O processo de geração das trajetórias, o adaptador para a IR, a agregação dos julgamentos e a configuração do modelo
-juiz podem influenciar os resultados. Para reduzir esse risco, a injeção foi \textit{scriptada} e determinística, o
-evento \texttt{fault.injected} e os atributos que revelam a falha foram removidos das trajetórias, o juiz não recebeu o
-\textit{ground truth} e os dois braços foram derivados do mesmo \textit{trace} bruto.
+Embora as medidas descritas na Seção~\ref{subsec:injecao-falhas-e-ground-truth} reduzam o risco de vazamento do
+\textit{ground truth}, o processo de geração das trajetórias, o adaptador para a IR e a configuração do juiz ainda
+podem influenciar os resultados.
 
 \subsection{Validade de construto}
 Duas limitações merecem destaque. Primeiro, os dois braços são \textbf{duas representações de uma mesma fonte
@@ -656,9 +632,17 @@ sistemas reais. Trabalhos futuros devem empregar trajetórias mais longas e comp
 falhas recuperáveis anteriores à falha principal e erros que emergem por encadeamento.
 
 \subsection{Validade de conclusão}
-A amostra é pequena e os testes têm baixo poder estatístico; o teste de McNemar não detectou diferença significativa em
-nenhuma métrica ($p = 0{,}617$ e $p = 1{,}000$). Os resultados devem ser interpretados como \textbf{preliminares e
-	exploratórios}, indicando tendências a confirmar em estudos maiores.
+
+A amostra de 30 cenários e o pequeno número de pares discordantes limitam o teste de McNemar. Portanto, a ausência de
+significância estatística não demonstra equivalência entre os braços, e os resultados devem ser interpretados como
+evidência exploratória, indicando tendências a confirmar em estudos maiores.
+
+\section*{Declaração de uso de inteligência artificial generativa}
+
+O ChatGPT, desenvolvido pela OpenAI, foi utilizado como apoio à revisão ortográfica, à melhoria da coesão e da clareza
+do texto e ao refinamento da organização do desenho experimental e de sua unidade experimental. Todas as sugestões
+produzidas pela ferramenta foram revisadas, adaptadas e validadas pelo autor, que assume integral responsabilidade pelo
+conteúdo, pelas decisões metodológicas e pelas conclusões apresentadas.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}

@@ -46,7 +46,7 @@ tab_por_categoria <- function(ctx) {
     dplyr::group_by(Categoria = cat_full, `Braço` = arm_lab) |>
     dplyr::summarise(
       `Failure Category Accuracy` = scales::percent(mean(cat_acc_critical), .1),
-      `Critical Step Accuracy` = sprintf("%d/6", sum(step_acc_exact)),
+      `Critical Step Accuracy` = sprintf("%d/%d", sum(step_acc_exact), dplyr::n()),
       `Average Step Distance` = sprintf("%.3f", mean(avg_step_distance)),
       .groups = "drop"
     ) |>
