@@ -30,13 +30,7 @@ def _client(
 
 
 def _is_retryable(exc: Exception) -> bool:
-    """Transient transport noise: 429, retryable 5xx, or a timeout.
-
-    A plain connection error (refused/DNS) means the service is DOWN — waiting
-    does not fix it, so it fails fast into the fallback/strict path instead of
-    stalling the run for minutes (GAP-A). APITimeoutError subclasses
-    APIConnectionError, so the timeout check must come first.
-    """
+    """Transient transport noise: 429, retryable 5xx, or a timeout."""
     if isinstance(exc, (RateLimitError, APITimeoutError)):
         return True
     if isinstance(exc, APIStatusError):
@@ -76,7 +70,7 @@ def _invoke_with_backoff(
     for attempt in range(settings.agent_max_retries + 1):
         try:
             return client.invoke(prompt)
-        except Exception as exc:  # noqa: BLE001 (classify, then re-raise or retry)
+        except Exception as exc:
             if not _is_retryable(exc) or attempt == settings.agent_max_retries:
                 if logger:
                     logger.exception(
@@ -94,7 +88,7 @@ def _invoke_with_backoff(
                     wait_seconds=round(wait, 1),
                 )
             time.sleep(wait)
-    raise RuntimeError("unreachable")  # pragma: no cover
+    raise RuntimeError("unreachable")
 
 
 def _invoke(

@@ -1,22 +1,4 @@
 #!/usr/bin/env python3
-"""Codex CLI stand-in for the Copilot CLI (JUDGE_BACKEND=codex).
-
-AgentRx resolves the judge binary from AGENT_VERIFY_COPILOT_BIN and shells out
-with `-s --no-ask-user --allow-all --output-format text [--model M]`, feeding
-the prompt on stdin and reading the verdict from stdout. This shim honours that
-contract but drives the OpenAI **Codex CLI** (`codex exec`) instead — so the
-judge can be a Codex/ChatGPT model, without editing the AgentRx submodule.
-
-`codex exec` reads the prompt from stdin and streams agent activity to stdout;
-we use `--output-last-message FILE` to capture ONLY the final message (the JSON
-verdict), avoiding that noise. Sandbox is read-only (the judge runs no commands).
-
-Config (env): JUDGE_MODEL (optional `--model`; must be one your account/plan
-supports — e.g. a ChatGPT login rejects `gpt-5-codex`; leave empty for the
-default), JUDGE_TIMEOUT_SECONDS, JUDGE_CODEX_BIN (default `codex`),
-JUDGE_CODEX_ARGS (extra `codex exec` flags). Auth is the Codex CLI's own
-(`codex login` / `OPENAI_API_KEY`). On any failure: empty stdout + exit 1.
-"""
 
 from __future__ import annotations
 

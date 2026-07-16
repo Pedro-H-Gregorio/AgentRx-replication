@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Generate data/benchmark/benchmark_30.json deterministically (no AI, no network).
-
-Thin CLI over agentrx_otel_poc.benchmark; the MAS reads the JSON, never this script.
-"""
+"""Generate data/benchmark/benchmark_30.json deterministically."""
 
 from __future__ import annotations
 
@@ -13,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from agentrx_otel_poc.benchmark.generator import write_benchmark  # noqa: E402
+from agentrx_otel_poc.benchmark.generator import write_benchmark
 
 CATALOG = ROOT / "data" / "external" / "taubench_retail" / "products.json"
 OUT = ROOT / "data" / "benchmark" / "benchmark_30.json"

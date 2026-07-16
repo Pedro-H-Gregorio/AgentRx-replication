@@ -19,12 +19,6 @@ from agentrx_otel_poc.runtime_logging import RunLogger
 
 
 class InMemoryJsonSpanExporter(SpanExporter):
-    """Exporter mínimo para persistir spans OpenTelemetry como JSON local.
-
-    Ele não substitui um collector OTLP/Jaeger. Para o caso mínimo, o objetivo é
-    ter uma fonte de dados local e reproduzível para alimentar o adapter AgentRx.
-    """
-
     def __init__(self) -> None:
         self.spans: list[ReadableSpan] = []
 

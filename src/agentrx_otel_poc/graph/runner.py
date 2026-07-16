@@ -1,8 +1,7 @@
-"""Run one scenario end-to-end → raw OTel trace + ground truth (PRD-04/06).
+"""Run one scenario end-to-end → raw OTel trace + ground truth.
 
 The raw `.otel.json` is the single source of truth; the two trajectories are
-derived from it by the adapters. The fault to inject is derived from the
-scenario's own target category (scripted injection, deterministic ground truth).
+derived from it by the adapters.
 """
 
 from __future__ import annotations

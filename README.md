@@ -44,8 +44,8 @@ ordem:
 make generate
 make simulate
 make derive
-make smoke
-make check
+make smoke # opicional, apenas se quiser rodar uma versão de teste de fumaça
+make check # opicional, apenas se quiser fazer um check para os testes de resultados
 ```
 
 ## Próximos comandos
@@ -88,7 +88,7 @@ replicacao-agentrx/
 │   │   ├── taubench_retail/ #     products.json: catálogo de 50 produtos do tau-bench (MIT, ver NOTICE.md);
 │   │   │                    #     é o backing somente-leitura das mock tools do MAS
 │   │   └── TRAIL/           #     benchmark TRAIL (gaia/swe) — dataset GATED; usado só como referência de
-│   │                        #     taxonomia (PRD-09). Referenciar por link + commit, não redistribuir
+│   │                        #     taxonomia (PRD-09).
 │   ├── benchmark/           #   benchmark_30.json: as 30 perguntas geradas por `make generate`
 │   ├── internal/            #   INTERMEDIÁRIOS por execução (`<mas_id>/`): 1 arquivo por cenário em cada
 │   │                        #     otel/ ground_truth/ logs/ manifests/ trajectory_telemetry/ trajectory_agentrx/
@@ -103,7 +103,7 @@ replicacao-agentrx/
 │   ├── adr/                 #   Architecture Decision Records (decisões estruturais)
 │   └── architecture/        #   desenho de repo e reprodutibilidade
 ├── tests/                   # Unitários + 5 smoke por falha + testes de paridade/não-vazamento
-├── AgentRx/                 # Submódulo (fixado); consumido por arquivos, nunca editado nem importado
+├── AgentRx/                 # Submódulo (fixado) no commit SHA: f228165bfec60a801fd5fedd9d8ffe0f9de0c69d 
 └── Makefile · example.env · pyproject.toml · uv.lock · NOTICE.md   # execução, config e procedência
 ```
 

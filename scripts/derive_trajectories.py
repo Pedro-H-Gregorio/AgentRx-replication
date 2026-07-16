@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Derive the 2 trajectory arms from every raw OTel trace (PRD-04).
+"""Derive the 2 trajectory arms from every raw OTel trace.
 
 Reads data/internal/<mas_id>/otel/*.otel.json → writes the two trajectory dirs of
-the same corpus. The corpus is the MAS namespace (MAS_ID env / AGENT_MODEL slug).
-Thin CLI over adapters.derive.
+the same corpus.
 """
 
 from __future__ import annotations
@@ -16,9 +15,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from agentrx_otel_poc import paths  # noqa: E402
-from agentrx_otel_poc.adapters.derive import derive_to_files  # noqa: E402
-from agentrx_otel_poc.settings import Settings  # noqa: E402
+from agentrx_otel_poc import paths
+from agentrx_otel_poc.adapters.derive import derive_to_files
+from agentrx_otel_poc.settings import Settings
 
 
 def main() -> int:

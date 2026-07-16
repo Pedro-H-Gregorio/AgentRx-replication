@@ -1,8 +1,7 @@
 """Load benchmark scenarios as `TaskSpec`s; build the success/localization labels.
 
 The MAS reads `benchmark_30.json` (produced offline by scripts/generate_benchmark.py)
-— there is no hardcoded task list. The fault localization ground truth is, by
-construction, the scenario's own injection node + target category.
+— there is no hardcoded task list.
 """
 
 from __future__ import annotations

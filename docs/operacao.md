@@ -42,7 +42,7 @@ manifestos.
 | `JUDGE_API_KEY` | vazio | Credencial do endpoint OpenAI-compatible. |
 | `JUDGE_TIMEOUT_SECONDS` | `600` | Limite por execução do juiz. |
 | `JUDGE_TEMPERATURE` | `0` | Temperatura usada pelo shim `openai`; Copilot não a expõe. |
-| `JUDGE_REPS` | `3` | Repetições por trajetória; `REPS=` na linha de comando a substitui. |
+| `JUDGE_REPS` | `10` | Repetições por trajetória; `REPS=` na linha de comando a substitui. |
 | `JUDGE_MAX_RETRIES` | `5` | Tentativas extras do shim `openai` para 429 e 5xx. |
 | `JUDGE_RETRY_BASE_SECONDS` | `5` | Espera inicial de retry do juiz. |
 | `JUDGE_RETRY_MAX_SECONDS` | `120` | Teto de espera de retry do juiz. |
@@ -106,7 +106,6 @@ Configure um endpoint do agente e então execute:
 ```bash
 USE_LLM=true USE_LLM_STRICT=true make simulate
 make derive
-make smoke-judge-live
 make judge
 make collect
 make analyze

@@ -1,9 +1,4 @@
-"""Drive the judge matrix: sequential, resumable, tolerant of per-rep failure.
-
-Skips reps that already hold a valid verdict (unless force); a failed rep is
-recorded as `error` and the matrix keeps going. The run index is rebuilt from
-disk at the end so it always mirrors the tree.
-"""
+"""Drive the judge matrix: sequential, resumable, tolerant of per-rep failure."""
 
 from __future__ import annotations
 

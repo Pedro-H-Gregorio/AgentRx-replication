@@ -20,7 +20,7 @@ BENCHMARK = ROOT / "data" / "benchmark" / "benchmark_30.json"
 
 
 def arm_dirs(mas_id: str) -> dict[str, Path]:
-    """Trajectory dir per arm, rooted at the MAS corpus `mas_id` (ADR-0013)."""
+    """Trajectory dir per arm, rooted at the MAS corpus `mas_id`."""
     return {arm: paths.trajectory_dir(mas_id, arm) for arm in ARMS}
 
 

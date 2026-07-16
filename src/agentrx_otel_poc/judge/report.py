@@ -1,9 +1,4 @@
-"""Manifest, run index (rebuilt from disk), and the per-category summary.
-
-The index is the C7 hand-off: one JSONL line per rep. It is reconstructed by
-scanning the experiment tree so it always mirrors disk, never drifting from a
-stale in-memory list (judge-execution spec).
-"""
+"""Manifest, run index (rebuilt from disk), and the per-category summary."""
 
 from __future__ import annotations
 

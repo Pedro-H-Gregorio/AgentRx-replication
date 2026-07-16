@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Fail the build if any tracked source file exceeds the line limit.
-
-Clean-code guard for high-handoff open science: small files stay readable and
-reviewable. The limit is enforced in `make check` and mirrored by a pytest test.
-"""
+"""Fail the build if any tracked source file exceeds the line limit."""
 
 from __future__ import annotations
 

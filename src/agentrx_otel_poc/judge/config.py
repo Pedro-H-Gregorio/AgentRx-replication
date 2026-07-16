@@ -2,9 +2,7 @@
 
 Translates the project's `JUDGE_*` settings into the `AGENT_VERIFY_COPILOT_*`
 environment the AgentRx copilot client reads, without the user ever touching
-`AGENT_VERIFY_*` directly. The backend is a single interposition point: the
-`stub`/`openai` shims impersonate the Copilot CLI binary (ADR-0011); `copilot`
-uses the real CLI. The orchestrator never imports `agentrx`.
+`AGENT_VERIFY_*` directly.
 """
 
 from __future__ import annotations
@@ -21,9 +19,6 @@ from agentrx_otel_poc.settings import Settings
 
 ROOT = Path(__file__).resolve().parents[3]
 SHIM_DIR = ROOT / "scripts" / "judge_shims"
-# `copilot` = the real CLI (no shim). Any other backend is valid iff a shim
-# executable of that name exists in judge_shims/ (ADR-0011). Ships: stub, openai,
-# codex — dropping in a new shim adds a backend without touching this module.
 COPILOT_BACKEND = "copilot"
 
 

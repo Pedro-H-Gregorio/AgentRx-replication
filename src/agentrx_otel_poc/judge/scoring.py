@@ -3,8 +3,7 @@
 The judge stays blind (no `--ground-truth`); scoring is entirely ours, from
 `data/internal/<mas_id>/ground_truth/`. When a report lists several failures the
 prediction replicates AgentRx's `compute_stats`/`analysis()` exactly: category =
-mode of the failure cases, step = round(mean of the step numbers). No-error (0)
-and inconclusive (10) count as a category miss; raw values are preserved.
+mode of the failure cases, step = round(mean of the step numbers)
 """
 
 from __future__ import annotations
@@ -25,8 +24,6 @@ FAILURE_CASE_TO_CATEGORY = {
 }
 
 # Full paper taxonomy (§G), for DISPLAY: every verdict gets a readable name even
-# outside the injectable scope (~11% of real reps), so "out of scope" is never
-# confused with "no prediction". The 5 in-scope names are identical to the
 # scoring table above (tested).
 FAILURE_CASE_NAMES = {
     0: "No Error Predicted",

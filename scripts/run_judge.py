@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the 2-arm trajectories through the AgentRx judge (C6). Thin CLI.
+"""Run the 2-arm trajectories through the AgentRx judge.
 
 Backend comes from the environment (`JUDGE_BACKEND`, …); the flags only slice
 the matrix. Without slices it judges every trajectory in both arm directories,
@@ -20,14 +20,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from agentrx_otel_poc.judge import (  # noqa: E402
+from agentrx_otel_poc.judge import (
     JudgeConfig,
     JudgeConfigError,
     Selection,
     run_experiment,
     smoke_scenarios,
 )
-from agentrx_otel_poc.settings import Settings  # noqa: E402
+from agentrx_otel_poc.settings import Settings
 
 
 def _parse_args() -> argparse.Namespace:

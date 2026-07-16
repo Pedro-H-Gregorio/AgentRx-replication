@@ -1,13 +1,4 @@
-"""Single source of truth for run-artifact paths, rooted per MAS model.
-
-Every corpus lives under `data/internal/<mas_id>/` so running the MAS with a
-different agent model never overwrites a prior corpus (ADR-0013). The `mas_id`
-is the effective config value — `MAS_ID` env, else `AGENT_MODEL` — used
-**literally** (case and dots preserved: `Llama3.1-8B` → `data/internal/Llama3.1-8B/`),
-only sanitizing path-breaking characters (`/ \\ : whitespace` → `-`). It is
-resolved from the `Settings` passed to the run, so a programmatic run with
-another model lands in the right namespace.
-"""
+"""Single source of truth for run-artifact paths, rooted per MAS model."""
 
 from __future__ import annotations
 

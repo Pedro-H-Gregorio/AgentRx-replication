@@ -1,22 +1,4 @@
 #!/usr/bin/env python3
-"""OpenAI-compatible stand-in for the Copilot CLI (JUDGE_BACKEND=openai).
-
-AgentRx resolves the judge binary from AGENT_VERIFY_COPILOT_BIN and shells out
-with `-s --no-ask-user --allow-all --output-format text [--model M]`, feeding
-the prompt on stdin and reading the verdict from stdout. This shim honours that
-contract but forwards the prompt to any OpenAI-compatible chat endpoint
-(Ollama, vLLM, OpenRouter, …), so the judge model is reachable via base_url
-without editing the AgentRx submodule.
-
-Config (env, set by the orchestrator from JUDGE_*): JUDGE_BASE_URL, JUDGE_MODEL,
-JUDGE_API_KEY, JUDGE_TEMPERATURE, JUDGE_TIMEOUT_SECONDS. Retries on transient
-rate limits (HTTP 429) and 5xx with backoff — respecting `Retry-After` when the
-server sends it — so unattended runs survive free-tier throttling
-(JUDGE_MAX_RETRIES, JUDGE_RETRY_BASE_SECONDS, JUDGE_RETRY_MAX_SECONDS). The
-retry MUST live here: AgentRx's own retries are immediate and would burn out
-before the rate-limit window resets. Stdlib only (urllib). On terminal failure:
-empty stdout + exit 1, so AgentRx treats it as an empty response.
-"""
 
 from __future__ import annotations
 

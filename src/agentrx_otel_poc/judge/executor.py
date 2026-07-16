@@ -1,9 +1,7 @@
 """Run one rep through the AgentRx judge as a black box (subprocess + files).
 
 Pre-plants the arm trajectory as `<run_dir>/trajectory_ir.json` (byte-identical
-copy) so AgentRx's IR stage is skipped — the domain converter never touches our
-canonical IR (judge-execution spec). Then shells out to `AgentRx/run.py
---stage judge`. The submodule is never imported.
+copy) so AgentRx's IR stage is skipped.
 """
 
 from __future__ import annotations

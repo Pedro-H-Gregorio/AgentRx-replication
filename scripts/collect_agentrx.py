@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect judge verdicts into the PRD-10 CSVs (C7). Thin CLI.
+"""Collect judge verdicts into the PRD-10 CSVs.
 
 Without arguments it collects every experiment under `data/internal/<mas_id>/agentrx/`;
 `--experiment <id>` restricts to one. Output goes to
@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from agentrx_otel_poc.collect import CollectError, collect  # noqa: E402
+from agentrx_otel_poc.collect import CollectError, collect
 
 
 def main() -> int:

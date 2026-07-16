@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Run the MAS over every benchmark scenario → raw OTel trace + ground truth.
-
-Each scenario injects its target fault (scripted, deterministic). Output goes to
-data/internal/{otel,ground_truth,logs}/<task_id>.*. Thin CLI over graph.runner.
-"""
+"""Run the MAS over every benchmark scenario → raw OTel trace + ground truth."""
 
 from __future__ import annotations
 
@@ -14,9 +10,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from agentrx_otel_poc.graph.agent_llm import AgentLLMError  # noqa: E402
-from agentrx_otel_poc.graph.runner import run_scenario  # noqa: E402
-from agentrx_otel_poc.tasks import load_benchmark  # noqa: E402
+from agentrx_otel_poc.graph.agent_llm import AgentLLMError
+from agentrx_otel_poc.graph.runner import run_scenario
+from agentrx_otel_poc.tasks import load_benchmark
 
 
 def main() -> int:
