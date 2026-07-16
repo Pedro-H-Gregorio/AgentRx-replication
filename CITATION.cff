@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Se você utilizar este software ou seus artefatos experimentais, cite a versão abaixo."
+title: "Replicação AgentRx: Diagnóstico em Falhas de Sistemas Multiagentes utilizando Telemetria Estruturada"
+type: software
+authors:
+  - family-names: "Gregório"
+    given-names: "Pedro Henrique Silva da Costa"
+version: "1.0.0"
+date-released: "2026-07-16"
+url: "https://github.com/Pedro-H-Gregorio/AgentRx-replication"
+license: MIT
+keywords:
+  - AgentRx
+  - multi-agent systems
+  - OpenTelemetry
+  - fault diagnosis
+  - experimental replication
