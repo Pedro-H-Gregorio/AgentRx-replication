@@ -1,4 +1,4 @@
-"""Category-blind span helpers (R5).
+"""Category-blind span helpers.
 
 `render`-style helpers receive only step data (messages, role, operation, tool
 result). They never receive `target_fault_category`/`injection_node`; the same

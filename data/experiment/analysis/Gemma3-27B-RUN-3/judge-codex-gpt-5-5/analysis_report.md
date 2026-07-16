@@ -1,19 +1,6 @@
 MAS-SIM — Telemetria (A) vs Log textual (B)
 ================
 
-  - [Resumo descritivo](#resumo-descritivo)
-      - [Acurácias](#acurácias)
-      - [Distância de passo](#distância-de-passo)
-  - [Localização da etapa crítica](#localização-da-etapa-crítica)
-      - [Resultados por categoria](#resultados-por-categoria)
-  - [Classificação da causa raiz](#classificação-da-causa-raiz)
-      - [Acurácia de categoria por
-        cenário](#acurácia-de-categoria-por-cenário)
-  - [Comparação pareada](#comparação-pareada)
-      - [Distância por cenário](#distância-por-cenário)
-      - [Testes inferenciais](#testes-inferenciais)
-  - [Placar por cenário](#placar-por-cenário)
-
 **MAS:** Gemma3-27B-RUN-3 | **Juiz:** judge-codex-gpt-5-5 |
 **Cenários:** 30 | **Repetições por cenário:** 10
 

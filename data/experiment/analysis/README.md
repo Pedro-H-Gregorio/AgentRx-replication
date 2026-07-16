@@ -5,6 +5,46 @@
 relatório Markdown GFM e figuras PNG em `data/experiment/analysis/<mas_id>/<judge_id>/`. A análise é leitura pura: não
 importa AgentRx nem recalcula métricas do coletor.
 
+## Escolha como executar a análise
+
+Após `make collect`, escolha **uma** das alternativas abaixo. Ambas leem o mesmo `metricas.csv` e `runs_long.csv`,
+escrevem os seis CSVs, o Markdown e os PNGs em `data/experiment/analysis/<mas_id>/<judge_id>/` e não geram HTML.
+
+Sem `METRICS`, os alvos resolvem a execução padrão a partir da configuração do MAS e do juiz. Para analisar um resultado
+específico, informe sempre `METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv`.
+
+### Opção A — R local
+
+Use se já tiver R 4.1.2 instalado. Na primeira vez (ou após alterar `renv.lock`), restaure o ambiente isolado do
+projeto:
+
+```bash
+make r-restore
+```
+
+Depois, gere a análise padrão ou selecione uma execução:
+
+```bash
+make analyze
+make analyze METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
+```
+
+`make r-restore` é o único passo que instala ou baixa pacotes. A biblioteca `renv/library/` e o cache `.renv/` ficam
+fora do versionamento; `make analyze` não acessa a rede e indica como restaurar o ambiente se ele estiver ausente.
+
+### Opção B — Docker (sem R local)
+
+Use se não tiver R instalado, mas tiver Docker. O alvo `make analyze-container` constrói a imagem com R 4.1.2, Pandoc e
+o `renv.lock`; depois roda a mesma análise no repositório montado, preservando o UID:GID do usuário anfitrião.
+
+```bash
+make analyze-container
+make analyze-container METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
+```
+
+Esse caminho requer Docker, mas não `Rscript` no anfitrião. A primeira execução baixa e constrói a imagem; as
+posteriores reutilizam suas camadas enquanto o lockfile não mudar.
+
 As células são valores de apresentação para as tabelas do artigo. Percentuais, contagens e estatísticas são serializados
 como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript` e os
 pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`, além de Pandoc. A

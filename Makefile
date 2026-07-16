@@ -5,7 +5,8 @@ LATEX_MAIN ?= manuscript/paper/main.tex
 .PHONY: install check generate simulate derive smoke clean-data \
         validate-benchmark validate-traces validate-trajectories \
         judge smoke-judge smoke-judge-live validate-judge clean-data-judge \
-        collect validate-csv clean-data-csv experiment analyze \
+        collect validate-csv clean-data-csv experiment analyze r-restore \
+        analyze-container \
         latex-wrap latex-check-wrap latex-lint
 
 JUDGE_ARGS = $(if $(SCENARIOS),--scenarios $(SCENARIOS),) \
@@ -55,6 +56,11 @@ collect:
 	$(MAKE) validate-csv
 
 RESOLVE_JUDGE = $(PYTHON) -c "import sys;sys.path.insert(0,'src');from agentrx_otel_poc.judge.config import JudgeConfig;print(JudgeConfig.from_settings().experiment_id())"
+R_ANALYSIS_IMAGE ?= agentrx-otel-analysis:local
+R_ANALYSIS_PACKAGES = readr,dplyr,tidyr,scales,boot,broom,rmarkdown,knitr,ggplot2
+
+r-restore:
+	Rscript scripts/analysis/restore_renv.R
 
 analyze:
 	@metrics="$(METRICS)"; \
@@ -62,9 +68,27 @@ analyze:
 	  mas=$$($(RESOLVE_MAS)); judge=$$($(RESOLVE_JUDGE)); \
 	  metrics="data/experiment/results/$$mas/$$judge/metricas.csv"; \
 	fi; \
+	r_library=$$(Rscript --vanilla -e 'cat(file.path("renv", "library", paste0("R-", R.version$$major, ".", sub("[.].*", "", R.version$$minor)), R.version$$platform))'); \
+	if [ ! -d "$$r_library" ]; then \
+	  echo "Ambiente R ausente. Execute 'make r-restore' ou use 'make analyze-container'."; \
+	  exit 1; \
+	fi; \
+	R_ANALYSIS_LIBRARY="$$r_library" R_LIBS="$$r_library$${R_LIBS:+:$$R_LIBS}" Rscript --vanilla -e 'packages <- strsplit("$(R_ANALYSIS_PACKAGES)", ",")[[1]]; missing <- packages[!vapply(packages, requireNamespace, logical(1), quietly = TRUE)]; if (length(missing)) stop("Ambiente R incompleto: ", paste(missing, collapse = ", "), ". Execute make r-restore.", call. = FALSE)'; \
 	echo "analyze: $$metrics"; \
-	Rscript scripts/analysis/c8_run.R "$$metrics" && \
-	Rscript scripts/analysis/c8_render_report.R "$$metrics"
+	R_ANALYSIS_LIBRARY="$$r_library" R_LIBS="$$r_library$${R_LIBS:+:$$R_LIBS}" Rscript scripts/analysis/c8_run.R "$$metrics" && \
+	R_ANALYSIS_LIBRARY="$$r_library" R_LIBS="$$r_library$${R_LIBS:+:$$R_LIBS}" Rscript scripts/analysis/c8_render_report.R "$$metrics"
+
+analyze-container:
+	@metrics="$(METRICS)"; \
+	if [ -z "$$metrics" ]; then \
+	  mas=$$($(RESOLVE_MAS)); judge=$$($(RESOLVE_JUDGE)); \
+	  metrics="data/experiment/results/$$mas/$$judge/metricas.csv"; \
+	fi; \
+	echo "analyze-container: $$metrics"; \
+	docker build --quiet --tag "$(R_ANALYSIS_IMAGE)" --file docker/analysis/Dockerfile . && \
+	docker run --rm --user "$$(id -u):$$(id -g)" -e HOME=/tmp \
+	  --volume "$(CURDIR):/workspace" --workdir /workspace "$(R_ANALYSIS_IMAGE)" \
+	  /bin/sh -ceu 'Rscript scripts/analysis/c8_run.R "$$1"; Rscript scripts/analysis/c8_render_report.R "$$1"' -- "$$metrics"
 
 # Composition only: each target retains validation and idempotence.
 experiment:

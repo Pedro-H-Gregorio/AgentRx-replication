@@ -1,5 +1,9 @@
 .env.example
 
+# Bibliotecas e cache do ambiente R do projeto (o lockfile é versionado).
+/renv/library/
+/.renv/
+
 /manuscript/paper/
 !/manuscript/paper/build/*.pdf
 !/manuscript/paper/figures
