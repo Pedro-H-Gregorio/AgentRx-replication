@@ -13,59 +13,85 @@ pelo formato de apresentação.
 
 ## Sumário
 
-- [Primeira execução](#primeira-execu%C3%A7%C3%A3o)
-- [Próximos comandos](#pr%C3%B3ximos-comandos)
+- [Trilha 1 — Instalar e configurar](#trilha-1--instalar-e-configurar)
+- [Trilha 2 — Desenvolver e validar](#trilha-2--desenvolver-e-validar)
+- [Trilha 3 — Rodar o experimento](#trilha-3--rodar-o-experimento)
 - [Estrutura do repositório](#estrutura-do-reposit%C3%B3rio)
 - [Documentações](#documenta%C3%A7%C3%B5es)
 
-## Primeira execução
+Os comandos dividem-se em três trilhas independentes. A **Trilha 1** é obrigatória e roda uma vez. A **Trilha 2** é
+opcional e serve a quem desenvolve. A **Trilha 3** executa o experimento — o objetivo do repositório. Cada comando
+indica se é obrigatório ou opcional; não é necessário rodar todos.
 
-Pré-requisitos: Git, Make, Python 3.13 e `uv`. Clone com o submódulo:
+## Trilha 1 — Instalar e configurar
+
+Obrigatória, uma vez. Pré-requisitos: Git, Make, Python 3.13 e `uv`. Clone com o submódulo e instale:
 
 ```bash
 git clone --recurse-submodules <url-do-repo>
-cd replicacao-agentrx
-make install
-cp example.env .env
+cd AgentRx-replication
+make install         # sincroniza dependências Python e instala hooks
+cp example.env .env  # cria a configuração local
 ```
 
-`example.env` inicia no modo determinístico e offline (`USE_LLM=false`, juiz `stub`). Execute o pipeline básico nesta
-ordem:
+`example.env` inicia no modo determinístico e offline (`USE_LLM=false`, juiz `stub`).
 
-| Comando | Produz ou verifica |
+A análise (`make analyze`, Trilha 3) exige dois pré-requisitos **adicionais e exclusivos dela**: **R** (versão fixada em
+`renv.lock`) e **Pandoc**. Para dispensar o R, use `make analyze-container`, que roda a mesma análise em Docker. Para
+instalar os pacotes R manualmente, execute `Rscript scripts/analysis/requirements.R`; para o ambiente fixado do projeto,
+`make r-restore`.
+
+## Trilha 2 — Desenvolver e validar
+
+Opcional. Use ao alterar o código, para checar ambiente e estrutura antes de rodar o experimento.
+
+| Comando | Verifica |
+| -- | -- |
+| `make check` | formatação, lint e limite de tamanho dos arquivos |
+| `make smoke` | uma execução por categoria de falha, offline |
+| `uv run pytest` | a suíte completa de testes |
+
+## Trilha 3 — Rodar o experimento
+
+Antes de rodar, escolha o **escopo**:
+
+- **Offline** (padrão do `example.env`): juiz `stub`, `USE_LLM=false`. Valida apenas a **mecânica** do pipeline; **não
+  reproduz o estudo**.
+- **Fiel ao estudo**: agente com LLM (`USE_LLM=true`) e juiz real (`openai`, `copilot` ou `codex`). Configure o `.env`
+  pelo [guia operacional](docs/operacao.md).
+
+Rode o pipeline nesta ordem (todos obrigatórios ao experimento):
+
+| Comando | Produz |
 | -- | -- |
 | `make generate` | 30 cenários determinísticos em `data/benchmark/` |
 | `make simulate` | traces OTel, labels e manifestos em `data/internal/<mas_id>/` |
 | `make derive` | trajetórias A e B, com paridade e não-vazamento validados |
-| `make smoke` | uma execução por categoria de falha |
-| `make check` | formatação, lint e limite de tamanho dos arquivos de código |
+| `make judge` | matriz de julgamento do AgentRx sobre os dois braços |
+| `make collect` | CSVs de resultado em `data/experiment/results/<mas_id>/<judge_id>/` |
+| `make analyze` | seis tabelas, relatório Markdown e figuras PNG (requer R ou Docker) |
 
-```bash
-make generate
-make simulate
-make derive
-make smoke # opicional, apenas se quiser rodar uma versão de teste de fumaça
-make check # opicional, apenas se quiser fazer um check para os testes de resultados
-```
+`make experiment` encadeia `simulate → derive → judge → collect → analyze` num só atalho, com fail-fast por passo.
 
-## Próximos comandos
+**O `FAILED` no log de `make simulate` é esperado.** Cada cenário injeta uma falha scriptada por construção; `FAILED` é
+essa falha se manifestando no run, **não** um erro do pipeline. Cenários sem falha terminam em `SUCCESS`.
 
-| Objetivo | Comando |
+Checagens opcionais do juiz, antes da matriz completa:
+
+| Comando | Faz |
 | -- | -- |
-| Smoke offline do juiz | `make smoke-judge` |
-| Matriz completa do juiz | `make judge` |
-| Coletar resultados | `make collect` |
-| Gerar seis tabelas, relatório Markdown e figuras PNG com R | `make analyze` |
-| Compor simulação, derivação, juiz e coleta | `make experiment` |
+| `make smoke-judge` | recorte do juiz offline (`stub`), sem rede |
+| `make smoke-judge-live` | mesmo recorte com o backend real configurado |
 
-Configuração de LLM, backends do juiz, filtros, retomada e limpeza estão no [guia operacional](docs/operacao.md).
+Configuração de LLM, backends do juiz, filtros, retomada, limpeza e as duas formas de rodar a análise (R local ou
+Docker) estão no [guia operacional](docs/operacao.md).
 
 ## Estrutura do repositório
 
 O fluxo de dados é linear e cada pasta guarda um estágio dele: dados externos fixos → benchmark gerado → artefatos
 intermediários por execução → produtos finais para o artigo. O padrão de nomes `<mas_id>/<judge_id>` (ex.:
-`Gemma3-27B-RUN-3/judge-codex-gpt-5-5`) segrega execuções por modelo do MAS e por juiz, de modo que rodar com outro
-modelo nunca sobrescreve resultados anteriores.
+`MAS-SIM/judge-codex-gpt-5-5`) segrega execuções por modelo do MAS e por juiz, de modo que rodar com outro modelo nunca
+sobrescreve resultados anteriores.
 
 ```text
 replicacao-agentrx/

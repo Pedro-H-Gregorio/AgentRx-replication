@@ -91,8 +91,9 @@ analyze-container:
 	  /bin/sh -ceu 'Rscript scripts/analysis/c8_run.R "$$1"; Rscript scripts/analysis/c8_render_report.R "$$1"' -- "$$metrics"
 
 # Composition only: each target retains validation and idempotence.
+# analyze é o passo final; sem R, ele falha orientando r-restore/analyze-container.
 experiment:
-	@for step in simulate derive judge collect; do \
+	@for step in simulate derive judge collect analyze; do \
 	  echo "▶ experiment: $$step"; \
 	  $(MAKE) --no-print-directory $$step || { \
 	    echo "✗ experiment: passo '$$step' FALHOU — corrija e re-execute (retoma daqui)"; \
@@ -100,7 +101,7 @@ experiment:
 	  }; \
 	  echo "✓ experiment: $$step ok"; \
 	done; \
-	echo "✓✓ experiment completo: simulate → derive → judge → collect"
+	echo "✓✓ experiment completo: simulate → derive → judge → collect → analyze"
 
 RESOLVE_MAS = $(PYTHON) -c "import sys;sys.path.insert(0,'src');from agentrx_otel_poc import paths;from agentrx_otel_poc.settings import Settings;print(paths.resolve_mas_id(Settings()))"
 

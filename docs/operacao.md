@@ -17,7 +17,7 @@ cp example.env .env
 | -- | -- | -- |
 | `USE_LLM` | `false` | Ative para o agente narrar passos com LLM; desligado mantém o corpus offline e determinístico. |
 | `USE_LLM_STRICT` | `false` | Ative no corpus final com LLM; uma resposta ausente ou erro depois das tentativas aborta o cenário, sem fallback de template. |
-| `AGENT_MODEL` | `llama3.1:8b` | Nome enviado ao endpoint do agente. Escolha um modelo disponível no provedor. |
+| `AGENT_MODEL` | `Gemma3:27b` | Nome enviado ao endpoint do agente. Escolha um modelo disponível no provedor. |
 | `AGENT_BASE_URL` | `http://localhost:11434/v1` | Endpoint OpenAI-compatible do agente. Declare explicitamente para registrar o endpoint efetivo. |
 | `AGENT_API_KEY` | `ollama` | Credencial do endpoint; nunca versione uma chave real. |
 | `MAS_ID` | vazio | Nome opcional do corpus. Vazio usa `AGENT_MODEL` literalmente, preservando corpora de modelos distintos. |
@@ -71,15 +71,15 @@ make check
 ### Juiz, coleta e análise
 
 ```bash
-make smoke-judge       # 5 cenários × 2 braços × 1 rep, stub offline
-make smoke-judge-live  # mesmo recorte com backend configurado
+make smoke-judge       #opcional        # 5 cenários × 2 braços × 1 rep, stub offline
+make smoke-judge-live  #opcional        # mesmo recorte com backend configurado
 make judge             # 30 cenários × 2 braços × JUDGE_REPS
 make collect
 make analyze
 ```
 
 `make collect` escreve três CSVs e executa `make validate-csv`. `make analyze` precisa de `Rscript`, Pandoc e dos
-pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`; ele só lê CSVs, não
+pacotes R diretos listados em `scripts/analysis/requirements.R` (versões fixadas em `renv.lock`); ele só lê CSVs, não
 importa AgentRx nem recalcula as métricas. Além das seis tabelas, produz `analysis_report.md` e PNGs relativos em
 `analysis_report_files/figure-gfm/`, sob `data/experiment/analysis/<mas_id>/<judge_id>/`. A saída é Markdown GFM; o
 fluxo não gera HTML. Veja os dicionários de [resultados](../data/experiment/results/README.md) e
@@ -102,11 +102,10 @@ projeto:
 make r-restore
 ```
 
-Depois, gere a análise padrão ou selecione uma execução:
+Depois, gere a análise padrão:
 
 ```bash
 make analyze
-make analyze METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
 ```
 
 `make r-restore` é o único passo que instala ou baixa pacotes. A biblioteca `renv/library/` e o cache `.renv/` ficam
@@ -119,16 +118,14 @@ o `renv.lock`; depois roda a mesma análise no repositório montado, preservando
 
 ```bash
 make analyze-container
-make analyze-container METRICS=data/experiment/results/<mas_id>/<judge_id>/metricas.csv
 ```
 
 Esse caminho requer Docker, mas não `Rscript` no anfitrião. A primeira execução baixa e constrói a imagem; as
 posteriores reutilizam suas camadas enquanto o lockfile não mudar.
 
 As células são valores de apresentação para as tabelas do artigo. Percentuais, contagens e estatísticas são serializados
-como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript` e os
-pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`, além de Pandoc. A
-geração não instala dependências nem acessa a rede.
+como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript`, os
+pacotes R de `scripts/analysis/requirements.R` e Pandoc. A geração não instala dependências nem acessa a rede.
 
 ### Fatiar ou retomar a matriz
 
@@ -170,5 +167,5 @@ make clean-data-judge
 make clean-data-csv
 ```
 
-`make experiment` compõe `simulate → derive → judge → collect`, para no primeiro erro e pode ser reexecutado. Prefira
-passos individuais para investigar falhas.
+`make experiment` compõe `simulate → derive → judge → collect → analyze`, para no primeiro erro e pode ser reexecutado.
+Prefira passos individuais para investigar falhas.

@@ -1,0 +1,9 @@
+{
+  "completed_stages": ["judge"],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/MAS-SIM/trajectory_telemetry/q09_t5_vacuum_cleaner.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-07T00:53:50.252903"
+  }
+}

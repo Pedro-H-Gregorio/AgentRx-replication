@@ -1,0 +1,9 @@
+{
+  "completed_stages": ["judge"],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/MAS-SIM/trajectory_telemetry/q05_t5_jigsaw_puzzle.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-07T00:45:56.771271"
+  }
+}

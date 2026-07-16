@@ -11,7 +11,7 @@ args <- commandArgs(trailingOnly = TRUE)
 csv_path <- if (length(args) >= 1) {
   args[[1]]
 } else {
-  "data/experiment/results/Gemma3-27B-RUN-3/judge-codex-gpt-5-5/metricas.csv"
+  "data/experiment/results/MAS-SIM/judge-codex-gpt-5-5/metricas.csv"
 }
 
 ctx <- c8_context(csv_path)

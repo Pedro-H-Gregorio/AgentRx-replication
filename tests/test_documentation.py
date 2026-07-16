@@ -20,6 +20,7 @@ ANALYSIS_GUIDE = ROOT / "data" / "experiment" / "analysis" / "README.md"
 ANALYSIS_LIBRARY = ROOT / "scripts" / "analysis" / "c8_lib.R"
 ANALYSIS_REPORT_TEMPLATE = ROOT / "scripts" / "analysis" / "analysis_report.Rmd"
 ANALYSIS_REPORT_RENDERER = ROOT / "scripts" / "analysis" / "c8_render_report.R"
+ANALYSIS_REQUIREMENTS = ROOT / "scripts" / "analysis" / "requirements.R"
 ANALYSIS_COLUMNS = {
     "tab_acuracias.csv": (
         "Métrica",
@@ -176,3 +177,11 @@ def test_internal_dictionary_replaces_legacy_document() -> None:
         "agentrx/",
     ):
         assert artifact in dictionary
+
+
+def test_r_requirements_manifest_exists_and_is_referenced() -> None:
+    assert ANALYSIS_REQUIREMENTS.is_file(), ANALYSIS_REQUIREMENTS
+    reference = "scripts/analysis/requirements.R"
+    readme = _content(ROOT / "README.md")
+    operation = _content(OPERATION_GUIDE)
+    assert reference in readme or reference in operation

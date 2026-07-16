@@ -1,0 +1,9 @@
+{
+  "completed_stages": ["judge"],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/MAS-SIM/trajectory_telemetry/q20_t2_mechanical_keyboard.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-07T01:20:46.762501"
+  }
+}

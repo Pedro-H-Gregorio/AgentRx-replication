@@ -46,9 +46,8 @@ Esse caminho requer Docker, mas não `Rscript` no anfitrião. A primeira execuç
 posteriores reutilizam suas camadas enquanto o lockfile não mudar.
 
 As células são valores de apresentação para as tabelas do artigo. Percentuais, contagens e estatísticas são serializados
-como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript` e os
-pacotes `readr`, `dplyr`, `tidyr`, `scales`, `boot`, `broom`, `rmarkdown`, `knitr` e `ggplot2`, além de Pandoc. A
-geração não instala dependências nem acessa a rede.
+como texto para preservar formatação; células não aplicáveis são escritas vazias, não como `NA`. Requer `Rscript`, os
+pacotes R de `scripts/analysis/requirements.R` e Pandoc. A geração não instala dependências nem acessa a rede.
 
 ## Relatório Markdown e figuras
 

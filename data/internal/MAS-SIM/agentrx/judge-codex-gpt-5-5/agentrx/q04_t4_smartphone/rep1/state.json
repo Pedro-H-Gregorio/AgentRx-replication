@@ -1,0 +1,9 @@
+{
+  "completed_stages": ["judge"],
+  "config": {
+    "input": "/home/pedro-gregorio/Documentos/mestrado/replicacao-agentrx/workspace/data/internal/MAS-SIM/trajectory_agentrx/q04_t4_smartphone.json",
+    "domain": "flash",
+    "endpoint": "copilot",
+    "started": "2026-07-07T01:53:07.391165"
+  }
+}
