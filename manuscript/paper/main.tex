@@ -97,7 +97,7 @@ e depuração. Nesse contexto, AgentOps propõe rastrear não apenas o resultado
 produziu, correlacionando agentes, planos, tarefas, ferramentas e avaliações por meio de \textit{traces},
 \textit{spans}, eventos e métricas \cite{dong2024agentops}
 
-Dentro desse cenário, o AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em
+Dentro desse cenário, o estudo AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em
 trajetórias de agentes e atribuir sua causa raiz. Em sua formulação original, o método foi avaliado sobre 115
 trajetórias falhas coletadas em três domínios reais e heterogêneos (\textit{tau-bench}, \textit{Flash} e
 \textit{Magentic-One}), anotadas manualmente com a etapa crítica e a categoria da falha. O fluxo do framework normaliza
@@ -119,7 +119,7 @@ Nesse ponto, o OpenTelemetry se apresenta como um candidato a fonte de sinais es
 padronizado para representar execuções observáveis, incluindo atributos de spans, relações hierárquicas entre
 operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}.
 
-Embora o OpenTelemetry forneça sinais estruturados sobre agentes, ferramentas, eventos, estados e relações
+Embora tenha-se esses sinais padronizados sobre agentes, ferramentas, eventos, estados e relações
 hierárquicas, não está claro se esses sinais melhoram o diagnóstico do AgentRx em relação a representações textuais
 mais simples. Para investigar essa questão, este trabalho realiza uma replicação controlada em um MAS simulado,
 comparando, sobre os mesmos cenários pareados e com falhas injetadas, uma representação textual simplificada e uma
@@ -319,7 +319,7 @@ foram inseridos no próprio conteúdo do passo, de forma textual.
 \subsection{Execução do AgentRx e métricas}
 \label{sebsec:agentrx-metricas}
 
-Utilizou-se o modelo \textit{GPT-5.5} como juiz, listado como modelo padrão na configuração (\texttt{.env}) do
+Utilizou-se o modelo \textit{GPT-5.5} como juiz, listado como modelo padrão na configuraçã do
 repositório do AgentRx\footnote{\url{https://github.com/microsoft/AgentRx}} via Copilot CLI. Cada trajetória foi
 julgada dez vezes, agregando-se por cenário a categoria pela moda e o passo pela média, conforme o estudo original
 \cite{barke2026agentrx}. Para avaliar a localização da falha, foram reproduzidas três métricas do estudo original do
@@ -421,13 +421,13 @@ concentração e a divergência entre os braços. É em \textit{Invalid Invocati
 acertou a etapa em \textbf{47 de 60} julgamentos, contra \textbf{35 de 60} da telemetria; já \textit{Plan Adherence}
 colapsa para cerca de metade dos julgamentos em ambos os braços (30 e 29 acertos em 60), enquanto as três categorias
 restantes permanecem em 60/60. Coerentemente, o log textual apresentou menor distância média de passo (0,210 contra
-0,263; Tabela~\ref{tab:step-distance}) e menor distância média normalizada (\textit{Norm.}: 0,042 contra 0,053), que
+0,263; Tabela~\ref{tab:distancia-passo-mas-sim}) e menor distância média normalizada (\textit{Norm.}: 0,042 contra 0,053), que
 expressa o erro proporcionalmente ao comprimento da trajetória. Apesar dessa vantagem descritiva, a diferença entre os
 braços foi de apenas 0,053 passo, ou 0,011 na escala normalizada, indicando uma diferença de pequena magnitude. Esses
 resultados são originados em maioria por duas categorias (0,417 e 0,217 em \textit{Invalid Invocation}; 0,900 e 0,833
 em \textit{Plan Adherence}; Tabela~\ref{tab:resultados-por-categoria-mas-sim}), enquanto as demais contribuem com
 distância nula. A mediana zero e o máximo de três passos em ambos os braços, somados a um desvio-padrão da ordem da
-própria média (0,629 e 0,596; \ref{tab:distancia-passo-mas-sim}), confirmam uma distribuição fortemente assimétrica.
+própria média (0,629 e 0,596; Tabela~\ref{tab:distancia-passo-mas-sim}), confirmam uma distribuição fortemente assimétrica.
 
 \subsection{Classificação da categoria da causa raiz}
 \label{subsec:categoria}
@@ -628,7 +628,7 @@ coincidir com o passo em que a execução se torna irrecuperável.
 
 \subsection{Validade externa}
 O estudo usa um MAS simulado, tarefas sintéticas, ferramentas \textit{mockadas} e apenas 30 cenários, com trajetórias
-curtas (cinco passos). As trajetórias curtas produzem efeito-teto nas tolerâncias Passo~$\pm 3$ e $\pm 5$ (100\% em
+curtas (cinco passos). As trajetórias curtas produzem efeito-teto nas tolerâncias Passo $\pm 3$ e $\pm 5$ (100\% em
 ambos os braços), que deixam de diferenciar os métodos. Os resultados, portanto, não se generalizam diretamente para
 sistemas reais. Trabalhos futuros devem empregar trajetórias mais longas e complexas, múltiplas chamadas de ferramenta,
 falhas recuperáveis anteriores à falha principal e erros que emergem por encadeamento.
