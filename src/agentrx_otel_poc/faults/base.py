@@ -1,11 +1,4 @@
-"""Uniform fault-operator interface, registry and category→fault_type mapping.
-
-Each operator is scripted and deterministic, acts only on its target node, and
-forces a failure *via the node's state/output* — never by naming the category in
-log text (R5 is preserved at the source). The `fault.injected` OTel event (which
-does name the category/node) is added to the raw span by the node, then stripped
-from the derived trajectories by the adapters.
-"""
+"""Uniform fault-operator interface, registry and category→fault_type mapping."""
 
 from __future__ import annotations
 

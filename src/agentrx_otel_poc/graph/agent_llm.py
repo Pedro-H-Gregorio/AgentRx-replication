@@ -1,16 +1,3 @@
-"""Optional agent LLM step (USE_LLM toggle), kept category-blind (R5).
-
-With `USE_LLM=true` the agent model phrases a step and reports real token usage;
-otherwise the deterministic fallback is used (zero tokens). The fault operators
-govern the experiment's structure regardless — this only affects prose + telemetry.
-The prompt is built from step data only; it never receives the fault category.
-
-A step degrades to the deterministic template only when the LLM fails after
-backoff (`llm.py`) or returns empty. That degradation is either counted
-(`fallback_steps`, tolerant mode) or aborts the run (`USE_LLM_STRICT`, corpus
-generation) — never a silent mix of LLM and template prose.
-"""
-
 from __future__ import annotations
 
 from agentrx_otel_poc.llm import ZERO_USAGE, invoke_agent

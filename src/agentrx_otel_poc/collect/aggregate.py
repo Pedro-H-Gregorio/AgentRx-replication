@@ -1,10 +1,4 @@
-"""Turn one experiment's PairData into the three CSVs' row dicts.
-
-The aggregation replicates AgentRx's `compute_stats`/`analysis()`: the failures
-of every ok rep of a (scenario, arm) are pooled flat, then category = mode and
-step = round(mean) over the pool. Formulas follow the PRD-10 result dictionary. This module
-makes no analytical choice — no test, no ranking, no row dropped.
-"""
+"""Turn one experiment's PairData into the three CSVs' row dicts."""
 
 from __future__ import annotations
 

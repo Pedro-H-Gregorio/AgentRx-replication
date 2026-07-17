@@ -1,8 +1,4 @@
-"""Read-only access to the vendored tau-bench product catalog.
-
-A single product (`product_id`) is treated as one product *type* with N variants.
-All accessors iterate in sorted order so downstream generation is deterministic.
-"""
+"""Read-only access to the vendored tau-bench product catalog."""
 
 from __future__ import annotations
 

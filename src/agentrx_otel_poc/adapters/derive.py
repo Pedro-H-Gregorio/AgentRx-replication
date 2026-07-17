@@ -1,10 +1,3 @@
-"""Derive both trajectory arms from one raw OTel payload (PRD-04).
-
-Pipeline: parse → sanitize (R1/R2) → build arm A (telemetry) and arm B (prose).
-Telemetry and prose arms carry identical semantics; they differ only in the
-telemetry lines (parity, PRD-06 §8).
-"""
-
 from __future__ import annotations
 
 import json

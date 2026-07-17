@@ -1,12 +1,4 @@
-"""Leakage prevention (PRD-06 R1/R2): strip ground-truth markers from parsed steps.
-
-Removes the `fault.injected` event and any attribute value that reveals the injection
-code, before either arm is rendered. Since the System Failure stacktrace is now clean
-at the source (2A), it is kept — but still scrubbed defensively: any value carrying a
-leak token is dropped, and the event `exception.type` FQN is reduced to the bare class
-name (mirroring the span `error.type`). The raw `.otel.json` keeps everything; only the
-derived trajectories are cleaned.
-"""
+"""Leakage prevention: strip ground-truth markers from parsed steps."""
 
 from __future__ import annotations
 
@@ -18,7 +10,7 @@ _LEAK_TOKENS = (
     "fault.injected",
     "experiment.fault",
     "faults.py",
-    "faults.",  # dotted module path, e.g. `...faults.base.CatalogServiceTimeoutError`
+    "faults.",
     "operators.py",
     "maybe_raise",
     "/faults",

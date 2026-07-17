@@ -1,8 +1,4 @@
-"""Researcher node: prepare the concrete tool call from the plan/query.
-
-The tool args are deterministic and may be malformed by a Researcher-targeted fault;
-the natural-language output is phrased by the agent LLM when USE_LLM=true.
-"""
+"""Researcher node: prepare the concrete tool call from the plan/query."""
 
 from __future__ import annotations
 

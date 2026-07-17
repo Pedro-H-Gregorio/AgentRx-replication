@@ -22,12 +22,7 @@ _TOOL_ARG_KEYS = {
 
 
 def _system_failure(state: ExperimentState) -> None:
-    """Tool dependency times out before returning evidence.
-
-    Sets a neutral state marker; the Tool node raises the domain timeout at the
-    dependency boundary, so the captured stacktrace names application frames (the
-    Tool node), never this injection module.
-    """
+    """Tool dependency times out before returning evidence."""
     state["dependency_timeout"] = True
 
 
@@ -82,12 +77,7 @@ def _invention(state: ExperimentState) -> None:
 
 
 def _plan_adherence(state: ExperimentState) -> None:
-    """Coordinator plans a query that violates an explicit question constraint.
-
-    Every Plan scenario must alter at least one constraint: drop a `price_min`
-    threshold, flip a custom option, or — for the cheapest/available templates —
-    ignore the `available_only` constraint. Guarantees `query != default`.
-    """
+    """Coordinator plans a query that violates an explicit question constraint."""
     query = dict(state.get("query") or {})
     altered = False
     if "price_min" in query:

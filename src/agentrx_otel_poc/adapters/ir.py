@@ -1,11 +1,4 @@
-"""OTel→IR builders for the two arms (canonical AgentRx IR: role/content only).
-
-Both arms produce the same IR schema (`steps[].substeps[].{role,content}`); they
-differ only in how `content` is serialized: arm B is prose (baseline do artigo), arm A
-is a JSON string carrying the same semantic facts plus a `telemetry` object. The JSON
-lives *inside* the `content` string — the IR itself never gains a structured telemetry
-field (invariant #6). AgentRx exige apenas que `content` seja `str`, sem impor forma.
-"""
+"""OTel→IR builders for the two arms (canonical AgentRx IR: role/content only)."""
 
 from __future__ import annotations
 

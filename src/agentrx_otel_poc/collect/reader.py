@@ -1,21 +1,4 @@
-"""Load one judge experiment from disk into plain, collector-ready structures.
-
-Reads `runs_index.jsonl` (which reps carry a verdict, their run dirs), each such
-rep's `run1.json` (the raw failures, needed with step pairing for pooling), the
-per-scenario ground truth, the arm trajectory (for `n_steps`), and the manifest
-(judge model fallback). Nothing here computes a metric — it only gathers inputs.
-The `agentrx` package is never imported.
-
-A rep counts toward the pool when its index `status` is a **verdict**: `ok`
-(judged this session) or `skipped` (a valid verdict already on disk from an
-earlier session — the judge is idempotent). Only `error` is excluded. Reading
-`skipped` as an error would make an idempotent judge rerun silently shrink the
-CSVs — the exact GAP-1 the audit caught.
-
-Trajectory and ground-truth lookups hang off an injectable `data_internal` root
-(defaults to the repo's `data/internal/`) so a golden fixture can supply its own
-self-contained inputs instead of depending on the provisional trajectories.
-"""
+"""Load one judge experiment from disk into plain, collector-ready structures."""
 
 from __future__ import annotations
 

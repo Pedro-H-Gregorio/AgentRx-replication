@@ -1,11 +1,4 @@
-"""Category id ↔ name, from the single source in `judge/scoring.py`.
-
-The CSVs carry categories as the paper's integer taxonomy (PRD-10) plus a
-human-readable mirror column. Names are never duplicated here: predictions use
-the full display table (`FAILURE_CASE_NAMES`, 0–10) so an out-of-scope verdict
-carries its real name instead of blank; ground truth uses the scope table (it is
-always one of the 5 injectable categories by construction).
-"""
+"""Category id ↔ name, from the single source in `judge/scoring.py`."""
 
 from __future__ import annotations
 

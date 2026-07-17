@@ -1,9 +1,4 @@
-"""Deterministic CSV writing: fixed column order, fixed row sort, stable cells.
-
-The three schemas match PRD-10 exactly. JSON-valued cells are serialized with
-sorted keys and no spaces so two runs over the same inputs produce byte-identical
-files (the collector's determinism guarantee).
-"""
+"""Deterministic CSV writing: fixed column order, fixed row sort, stable cells."""
 
 from __future__ import annotations
 

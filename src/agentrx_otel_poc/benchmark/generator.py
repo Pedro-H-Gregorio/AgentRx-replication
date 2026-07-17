@@ -1,9 +1,3 @@
-"""Assemble a balanced, deterministic 30-scenario benchmark (6 per category).
-
-Pure ordering, no randomness → byte-identical reruns. Each category is bound to
-its injection node (PRD-00 §3) and to the templates that host it well (PRD-02 §5).
-"""
-
 from __future__ import annotations
 
 import json

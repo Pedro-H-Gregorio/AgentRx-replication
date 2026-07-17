@@ -1,8 +1,4 @@
-"""The single OTel→IR parser (PRD-04 §3): the only place that orders/slices steps.
-
-Both trajectory arms consume `ParsedStep`s from here, so step ordering and slicing
-are identical across arms by construction.
-"""
+"""The single OTel→IR parser: the only place that orders/slices steps."""
 
 from __future__ import annotations
 

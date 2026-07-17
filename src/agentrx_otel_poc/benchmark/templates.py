@@ -1,9 +1,3 @@
-"""The 5 read-only question templates (T1–T5), computed from the catalog.
-
-Each builder returns the template-specific fields of a scenario, including the
-computed `expected_answer` (ground truth of success). Questions are in English.
-"""
-
 from __future__ import annotations
 
 from .catalog import Product, option_value_split

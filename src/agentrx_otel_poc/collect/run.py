@@ -1,12 +1,3 @@
-"""Collect one or all judge experiments on disk into the three PRD-10 CSVs.
-
-Neutral by construction: it reads `data/internal/<mas_id>/agentrx/<judge_id>/` and
-writes `data/experiment/results/<mas_id>/<judge_id>/{runs_long,trajectory_index,
-metricas}.csv`. No statistic, no A/B comparison, no row weighting — just the
-dictionary's formulas. Error reps are surfaced (`n_judge_runs` and stdout),
-never dropped silently.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path

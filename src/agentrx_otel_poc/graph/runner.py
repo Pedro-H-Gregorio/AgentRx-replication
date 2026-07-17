@@ -28,12 +28,6 @@ from .context import GraphContext
 def _write_manifest(
     settings: Settings, task_id: str, run_id: str, fallback_steps: int, mas_id: str
 ) -> None:
-    """Record the effective run config (reproducibility, PRD-00 §4.1).
-
-    Kept in a separate file (never inside the trajectories); it holds config, not
-    the fault ground truth. `fallback_steps` makes any LLM→template degradation
-    auditable (0 = pure LLM prose, or USE_LLM=false).
-    """
     manifest = {
         "run_id": run_id,
         "task_id": task_id,

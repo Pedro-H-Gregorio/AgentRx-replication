@@ -1,8 +1,4 @@
-"""Coordinator node: plan the run and choose the tool query.
-
-Structure (plan/query) is deterministic and may be altered by a Coordinator-targeted
-fault; the natural-language output is phrased by the agent LLM when USE_LLM=true.
-"""
+"""Coordinator node: plan the run and choose the tool query."""
 
 from __future__ import annotations
 

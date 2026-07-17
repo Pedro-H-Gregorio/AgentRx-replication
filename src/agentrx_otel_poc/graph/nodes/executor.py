@@ -1,9 +1,4 @@
-"""Executor node: synthesize the final answer.
-
-When an Executor-targeted fault forces a (wrong) answer, that forced answer governs
-the output — the LLM still runs for realistic telemetry but does not override the
-injected failure. Otherwise the agent LLM phrases the answer when USE_LLM=true.
-"""
+"""Executor node: synthesize the final answer."""
 
 from __future__ import annotations
 

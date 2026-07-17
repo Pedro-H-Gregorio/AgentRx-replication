@@ -1,8 +1,4 @@
-"""Evaluator node: deterministic verdict (evidence-based); LLM phrases the reason.
-
-The APPROVED/REJECTED decision is deterministic (it drives run status); when
-USE_LLM=true the agent LLM only rewrites the human-readable reason text.
-"""
+"""Evaluator node: deterministic verdict (evidence-based); LLM phrases the reason."""
 
 from __future__ import annotations
 

@@ -1,5 +1,3 @@
-"""Arm B — AgentRx-style trajectory (faithful prose, NO telemetry) (PRD-04 §5)."""
-
 from __future__ import annotations
 
 from typing import Any
