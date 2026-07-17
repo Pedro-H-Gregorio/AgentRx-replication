@@ -209,7 +209,7 @@ o fluxo completo de uma operação, e de \textit{spans}, que descrevem suas etap
 entre elas. Cada \textit{span} pode registrar atributos, eventos, estados, duração e informações sobre erros, enquanto
 métricas e logs complementam a caracterização do comportamento do sistema. Essa estrutura permite correlacionar
 operações distribuídas e reconstruir o caminho percorrido por uma requisição ou tarefa durante sua execução
-\cite{ibm2024opentelemetry, dong2024agentops}.
+\cite{ibm_opentelemetry, dong2024agentops}.
 
 Neste trabalho, esse vocabulário é empregado para representar cada trajetória do sistema multiagente simulado como uma
 árvore de \textit{spans}: um \textit{span} raiz envolve a execução completa do \textit{workflow}, e cada agente ou
@@ -416,14 +416,16 @@ localização se restringe a \textit{Invalid Invocation} e \textit{Instruction/P
 	}
 \end{table}
 
-A leitura no nível das repetições individuais (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}; 60 julgamentos por
-categoria em cada braço) quantifica essa concentração e a divergência entre os braços. É em \textit{Invalid Invocation}
-que eles mais se distanciam: o log textual acertou a etapa em \textbf{47 de 60} julgamentos, contra \textbf{35 de 60}
-da telemetria; já \textit{Plan Adherence} colapsa para cerca de metade dos julgamentos em ambos os braços (30 e 29
-acertos em 60), enquanto as três categorias restantes permanecem em 60/60. Coerentemente, a distância média de passo,
-ligeiramente menor no log textual (\textbf{0,210} contra \textbf{0,263}; Tabela~\ref{tab:distancia-passo-mas-sim}), é
-produzida quase inteiramente por essas duas categorias (0,417 e 0,217 em \textit{Invalid Invocation}; 0,900 e 0,833 em
-\textit{Plan Adherence}; Tabela~\ref{tab:resultados-por-categoria-mas-sim}), enquanto as demais contribuem com
+A leitura no nível das repetições individuais (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}) quantifica essa
+concentração e a divergência entre os braços. É em \textit{Invalid Invocation} mais apresenta diferença: o log textual
+acertou a etapa em \textbf{47 de 60} julgamentos, contra \textbf{35 de 60} da telemetria; já \textit{Plan Adherence}
+colapsa para cerca de metade dos julgamentos em ambos os braços (30 e 29 acertos em 60), enquanto as três categorias
+restantes permanecem em 60/60. Coerentemente, o log textual apresentou menor distância média de passo (0,210 contra
+0,263; Tabela~\ref{tab:step-distance}) e menor distância média normalizada (\textit{Norm.}: 0,042 contra 0,053), que
+expressa o erro proporcionalmente ao comprimento da trajetória. Apesar dessa vantagem descritiva, a diferença entre os
+braços foi de apenas 0,053 passo, ou 0,011 na escala normalizada, indicando uma diferença de pequena magnitude. Esses
+resultados são originados em maioria por duas categorias (0,417 e 0,217 em \textit{Invalid Invocation}; 0,900 e 0,833
+em \textit{Plan Adherence}; Tabela~\ref{tab:resultados-por-categoria-mas-sim}), enquanto as demais contribuem com
 distância nula. A mediana zero e o máximo de três passos em ambos os braços, somados a um desvio-padrão da ordem da
 própria média (0,629 e 0,596; \ref{tab:distancia-passo-mas-sim}), confirmam uma distribuição fortemente assimétrica.
 
@@ -532,12 +534,13 @@ fina.
 \subsection{RQ2: a telemetria estruturada reduz ambiguidades na categorização da causa raiz?}
 
 Há um indício descritivo, porém fraco, nesse sentido. A telemetria obteve maior acurácia de categoria, mas a diferença
-não foi estatisticamente detectável e concentrou-se em \textit{Invention of New Information}
-(Tabela~\ref{tab:resultados-por-categoria-mas-sim}). A análise das repetições
+não foi estatisticamente detectável e concentrou-se em \textit{Invention of New Information}. A análise das repetições
 (Tabela~\ref{tab:frequencia-mae-categoria-mas-sim}) mostra que os os braços estão próximos, 51 de 60 julgamentos
 corretos na telemetria contra 47 no log textual, de modo que o salto de 66,7\% para 100,0\% na acurácia por cenário
-resulta de a moda de apenas dois cenários tombar entre \textit{Invention} e a categoria semanticamente vizinha
-\textit{Misinterpretation of Tool Output}, ambas falhas do Executor. Uma leitura plausível para a pequena vantagem da
+resulta na moda de apenas dois cenários ficar entre \textit{Invention} e a categoria semanticamente vizinha
+\textit{Misinterpretation of Tool Output}, ambas falhas do Executor. Como cada categoria contém apenas seis cenários,
+cada mudança de classificação altera sua acurácia em aproximadamente 16,7 pontos percentuais; portanto, a diferença de
+observada nessa categoria corresponde a apenas dois cenários. Uma leitura plausível para a pequena vantagem da
 telemetria é que o registro estruturado do passo de síntese torna mais explícito que a resposta cita um item ausente da
 evidência da ferramenta, inclinando algumas repetições adicionais para \textit{Invention}. Por depender de uma só
 categoria, de dois cenários e de uma margem de uma a duas repetições, e por incidir sobre uma fronteira de alta
