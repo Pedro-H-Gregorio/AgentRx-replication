@@ -73,6 +73,12 @@ Rode o pipeline nesta ordem (todos obrigatórios ao experimento):
 
 `make experiment` encadeia `simulate → derive → judge → collect → analyze` num só atalho, com fail-fast por passo.
 
+Para reproduzir a análise do **experimento** (o do artigo), aponte `METRICS` a ele:
+
+```bash
+make analyze METRICS=data/experiment/results/MAS-SIM/judge-codex-gpt-5-5/metricas.csv
+```
+
 **O `FAILED` no log de `make simulate` é esperado.** Cada cenário injeta uma falha scriptada por construção; `FAILED` é
 essa falha se manifestando no run, **não** um erro do pipeline. Cenários sem falha terminam em `SUCCESS`.
 

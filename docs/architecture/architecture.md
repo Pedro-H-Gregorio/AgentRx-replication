@@ -47,15 +47,15 @@ sobrescreve o corpus anterior. Invariante: apagar `data/internal/<mas_id>/{traje
 
 ## 4. Garantias de reprodutibilidade
 
-- **Ambiente fixado**: `.python-version`, `pyproject.toml`/lock, `.env.example` (modelos e endpoints por variável; sem
+- **Ambiente fixado**: `.python-version`, `pyproject.toml`/lock, `example.env` (modelos e endpoints por variável; sem
   segredo no git).
 - **Determinismo (default, configurável por `.env`)**: agente em temperatura 0; injeção scriptada; `use_llm` desligado
   nos passos não envolvidos na falha; seeds fixas no gerador. Os modelos do agente e do juiz são parâmetros
   (`AGENT_MODEL`, `JUDGE_MODEL`, `JUDGE_BACKEND`); o invariante é agente ≠ juiz, com juiz capaz.
 - **Dados fixados por commit**: catálogo do tau-bench em `6f4b718...`; qualquer outra fonte idem. `main` nunca é usado
   como referência de dados.
-- **Pipeline declarativo** (`Makefile`): `install → generate → smoke → run → collect → analyze`, cada alvo reexecutável
-  isoladamente e idempotente.
+- **Pipeline declarativo** (`Makefile`): `install → generate → simulate → derive → judge → collect → analyze`, cada alvo
+  reexecutável isoladamente e idempotente.
 - **Invariantes de integridade** (testados em CI): teste de **não-vazamento** (nenhuma trajetória contém
   `fault.injected` nem caminho de `faults.py`) e teste de **paridade** entre braços (ver PRD-06 §8).
 
@@ -85,7 +85,9 @@ sobrescreve o corpus anterior. Invariante: apagar `data/internal/<mas_id>/{traje
 1. `git clone --recurse-submodules` + `make install`.
 2. `make generate` → confere `benchmark_30.json` (30 itens, 6/categoria).
 3. `make smoke` → 5 falhas passam.
-4. `make simulate derive judge && make collect` → CSVs em `data/experiment/results/<mas_id>/<judge_id>/`.
-5. análise sobre os CSVs → tabelas/figuras das RQs.
+4. `make simulate derive judge collect` → CSVs em `data/experiment/results/<mas_id>/<judge_id>/` (ou `make experiment`,
+   que encadeia até `analyze`).
+5. `make analyze` → seis tabelas, `analysis_report.md` e figuras em `data/experiment/analysis/<mas_id>/<judge_id>/`
+   (requer R; ou `make analyze-container`).
 
 Se algum passo exigir conhecimento não escrito, é um defeito de reprodutibilidade e deve virar issue.

@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: "Gregório"
     given-names: "Pedro Henrique Silva da Costa"
-version: "1.0.0"
+version: "v1.0.0"
 date-released: "2026-07-16"
 url: "https://github.com/Pedro-H-Gregorio/AgentRx-replication"
 license: MIT

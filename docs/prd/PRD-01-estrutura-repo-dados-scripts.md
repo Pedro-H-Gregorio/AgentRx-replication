@@ -29,7 +29,7 @@ repo/
 ├── tests/                       # smoke tests por falha (PRD-03)
 ├── manuscript/                  # paper ACM (já existe)
 ├── docs/prd/                    # estes PRDs
-├── NOTICE.md LICENSE Makefile .env.example
+├── NOTICE.md LICENSE Makefile example.env
 ```
 
 ## 3. Dados externos (proveniência)
@@ -75,7 +75,7 @@ de dados de entrada.
 - **Licença e atribuição**: `LICENSE` do projeto + `NOTICE.md` para terceiros.
 - **Decisions log**: `PRD-08-decisions-log.md` registra cada decisão com data e justificativa (rastreabilidade das
   escolhas de método).
-- **Ambiente**: `.python-version`, `pyproject.toml`/`requirements`, `.env.example` (sem segredos). Modelos e endpoints
+- **Ambiente**: `.python-version`, `pyproject.toml`/`requirements`, `example.env` (sem segredos). Modelos e endpoints
   declarados via env.
 - **Determinismo**: temperatura 0 no agente; `use_llm` desligado nos passos não envolvidos na falha; seeds fixas onde
   aplicável.
