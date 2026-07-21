@@ -16,6 +16,7 @@ pelo formato de apresentação.
 - [Trilha 1 — Instalar e configurar](#trilha-1--instalar-e-configurar)
 - [Trilha 2 — Desenvolver e validar](#trilha-2--desenvolver-e-validar)
 - [Trilha 3 — Rodar o experimento](#trilha-3--rodar-o-experimento)
+- [Configuração do experimento reportado](#configura%C3%A7%C3%A3o-do-experimento-reportado)
 - [Estrutura do repositório](#estrutura-do-reposit%C3%B3rio)
 - [Documentações](#documenta%C3%A7%C3%B5es)
 
@@ -91,6 +92,26 @@ Checagens opcionais do juiz, antes da matriz completa:
 
 Configuração de LLM, backends do juiz, filtros, retomada, limpeza e as duas formas de rodar a análise (R local ou
 Docker) estão no [guia operacional](docs/operacao.md).
+
+## Configuração do experimento reportado
+
+Os resultados do artigo vieram de uma execução **fiel ao estudo**, com agente e juiz em modelos distintos. Esta seção
+registra o ambiente e os modelos efetivamente usados; nada aqui é obrigatório para reproduzir a mecânica — o pipeline
+aceita qualquer endpoint OpenAI-compatible. Os parâmetros abaixo são os do `.env` da execução, detalhados no
+[guia operacional](docs/operacao.md).
+
+**Agente (MAS).** O MAS rodou sobre o modelo **Gemma 3 27B**, servido num endpoint OpenAI-compatible por LangChain em
+uma máquina do laboratório com 64 GB de RAM, duas GPUs NVIDIA RTX 3060 de 12 GB cada e 1 TB de armazenamento. O agente
+operou com `USE_LLM=true` e temperatura `0` (`LLM_TEMPERATURE=0`), preservando o determinismo do corpus; a injeção de
+falha permaneceu scriptada. O endpoint é intercambiável: qualquer provedor OpenAI-compatible serve — inclusive um
+[Ollama](https://ollama.com/) local —, bastando apontar `AGENT_BASE_URL` e `AGENT_MODEL` no `.env`.
+
+**Juiz (AgentRx).** O juiz rodou pelo backend `codex`: o shim de Codex simula a interação do AgentRx com a CLI do
+Copilot, e a avaliação usou o modelo **GPT-5.5**. Cada trajetória foi julgada em `JUDGE_REPS=10` repetições. Os
+identificadores do produto refletem essa escolha — os CSVs finais ficam em
+`data/experiment/results/MAS-SIM/judge-codex-gpt-5-5/`.7
+
+Mais documentações disponíveis em: [Guia operacional](docs/operacao.md)
 
 ## Estrutura do repositório
 

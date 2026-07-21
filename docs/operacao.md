@@ -53,6 +53,22 @@ manifestos.
 `copilot` exige `copilot login`; `codex` exige `codex login`. O juiz deve ser distinto do agente e capaz o suficiente
 para a tarefa. O modelo efetivamente usado fica no manifesto e no índice de reps.
 
+### Ambiente do experimento reportado
+
+Os resultados do artigo foram produzidos com a configuração abaixo. Ela é registro, não requisito: o MAS aceita qualquer
+endpoint OpenAI-compatible, e trocar de modelo ou de máquina é só editar o `.env`.
+
+**Agente (MAS).** Modelo **Gemma 3 27B**, servido num endpoint OpenAI-compatible por LangChain em uma máquina do
+laboratório com 64 GB de RAM, duas GPUs NVIDIA RTX 3060 de 12 GB cada e 1 TB de armazenamento. O `.env` usou
+`USE_LLM=true`, `LLM_TEMPERATURE=0` e `AGENT_BASE_URL`/`AGENT_MODEL` apontando para esse endpoint. Qualquer outro
+provedor OpenAI-compatible — inclusive um [Ollama](https://ollama.com/) local em `http://localhost:11434/v1` — substitui
+a máquina do laboratório sem alterar código.
+
+**Juiz (AgentRx).** Backend `codex` (`JUDGE_BACKEND=codex`): o shim de Codex simula a interação do AgentRx com a CLI do
+Copilot, e a avaliação usou o modelo **GPT-5.5**, com `JUDGE_REPS=10` repetições por trajetória. Esse backend não expõe
+temperatura; o determinismo vem da temperatura zero do agente e da injeção scriptada. O par resolve o identificador de
+produto `MAS-SIM/judge-codex-gpt-5-5`.
+
 ## Executar e verificar
 
 ### Caminho determinístico
