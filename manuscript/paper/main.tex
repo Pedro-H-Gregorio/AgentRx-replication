@@ -95,10 +95,16 @@ empregados em tarefas que combinam planejamento, uso de ferramentas e coordenaç
 probabilística das execuções, a extensão dos fluxos e a diversidade dos artefatos produzidos dificultam sua observação
 e depuração. Nesse contexto, AgentOps propõe rastrear não apenas o resultado final, mas também o processo que o
 produziu, correlacionando agentes, planos, tarefas, ferramentas e avaliações por meio de \textit{traces},
-\textit{spans}, eventos e métricas \cite{dong2024agentops}
+\textit{spans}, eventos e métricas \cite{dong2024agentops}.
 
-Dentro desse cenário, o estudo AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável em
-trajetórias de agentes e atribuir sua causa raiz. Em sua formulação original, o método foi avaliado sobre 115
+Essa necessidade de examinar as trajetórias de execução é corroborada pela MAST, taxonomia empírica construída a partir
+de mais de 1.600 \textit{traces} de diferentes sistemas. Seus resultados mostram que as falhas em MAS não se restringem
+a erros isolados de agentes ou ferramentas, mas também decorrem do design do sistema, do desalinhamento entre agentes e
+da verificação inadequada das tarefas \cite{cemri2026multi}. Logo, além de detectar a falha, é necessário localizar sua
+origem na trajetória e determinar sua natureza.
+
+Dentro desse cenário, o estudo AgentRx propõe um framework de diagnóstico para localizar a primeira falha irrecuperável
+em trajetórias de agentes e atribuir sua causa raiz. Em sua formulação original, o método foi avaliado sobre 115
 trajetórias falhas coletadas em três domínios reais e heterogêneos (\textit{tau-bench}, \textit{Flash} e
 \textit{Magentic-One}), anotadas manualmente com a etapa crítica e a categoria da falha. O fluxo do framework normaliza
 os rastros em uma Representação Intermediária (IR), sintetiza restrições globais e dinâmicas, produz um log de
@@ -115,15 +121,17 @@ qualquer análise. Uma representação estruturada da trajetória, por outro lad
 texto ficam implícitos como os agentes, ações, ferramentas, eventos, status, erros e as relações hierárquicas entre
 operações.
 
-Nesse ponto, o OpenTelemetry se apresenta como um candidato a fonte de sinais estruturados, por fornecer um vocabulário
-padronizado para representar execuções observáveis, incluindo atributos de spans, relações hierárquicas entre
-operações, eventos e métricas quantitativas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}.
+Nesse ponto, o OpenTelemetry oferece uma possível base para enriquecer as trajetórias de execução com sinais
+estruturados. Seu modelo padroniza a representação de \textit{spans}, atributos, relações hierárquicas, eventos e
+métricas associadas a custo, duração e uso de tokens \cite{ibm_opentelemetry}. Em abordagem semelhante, o AgentTrace
+organiza os registros dos agentes em superfícies operacional, cognitiva e contextual, relacionando raciocínios, ações e
+interações com o ambiente por meio de esquemas e identificadores de \textit{trace} e \textit{span}
+\cite{alsayyad2026agenttrace}.
 
-Embora tenha-se esses sinais padronizados sobre agentes, ferramentas, eventos, estados e relações
-hierárquicas, não está claro se melhoram o diagnóstico do AgentRx em relação a representações textuais
-mais simples. Para investigar essa questão, este trabalho realiza uma replicação controlada em um MAS simulado,
-comparando, sobre os mesmos cenários pareados e com falhas injetadas, uma representação textual simplificada e uma
-representação com telemetria estruturada.
+Embora esses trabalhos demonstrem como estruturar sinais de execução de agentes, ainda não estabelecem se esses sinais
+melhoram o diagnóstico do AgentRx em relação a representações textuais mais simples. Para investigar essa questão, este
+trabalho realiza uma replicação controlada em um MAS simulado, comparando, sobre os mesmos cenários pareados e com
+falhas injetadas, uma representação textual simplificada e uma representação com telemetria estruturada.
 
 As questões de pesquisa que guiam este estudo são:
 \begin{itemize}
@@ -209,9 +217,12 @@ o fluxo completo de uma operação, e de \textit{spans}, que descrevem suas etap
 entre elas. Cada \textit{span} pode registrar atributos, eventos, estados, duração e informações sobre erros, enquanto
 métricas e logs complementam a caracterização do comportamento do sistema. Essa estrutura permite correlacionar
 operações distribuídas e reconstruir o caminho percorrido por uma requisição ou tarefa durante sua execução
-\cite{ibm_opentelemetry, dong2024agentops}.
+\cite{ibm_opentelemetry, dong2024agentops}. Essa capacidade também se aplica a sistemas agênticos, cujas execuções
+envolvem sequências de raciocínios, ações e interações com o ambiente. Nesse sentido, o AgentTrace adapta essa lógica
+de observabilidade ao organizar essas informações em superfícies operacional, cognitiva e contextual, relacionadas por
+meio de um esquema comum de registros estruturados \cite{alsayyad2026agenttrace}.
 
-Neste trabalho, esse vocabulário é empregado para representar cada trajetória do sistema multiagente simulado como uma
+Neste trabalho, esse padrão é empregado para representar cada trajetória do sistema multiagente simulado como uma
 árvore de \textit{spans}: um \textit{span} raiz envolve a execução completa do \textit{workflow}, e cada agente ou
 ferramenta é registrado como um \textit{span} filho, indexado pela sua etapa na trajetória. Cada \textit{span} carrega,
 de forma explícita, o papel do agente e a operação realizada, as mensagens de entrada e saída, e quando aplicável para
@@ -254,8 +265,8 @@ sintetiza a resposta a partir desse resultado; e (5) o Avaliador decide, determi
 suficiente da ferramenta para considerar a tarefa concluída. As decisões estruturais (plano, argumentos, veredito) são
 determinísticas; ao LLM cabe apenas reescrever a justificativa textual, o que mantém o comportamento estável entre
 execuções. O MAS é agnóstico ao modelo do agente; neste estudo, os agentes de execução foram configurados com o
-\textit{Gemma~3 -- 27B}. As ferramentas \textit{mockadas} garantiram reprodutibilidade e permitiram a injeção explícita
-de falhas.
+\textit{Gemma~3 -- 27B} com temperatura 0. As ferramentas \textit{mockadas} garantiram reprodutibilidade e permitiram a
+injeção explícita de falhas.
 
 \subsection{Geração dos cenários}
 
@@ -278,7 +289,13 @@ determinística e controlada de falhas. As demais categorias não foram avaliada
 ausentes no ambiente experimental, como intenções subespecificadas, ausência de ferramentas disponíveis ou restrições
 externas de execução.
 
-As falhas foram introduzidas por operadores scriptados e determinísticos, aplicados ao passo causal de cada categoria:
+Como estratégia de avaliação controlada, a injeção de falhas introduz perturbações deliberadas para observar o
+comportamento do sistema sob condições conhecidas. O MAS-FIRE exemplifica seu uso ao aplicar perturbações semânticas
+por meio da modificação de \textit{prompts}, da reescrita de respostas e da manipulação do roteamento de mensagens para
+avaliar a robustez e os mecanismos de recuperação \cite{jia2026mas}. Neste estudo, essa estratégia é direcionada à
+avaliação do diagnóstico realizado pelo AgentRx.
+
+As falhas foram introduzidas por operadores scriptados e determinísticos, aplicados no passo causal de cada categoria:
 \textit{Instruction/Plan Adherence Failure} no Coordenador (passo 1), \textit{Invalid Invocation} no Pesquisador (passo
 2), \textit{System Failure} na ferramenta (passo 3), e \textit{Misinterpretation of Tool Output} e \textit{Invention of
 	New Information} no Executor (passo 4). Cada cenário recebeu uma única falha, de modo que o \textit{ground truth} foi
@@ -319,25 +336,26 @@ foram inseridos no próprio conteúdo do passo, de forma textual.
 \subsection{Execução do AgentRx e métricas}
 \label{sebsec:agentrx-metricas}
 
-Utilizou-se o modelo \textit{GPT-5.5} como juiz, listado como modelo padrão na configuraçã do
-repositório do AgentRx\footnote{\url{https://github.com/microsoft/AgentRx}} via Copilot CLI. Cada trajetória foi
-julgada dez vezes, agregando-se por cenário a categoria pela moda e o passo pela média, conforme o estudo original
-\cite{barke2026agentrx}. Para avaliar a localização da falha, foram reproduzidas três métricas do estudo original do
-AgentRx para localização, utilizou-se \textbf{Critical Step Accuracy}, que mede a fração de trajetórias em que o passo
-crítico predito coincide exatamente com o passo anotado; \textbf{Critical Step-index Accuracy@$\pm r$}, que considera
-correta a predição situada até $r$ passos do passo anotado, para $r \in \{1,3,5\}$; e \textbf{Average Step Distance},
-que mede a distância média absoluta entre o passo predito e o passo anotado, sendo menor melhor. Para classificação,
-utilizou-se \textbf{Failure Category Accuracy}, isto é, a fração de trajetórias em que a categoria de falha predita
-coincide com a categoria anotada. No estudo original, essa métrica é reportada nas variantes crítica e
-\textit{any-failure}; neste experimento, como cada cenário possui uma única falha anotada, as duas definições
-coincidem. Todas as comparações entre os braços A e B foram pareadas por cenário.
+Utilizou-se o modelo \textit{GPT-5.5} como juiz, listado como modelo padrão na configuração do repositório do
+AgentRx\footnote{\url{https://github.com/microsoft/AgentRx}}. Cada trajetória foi julgada dez vezes, agregando-se por
+cenário a categoria pela moda e o passo pela média, conforme o estudo original \cite{barke2026agentrx}. Para avaliar a
+localização da falha, foram reproduzidas três métricas do estudo original do AgentRx para localização, utilizou-se
+\textbf{Critical Step Accuracy}, que mede a fração de trajetórias em que o passo crítico predito coincide exatamente
+com o passo anotado; \textbf{Critical Step-index Accuracy@$\pm r$}, que considera correta a predição situada até $r$
+passos do passo anotado, para $r \in \{1,3,5\}$; e \textbf{Average Step Distance}, que mede a distância média absoluta
+entre o passo predito e o passo anotado, sendo menor melhor. Para classificação, utilizou-se \textbf{Failure Category
+	Accuracy}, isto é, a fração de trajetórias em que a categoria de falha predita coincide com a categoria anotada. No
+estudo original, essa métrica é reportada nas variantes crítica e \textit{any-failure}; neste experimento, como cada
+cenário possui uma única falha anotada, as duas definições coincidem. Todas as comparações entre os braços A e B foram
+pareadas por cenário.
 
 \section{Resultados}
 
-Esta seção apresenta os resultados do experimento MAS-SIM (agente Gemma~3--27B; juiz GPT-5.5; dez julgamentos por
-trajetória; comparando o braço~A (telemetria estruturada) e o braço~B (log textual simplificado) sobre os mesmos 30
-cenários pareados. Os valores são preliminares e devem ser lidos como evidência descritiva: como mostra a análise
-pareada (Seção~\ref{subsec:pareada}), nenhuma diferença entre os braços foi estatisticamente detectável.
+Esta seção apresenta os resultados do experimento MAS-SIM. O MAS simulado foi executado em uma máquina com 64~GB de
+RAM, duas GPUs NVIDIA RTX~3060 de 12~GB e 1~TB de armazenamento e o juiz via Codex CLI. Foi comparando 0 braço~A
+(telemetria estruturada) e o braço~B (log textual simplificado) sobre os mesmos 30 cenários pareados. Os valores são
+preliminares e devem ser lidos como evidência descritiva: como mostra a análise pareada (Seção~\ref{subsec:pareada}),
+nenhuma diferença entre os braços foi estatisticamente detectável.
 
 \subsection{Resultados agregados}
 \label{subsec:agregados}
@@ -421,13 +439,14 @@ concentração e a divergência entre os braços. É em \textit{Invalid Invocati
 acertou a etapa em \textbf{47 de 60} julgamentos, contra \textbf{35 de 60} da telemetria; já \textit{Plan Adherence}
 colapsa para cerca de metade dos julgamentos em ambos os braços (30 e 29 acertos em 60), enquanto as três categorias
 restantes permanecem em 60/60. Coerentemente, o log textual apresentou menor distância média de passo (0,210 contra
-0,263; Tabela~\ref{tab:distancia-passo-mas-sim}) e menor distância média normalizada (\textit{Norm.}: 0,042 contra 0,053), que
-expressa o erro proporcionalmente ao comprimento da trajetória. Apesar dessa vantagem descritiva, a diferença entre os
-braços foi de apenas 0,053 passo, ou 0,011 na escala normalizada, indicando uma diferença de pequena magnitude. Esses
-resultados são originados em maioria por duas categorias (0,417 e 0,217 em \textit{Invalid Invocation}; 0,900 e 0,833
-em \textit{Plan Adherence}; Tabela~\ref{tab:resultados-por-categoria-mas-sim}), enquanto as demais contribuem com
-distância nula. A mediana zero e o máximo de três passos em ambos os braços, somados a um desvio-padrão da ordem da
-própria média (0,629 e 0,596; Tabela~\ref{tab:distancia-passo-mas-sim}), confirmam uma distribuição fortemente assimétrica.
+0,263; Tabela~\ref{tab:distancia-passo-mas-sim}) e menor distância média normalizada (\textit{Norm.}: 0,042 contra
+0,053), que expressa o erro proporcionalmente ao comprimento da trajetória. Apesar dessa vantagem descritiva, a
+diferença entre os braços foi de apenas 0,053 passo, ou 0,011 na escala normalizada, indicando uma diferença de pequena
+magnitude. Esses resultados são originados em maioria por duas categorias (0,417 e 0,217 em \textit{Invalid
+	Invocation}; 0,900 e 0,833 em \textit{Plan Adherence}; Tabela~\ref{tab:resultados-por-categoria-mas-sim}), enquanto as
+demais contribuem com distância nula. A mediana zero e o máximo de três passos em ambos os braços, somados a um
+desvio-padrão da ordem da própria média (0,629 e 0,596; Tabela~\ref{tab:distancia-passo-mas-sim}), confirmam uma
+distribuição fortemente assimétrica.
 
 \subsection{Classificação da categoria da causa raiz}
 \label{subsec:categoria}
@@ -567,10 +586,14 @@ refletem esse caráter silencioso. Nos três cenários em que a etapa crítica n
 qualquer falha em dois deles, produzindo o veredito \textit{Inconclusive} no passo 0 em todas as repetições. No
 terceiro, identificou uma resposta incorreta, mas atribuiu a falha ao Executor como \textit{Misinterpretation of Tool
 	Output}, no passo 4; e, mesmo quando o passo~1 foi corretamente localizado (q25 e q27), a categoria oscilou entre
-\textit{Instruction/Plan Adherence Failure} e a categoria vizinha \textit{Intent-Plan Misalignment}. Esse padrão sugere
-que a telemetria operacional captura mal falhas que não produzem anomalias de execução, mas apenas divergências entre a
-intenção e o plano. Seu diagnóstico pode exigir sinais semânticos adicionais, como restrições da tarefa, sub-objetivos
-ativos e a relação entre as ações esperada e executada.
+\textit{Instruction/Plan Adherence Failure} e a categoria vizinha \textit{Intent-Plan Misalignment}.
+
+Esse padrão sugere que a telemetria operacional captura mal falhas que não produzem anomalias de execução, mas apenas
+divergências entre a intenção e o plano. Seu diagnóstico pode exigir sinais semânticos adicionais, como restrições da
+tarefa, sub-objetivos ativos e a relação entre as ações esperada e executada. Essa interpretação é consistente com a
+distinção proposta pelo AgentTrace entre superfícies operacional, cognitiva e contextual de observabilidade
+\cite{alsayyad2026agenttrace}. Enquanto estados, erros e durações descrevem a execução operacional, falhas de aderência
+podem exigir registros explícitos de planos, restrições e decisões.
 
 \section{Conclusão}
 
@@ -623,8 +646,14 @@ Duas limitações merecem destaque. Primeiro, os dois braços são \textbf{duas 
 compara representações alternativas da mesma trajetória, uma com telemetria estruturada e outra textual, e \textbf{não}
 logs naturais heterogêneos contra telemetria estruturada. Segundo, a IR do AgentRx representa cada passo apenas por
 papel e conteúdo textual; assim, a telemetria do braço A entra como texto, e não como campos estruturados, o que pode
-subaproveitar seu potencial. Além disso, o \textit{ground truth} adota o ponto de injeção como causa, que pode não
-coincidir com o passo em que a execução se torna irrecuperável.
+subaproveitar seu potencial.
+
+Essa limitação é relevante porque abordagens como o AgentTrace preservam explicitamente identificadores de
+\textit{trace} e \textit{span}, tipos de superfície e relações entre eventos em um \textit{schema} legível por máquina
+\cite{alsayyad2026agenttrace}. Portanto, este experimento avalia o efeito da telemetria após sua serialização na IR
+textual do AgentRx, e não o potencial de um mecanismo diagnóstico capaz de consumir nativamente os campos estruturados.
+Além disso, o \textit{ground truth} adota o ponto de injeção como causa, que pode não coincidir com o passo em que a
+execução se torna irrecuperável.
 
 \subsection{Validade externa}
 O estudo usa um MAS simulado, tarefas sintéticas, ferramentas \textit{mockadas} e apenas 30 cenários, com trajetórias
